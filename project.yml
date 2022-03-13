@@ -103,10 +103,40 @@ targets:
     sources: 
       - Tests/UnitTests/MobileBismush
 
+schemes:
+  CI.macOS:
+    build:
+      targets:
+        Bismush: all
+    test:
+      targets:
+        - Bismush_UITests
+        - Bismush_UnitTests
+  CI.iOS:
+    build:
+      targets:
+        MobileBismush: all
+      config: CI
+    test:
+        targets:
+            - MobileBismush_UITests
+            - MobileBismush_UnitTests
+        config: CI
+
+configs:
+  CI: debug
+  Debug: debug
+  Release: release
 settings:
-  DEVELOPMENT_TEAM: VG2YYSKSHY
-  CODE_SIGN_STYLE: Automatic
-  CODE_SIGN_IDENTITY: "-"
+  base:
+    DEVELOPMENT_TEAM: VG2YYSKSHY
+    CODE_SIGN_STYLE: Automatic
+    CODE_SIGN_IDENTITY: "-"
+  configs:
+    CI:
+      DEVELOPMENT_TEAM:
+      CODE_SIGN_STYLE: Manual
+      CODE_SIGN_IDENTITY: "-"
 
 options:
   bundleIdPrefix: jp.mzp.bismus
@@ -114,8 +144,8 @@ options:
   createIntermediateGroups: true
 
   deploymentTarget:
-    iOS: "15.4"
-    macOS: "12.3"
+    iOS: "14.0"
+    macOS: "11.0"
 
   groupOrdering: 
     - order: [Sources, Frameworks, Tests, Scripts]
@@ -127,3 +157,4 @@ fileGroups:
   - BuildTools/.swiftlint.yml
   - BuildTools/Package.swift
   - .swiftformat
+  - .github
