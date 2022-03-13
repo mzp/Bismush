@@ -1,0 +1,28 @@
+name: Xcode
+
+on: [pull_request]
+
+env:
+  BISMUSH_SKIP_TEST: 1
+
+jobs:
+  macOS:
+    name: macOS
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Test
+        run: |
+          xcodebuild test -scheme "CI.macOS" -project Bismush.xcodeproj | xcpretty && exit ${PIPESTATUS[0]}
+  iOS:
+    name: iOS
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Test
+        run: |
+          xcodebuild test -scheme "CI.iOS" -project Bismush.xcodeproj -destination 'platform=iOS Simulator,name=iPad Pro (12.9-inch) (5th generation)' | xcpretty && exit ${PIPESTATUS[0]}
