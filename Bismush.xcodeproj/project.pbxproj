@@ -1,0 +1,1560 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 51;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		04FCEC72BA130CE43B38CDC2 /* BismushKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 8075575B3E754AF9EBAE49A6 /* BismushKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0C543A758B17D7E79069CA14 /* MobileBismushUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A234D9656195B7EF21123CA1 /* MobileBismushUITests.swift */; };
+		1D7B7383D0E6C50EAF09BB62 /* BismushKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 8075575B3E754AF9EBAE49A6 /* BismushKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1EB0E60983E744A84332A651 /* BismushKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0B3B3603D98AAC01ECAF202F /* BismushKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		51BAAEC97364C0E27291294F /* BismushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B3B3603D98AAC01ECAF202F /* BismushKit.framework */; };
+		54A743C8A759E26C699E8805 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A85D9E6BB86E74655180B96 /* ContentView.swift */; };
+		5D8374741A6AB57EBCF4B54C /* BismushApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83EC32C5EAF6FA1F73892AB8 /* BismushApp.swift */; };
+		72A616B6569E6FF962BAF8BA /* BismusLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3706BE7FA0CEB340600A675 /* BismusLaunchTests.swift */; };
+		8148E0EC58F27C6E8A7D77A8 /* BismushTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345753DE643F32624B05DEBC /* BismushTests.swift */; };
+		867828BB02B9266C354EFBE8 /* BismushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B3B3603D98AAC01ECAF202F /* BismushKit.framework */; };
+		9CE9587A588F8FE57D110C5A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1C7550D929E50D512691906B /* Assets.xcassets */; };
+		9CFC677A1F946EBEB4EE1504 /* BismushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F29D8E06BAE28C83C76E963D /* BismushKit.framework */; };
+		9E94DAB00EA1BDE54E39AC2C /* BismushApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F815E58457BA6240A8C5C2F1 /* BismushApp.swift */; };
+		A17361B851C953A7A1773908 /* BismushKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F29D8E06BAE28C83C76E963D /* BismushKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A487C7929B6B600CEB93C9A4 /* BismushKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C9D6330721A5336B5015BC /* BismushKitTests.swift */; };
+		B65D69102C20B3D894CBD6D7 /* BismushKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F29D8E06BAE28C83C76E963D /* BismushKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		BA163133E9C229D4BB93F9AB /* MobileBismushTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F42E2B32AC2021ADFFD0D7 /* MobileBismushTests.swift */; };
+		C060A0F0A6AD1228EB0D2ACE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE69AFD1140750CAE634DCA2 /* ContentView.swift */; };
+		C271432CA13D4E404971696E /* BismushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F29D8E06BAE28C83C76E963D /* BismushKit.framework */; };
+		C345D415C69012255092785D /* MobileBismushLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DC04AF35AB934DBF8F6B735 /* MobileBismushLaunchTests.swift */; };
+		CAE902A24BC01124A64A0484 /* BismushKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C9D6330721A5336B5015BC /* BismushKitTests.swift */; };
+		E1CC06B0C701F60FBBEA2698 /* BismushKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0B3B3603D98AAC01ECAF202F /* BismushKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F1ACF800DB709779C934FB73 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4B648AEC3092AF833BA13D9D /* Assets.xcassets */; };
+		F425E3EFDB2084ED6248274F /* BismushUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CB7366C7C30587BABB87141 /* BismushUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		00292071EFEF6472D82796D8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E03DBEA92E5CBF646017B99C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5E9652098AC1BB028D8C567C;
+			remoteInfo = MobileBismush;
+		};
+		287A016D7475B0BCD10C517A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E03DBEA92E5CBF646017B99C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EB9FB15088B74104B736823E;
+			remoteInfo = BismushKit_macOS;
+		};
+		5ACEF9CCF82BB7702B53E2BF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E03DBEA92E5CBF646017B99C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5E9652098AC1BB028D8C567C;
+			remoteInfo = MobileBismush;
+		};
+		78EEB265E3AEEC36BA0DF775 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E03DBEA92E5CBF646017B99C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EB9FB15088B74104B736823E;
+			remoteInfo = BismushKit_macOS;
+		};
+		A427F58D537B1740994FBF60 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E03DBEA92E5CBF646017B99C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BF0A1AA88D0737389FF2B0F8;
+			remoteInfo = BismushKit_iOS;
+		};
+		B34CD2C0F94316D95D9756BB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E03DBEA92E5CBF646017B99C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 068FB895A5E0E850190E80B5;
+			remoteInfo = Bismush;
+		};
+		C973EAAA1F3E8CF7B63E4160 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E03DBEA92E5CBF646017B99C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BF0A1AA88D0737389FF2B0F8;
+			remoteInfo = BismushKit_iOS;
+		};
+		E03BD09E5771C2BF8A506685 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E03DBEA92E5CBF646017B99C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 068FB895A5E0E850190E80B5;
+			remoteInfo = Bismush;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		2988949E8B1465FFCE1DF5B1 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				A17361B851C953A7A1773908 /* BismushKit.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6B7825A0B4D580E415FE99CE /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				1EB0E60983E744A84332A651 /* BismushKit.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A19DBDC06B838DB67C74294D /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				B65D69102C20B3D894CBD6D7 /* BismushKit.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C102D4FD0AE30BEB9F506D30 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				E1CC06B0C701F60FBBEA2698 /* BismushKit.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		0249529DF47613A66884C051 /* MobileBismush_UnitTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = MobileBismush_UnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		04A2D879615BD04815A504C3 /* .swiftformat */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftformat; sourceTree = "<group>"; };
+		0B3B3603D98AAC01ECAF202F /* BismushKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BismushKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1000DF4D942B68D3D9B4D4CB /* BismushKit_UnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BismushKit_UnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1C7550D929E50D512691906B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		25D2DD5B0C19D49E3D3F1820 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		2BD3543651FEC03AD919D0CD /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		2DC04AF35AB934DBF8F6B735 /* MobileBismushLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileBismushLaunchTests.swift; sourceTree = "<group>"; };
+		345753DE643F32624B05DEBC /* BismushTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BismushTests.swift; sourceTree = "<group>"; };
+		47EA770E3BB553D953CFCA7F /* BismushKit_UnitTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = BismushKit_UnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4B648AEC3092AF833BA13D9D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		5043075D4D9C707D777F454A /* project.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = project.yml; sourceTree = "<group>"; };
+		62B9DBD24A819A403A26D658 /* Bismush.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Bismush.entitlements; sourceTree = "<group>"; };
+		656EE995A785B5805A584B1F /* Bismush_UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Bismush_UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6CB7366C7C30587BABB87141 /* BismushUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BismushUITests.swift; sourceTree = "<group>"; };
+		748ACA19AAEF8D7180C0F662 /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
+		772C153474A9BE60AE3BA0EF /* MobileBismush.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = MobileBismush.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8075575B3E754AF9EBAE49A6 /* BismushKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BismushKit.h; sourceTree = "<group>"; };
+		83EC32C5EAF6FA1F73892AB8 /* BismushApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BismushApp.swift; sourceTree = "<group>"; };
+		895CEB7DC2082D1D1C0EA910 /* BismushTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BismushTests.swift; sourceTree = "<group>"; };
+		8A85D9E6BB86E74655180B96 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		9A9818456E8FA04DC978F08C /* Bismush_UnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Bismush_UnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A234D9656195B7EF21123CA1 /* MobileBismushUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileBismushUITests.swift; sourceTree = "<group>"; };
+		A5F42E2B32AC2021ADFFD0D7 /* MobileBismushTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileBismushTests.swift; sourceTree = "<group>"; };
+		AE3C3F8F032FD0A4C8D95DD6 /* swiftlint.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = swiftlint.sh; sourceTree = "<group>"; };
+		B2D31FA06317699DFE506364 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		B6CED7C2E12F25B66A7A285A /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
+		BE4F0C0F7ACC3BE07F921576 /* swiftformat.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = swiftformat.sh; sourceTree = "<group>"; };
+		BE69AFD1140750CAE634DCA2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		C37BFF55CBE6F70C687AB4D3 /* MobileBismush_UITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = MobileBismush_UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DFF7047D799C0F0C88098200 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		E7C9D6330721A5336B5015BC /* BismushKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BismushKitTests.swift; sourceTree = "<group>"; };
+		E99A6A2A4033EF935ECCBBAC /* MobileBismush.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MobileBismush.entitlements; sourceTree = "<group>"; };
+		ED7DD3E5196AFAE9B706E9C7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		F29D8E06BAE28C83C76E963D /* BismushKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BismushKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F3706BE7FA0CEB340600A675 /* BismusLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BismusLaunchTests.swift; sourceTree = "<group>"; };
+		F815E58457BA6240A8C5C2F1 /* BismushApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BismushApp.swift; sourceTree = "<group>"; };
+		FAB280E459CE4190A7070EBE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		FCEBCBC957B44E3156B5B5C1 /* Bismush.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bismush.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FF44414254E4EF411AF6D870 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		176D9208C81B01FB8054351B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C271432CA13D4E404971696E /* BismushKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2698E41008819B6DEDBF4F40 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				51BAAEC97364C0E27291294F /* BismushKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BC7341B159D1A40A7DC23575 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9CFC677A1F946EBEB4EE1504 /* BismushKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D8EF3BC4132C91DEAA8085BB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				867828BB02B9266C354EFBE8 /* BismushKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1CA163A7FA4C1C2B29324D17 /* MobileBismush */ = {
+			isa = PBXGroup;
+			children = (
+				4B648AEC3092AF833BA13D9D /* Assets.xcassets */,
+				83EC32C5EAF6FA1F73892AB8 /* BismushApp.swift */,
+				8A85D9E6BB86E74655180B96 /* ContentView.swift */,
+				ED7DD3E5196AFAE9B706E9C7 /* Info.plist */,
+				E99A6A2A4033EF935ECCBBAC /* MobileBismush.entitlements */,
+			);
+			path = MobileBismush;
+			sourceTree = "<group>";
+		};
+		433F78C3C8236A38541F6A89 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				BEBCD7FDCA1BBB80E36A7AF7 /* UITests */,
+				4B076CCC81B6F17A9DF12EBE /* UnitTests */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		4498CE4C35EC80110DA9A1BE /* BismushKit */ = {
+			isa = PBXGroup;
+			children = (
+				8075575B3E754AF9EBAE49A6 /* BismushKit.h */,
+				FAB280E459CE4190A7070EBE /* Info.plist */,
+			);
+			path = BismushKit;
+			sourceTree = "<group>";
+		};
+		4B076CCC81B6F17A9DF12EBE /* UnitTests */ = {
+			isa = PBXGroup;
+			children = (
+				DFCD3E8C31CB4DAE1B452104 /* Bismush */,
+				66C5B2D34133BA5A4367722B /* BismushKit */,
+				E19698DA691378B17590A62C /* MobileBismush */,
+			);
+			path = UnitTests;
+			sourceTree = "<group>";
+		};
+		57332019F84B805736955213 /* BuildTools */ = {
+			isa = PBXGroup;
+			children = (
+				FF44414254E4EF411AF6D870 /* .swiftlint.yml */,
+				B6CED7C2E12F25B66A7A285A /* Package.swift */,
+			);
+			path = BuildTools;
+			sourceTree = "<group>";
+		};
+		66C5B2D34133BA5A4367722B /* BismushKit */ = {
+			isa = PBXGroup;
+			children = (
+				E7C9D6330721A5336B5015BC /* BismushKitTests.swift */,
+			);
+			path = BismushKit;
+			sourceTree = "<group>";
+		};
+		66CA7154E3B47CAE12CC7929 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				656EE995A785B5805A584B1F /* Bismush_UITests.xctest */,
+				9A9818456E8FA04DC978F08C /* Bismush_UnitTests.xctest */,
+				FCEBCBC957B44E3156B5B5C1 /* Bismush.app */,
+				47EA770E3BB553D953CFCA7F /* BismushKit_UnitTests.xctest */,
+				1000DF4D942B68D3D9B4D4CB /* BismushKit_UnitTests.xctest */,
+				F29D8E06BAE28C83C76E963D /* BismushKit.framework */,
+				0B3B3603D98AAC01ECAF202F /* BismushKit.framework */,
+				C37BFF55CBE6F70C687AB4D3 /* MobileBismush_UITests.xctest */,
+				0249529DF47613A66884C051 /* MobileBismush_UnitTests.xctest */,
+				772C153474A9BE60AE3BA0EF /* MobileBismush.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		87DE4759B36B4F2B99136D82 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				C5C253892837226A84A9EC4B /* Bismush */,
+				1CA163A7FA4C1C2B29324D17 /* MobileBismush */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		885BE439C27F7E74E64EDDFE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4498CE4C35EC80110DA9A1BE /* BismushKit */,
+			);
+			path = Frameworks;
+			sourceTree = "<group>";
+		};
+		B5237206AF15965ED6589FC7 /* MobileBismush */ = {
+			isa = PBXGroup;
+			children = (
+				25D2DD5B0C19D49E3D3F1820 /* Info.plist */,
+				2DC04AF35AB934DBF8F6B735 /* MobileBismushLaunchTests.swift */,
+				A234D9656195B7EF21123CA1 /* MobileBismushUITests.swift */,
+			);
+			path = MobileBismush;
+			sourceTree = "<group>";
+		};
+		B94D9EE9E75A1398A6779F7D /* Bismush */ = {
+			isa = PBXGroup;
+			children = (
+				6CB7366C7C30587BABB87141 /* BismushUITests.swift */,
+				F3706BE7FA0CEB340600A675 /* BismusLaunchTests.swift */,
+				DFF7047D799C0F0C88098200 /* Info.plist */,
+			);
+			path = Bismush;
+			sourceTree = "<group>";
+		};
+		BEBCD7FDCA1BBB80E36A7AF7 /* UITests */ = {
+			isa = PBXGroup;
+			children = (
+				B94D9EE9E75A1398A6779F7D /* Bismush */,
+				B5237206AF15965ED6589FC7 /* MobileBismush */,
+			);
+			path = UITests;
+			sourceTree = "<group>";
+		};
+		C315DC1406D1EABEB45E6994 = {
+			isa = PBXGroup;
+			children = (
+				04A2D879615BD04815A504C3 /* .swiftformat */,
+				5043075D4D9C707D777F454A /* project.yml */,
+				2BD3543651FEC03AD919D0CD /* README.md */,
+				87DE4759B36B4F2B99136D82 /* Sources */,
+				885BE439C27F7E74E64EDDFE /* Frameworks */,
+				433F78C3C8236A38541F6A89 /* Tests */,
+				FEEB2E0F5981AFF05229ACE1 /* Scripts */,
+				57332019F84B805736955213 /* BuildTools */,
+				66CA7154E3B47CAE12CC7929 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C5C253892837226A84A9EC4B /* Bismush */ = {
+			isa = PBXGroup;
+			children = (
+				1C7550D929E50D512691906B /* Assets.xcassets */,
+				62B9DBD24A819A403A26D658 /* Bismush.entitlements */,
+				F815E58457BA6240A8C5C2F1 /* BismushApp.swift */,
+				BE69AFD1140750CAE634DCA2 /* ContentView.swift */,
+				B2D31FA06317699DFE506364 /* Info.plist */,
+				748ACA19AAEF8D7180C0F662 /* macOS.entitlements */,
+			);
+			path = Bismush;
+			sourceTree = "<group>";
+		};
+		DFCD3E8C31CB4DAE1B452104 /* Bismush */ = {
+			isa = PBXGroup;
+			children = (
+				345753DE643F32624B05DEBC /* BismushTests.swift */,
+			);
+			path = Bismush;
+			sourceTree = "<group>";
+		};
+		E19698DA691378B17590A62C /* MobileBismush */ = {
+			isa = PBXGroup;
+			children = (
+				A5F42E2B32AC2021ADFFD0D7 /* MobileBismushTests.swift */,
+			);
+			path = MobileBismush;
+			sourceTree = "<group>";
+		};
+		FEEB2E0F5981AFF05229ACE1 /* Scripts */ = {
+			isa = PBXGroup;
+			children = (
+				895CEB7DC2082D1D1C0EA910 /* BismushTests.swift */,
+				BE4F0C0F7ACC3BE07F921576 /* swiftformat.sh */,
+				AE3C3F8F032FD0A4C8D95DD6 /* swiftlint.sh */,
+			);
+			path = Scripts;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		59050E54841037CC0B4B6685 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D7B7383D0E6C50EAF09BB62 /* BismushKit.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D8F18916C5E160961192576A /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				04FCEC72BA130CE43B38CDC2 /* BismushKit.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		02CF2224AA986125B67AD12B /* BismushKit_UnitTests_macOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2D2C7CA078DB8ECCBEAEE61C /* Build configuration list for PBXNativeTarget "BismushKit_UnitTests_macOS" */;
+			buildPhases = (
+				98F226E7FDFC742C28E29BAF /* Sources */,
+				2698E41008819B6DEDBF4F40 /* Frameworks */,
+				C102D4FD0AE30BEB9F506D30 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D565BD7F6A4100045FC53BFC /* PBXTargetDependency */,
+			);
+			name = BismushKit_UnitTests_macOS;
+			productName = BismushKit_UnitTests_macOS;
+			productReference = 1000DF4D942B68D3D9B4D4CB /* BismushKit_UnitTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		068FB895A5E0E850190E80B5 /* Bismush */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 286210535432A915E55F0177 /* Build configuration list for PBXNativeTarget "Bismush" */;
+			buildPhases = (
+				7B57EFF5CE41C2422A980ED2 /* Swift Format */,
+				FFA5BEE0E83B09292E08B6BF /* Sources */,
+				29D2BF1CD478555AF1203583 /* Swiftlint */,
+				EB6C397529B5C97594EA6506 /* Resources */,
+				D8EF3BC4132C91DEAA8085BB /* Frameworks */,
+				6B7825A0B4D580E415FE99CE /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				80A3E06537ED7F01019EBCA5 /* PBXTargetDependency */,
+			);
+			name = Bismush;
+			productName = Bismush;
+			productReference = FCEBCBC957B44E3156B5B5C1 /* Bismush.app */;
+			productType = "com.apple.product-type.application";
+		};
+		4EFA348AF2224AB1DF373E2C /* Bismush_UnitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BCEE6E4A5893C396566ED937 /* Build configuration list for PBXNativeTarget "Bismush_UnitTests" */;
+			buildPhases = (
+				0D1667B16120CCB9372D101F /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7FC17DCB4BC6CDF5FB1994D1 /* PBXTargetDependency */,
+			);
+			name = Bismush_UnitTests;
+			productName = Bismush_UnitTests;
+			productReference = 9A9818456E8FA04DC978F08C /* Bismush_UnitTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		5E9652098AC1BB028D8C567C /* MobileBismush */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B651D845993C10F52685C870 /* Build configuration list for PBXNativeTarget "MobileBismush" */;
+			buildPhases = (
+				3F07E2D71F8A5385511B7E7D /* Swift Format */,
+				7EC0595D8ED91DBA7D10F3C9 /* Sources */,
+				344C0AAC615F36C556D41C2D /* Swiftlint */,
+				AD3A84D06DE95BA0DDAAB149 /* Resources */,
+				BC7341B159D1A40A7DC23575 /* Frameworks */,
+				A19DBDC06B838DB67C74294D /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				08095FAFAE738C7ED224A216 /* PBXTargetDependency */,
+			);
+			name = MobileBismush;
+			productName = MobileBismush;
+			productReference = 772C153474A9BE60AE3BA0EF /* MobileBismush.app */;
+			productType = "com.apple.product-type.application";
+		};
+		BF0A1AA88D0737389FF2B0F8 /* BismushKit_iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5A6C8A0A28E1AB3F39D957F7 /* Build configuration list for PBXNativeTarget "BismushKit_iOS" */;
+			buildPhases = (
+				BEFAD481AF3D1ED97BC507C0 /* Swift Format */,
+				59050E54841037CC0B4B6685 /* Headers */,
+				400B4DCDDCB2CA7B9932ABAA /* Sources */,
+				D9B60CCFCB6348FA37899F41 /* Swiftlint */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BismushKit_iOS;
+			productName = BismushKit_iOS;
+			productReference = F29D8E06BAE28C83C76E963D /* BismushKit.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		D3083B656B9664F370F14505 /* BismushKit_UnitTests_iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F954FE6637A81D6FB78CBFAD /* Build configuration list for PBXNativeTarget "BismushKit_UnitTests_iOS" */;
+			buildPhases = (
+				C5BF05C76D3BF3765D1D7875 /* Sources */,
+				176D9208C81B01FB8054351B /* Frameworks */,
+				2988949E8B1465FFCE1DF5B1 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A8BB454E1ED550E3059E0D3B /* PBXTargetDependency */,
+			);
+			name = BismushKit_UnitTests_iOS;
+			productName = BismushKit_UnitTests_iOS;
+			productReference = 47EA770E3BB553D953CFCA7F /* BismushKit_UnitTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		EA07B4FFAF2C8C78146CCEB3 /* Bismush_UITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FDF53BC90982F1AE6918360A /* Build configuration list for PBXNativeTarget "Bismush_UITests" */;
+			buildPhases = (
+				D38BD50DDBC8CED95C8B1897 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D32A5A2B85FC75FAC6260530 /* PBXTargetDependency */,
+			);
+			name = Bismush_UITests;
+			productName = Bismush_UITests;
+			productReference = 656EE995A785B5805A584B1F /* Bismush_UITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		EB9FB15088B74104B736823E /* BismushKit_macOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3C31ED5DDEC6ACEA0DB7E214 /* Build configuration list for PBXNativeTarget "BismushKit_macOS" */;
+			buildPhases = (
+				8B55C3B00708AA778F52C83F /* Swift Format */,
+				D8F18916C5E160961192576A /* Headers */,
+				170229A488A5FCEBC5EB287C /* Sources */,
+				E09FA537FD0B4FE59A976646 /* Swiftlint */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BismushKit_macOS;
+			productName = BismushKit_macOS;
+			productReference = 0B3B3603D98AAC01ECAF202F /* BismushKit.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		F8970B74C1AA4C7A6E879659 /* MobileBismush_UITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A17E5B806E91424AB3B654B2 /* Build configuration list for PBXNativeTarget "MobileBismush_UITests" */;
+			buildPhases = (
+				C12689FD29D1EB8828F78FCB /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B5725C1EBA0A844196747781 /* PBXTargetDependency */,
+			);
+			name = MobileBismush_UITests;
+			productName = MobileBismush_UITests;
+			productReference = C37BFF55CBE6F70C687AB4D3 /* MobileBismush_UITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		FDCD93CDAF8948C8293983F1 /* MobileBismush_UnitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5D32955C1B99217A68728DF5 /* Build configuration list for PBXNativeTarget "MobileBismush_UnitTests" */;
+			buildPhases = (
+				7A3A1B29FD00EFACABE50839 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				499BE61816B397EE0A526F64 /* PBXTargetDependency */,
+			);
+			name = MobileBismush_UnitTests;
+			productName = MobileBismush_UnitTests;
+			productReference = 0249529DF47613A66884C051 /* MobileBismush_UnitTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E03DBEA92E5CBF646017B99C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1200;
+				TargetAttributes = {
+					02CF2224AA986125B67AD12B = {
+						DevelopmentTeam = VG2YYSKSHY;
+						ProvisioningStyle = Automatic;
+					};
+					068FB895A5E0E850190E80B5 = {
+						DevelopmentTeam = VG2YYSKSHY;
+						ProvisioningStyle = Automatic;
+					};
+					4EFA348AF2224AB1DF373E2C = {
+						DevelopmentTeam = VG2YYSKSHY;
+						ProvisioningStyle = Automatic;
+					};
+					5E9652098AC1BB028D8C567C = {
+						DevelopmentTeam = VG2YYSKSHY;
+						ProvisioningStyle = Automatic;
+					};
+					BF0A1AA88D0737389FF2B0F8 = {
+						DevelopmentTeam = VG2YYSKSHY;
+						ProvisioningStyle = Automatic;
+					};
+					D3083B656B9664F370F14505 = {
+						DevelopmentTeam = VG2YYSKSHY;
+						ProvisioningStyle = Automatic;
+					};
+					EA07B4FFAF2C8C78146CCEB3 = {
+						DevelopmentTeam = VG2YYSKSHY;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 068FB895A5E0E850190E80B5;
+					};
+					EB9FB15088B74104B736823E = {
+						DevelopmentTeam = VG2YYSKSHY;
+						ProvisioningStyle = Automatic;
+					};
+					F8970B74C1AA4C7A6E879659 = {
+						DevelopmentTeam = VG2YYSKSHY;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 5E9652098AC1BB028D8C567C;
+					};
+					FDCD93CDAF8948C8293983F1 = {
+						DevelopmentTeam = VG2YYSKSHY;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 1411B5A57CA3255FDAD21181 /* Build configuration list for PBXProject "Bismush" */;
+			compatibilityVersion = "Xcode 10.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = C315DC1406D1EABEB45E6994;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				068FB895A5E0E850190E80B5 /* Bismush */,
+				D3083B656B9664F370F14505 /* BismushKit_UnitTests_iOS */,
+				02CF2224AA986125B67AD12B /* BismushKit_UnitTests_macOS */,
+				BF0A1AA88D0737389FF2B0F8 /* BismushKit_iOS */,
+				EB9FB15088B74104B736823E /* BismushKit_macOS */,
+				EA07B4FFAF2C8C78146CCEB3 /* Bismush_UITests */,
+				4EFA348AF2224AB1DF373E2C /* Bismush_UnitTests */,
+				5E9652098AC1BB028D8C567C /* MobileBismush */,
+				F8970B74C1AA4C7A6E879659 /* MobileBismush_UITests */,
+				FDCD93CDAF8948C8293983F1 /* MobileBismush_UnitTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		AD3A84D06DE95BA0DDAAB149 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F1ACF800DB709779C934FB73 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EB6C397529B5C97594EA6506 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9CE9587A588F8FE57D110C5A /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		29D2BF1CD478555AF1203583 /* Swiftlint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = Swiftlint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = Scripts/swiftlint.sh;
+		};
+		344C0AAC615F36C556D41C2D /* Swiftlint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = Swiftlint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = Scripts/swiftlint.sh;
+		};
+		3F07E2D71F8A5385511B7E7D /* Swift Format */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Swift Format";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/sh\n\ncd BuildTools\nSDKROOT=(xcrun --sdk macosx --show-sdk-path)\nswift run -c release swiftformat \"$SRCROOT\"\n";
+		};
+		7B57EFF5CE41C2422A980ED2 /* Swift Format */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Swift Format";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/sh\n\ncd BuildTools\nSDKROOT=(xcrun --sdk macosx --show-sdk-path)\nswift run -c release swiftformat \"$SRCROOT\"\n";
+		};
+		8B55C3B00708AA778F52C83F /* Swift Format */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Swift Format";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/sh\n\ncd BuildTools\nSDKROOT=(xcrun --sdk macosx --show-sdk-path)\nswift run -c release swiftformat \"$SRCROOT\"\n";
+		};
+		BEFAD481AF3D1ED97BC507C0 /* Swift Format */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Swift Format";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/sh\n\ncd BuildTools\nSDKROOT=(xcrun --sdk macosx --show-sdk-path)\nswift run -c release swiftformat \"$SRCROOT\"\n";
+		};
+		D9B60CCFCB6348FA37899F41 /* Swiftlint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = Swiftlint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = Scripts/swiftlint.sh;
+		};
+		E09FA537FD0B4FE59A976646 /* Swiftlint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = Swiftlint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = Scripts/swiftlint.sh;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0D1667B16120CCB9372D101F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8148E0EC58F27C6E8A7D77A8 /* BismushTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		170229A488A5FCEBC5EB287C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		400B4DCDDCB2CA7B9932ABAA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7A3A1B29FD00EFACABE50839 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BA163133E9C229D4BB93F9AB /* MobileBismushTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7EC0595D8ED91DBA7D10F3C9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5D8374741A6AB57EBCF4B54C /* BismushApp.swift in Sources */,
+				54A743C8A759E26C699E8805 /* ContentView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		98F226E7FDFC742C28E29BAF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A487C7929B6B600CEB93C9A4 /* BismushKitTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C12689FD29D1EB8828F78FCB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C345D415C69012255092785D /* MobileBismushLaunchTests.swift in Sources */,
+				0C543A758B17D7E79069CA14 /* MobileBismushUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C5BF05C76D3BF3765D1D7875 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CAE902A24BC01124A64A0484 /* BismushKitTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D38BD50DDBC8CED95C8B1897 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				72A616B6569E6FF962BAF8BA /* BismusLaunchTests.swift in Sources */,
+				F425E3EFDB2084ED6248274F /* BismushUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FFA5BEE0E83B09292E08B6BF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9E94DAB00EA1BDE54E39AC2C /* BismushApp.swift in Sources */,
+				C060A0F0A6AD1228EB0D2ACE /* ContentView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		08095FAFAE738C7ED224A216 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BF0A1AA88D0737389FF2B0F8 /* BismushKit_iOS */;
+			targetProxy = A427F58D537B1740994FBF60 /* PBXContainerItemProxy */;
+		};
+		499BE61816B397EE0A526F64 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5E9652098AC1BB028D8C567C /* MobileBismush */;
+			targetProxy = 5ACEF9CCF82BB7702B53E2BF /* PBXContainerItemProxy */;
+		};
+		7FC17DCB4BC6CDF5FB1994D1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 068FB895A5E0E850190E80B5 /* Bismush */;
+			targetProxy = E03BD09E5771C2BF8A506685 /* PBXContainerItemProxy */;
+		};
+		80A3E06537ED7F01019EBCA5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EB9FB15088B74104B736823E /* BismushKit_macOS */;
+			targetProxy = 287A016D7475B0BCD10C517A /* PBXContainerItemProxy */;
+		};
+		A8BB454E1ED550E3059E0D3B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BF0A1AA88D0737389FF2B0F8 /* BismushKit_iOS */;
+			targetProxy = C973EAAA1F3E8CF7B63E4160 /* PBXContainerItemProxy */;
+		};
+		B5725C1EBA0A844196747781 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5E9652098AC1BB028D8C567C /* MobileBismush */;
+			targetProxy = 00292071EFEF6472D82796D8 /* PBXContainerItemProxy */;
+		};
+		D32A5A2B85FC75FAC6260530 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 068FB895A5E0E850190E80B5 /* Bismush */;
+			targetProxy = B34CD2C0F94316D95D9756BB /* PBXContainerItemProxy */;
+		};
+		D565BD7F6A4100045FC53BFC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EB9FB15088B74104B736823E /* BismushKit_macOS */;
+			targetProxy = 78EEB265E3AEEC36BA0DF775 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		01B4C340BD78B35CF1F2C6D5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Sources/Bismush/Bismush.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = Sources/Bismush/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = jp.mzp.bismus.Bismush;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		0423BD3EE024495ADBA48B8D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "jp.mzp.bismus.MobileBismush-UnitTests";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MobileBismush.app/MobileBismush";
+			};
+			name = Debug;
+		};
+		09F0184F3B7B0EDCD7B59230 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Frameworks/BismushKit/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "jp.mzp.bismus.BismushKit-macOS";
+				PRODUCT_NAME = BismushKit;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
+		0C693C252D4C1327067A718A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Sources/Bismush/Bismush.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = Sources/Bismush/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = jp.mzp.bismus.Bismush;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		19693757545C1CB6501CD741 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Frameworks/BismushKit/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "jp.mzp.bismus.BismushKit-macOS";
+				PRODUCT_NAME = BismushKit;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Debug;
+		};
+		294224EFA0DB4A8637EE4172 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Frameworks/BismushKit/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "jp.mzp.bismus.BismushKit-iOS";
+				PRODUCT_NAME = BismushKit;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
+		4D58A41A45D0C46EE87DCC8B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = Tests/UITests/Bismush/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "jp.mzp.bismus.Bismush-UnitTests";
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Bismush.app/Contents/MacOS/Bismush";
+			};
+			name = Release;
+		};
+		5FC1BE5BA790A0597D0B8962 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "jp.mzp.bismus.BismushKit-UnitTests-macOS";
+				PRODUCT_NAME = BismushKit_UnitTests;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		6E99AEA720F5071F9B9CDD96 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Frameworks/BismushKit/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "jp.mzp.bismus.BismushKit-iOS";
+				PRODUCT_NAME = BismushKit;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Debug;
+		};
+		775C19AF6AC134A615B57163 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Sources/MobileBismush/MobileBismush.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = Sources/MobileBismush/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = jp.mzp.bismus.MobileBismush;
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		807A88E696603B501E45A5E3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = Tests/UITests/MobileBismush/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "jp.mzp.bismus.MobileBismush-UITests";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = MobileBismush;
+			};
+			name = Release;
+		};
+		8CCFE315455E012C6F615DAE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "jp.mzp.bismus.BismushKit-UnitTests-iOS";
+				PRODUCT_NAME = BismushKit_UnitTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		8F698CB63B4157E6900BB438 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = Tests/UITests/Bismush/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "jp.mzp.bismus.Bismush-UITests";
+				SDKROOT = macosx;
+				TEST_TARGET_NAME = Bismush;
+			};
+			name = Release;
+		};
+		910D68DE5BC44D6C7DACFDD2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "jp.mzp.bismus.MobileBismush-UnitTests";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MobileBismush.app/MobileBismush";
+			};
+			name = Release;
+		};
+		AADE843A355C21EB4347FE87 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = Tests/UITests/Bismush/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "jp.mzp.bismus.Bismush-UITests";
+				SDKROOT = macosx;
+				TEST_TARGET_NAME = Bismush;
+			};
+			name = Debug;
+		};
+		B16B0F6079AA21031E2A2DC4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = VG2YYSKSHY;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		CB2B49E6833EA6AD8BFB3162 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "jp.mzp.bismus.BismushKit-UnitTests-macOS";
+				PRODUCT_NAME = BismushKit_UnitTests;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		D93CC51E6D98F421F2B527D9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = Tests/UITests/MobileBismush/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "jp.mzp.bismus.MobileBismush-UITests";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = MobileBismush;
+			};
+			name = Debug;
+		};
+		E50DE3A3B731CB6E5FB08E9E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = Tests/UITests/Bismush/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "jp.mzp.bismus.Bismush-UnitTests";
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Bismush.app/Contents/MacOS/Bismush";
+			};
+			name = Debug;
+		};
+		F97166430152DAB48082786F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = VG2YYSKSHY;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		FB034991778A2F5313E6A905 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Sources/MobileBismush/MobileBismush.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = Sources/MobileBismush/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = jp.mzp.bismus.MobileBismush;
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		FB26399D6C1D32F1CDF34EA3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "jp.mzp.bismus.BismushKit-UnitTests-iOS";
+				PRODUCT_NAME = BismushKit_UnitTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1411B5A57CA3255FDAD21181 /* Build configuration list for PBXProject "Bismush" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F97166430152DAB48082786F /* Debug */,
+				B16B0F6079AA21031E2A2DC4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		286210535432A915E55F0177 /* Build configuration list for PBXNativeTarget "Bismush" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0C693C252D4C1327067A718A /* Debug */,
+				01B4C340BD78B35CF1F2C6D5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		2D2C7CA078DB8ECCBEAEE61C /* Build configuration list for PBXNativeTarget "BismushKit_UnitTests_macOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5FC1BE5BA790A0597D0B8962 /* Debug */,
+				CB2B49E6833EA6AD8BFB3162 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		3C31ED5DDEC6ACEA0DB7E214 /* Build configuration list for PBXNativeTarget "BismushKit_macOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				19693757545C1CB6501CD741 /* Debug */,
+				09F0184F3B7B0EDCD7B59230 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		5A6C8A0A28E1AB3F39D957F7 /* Build configuration list for PBXNativeTarget "BismushKit_iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6E99AEA720F5071F9B9CDD96 /* Debug */,
+				294224EFA0DB4A8637EE4172 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		5D32955C1B99217A68728DF5 /* Build configuration list for PBXNativeTarget "MobileBismush_UnitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0423BD3EE024495ADBA48B8D /* Debug */,
+				910D68DE5BC44D6C7DACFDD2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		A17E5B806E91424AB3B654B2 /* Build configuration list for PBXNativeTarget "MobileBismush_UITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D93CC51E6D98F421F2B527D9 /* Debug */,
+				807A88E696603B501E45A5E3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		B651D845993C10F52685C870 /* Build configuration list for PBXNativeTarget "MobileBismush" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				775C19AF6AC134A615B57163 /* Debug */,
+				FB034991778A2F5313E6A905 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		BCEE6E4A5893C396566ED937 /* Build configuration list for PBXNativeTarget "Bismush_UnitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E50DE3A3B731CB6E5FB08E9E /* Debug */,
+				4D58A41A45D0C46EE87DCC8B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		F954FE6637A81D6FB78CBFAD /* Build configuration list for PBXNativeTarget "BismushKit_UnitTests_iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8CCFE315455E012C6F615DAE /* Debug */,
+				FB26399D6C1D32F1CDF34EA3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		FDF53BC90982F1AE6918360A /* Build configuration list for PBXNativeTarget "Bismush_UITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AADE843A355C21EB4347FE87 /* Debug */,
+				8F698CB63B4157E6900BB438 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E03DBEA92E5CBF646017B99C /* Project object */;
+}

@@ -1,0 +1,129 @@
+name: Bismush
+targets:
+  BismushKit:
+    type: framework
+    platform: [macOS, iOS]
+    scheme:
+      testTargets:
+        - BismushKit_UnitTests_${platform}
+    info:
+      path: Frameworks/BismushKit/Info.plist
+    preBuildScripts:
+      - path: Scripts/swiftformat.sh
+        name: Swift Format
+    postCompileScripts:
+      - script: Scripts/swiftlint.sh
+        name: Swiftlint
+    sources: 
+      - Frameworks/BismushKit
+  BismushKit_UnitTests:
+    type: bundle.unit-test
+    platform: [macOS, iOS]
+    sources: 
+      - Tests/UnitTests/BismushKit
+    dependencies:
+      - target: BismushKit_${platform}
+
+  Bismush:
+    type: application
+    platform: macOS
+    scheme:
+      testTargets:
+        - Bismush_UITests
+        - Bismush_UnitTests
+    dependencies:
+      - target: BismushKit_macOS
+    entitlements:
+      path: Sources/Bismush/Bismush.entitlements
+      properties:
+        com.apple.security.app-sandbox: true
+    info:
+      path: Sources/Bismush/Info.plist
+    preBuildScripts:
+      - path: Scripts/swiftformat.sh
+        name: Swift Format
+    postCompileScripts:
+      - script: Scripts/swiftlint.sh
+        name: Swiftlint
+    sources:
+      - Sources/Bismush
+  Bismush_UITests:
+    type: bundle.ui-testing
+    platform: macOS
+    dependencies:
+      - target: Bismush
+    info:
+      path: Tests/UITests/Bismush/Info.plist
+    sources: 
+      - Tests/UITests/Bismush
+  Bismush_UnitTests:
+    type: bundle.unit-test
+    platform: macOS
+    dependencies:
+      - target: Bismush
+    info:
+      path: Tests/UITests/Bismush/Info.plist
+    sources: 
+      - Tests/UnitTests/Bismush
+  MobileBismush:
+    type: application
+    platform: iOS
+    dependencies:
+      - target: BismushKit_iOS
+    info:
+      path: Sources/MobileBismush/Info.plist
+      properties:
+        com.apple.security.app-sandbox: true
+    entitlements:
+      path: Sources/MobileBismush/MobileBismush.entitlements
+    settings:
+      SUPPORTS_MACCATALYST: true
+    preBuildScripts:
+      - path: Scripts/swiftformat.sh
+        name: Swift Format
+    postCompileScripts:
+      - script: Scripts/swiftlint.sh
+        name: Swiftlint
+    sources: 
+      - Sources/MobileBismush
+  MobileBismush_UITests:
+    type: bundle.ui-testing
+    platform: iOS
+    dependencies:
+      - target: MobileBismush
+    info:
+      path: Tests/UITests/MobileBismush/Info.plist
+    sources: 
+      - Tests/UITests/MobileBismush
+  MobileBismush_UnitTests:
+    type: bundle.unit-test
+    platform: iOS
+    dependencies:
+      - target: MobileBismush
+    sources: 
+      - Tests/UnitTests/MobileBismush
+
+settings:
+  DEVELOPMENT_TEAM: VG2YYSKSHY
+  CODE_SIGN_STYLE: Automatic
+  CODE_SIGN_IDENTITY: "-"
+
+options:
+  bundleIdPrefix: jp.mzp.bismus
+
+  createIntermediateGroups: true
+
+  deploymentTarget:
+    iOS: "15.4"
+    macOS: "12.3"
+
+  groupOrdering: 
+    - order: [Sources, Frameworks, Tests, Scripts]
+
+fileGroups:
+  - README.md
+  - project.yml
+  - Scripts
+  - BuildTools/.swiftlint.yml
+  - BuildTools/Package.swift
+  - .swiftformat
