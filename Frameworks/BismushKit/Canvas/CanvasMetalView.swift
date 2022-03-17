@@ -52,6 +52,7 @@ public class CanvasMetalView: MTKView {
 
     private static func makeRenderPipelineState(device: MTLDevice) -> MTLRenderPipelineState {
         let bundle = Bundle(for: Self.self)
+        // swiftlint:disable:next force_try
         let library = try! device.makeDefaultLibrary(bundle: bundle)
         BismushLogger.metal.info("Use library: \(library.description)")
         guard let vertexFunction = library.makeFunction(name: "canvas_vertex") else {
@@ -65,6 +66,7 @@ public class CanvasMetalView: MTKView {
         descriptor.vertexFunction = vertexFunction
         descriptor.fragmentFunction = fragmentFunction
 
+        // swiftlint:disable:next force_try
         return try! device.makeRenderPipelineState(descriptor: descriptor)
     }
 
