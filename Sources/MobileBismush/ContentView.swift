@@ -5,12 +5,12 @@
 //  Created by mzp on 3/13/22.
 //
 
+import BismushKit
 import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        Canvas()
     }
 }
 

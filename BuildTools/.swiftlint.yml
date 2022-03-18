@@ -81,4 +81,5 @@ identifier_name:
     - id
 number_separator:
   minimum_length: 5
-
+force_try:
+  severity: warning

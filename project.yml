@@ -70,6 +70,10 @@ targets:
     platform: iOS
     dependencies:
       - target: BismushKit_iOS
+    scheme:
+      testTargets:
+        - MobileBismush_UITests
+        - MobileBismush_UnitTests
     info:
       path: Sources/MobileBismush/Info.plist
       properties:
