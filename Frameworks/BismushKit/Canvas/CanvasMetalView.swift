@@ -87,6 +87,7 @@ public class CanvasMetalView: MTKView {
 
         let bundle = Bundle(for: Self.self)
         let url = bundle.url(forResource: "yosemite", withExtension: "png")!
+        // swiftlint:disable:next force_try
         return try! loader.newTexture(URL: url)
     }
 }
