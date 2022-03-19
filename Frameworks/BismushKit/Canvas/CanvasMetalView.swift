@@ -9,30 +9,38 @@ import Metal
 import MetalKit
 
 struct Vertex {
-    var position: SIMD3<Float>
-    var color: SIMD4<Float>
+    var position: SIMD2<Float>
+    var textureCoordinate: SIMD2<Float>
 }
 
 let vertices: [Vertex] = [
-    Vertex(position: SIMD3(0, 1, 0), color: SIMD4(1, 0, 0, 1)),
-    Vertex(position: SIMD3(-1, -1, 0), color: SIMD4(0, 1, 0, 1)),
-    Vertex(position: SIMD3(1, -1, 0), color: SIMD4(0, 0, 1, 1)),
+    Vertex(position: SIMD2(500, -500), textureCoordinate: SIMD2(1.0, 1.0)),
+    Vertex(position: SIMD2(-500, -500), textureCoordinate: SIMD2(0.0, 1.0)),
+    Vertex(position: SIMD2(-500, 500), textureCoordinate: SIMD2(0.0, 0.0)),
+
+    Vertex(position: SIMD2(500, -500), textureCoordinate: SIMD2(1.0, 1.0)),
+    Vertex(position: SIMD2(-500, 500), textureCoordinate: SIMD2(0.0, 0.0)),
+    Vertex(position: SIMD2(500, 500), textureCoordinate: SIMD2(1.0, 0.0)),
 ]
 
 public class CanvasMetalView: MTKView {
     private let commandQueue: MTLCommandQueue
     private let renderPipelineState: MTLRenderPipelineState
     private let vertexBuffer: MTLBuffer
+    private let texture: MTLTexture
+    private var viewPortSize = SIMD2<UInt32>(0, 0)
 
     init() {
         guard let device = MTLCreateSystemDefaultDevice() else {
             fatalError("Device loading error")
         }
+
         BismushLogger.metal.info("Use \(device.name)")
         commandQueue = Self.makeCommandQueue(device: device)
         renderPipelineState = Self.makeRenderPipelineState(device: device)
         vertexBuffer = Self.makeVertexBuffer(device: device, bytes: vertices,
                                              length: MemoryLayout<Vertex>.stride * vertices.count)
+        texture = Self.makeTexture(device: device)
 
         super.init(frame: .zero, device: MTLCreateSystemDefaultDevice())
 
@@ -71,12 +79,24 @@ public class CanvasMetalView: MTKView {
     }
 
     private static func makeVertexBuffer(device: MTLDevice, bytes: UnsafeRawPointer, length: Int) -> MTLBuffer {
-        device.makeBuffer(bytes: bytes, length: length, options: [])!
+        device.makeBuffer(bytes: bytes, length: length, options: [.storageModeShared])!
+    }
+
+    private static func makeTexture(device: MTLDevice) -> MTLTexture {
+        let loader = MTKTextureLoader(device: device)
+
+        let bundle = Bundle(for: Self.self)
+        let url = bundle.url(forResource: "yosemite", withExtension: "png")!
+        // swiftlint:disable:next force_try
+        return try! loader.newTexture(URL: url)
     }
 }
 
 extension CanvasMetalView: MTKViewDelegate {
-    public func mtkView(_: MTKView, drawableSizeWillChange _: CGSize) {}
+    public func mtkView(_: MTKView, drawableSizeWillChange size: CGSize) {
+        viewPortSize.x = UInt32(size.width)
+        viewPortSize.y = UInt32(size.height)
+    }
 
     public func draw(in view: MTKView) {
         guard let drawable = view.currentDrawable,
@@ -87,6 +107,7 @@ extension CanvasMetalView: MTKViewDelegate {
         guard let buffer = commandQueue.makeCommandBuffer() else {
             return
         }
+        buffer.label = "Frame"
         guard let encoder = buffer.makeRenderCommandEncoder(descriptor: descriptor) else {
             return
         }
@@ -95,9 +116,20 @@ extension CanvasMetalView: MTKViewDelegate {
             buffer.present(drawable)
             buffer.commit()
         }
-
+        let viewPort = MTLViewport(
+            originX: 0,
+            originY: 0,
+            width: Double(viewPortSize.x),
+            height: Double(viewPortSize.y),
+            znear: -1,
+            zfar: 1
+        )
+        encoder.label = "Render"
+        encoder.setViewport(viewPort)
         encoder.setRenderPipelineState(renderPipelineState)
         encoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
+        encoder.setVertexBytes(&viewPortSize, length: MemoryLayout<SIMD2<UInt>>.size, index: 1)
+        encoder.setFragmentTexture(texture, index: 0)
         encoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: vertices.count)
     }
 }

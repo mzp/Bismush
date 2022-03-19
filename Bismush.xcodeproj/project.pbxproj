@@ -12,6 +12,7 @@
 		1B7AC0C45F829B9F3C3C1D79 /* BismushLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = F985F18B0E4A2480029F6B35 /* BismushLogger.swift */; };
 		1D7B7383D0E6C50EAF09BB62 /* BismushKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 8075575B3E754AF9EBAE49A6 /* BismushKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1EB0E60983E744A84332A651 /* BismushKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0B3B3603D98AAC01ECAF202F /* BismushKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		26D0DCCDE52FB3F82B5A29CA /* yosemite.png in Resources */ = {isa = PBXBuildFile; fileRef = 529F18E6D2A5A1F9B27BFA94 /* yosemite.png */; };
 		30DE7501F46B0B070B4429D4 /* MobileBismushUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4D67FFCD3D2712759AB4C4 /* MobileBismushUITests.swift */; };
 		3D9950FF5C36D6E57214FD3F /* Canvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 906946E299C837ABC40D6EF6 /* Canvas.swift */; };
 		4D5FBDB8C85AE42C2A3A37FD /* CanvasMetalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB59035A2466253B1FDA959F /* CanvasMetalView.swift */; };
@@ -35,6 +36,7 @@
 		C271432CA13D4E404971696E /* BismushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F29D8E06BAE28C83C76E963D /* BismushKit.framework */; };
 		C345D415C69012255092785D /* MobileBismushLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DC04AF35AB934DBF8F6B735 /* MobileBismushLaunchTests.swift */; };
 		CAE902A24BC01124A64A0484 /* BismushKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C9D6330721A5336B5015BC /* BismushKitTests.swift */; };
+		D02C95F843B82E940E6C3811 /* yosemite.png in Resources */ = {isa = PBXBuildFile; fileRef = 529F18E6D2A5A1F9B27BFA94 /* yosemite.png */; };
 		D6015ED2D7D4C003E21D8746 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 66659A17435DE25DEA50F0E8 /* Shaders.metal */; };
 		E1CC06B0C701F60FBBEA2698 /* BismushKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0B3B3603D98AAC01ECAF202F /* BismushKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		ED2919303426C957CEE9DA58 /* CanvasMetalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB59035A2466253B1FDA959F /* CanvasMetalView.swift */; };
@@ -160,6 +162,7 @@
 		47EA770E3BB553D953CFCA7F /* BismushKit_UnitTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = BismushKit_UnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B648AEC3092AF833BA13D9D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5043075D4D9C707D777F454A /* project.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = project.yml; sourceTree = "<group>"; };
+		529F18E6D2A5A1F9B27BFA94 /* yosemite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yosemite.png; sourceTree = "<group>"; };
 		62B9DBD24A819A403A26D658 /* Bismush.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Bismush.entitlements; sourceTree = "<group>"; };
 		656EE995A785B5805A584B1F /* Bismush_UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Bismush_UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		66659A17435DE25DEA50F0E8 /* Shaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
@@ -268,6 +271,7 @@
 				8075575B3E754AF9EBAE49A6 /* BismushKit.h */,
 				FAB280E459CE4190A7070EBE /* Info.plist */,
 				66659A17435DE25DEA50F0E8 /* Shaders.metal */,
+				529F18E6D2A5A1F9B27BFA94 /* yosemite.png */,
 				F5CCD39F09A952E266DC52AF /* Canvas */,
 			);
 			path = BismushKit;
@@ -542,6 +546,7 @@
 				59050E54841037CC0B4B6685 /* Headers */,
 				400B4DCDDCB2CA7B9932ABAA /* Sources */,
 				D9B60CCFCB6348FA37899F41 /* Swiftlint */,
+				F9DD31C3878B1AA8AABA2EE5 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -594,6 +599,7 @@
 				D8F18916C5E160961192576A /* Headers */,
 				170229A488A5FCEBC5EB287C /* Sources */,
 				E09FA537FD0B4FE59A976646 /* Swiftlint */,
+				C782F53656EABA8669728C44 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -687,11 +693,27 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C782F53656EABA8669728C44 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				26D0DCCDE52FB3F82B5A29CA /* yosemite.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EB6C397529B5C97594EA6506 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				9CE9587A588F8FE57D110C5A /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F9DD31C3878B1AA8AABA2EE5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D02C95F843B82E940E6C3811 /* yosemite.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
