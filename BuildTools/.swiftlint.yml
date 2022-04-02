@@ -5,6 +5,9 @@ analyzer_rules:
   - unused_import
 disabled_rules:
   - trailing_comma
+  - todo
+  - opening_brace
+  - force_try #temporal
 opt_in_rules:
   - anyobject_protocol
   - array_init
@@ -79,7 +82,9 @@ opt_in_rules:
 identifier_name:
   excluded:
     - id
+    - x
+    - y
+    - z
+    - w
 number_separator:
   minimum_length: 5
-force_try:
-  severity: warning
