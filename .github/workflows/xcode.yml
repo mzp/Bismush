@@ -15,8 +15,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Test
         run: |
-          # xcodebuild test -scheme "CI.macOS" -project Bismush.xcodeproj | xcpretty && exit ${PIPESTATUS[0]}
-          echo "temporary disabled, see https://github.com/mzp/Bismush/issues/5"
+          xcodebuild build -scheme "CI.macOS" -project Bismush.xcodeproj | xcpretty && exit ${PIPESTATUS[0]}
   iOS:
     name: iOS
     runs-on: macos-latest
@@ -26,5 +25,4 @@ jobs:
         uses: actions/checkout@v2
       - name: Test
         run: |
-          # xcodebuild test -scheme "CI.iOS" -project Bismush.xcodeproj -destination 'platform=iOS Simulator,name=iPad Pro (12.9-inch) (5th generation)' | xcpretty && exit ${PIPESTATUS[0]}
-          echo "temporary disabled, see https://github.com/mzp/Bismush/issues/5"
+          xcodebuild build -scheme "CI.iOS" -project Bismush.xcodeproj -destination 'platform=iOS Simulator,name=iPad Pro (12.9-inch) (5th generation)' | xcpretty && exit ${PIPESTATUS[0]}

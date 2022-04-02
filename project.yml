@@ -7,15 +7,20 @@ targets:
       testTargets:
         - BismushKit_UnitTests_${platform}
     info:
-      path: Frameworks/BismushKit/Info.plist
+      path: Frameworks/BismushKit/Supports Files/Info.plist
     preBuildScripts:
       - path: Scripts/swiftformat.sh
         name: Swift Format
+      - path: Scripts/clang-format.sh
+        name: clang-format
     postCompileScripts:
       - script: Scripts/swiftlint.sh
         name: Swiftlint
     sources: 
       - Frameworks/BismushKit
+    settings:
+      MTL_LANGUAGE_REVISION: Metal24
+
   BismushKit_UnitTests:
     type: bundle.unit-test
     platform: [macOS, iOS]
@@ -34,11 +39,11 @@ targets:
     dependencies:
       - target: BismushKit_macOS
     entitlements:
-      path: Sources/Bismush/Bismush.entitlements
+      path: Sources/Bismush/Supports Files/Bismush.entitlements
       properties:
         com.apple.security.app-sandbox: true
     info:
-      path: Sources/Bismush/Info.plist
+      path: Sources/Supports Files/Bismush/Info.plist
     preBuildScripts:
       - path: Scripts/swiftformat.sh
         name: Swift Format
@@ -75,11 +80,11 @@ targets:
         - MobileBismush_UITests
         - MobileBismush_UnitTests
     info:
-      path: Sources/MobileBismush/Info.plist
+      path: Sources/MobileBismush/Supports Files/Info.plist
+    entitlements:
+      path: Sources/MobileBismush/Supports Files/MobileBismush.entitlements
       properties:
         com.apple.security.app-sandbox: true
-    entitlements:
-      path: Sources/MobileBismush/MobileBismush.entitlements
     settings:
       SUPPORTS_MACCATALYST: true
     preBuildScripts:
@@ -162,3 +167,4 @@ fileGroups:
   - BuildTools/Package.swift
   - .swiftformat
   - .github
+  - .clang-format
