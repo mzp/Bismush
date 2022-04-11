@@ -43,6 +43,12 @@ public class ArtboardStore: CanvasContext {
         layers.first!
     }
 
+    func normalize(viewPortSize: Size<ViewCoordinate>) -> Transform2D<ViewCoordinate, ViewPortCoordinate> {
+        Transform2D(matrix:
+            Transform2D.scale(x: viewPortSize.width / 2, y: viewPortSize.height / 2) *
+                Transform2D.translate(x: 1, y: 1))
+    }
+
     func projection(viewPortSize: Size<ViewCoordinate>) -> Transform2D<ViewPortCoordinate, WorldCoordinate> {
         let aspectRatio = Float(viewPortSize.height / viewPortSize.width)
         return Transform2D(matrix:

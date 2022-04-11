@@ -13,6 +13,7 @@ struct BismushApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView(store: ArtboardStore.makeSample())
+                .navigationTitle("CanvasTest")
         }
     }
 }
