@@ -26,6 +26,8 @@ targets:
     platform: [macOS, iOS]
     sources: 
       - Tests/UnitTests/BismushKit
+    info:
+      path: Tests/UnitTests/BismushKit/Info.plist
     dependencies:
       - target: BismushKit_${platform}
 
@@ -67,7 +69,7 @@ targets:
     dependencies:
       - target: Bismush
     info:
-      path: Tests/UITests/Bismush/Info.plist
+      path: Tests/UnitTests/Bismush/Info.plist
     sources: 
       - Tests/UnitTests/Bismush
   MobileBismush:

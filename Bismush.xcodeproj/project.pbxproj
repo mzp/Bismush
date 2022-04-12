@@ -9,13 +9,19 @@
 /* Begin PBXBuildFile section */
 		073636F4BC1DF0B92D740267 /* BismushUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C56295FADAE420FDBE69F9F /* BismushUITests.swift */; };
 		0FDC3A566E21DAC14478FC79 /* ArtboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC87C9BFB1E74AA4AF5E2706 /* ArtboardView.swift */; };
+		12D8938E22C43C8F2F531156 /* RingBufferTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA133AB5D70EDCE4007D891 /* RingBufferTests.swift */; };
 		1639CBAE57EDEC01D247521D /* ArtboardLayerRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F7E862DF7803EAF0AAB77F /* ArtboardLayerRenderer.swift */; };
 		17FBE179B1AEF2AEA168BC10 /* Transform2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 009FF0DCACF3D4E8AAD967F5 /* Transform2D.swift */; };
+		1C511CC31675CC3C74557DA1 /* RingBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D92F2C618F53E6023F666D /* RingBuffer.swift */; };
 		1EB0E60983E744A84332A651 /* BismushKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0B3B3603D98AAC01ECAF202F /* BismushKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		2EBCF3F539766E0117261F29 /* LayerRenderer.metal in Sources */ = {isa = PBXBuildFile; fileRef = F06749FD75344F5894055F3A /* LayerRenderer.metal */; };
+		2D8976162D1858820B69A971 /* StrokeRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7733AD3F4BF1B547498EAFE /* StrokeRenderer.swift */; };
 		30DE7501F46B0B070B4429D4 /* MobileBismushUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4D67FFCD3D2712759AB4C4 /* MobileBismushUITests.swift */; };
 		3868C0BEBC2809EABD82B8B9 /* ArtboardLayerRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F7E862DF7803EAF0AAB77F /* ArtboardLayerRenderer.swift */; };
+		38C4C5AB4CD231CF6E7DCFB0 /* StrokeRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7733AD3F4BF1B547498EAFE /* StrokeRenderer.swift */; };
+		39BC1815F2C291B828F54AEA /* RendererTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 594C856705B5CE068F7111CD /* RendererTestCase.swift */; };
+		39DB00F0C0103A06B9024FD5 /* StrokeRendererTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0544B021AE10B57FE66CCA90 /* StrokeRendererTests.swift */; };
 		3A83D6BAB37535D12421CE0A /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CBEA98566B8EAFCEBC20142 /* Coordinate.swift */; };
+		3CE66C05771A8CC1920BDEE3 /* Brush.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CCEFFC44544D8F2F43801FA /* Brush.swift */; };
 		417EB12CB654B7075B86AE44 /* Canvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A5B199200C2A17B3F6B5B7 /* Canvas.swift */; };
 		4E142ADD70203B6173358EAB /* BismushKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5470BE55386A1F5C20A7BB17 /* BismushKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		51BAAEC97364C0E27291294F /* BismushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B3B3603D98AAC01ECAF202F /* BismushKit.framework */; };
@@ -31,21 +37,24 @@
 		61B41BB86E95C0403EE22500 /* BismushLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9597D885110F827DFA203C /* BismushLogger.swift */; };
 		62D24802840395EC8099DDBE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC2849E558523FD851860CAC /* Assets.xcassets */; };
 		657E222348CDB383227DDD93 /* ArtboardRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94F528238D9074F9D63CF55 /* ArtboardRenderer.swift */; };
+		68A1BFE9628D2A2CC3D52B13 /* Renderer.metal in Sources */ = {isa = PBXBuildFile; fileRef = BD6040FC8F76515F0202EA77 /* Renderer.metal */; };
 		72A616B6569E6FF962BAF8BA /* BismusLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3706BE7FA0CEB340600A675 /* BismusLaunchTests.swift */; };
 		735F511377E2343382BED60B /* Transform2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 009FF0DCACF3D4E8AAD967F5 /* Transform2D.swift */; };
 		73E2F203A3C252A5E27D840B /* GPUDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED54DBECD333D3F9FE097255 /* GPUDevice.swift */; };
+		76AB5EAA8D7F4DAFC844A083 /* bezier.png in Resources */ = {isa = PBXBuildFile; fileRef = D29F8521E4AAB21AFA7B9E41 /* bezier.png */; };
 		7912F2C63A229662175A1F6D /* ArtboardLayerStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30FF823CCD859963E635371 /* ArtboardLayerStore.swift */; };
-		7C0597B1E997119321BAEA4B /* LayerRenderer.metal in Sources */ = {isa = PBXBuildFile; fileRef = F06749FD75344F5894055F3A /* LayerRenderer.metal */; };
 		8148E0EC58F27C6E8A7D77A8 /* BismushTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345753DE643F32624B05DEBC /* BismushTests.swift */; };
+		83D784C678C77DE29AC8B186 /* Renderer.metal in Sources */ = {isa = PBXBuildFile; fileRef = BD6040FC8F76515F0202EA77 /* Renderer.metal */; };
 		867828BB02B9266C354EFBE8 /* BismushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B3B3603D98AAC01ECAF202F /* BismushKit.framework */; };
+		886869D23531D753C7502D1D /* RendererTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 594C856705B5CE068F7111CD /* RendererTestCase.swift */; };
 		8BE38A46859A67C339A49486 /* ArtboardStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B4AE67E9ECF375B8D4A449 /* ArtboardStore.swift */; };
+		962A3931819F4DD8EBA3F7E6 /* StrokeRendererTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0544B021AE10B57FE66CCA90 /* StrokeRendererTests.swift */; };
 		9BF57B799AF517CB8A75B346 /* BismushLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9597D885110F827DFA203C /* BismushLogger.swift */; };
 		9CFC677A1F946EBEB4EE1504 /* BismushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F29D8E06BAE28C83C76E963D /* BismushKit.framework */; };
+		9DDC18CD54FDE40A581BDF1B /* RingBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D92F2C618F53E6023F666D /* RingBuffer.swift */; };
 		9E94DAB00EA1BDE54E39AC2C /* BismushApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F815E58457BA6240A8C5C2F1 /* BismushApp.swift */; };
 		A17361B851C953A7A1773908 /* BismushKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F29D8E06BAE28C83C76E963D /* BismushKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		A37B8819B67FDD61BDC12CB9 /* StrokeAction.metal in Sources */ = {isa = PBXBuildFile; fileRef = 821255B2BF0825EF3E41F3CB /* StrokeAction.metal */; };
 		A487C7929B6B600CEB93C9A4 /* BismushKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C9D6330721A5336B5015BC /* BismushKitTests.swift */; };
-		A5F180C00D9B36B9DCCA77E5 /* StrokeAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E5CD866252F289B06B89F7 /* StrokeAction.swift */; };
 		AA6E4992DBAC2C235E3A20F3 /* ArtboardLayerStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30FF823CCD859963E635371 /* ArtboardLayerStore.swift */; };
 		AC5D0BF1496FDBC34FE6CBE6 /* ResourceLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A109047217586F0B494D5AD7 /* ResourceLoader.swift */; };
 		AC775C6D3F9C572AC12A713E /* yosemite.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BC445ED01FB66CE90322781 /* yosemite.png */; };
@@ -53,6 +62,7 @@
 		AF11059B447289540751FA27 /* CanvasLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B7080B33E26829F8390C43 /* CanvasLayer.swift */; };
 		B65D69102C20B3D894CBD6D7 /* BismushKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F29D8E06BAE28C83C76E963D /* BismushKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B6E5C46845063F7BC702EC0D /* Canvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A5B199200C2A17B3F6B5B7 /* Canvas.swift */; };
+		B8258E1947009950893ABAFE /* Brush.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CCEFFC44544D8F2F43801FA /* Brush.swift */; };
 		BA163133E9C229D4BB93F9AB /* MobileBismushTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F42E2B32AC2021ADFFD0D7 /* MobileBismushTests.swift */; };
 		BDE8AAA1CB249490561B3040 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 08357BEDDDAF54069A225502 /* Assets.xcassets */; };
 		BDEBF56372173CEE962D04E7 /* BismushDiagnose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E1435DA6B63DCB0B9BCA070 /* BismushDiagnose.swift */; };
@@ -65,13 +75,13 @@
 		CF82FA28797371F6B49E2607 /* ResourceLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A109047217586F0B494D5AD7 /* ResourceLoader.swift */; };
 		D2D92E317B57AB8AA2966B3C /* ArtboardRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94F528238D9074F9D63CF55 /* ArtboardRenderer.swift */; };
 		D2ECB1F06F463B776CE07871 /* DesktopArtboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE26D0F72B7C746D2CD7E4FC /* DesktopArtboard.swift */; };
-		DD154E11B1C773E91420BC30 /* StrokeAction.metal in Sources */ = {isa = PBXBuildFile; fileRef = 821255B2BF0825EF3E41F3CB /* StrokeAction.metal */; };
-		DF28FC1EFE8C561D397B6C3F /* StrokeAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E5CD866252F289B06B89F7 /* StrokeAction.swift */; };
 		E1CC06B0C701F60FBBEA2698 /* BismushKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0B3B3603D98AAC01ECAF202F /* BismushKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E6E567AD363D90390CD5A1C9 /* RingBufferTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA133AB5D70EDCE4007D891 /* RingBufferTests.swift */; };
 		E91A87BA8730A198E32A4706 /* MobileArtboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC193137D84BC71CC736C63B /* MobileArtboard.swift */; };
 		EC88D0F2FE25BFB604F58294 /* ArtboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC87C9BFB1E74AA4AF5E2706 /* ArtboardView.swift */; };
 		F53CF1ADE395D4C8470F8A52 /* yosemite.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BC445ED01FB66CE90322781 /* yosemite.png */; };
 		F5D3C95D390168826E879CA0 /* square.png in Resources */ = {isa = PBXBuildFile; fileRef = CE7AA190D205E98D16E52A92 /* square.png */; };
+		F971BE47717B6C09AC25D6C9 /* bezier.png in Resources */ = {isa = PBXBuildFile; fileRef = D29F8521E4AAB21AFA7B9E41 /* bezier.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -184,29 +194,33 @@
 		009FF0DCACF3D4E8AAD967F5 /* Transform2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transform2D.swift; sourceTree = "<group>"; };
 		0249529DF47613A66884C051 /* MobileBismush_UnitTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = MobileBismush_UnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		04A2D879615BD04815A504C3 /* .swiftformat */ = {isa = PBXFileReference; path = .swiftformat; sourceTree = "<group>"; };
+		0544B021AE10B57FE66CCA90 /* StrokeRendererTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeRendererTests.swift; sourceTree = "<group>"; };
 		08357BEDDDAF54069A225502 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		08D92F2C618F53E6023F666D /* RingBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingBuffer.swift; sourceTree = "<group>"; };
 		0B3B3603D98AAC01ECAF202F /* BismushKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BismushKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BC445ED01FB66CE90322781 /* yosemite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yosemite.png; sourceTree = "<group>"; };
 		0F06C470880D8AD03A8196BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		1000DF4D942B68D3D9B4D4CB /* BismushKit_UnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BismushKit_UnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		13F7E862DF7803EAF0AAB77F /* ArtboardLayerRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtboardLayerRenderer.swift; sourceTree = "<group>"; };
 		154599ADF4642CA2B0265938 /* MobileBismush.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MobileBismush.entitlements; sourceTree = "<group>"; };
+		1CCEFFC44544D8F2F43801FA /* Brush.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Brush.swift; sourceTree = "<group>"; };
 		25D2DD5B0C19D49E3D3F1820 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		2B9597D885110F827DFA203C /* BismushLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BismushLogger.swift; sourceTree = "<group>"; };
 		2BD3543651FEC03AD919D0CD /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		2DC04AF35AB934DBF8F6B735 /* MobileBismushLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileBismushLaunchTests.swift; sourceTree = "<group>"; };
 		2F0B76326CDE771A3D234162 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		345753DE643F32624B05DEBC /* BismushTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BismushTests.swift; sourceTree = "<group>"; };
-		403FFF9C984ED3977D17B65D /* .clang-format.sh.swp */ = {isa = PBXFileReference; path = ".clang-format.sh.swp"; sourceTree = "<group>"; };
 		47EA770E3BB553D953CFCA7F /* BismushKit_UnitTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = BismushKit_UnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		47FCBA8FB30982F8EBF24F59 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		493C33E0B6B5C66048BB55B9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		4CBEA98566B8EAFCEBC20142 /* Coordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinate.swift; sourceTree = "<group>"; };
 		5043075D4D9C707D777F454A /* project.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = project.yml; sourceTree = "<group>"; };
 		5470BE55386A1F5C20A7BB17 /* BismushKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BismushKit.h; sourceTree = "<group>"; };
+		594C856705B5CE068F7111CD /* RendererTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RendererTestCase.swift; sourceTree = "<group>"; };
 		656EE995A785B5805A584B1F /* Bismush_UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Bismush_UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		72B4AE67E9ECF375B8D4A449 /* ArtboardStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtboardStore.swift; sourceTree = "<group>"; };
 		772C153474A9BE60AE3BA0EF /* MobileBismush.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = MobileBismush.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E1435DA6B63DCB0B9BCA070 /* BismushDiagnose.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BismushDiagnose.swift; sourceTree = "<group>"; };
-		821255B2BF0825EF3E41F3CB /* StrokeAction.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = StrokeAction.metal; sourceTree = "<group>"; };
 		83EC32C5EAF6FA1F73892AB8 /* BismushApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BismushApp.swift; sourceTree = "<group>"; };
 		8463FA512978EA8C17D50CFA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		85B7080B33E26829F8390C43 /* CanvasLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasLayer.swift; sourceTree = "<group>"; };
@@ -220,15 +234,19 @@
 		A109047217586F0B494D5AD7 /* ResourceLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceLoader.swift; sourceTree = "<group>"; };
 		A5F42E2B32AC2021ADFFD0D7 /* MobileBismushTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileBismushTests.swift; sourceTree = "<group>"; };
 		AC87C9BFB1E74AA4AF5E2706 /* ArtboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtboardView.swift; sourceTree = "<group>"; };
+		ACA133AB5D70EDCE4007D891 /* RingBufferTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingBufferTests.swift; sourceTree = "<group>"; };
 		AE3C3F8F032FD0A4C8D95DD6 /* swiftlint.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = swiftlint.sh; sourceTree = "<group>"; };
 		B6CED7C2E12F25B66A7A285A /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
+		B7733AD3F4BF1B547498EAFE /* StrokeRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeRenderer.swift; sourceTree = "<group>"; };
 		BC91ED6F629A218295F2006B /* .clang-format */ = {isa = PBXFileReference; path = ".clang-format"; sourceTree = "<group>"; };
+		BD6040FC8F76515F0202EA77 /* Renderer.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Renderer.metal; sourceTree = "<group>"; };
 		BE4F0C0F7ACC3BE07F921576 /* swiftformat.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = swiftformat.sh; sourceTree = "<group>"; };
 		BE69AFD1140750CAE634DCA2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		C37BFF55CBE6F70C687AB4D3 /* MobileBismush_UITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = MobileBismush_UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC193137D84BC71CC736C63B /* MobileArtboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileArtboard.swift; sourceTree = "<group>"; };
 		CC2849E558523FD851860CAC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CE7AA190D205E98D16E52A92 /* square.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = square.png; sourceTree = "<group>"; };
+		D29F8521E4AAB21AFA7B9E41 /* bezier.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bezier.png; sourceTree = "<group>"; };
 		D2DE22AD3A9F366AED2DCC9D /* Bismush.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Bismush.entitlements; sourceTree = "<group>"; };
 		DA0B354E867867D78618A68A /* hello.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hello.png; sourceTree = "<group>"; };
 		DFF7047D799C0F0C88098200 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -236,10 +254,8 @@
 		E7C9D6330721A5336B5015BC /* BismushKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BismushKitTests.swift; sourceTree = "<group>"; };
 		E884BA268C0F596F85B0FF9B /* clang-format.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "clang-format.sh"; sourceTree = "<group>"; };
 		E94F528238D9074F9D63CF55 /* ArtboardRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtboardRenderer.swift; sourceTree = "<group>"; };
-		E9E5CD866252F289B06B89F7 /* StrokeAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeAction.swift; sourceTree = "<group>"; };
 		ED54DBECD333D3F9FE097255 /* GPUDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPUDevice.swift; sourceTree = "<group>"; };
 		EE26D0F72B7C746D2CD7E4FC /* DesktopArtboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesktopArtboard.swift; sourceTree = "<group>"; };
-		F06749FD75344F5894055F3A /* LayerRenderer.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = LayerRenderer.metal; sourceTree = "<group>"; };
 		F29D8E06BAE28C83C76E963D /* BismushKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BismushKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F30FF823CCD859963E635371 /* ArtboardLayerStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtboardLayerStore.swift; sourceTree = "<group>"; };
 		F3706BE7FA0CEB340600A675 /* BismusLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BismusLaunchTests.swift; sourceTree = "<group>"; };
@@ -284,6 +300,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0C1368B2D077D61CBB7F18F9 /* Renderer */ = {
+			isa = PBXGroup;
+			children = (
+				D29F8521E4AAB21AFA7B9E41 /* bezier.png */,
+				594C856705B5CE068F7111CD /* RendererTestCase.swift */,
+				0544B021AE10B57FE66CCA90 /* StrokeRendererTests.swift */,
+			);
+			path = Renderer;
+			sourceTree = "<group>";
+		};
 		1CA163A7FA4C1C2B29324D17 /* MobileBismush */ = {
 			isa = PBXGroup;
 			children = (
@@ -355,6 +381,14 @@
 			path = UnitTests;
 			sourceTree = "<group>";
 		};
+		53502F32D9FFD928F68714C1 /* Artboard */ = {
+			isa = PBXGroup;
+			children = (
+				0C1368B2D077D61CBB7F18F9 /* Renderer */,
+			);
+			path = Artboard;
+			sourceTree = "<group>";
+		};
 		57332019F84B805736955213 /* BuildTools */ = {
 			isa = PBXGroup;
 			children = (
@@ -380,6 +414,7 @@
 				90A5B199200C2A17B3F6B5B7 /* Canvas.swift */,
 				85B7080B33E26829F8390C43 /* CanvasLayer.swift */,
 				4CBEA98566B8EAFCEBC20142 /* Coordinate.swift */,
+				08D92F2C618F53E6023F666D /* RingBuffer.swift */,
 				009FF0DCACF3D4E8AAD967F5 /* Transform2D.swift */,
 			);
 			path = Model;
@@ -391,6 +426,14 @@
 				AC87C9BFB1E74AA4AF5E2706 /* ArtboardView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		5DB0F5D052EB36C9A2D61F8A /* Drawing */ = {
+			isa = PBXGroup;
+			children = (
+				1CCEFFC44544D8F2F43801FA /* Brush.swift */,
+			);
+			path = Drawing;
 			sourceTree = "<group>";
 		};
 		5F2276C7D35B2D1CFAF79FD5 /* Debug supports */ = {
@@ -414,6 +457,9 @@
 			isa = PBXGroup;
 			children = (
 				E7C9D6330721A5336B5015BC /* BismushKitTests.swift */,
+				47FCBA8FB30982F8EBF24F59 /* Info.plist */,
+				53502F32D9FFD928F68714C1 /* Artboard */,
+				8FEA7321ADA0438EFAFB6D74 /* Model */,
 			);
 			path = BismushKit;
 			sourceTree = "<group>";
@@ -440,7 +486,8 @@
 			children = (
 				13F7E862DF7803EAF0AAB77F /* ArtboardLayerRenderer.swift */,
 				E94F528238D9074F9D63CF55 /* ArtboardRenderer.swift */,
-				F06749FD75344F5894055F3A /* LayerRenderer.metal */,
+				BD6040FC8F76515F0202EA77 /* Renderer.metal */,
+				B7733AD3F4BF1B547498EAFE /* StrokeRenderer.swift */,
 			);
 			path = Renderer;
 			sourceTree = "<group>";
@@ -448,7 +495,7 @@
 		839BDC1B4AFC9F8E5486FEDC /* Artboard */ = {
 			isa = PBXGroup;
 			children = (
-				D8C10EFED594F3D2736C5163 /* Action */,
+				5DB0F5D052EB36C9A2D61F8A /* Drawing */,
 				824D2B78DFCDA26AD82A73DF /* Renderer */,
 				42994D71CB8C051640C9D111 /* Store */,
 				5CE4EA781C6CB2549097520A /* View */,
@@ -471,6 +518,14 @@
 				4498CE4C35EC80110DA9A1BE /* BismushKit */,
 			);
 			path = Frameworks;
+			sourceTree = "<group>";
+		};
+		8FEA7321ADA0438EFAFB6D74 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				ACA133AB5D70EDCE4007D891 /* RingBufferTests.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		B5237206AF15965ED6589FC7 /* MobileBismush */ = {
@@ -542,19 +597,11 @@
 			path = "Supports Files";
 			sourceTree = "<group>";
 		};
-		D8C10EFED594F3D2736C5163 /* Action */ = {
-			isa = PBXGroup;
-			children = (
-				821255B2BF0825EF3E41F3CB /* StrokeAction.metal */,
-				E9E5CD866252F289B06B89F7 /* StrokeAction.swift */,
-			);
-			path = Action;
-			sourceTree = "<group>";
-		};
 		DFCD3E8C31CB4DAE1B452104 /* Bismush */ = {
 			isa = PBXGroup;
 			children = (
 				345753DE643F32624B05DEBC /* BismushTests.swift */,
+				493C33E0B6B5C66048BB55B9 /* Info.plist */,
 			);
 			path = Bismush;
 			sourceTree = "<group>";
@@ -570,7 +617,6 @@
 		FEEB2E0F5981AFF05229ACE1 /* Scripts */ = {
 			isa = PBXGroup;
 			children = (
-				403FFF9C984ED3977D17B65D /* .clang-format.sh.swp */,
 				895CEB7DC2082D1D1C0EA910 /* BismushTests.swift */,
 				E884BA268C0F596F85B0FF9B /* clang-format.sh */,
 				BE4F0C0F7ACC3BE07F921576 /* swiftformat.sh */,
@@ -606,6 +652,7 @@
 			buildConfigurationList = 2D2C7CA078DB8ECCBEAEE61C /* Build configuration list for PBXNativeTarget "BismushKit_UnitTests_macOS" */;
 			buildPhases = (
 				98F226E7FDFC742C28E29BAF /* Sources */,
+				17DFC619694A7795667C13D6 /* Resources */,
 				2698E41008819B6DEDBF4F40 /* Frameworks */,
 				C102D4FD0AE30BEB9F506D30 /* Embed Frameworks */,
 			);
@@ -702,6 +749,7 @@
 			buildConfigurationList = F954FE6637A81D6FB78CBFAD /* Build configuration list for PBXNativeTarget "BismushKit_UnitTests_iOS" */;
 			buildPhases = (
 				C5BF05C76D3BF3765D1D7875 /* Sources */,
+				E377F80BF882459EAD3C97B9 /* Resources */,
 				176D9208C81B01FB8054351B /* Frameworks */,
 				2988949E8B1465FFCE1DF5B1 /* Embed Frameworks */,
 			);
@@ -826,6 +874,14 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		17DFC619694A7795667C13D6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F971BE47717B6C09AC25D6C9 /* bezier.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AD3A84D06DE95BA0DDAAB149 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -841,6 +897,14 @@
 				BF11E826225D17DA78361F07 /* hello.png in Resources */,
 				F5D3C95D390168826E879CA0 /* square.png in Resources */,
 				F53CF1ADE395D4C8470F8A52 /* yosemite.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E377F80BF882459EAD3C97B9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				76AB5EAA8D7F4DAFC844A083 /* bezier.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1068,14 +1132,15 @@
 				0FDC3A566E21DAC14478FC79 /* ArtboardView.swift in Sources */,
 				BDEBF56372173CEE962D04E7 /* BismushDiagnose.swift in Sources */,
 				9BF57B799AF517CB8A75B346 /* BismushLogger.swift in Sources */,
+				B8258E1947009950893ABAFE /* Brush.swift in Sources */,
 				417EB12CB654B7075B86AE44 /* Canvas.swift in Sources */,
 				AF11059B447289540751FA27 /* CanvasLayer.swift in Sources */,
 				592207903509C5C23EB7EB63 /* Coordinate.swift in Sources */,
 				73E2F203A3C252A5E27D840B /* GPUDevice.swift in Sources */,
-				2EBCF3F539766E0117261F29 /* LayerRenderer.metal in Sources */,
+				68A1BFE9628D2A2CC3D52B13 /* Renderer.metal in Sources */,
 				CF82FA28797371F6B49E2607 /* ResourceLoader.swift in Sources */,
-				DD154E11B1C773E91420BC30 /* StrokeAction.metal in Sources */,
-				A5F180C00D9B36B9DCCA77E5 /* StrokeAction.swift in Sources */,
+				1C511CC31675CC3C74557DA1 /* RingBuffer.swift in Sources */,
+				2D8976162D1858820B69A971 /* StrokeRenderer.swift in Sources */,
 				17FBE179B1AEF2AEA168BC10 /* Transform2D.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1091,14 +1156,15 @@
 				EC88D0F2FE25BFB604F58294 /* ArtboardView.swift in Sources */,
 				5CF41378C1967FB722A52BAE /* BismushDiagnose.swift in Sources */,
 				61B41BB86E95C0403EE22500 /* BismushLogger.swift in Sources */,
+				3CE66C05771A8CC1920BDEE3 /* Brush.swift in Sources */,
 				B6E5C46845063F7BC702EC0D /* Canvas.swift in Sources */,
 				5A12504DBB00A7667B8F245C /* CanvasLayer.swift in Sources */,
 				3A83D6BAB37535D12421CE0A /* Coordinate.swift in Sources */,
 				AC859BCBBCB1EC5599AFA29B /* GPUDevice.swift in Sources */,
-				7C0597B1E997119321BAEA4B /* LayerRenderer.metal in Sources */,
+				83D784C678C77DE29AC8B186 /* Renderer.metal in Sources */,
 				AC5D0BF1496FDBC34FE6CBE6 /* ResourceLoader.swift in Sources */,
-				A37B8819B67FDD61BDC12CB9 /* StrokeAction.metal in Sources */,
-				DF28FC1EFE8C561D397B6C3F /* StrokeAction.swift in Sources */,
+				9DDC18CD54FDE40A581BDF1B /* RingBuffer.swift in Sources */,
+				38C4C5AB4CD231CF6E7DCFB0 /* StrokeRenderer.swift in Sources */,
 				735F511377E2343382BED60B /* Transform2D.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1126,6 +1192,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				A487C7929B6B600CEB93C9A4 /* BismushKitTests.swift in Sources */,
+				886869D23531D753C7502D1D /* RendererTestCase.swift in Sources */,
+				12D8938E22C43C8F2F531156 /* RingBufferTests.swift in Sources */,
+				39DB00F0C0103A06B9024FD5 /* StrokeRendererTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1143,6 +1212,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				CAE902A24BC01124A64A0484 /* BismushKitTests.swift in Sources */,
+				39BC1815F2C291B828F54AEA /* RendererTestCase.swift in Sources */,
+				E6E567AD363D90390CD5A1C9 /* RingBufferTests.swift in Sources */,
+				962A3931819F4DD8EBA3F7E6 /* StrokeRendererTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1437,6 +1509,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = Tests/UnitTests/BismushKit/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1454,6 +1527,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = Tests/UnitTests/BismushKit/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -1470,7 +1544,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = Tests/UITests/Bismush/Info.plist;
+				INFOPLIST_FILE = Tests/UnitTests/Bismush/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -1487,6 +1561,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = Tests/UnitTests/BismushKit/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -1587,6 +1662,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = Tests/UnitTests/BismushKit/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1637,7 +1713,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = Tests/UITests/Bismush/Info.plist;
+				INFOPLIST_FILE = Tests/UnitTests/Bismush/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -1789,6 +1865,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = Tests/UnitTests/BismushKit/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -1822,7 +1899,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = Tests/UITests/Bismush/Info.plist;
+				INFOPLIST_FILE = Tests/UnitTests/Bismush/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -1939,6 +2016,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = Tests/UnitTests/BismushKit/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

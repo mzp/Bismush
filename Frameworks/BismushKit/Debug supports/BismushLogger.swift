@@ -13,4 +13,5 @@ public enum BismushLogger {
     public static let event = Logger(subsystem: "jp.mzp.bismush", category: "event")
     public static let desktop = Logger(subsystem: "jp.mzp.bismush", category: "desktop")
     public static let mobile = Logger(subsystem: "jp.mzp.bismush", category: "mobile")
+    public static let dev = Logger(subsystem: "jp.mzp.bismush", category: "dev")
 }

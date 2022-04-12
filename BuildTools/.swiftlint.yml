@@ -63,7 +63,6 @@ opt_in_rules:
   - redundant_type_annotation
   - single_test_class
   - sorted_first_last
-  - sorted_imports
   - static_operator
   - strong_iboutlet
   - test_case_accessibility

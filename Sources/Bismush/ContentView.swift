@@ -11,16 +11,17 @@ import SwiftUI
 
 struct ContentView: View {
     @State var store: ArtboardStore
-    let stroke: StrokeAction
+    let stroke: Brush
 
     init(store: ArtboardStore) {
         self.store = store
-        stroke = StrokeAction(store: store)
+        stroke = Brush(store: store)
     }
 
     var body: some View {
         DesktopArtboard(store: store)
             .onMouseDragged(perform: mouseDragged(with:in:))
+            .onMouseUp(perform: { _, _ in stroke.clear() })
             .frame(width: 800, height: 800, alignment: .center)
     }
 

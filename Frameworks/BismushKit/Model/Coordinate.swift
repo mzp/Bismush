@@ -53,15 +53,31 @@ public struct Size<T: Coordinate>: Codable, CustomStringConvertible {
 public struct Point<T: Coordinate>: Codable, CustomStringConvertible {
     var rawValue: SIMD2<Float>
 
+    static func zero<T>() -> Point<T> {
+        .init(x: 0, y: 0)
+    }
+
+    public init(rawValue: SIMD2<Float>) {
+        self.rawValue = rawValue
+    }
+
     public var description: String {
         "Point<\(rawValue) in \(T.self)>"
     }
 
+    public init(float4: SIMD4<Float>) {
+        self.init(x: float4.x / float4.w, y: float4.y / float4.w)
+    }
+
     public init(x: Float, y: Float) {
-        rawValue = SIMD2(x, y)
+        self.init(rawValue: SIMD2(x, y))
     }
 
     public init(cgPoint: CGPoint) {
         rawValue = SIMD2(Float(cgPoint.x), Float(cgPoint.y))
+    }
+
+    var float4: SIMD4<Float> {
+        SIMD4(SIMD3(rawValue, 0), 1)
     }
 }

@@ -10,15 +10,16 @@ import SwiftUI
 
 struct ContentView: View {
     @State var store: ArtboardStore
-    let stroke: StrokeAction
+    let stroke: Brush
 
     init(store: ArtboardStore) {
         self.store = store
-        stroke = StrokeAction(store: store)
+        stroke = Brush(store: store)
     }
 
     var body: some View {
         MobileArtboard(store: store)
+            .onTouchesEnded(perform: { _, _, _ in stroke.clear() })
             .onTouchesMoved(perform: touchesMoved(_:with:in:))
             .edgesIgnoringSafeArea(.all)
     }

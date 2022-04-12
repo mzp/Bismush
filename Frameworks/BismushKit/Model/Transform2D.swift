@@ -20,6 +20,13 @@ struct Transform2D<T: Coordinate, S: Coordinate> {
         Transform2D<T, S>(matrix: lhs.matrix * rhs.matrix)
     }
 
+    static func * <T: Coordinate, S: Coordinate>(
+        transform: Transform2D<T, S>,
+        point: Point<S>
+    ) -> Point<T> {
+        Point<T>(float4: transform.matrix * point.float4)
+    }
+
     static func identity<T: Coordinate, S: Coordinate>() -> Transform2D<T, S> {
         .init(matrix: matrix_identity_float4x4)
     }
