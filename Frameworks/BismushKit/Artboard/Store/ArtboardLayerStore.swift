@@ -14,9 +14,11 @@ protocol CanvasContext {
 }
 
 class ArtboardLayerStore {
+    let sampleCount = 4
     let context: CanvasContext
     let canvasLayer: CanvasLayer
     let texture: MTLTexture
+    let msaaTexture: MTLTexture
 
     init(canvasLayer: CanvasLayer, context: CanvasContext) {
         self.canvasLayer = canvasLayer
@@ -35,6 +37,17 @@ class ArtboardLayerStore {
         case let .builtin(name: name):
             texture = context.device.resource.bultinTexture(name: name)
         }
+
+        let desc = MTLTextureDescriptor.texture2DDescriptor(
+            pixelFormat: .bgra8Unorm,
+            width: texture.width,
+            height: texture.height,
+            mipmapped: false
+        )
+        desc.textureType = .type2DMultisample
+        desc.sampleCount = sampleCount
+        desc.usage = [.renderTarget, .shaderRead, .shaderWrite]
+        msaaTexture = context.device.metalDevice.makeTexture(descriptor: desc)!
     }
 
     var device: GPUDevice { context.device }

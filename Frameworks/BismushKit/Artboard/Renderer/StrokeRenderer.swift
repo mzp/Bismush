@@ -56,7 +56,6 @@ class StrokeRenderer {
         computePipelineState = try! store.device.metalDevice.makeComputePipelineState(
             function: store.device.resource.function(.bezierInterpolation)
         )
-
         dynamicBuffer = DynamicBuffer { count in
             store.device.metalDevice.makeBuffer(
                 length: MemoryLayout<Point<ViewCoordinate>>.stride * Int(count),
@@ -138,13 +137,15 @@ class StrokeRenderer {
             let commandBuffer = commandQueue.makeCommandBuffer()!
 
             let renderPassDescription = MTLRenderPassDescriptor()
-            renderPassDescription.colorAttachments[0].texture = store.activeLayer.texture
+            renderPassDescription.colorAttachments[0].texture = store.activeLayer.msaaTexture
+            renderPassDescription.colorAttachments[0].resolveTexture = store.activeLayer.texture
             renderPassDescription.colorAttachments[0].loadAction = .load
-            renderPassDescription.colorAttachments[0].storeAction = .store
+            renderPassDescription.colorAttachments[0].storeAction = .storeAndMultisampleResolve
 
             let encoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescription)!
 
             let descriptor = Self.renderPipelineDescriptor
+            descriptor.sampleCount = store.activeLayer.sampleCount
             descriptor.colorAttachments[0].pixelFormat = .bgra8Unorm
             descriptor.vertexFunction = store.device.resource.function(.brushVertex)
             descriptor.fragmentFunction = store.device.resource.function(.brushFragment)
