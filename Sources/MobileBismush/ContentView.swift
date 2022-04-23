@@ -25,15 +25,15 @@ struct ContentView: View {
     }
 
     func touchesMoved(_ touches: Set<UITouch>, with _: UIEvent?, in view: UIView) {
-        let locations = touches.map { $0.location(in: view) }
-        BismushLogger.mobile.info("Touch moved at \(locations.debugDescription)")
-
-        for location in locations {
-            let location = Point<ViewCoordinate>(
+        BismushLogger.mobile.info("Touches moved: \(touches.debugDescription)")
+        if let touch = touches.first {
+            let location = touch.location(in: view)
+            let point = Point<ViewCoordinate>(
                 x: Float(location.x),
                 y: Float(view.frame.size.height - location.y)
             )
-            stroke.add(point: location, viewSize: Size(cgSize: view.frame.size))
+            let inputEvent = PenInputEvent(point: point, pressure: Float(touch.force))
+            stroke.add(inputEvent: inputEvent, viewSize: Size(cgSize: view.frame.size))
         }
     }
 }
