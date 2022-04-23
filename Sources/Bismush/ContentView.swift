@@ -26,9 +26,9 @@ struct ContentView: View {
     }
 
     func mouseDragged(with event: NSEvent, in view: NSView) {
-        BismushLogger.desktop.debug("Mouse dragged at \(event.locationInWindow.debugDescription)")
+        BismushLogger.desktop.debug("Mouse dragged at \(event.locationInWindow.debugDescription) \(event.pressure)")
         stroke.add(
-            point: Point(cgPoint: event.locationInWindow),
+            inputEvent: .init(point: Point(cgPoint: event.locationInWindow), pressure: event.pressure),
             viewSize: Size(cgSize: view.frame.size)
         )
     }

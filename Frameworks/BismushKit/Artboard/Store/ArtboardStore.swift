@@ -27,8 +27,8 @@ public class ArtboardStore: CanvasContext {
         .init(canvas: Canvas(
             layers: [
                 CanvasLayer(layerType: .empty, size: Size(width: 800, height: 800)),
-                CanvasLayer(layerType: .builtin(name: "hello"), size: Size(width: 800, height: 800)),
-                CanvasLayer(layerType: .builtin(name: "square"), size: Size(width: 800, height: 800)),
+//                CanvasLayer(layerType: .builtin(name: "hello"), size: Size(width: 800, height: 800)),
+//                CanvasLayer(layerType: .builtin(name: "square"), size: Size(width: 800, height: 800)),
                 CanvasLayer(layerType: .builtin(name: "yosemite"), size: Size(width: 800, height: 800)),
             ],
             size: Size(width: 800, height: 800)

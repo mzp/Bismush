@@ -41,38 +41,38 @@ fragment float4 layer_fragment(LayerVertexIn in [[stage_in]],
 }
 
 kernel void bezier_interpolation(uint2 tid [[threadgroup_position_in_grid]],
-                                 device const float2 &p0 [[buffer(0)]],
-                                 device const float2 &p1 [[buffer(1)]],
-                                 device const float2 &p2 [[buffer(2)]],
-                                 device const float2 &p3 [[buffer(3)]],
+                                 device const float3 &p0 [[buffer(0)]],
+                                 device const float3 &p1 [[buffer(1)]],
+                                 device const float3 &p2 [[buffer(2)]],
+                                 device const float3 &p3 [[buffer(3)]],
                                  device const float &delta [[buffer(4)]],
-                                 device float2 *buffer [[buffer(5)]]) {
+                                 device float3 *buffer [[buffer(5)]]) {
     int i = tid.x;
     float t = i * delta;
-    float2 x1 = pow(1.0 - t, 3) * p0;
-    float2 x2 = 3 * t * pow(1.0 - t, 2) * p1;
-    float2 x3 = 3 * pow(t, 2) * (1 - t) * p2;
-    float2 x4 = pow(t, 3) * p3;
-    float2 ans = x1 + x2 + x3 + x4;
-    buffer[i] = ans;
+    float3 x1 = pow(1.0 - t, 3) * p0;
+    float3 x2 = 3 * t * pow(1.0 - t, 2) * p1;
+    float3 x3 = 3 * pow(t, 2) * (1 - t) * p2;
+    float3 x4 = pow(t, 3) * p3;
+    buffer[i] = x1 + x2 + x3 + x4;
 }
 
-struct StrokeOut2 {
+struct StrokeOut {
     float4 position [[position]];
     float size [[point_size]];
 };
 
-vertex StrokeOut2 brush_vertex(const device float2 *vertices [[buffer(0)]],
-                               const device float4x4 &projection [[buffer(1)]],
-                               uint vertexID [[vertex_id]]) {
-    StrokeOut2 out;
-    float4 x = projection * float4(vertices[vertexID], 0, 1);
-    out.position = float4(x.xyz / x.w, 1);
-    out.size = 10;
+vertex StrokeOut brush_vertex(const device float3 *vertices [[buffer(0)]],
+                              const device float4x4 &projection [[buffer(1)]],
+                              uint vertexID [[vertex_id]]) {
+    StrokeOut out;
+    float3 v = vertices[vertexID];
+    float4 point = projection * float4(v.xy, 1, 1);
+    out.position = point;
+    out.size = v.z * 10;
     return out;
 }
 
-fragment float4 brush_fragment(StrokeOut2 in [[stage_in]],
+fragment float4 brush_fragment(StrokeOut in [[stage_in]],
                                float2 pointCoord [[point_coord]]) {
 
     if (length(pointCoord - float2(0.5)) > 0.5) {

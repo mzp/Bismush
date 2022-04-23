@@ -10,28 +10,6 @@ import Metal
 import simd
 
 class StrokeRenderer {
-    struct DynamicBuffer {
-        var allocator: (Int) -> MTLBuffer
-        var content: MTLBuffer
-        private var count: Int
-
-        init(allocator: @escaping (Int) -> MTLBuffer) {
-            self.allocator = allocator
-            count = 16
-            content = allocator(16)
-        }
-
-        mutating func use(count newCount: Int) {
-            guard count < newCount else {
-                return
-            }
-            while count < newCount {
-                count *= 2
-            }
-            content = allocator(count)
-        }
-    }
-
     typealias ViewPoint = Point<ViewCoordinate>
 
     private let commandQueue: MTLCommandQueue
@@ -59,7 +37,7 @@ class StrokeRenderer {
 
         dynamicBuffer = DynamicBuffer { count in
             store.device.metalDevice.makeBuffer(
-                length: MemoryLayout<Point<ViewCoordinate>>.stride * Int(count),
+                length: MemoryLayout<SIMD3<Float>>.stride * Int(count),
                 options: .storageModeShared
             )!
         }
@@ -80,20 +58,25 @@ class StrokeRenderer {
     }()
 
     func render(
-        point0: ViewPoint,
-        point1: ViewPoint,
-        point2: ViewPoint,
-        point3: ViewPoint
+        input0: PenInputEvent,
+        input1: PenInputEvent,
+        input2: PenInputEvent,
+        input3: PenInputEvent
     ) {
-        let (buffer, count) = generateVertex(point0: point0, point1: point1, point2: point2, point3: point3)
+        let (buffer, count) = generateVertex(input0: input0, input1: input1, input2: input2, input3: input3)
         draw(buffer: buffer, count: count, size: size)
     }
 
+    func transform(event: PenInputEvent) -> SIMD3<Float> {
+        let point = transform * event.point
+        return SIMD3(point.rawValue, event.pressure)
+    }
+
     func generateVertex(
-        point0: ViewPoint,
-        point1: ViewPoint,
-        point2: ViewPoint,
-        point3: ViewPoint
+        input0: PenInputEvent,
+        input1: PenInputEvent,
+        input2: PenInputEvent,
+        input3: PenInputEvent
     ) -> (MTLBuffer, Int) {
         return store.device.scope("\(#function)") {
             let commandBuffer = commandQueue.makeCommandBuffer()!
@@ -101,19 +84,19 @@ class StrokeRenderer {
             encoder.setComputePipelineState(computePipelineState)
             // w -> c
             // view point -> layer pixel
-            var point0 = transform * point0
-            var point1 = transform * point1
-            var point2 = transform * point2
-            var point3 = transform * point3
+            var point0 = transform(event: input0)
+            var point1 = transform(event: input1)
+            var point2 = transform(event: input2)
+            var point3 = transform(event: input3)
 
-            let length = simd_distance(point0.rawValue, point1.rawValue) +
-                simd_distance(point1.rawValue, point2.rawValue) +
-                simd_distance(point2.rawValue, point3.rawValue)
-            encoder.setBytes(&point0.rawValue, length: MemoryLayout<SIMD2<Float>>.size, index: 0)
-            encoder.setBytes(&point1.rawValue, length: MemoryLayout<SIMD2<Float>>.size, index: 1)
-            encoder.setBytes(&point2.rawValue, length: MemoryLayout<SIMD2<Float>>.size, index: 2)
-            encoder.setBytes(&point3.rawValue, length: MemoryLayout<SIMD2<Float>>.size, index: 3)
+            encoder.setBytes(&point0, length: MemoryLayout<SIMD3<Float>>.size, index: 0)
+            encoder.setBytes(&point1, length: MemoryLayout<SIMD3<Float>>.size, index: 1)
+            encoder.setBytes(&point2, length: MemoryLayout<SIMD3<Float>>.size, index: 2)
+            encoder.setBytes(&point3, length: MemoryLayout<SIMD3<Float>>.size, index: 3)
 
+            let length = simd_distance(point0.xy, point1.xy) +
+                simd_distance(point1.xy, point2.xy) +
+                simd_distance(point2.xy, point3.xy)
             let count = Int(max(ceil(length / 5), 3))
             dynamicBuffer.use(count: count)
 

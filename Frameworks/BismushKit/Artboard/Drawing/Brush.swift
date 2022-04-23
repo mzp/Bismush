@@ -12,7 +12,7 @@ import simd
 public class Brush {
     private let store: ArtboardStore
     private var renderer: StrokeRenderer?
-    private var points = RingBuffer<Point<ViewCoordinate>>(capacity: 4)
+    private var inputEvents = RingBuffer<PenInputEvent>(capacity: 4)
 
     public init(store: ArtboardStore) {
         self.store = store
@@ -33,23 +33,24 @@ public class Brush {
     }()
 
     public func clear() {
+        BismushLogger.metal.debug("Clear strokes")
         renderer = nil
-        points.removeAll()
+        inputEvents.removeAll()
     }
 
-    public func add(point: Point<ViewCoordinate>, viewSize: Size<ViewCoordinate>) {
-        BismushLogger.metal.debug("Add stroke <point: \(point), size: \(viewSize)>")
-        points.append(point)
+    public func add(inputEvent: PenInputEvent, viewSize: Size<ViewCoordinate>) {
+        BismushLogger.metal.debug("Add stroke \(inputEvent.debugDescription)")
+        inputEvents.append(inputEvent)
 
-        if points.count == 4 {
+        if inputEvents.count == 4 {
             if renderer == nil {
                 renderer = StrokeRenderer(store: store, size: viewSize)
             }
             renderer?.render(
-                point0: points[0],
-                point1: points[1],
-                point2: points[2],
-                point3: points[3]
+                input0: inputEvents[0],
+                input1: inputEvents[1],
+                input2: inputEvents[2],
+                input3: inputEvents[3]
             )
         }
     }
