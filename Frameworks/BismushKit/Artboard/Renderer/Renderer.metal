@@ -64,28 +64,29 @@ struct StrokeOut {
 
 vertex StrokeOut brush_vertex(const device float3 *vertices [[buffer(0)]],
                               const device float4x4 &projection [[buffer(1)]],
+                              texture2d<half> texture [[texture(2)]],
                               uint vertexID [[vertex_id]]) {
     StrokeOut out;
     float3 v = vertices[vertexID];
     float4 point = projection * float4(v.xy, 1, 1);
+
+    constexpr sampler textureSampler(mag_filter::linear, min_filter::linear);
+    const float2 pos = point.xy / point.w;
+    const half4 destinationColor =
+        texture.sample(textureSampler, float2(pos.x / texture.get_width(),
+                                              pos.y / texture.get_height()));
+
     out.position = point;
     out.size = v.z * 10;
-    out.opacity = min(1.0, v.z + 0.2);
+    out.opacity = min(1.0, max(v.z + 0.2, (float)destinationColor.w));
     return out;
 }
 
 fragment float4 brush_fragment(StrokeOut in [[stage_in]],
-                               texture2d<half> texture [[texture(0)]],
                                float2 pointCoord [[point_coord]]) {
 
     if (length(pointCoord - float2(0.5)) > 0.5) {
         discard_fragment();
     }
-    constexpr sampler textureSampler(mag_filter::linear, min_filter::linear);
-
-    const float2 pos = (in.position.xy / in.position.w);
-    const half4 destinationColor =
-        texture.sample(textureSampler, float2(pos.x / texture.get_width(),
-                                              pos.y / texture.get_height()));
-    return float4(1, 1, 1, max(in.opacity, (float)destinationColor.w));
+    return float4(1, 1, 1, in.opacity);
 }

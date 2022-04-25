@@ -132,8 +132,9 @@ class StrokeRenderer {
             )
             encoder.setViewport(viewPort)
             encoder.setVertexBuffer(buffer, offset: 0, index: 0)
+            encoder.setVertexTexture(store.activeLayer.texture, index: 2)
             setTransform(encoder: encoder, transform: projection, index: 1)
-            encoder.setFragmentTexture(store.activeLayer.texture, index: 0)
+
             encoder.drawPrimitives(type: .point, vertexStart: 0, vertexCount: Int(count))
             encoder.endEncoding()
             commandBuffer.commit()
