@@ -38,15 +38,16 @@ class ArtboardLayerRenderer {
     static let renderPipelineDescriptor: MTLRenderPipelineDescriptor = {
         let descriptor = MTLRenderPipelineDescriptor()
         descriptor.colorAttachments[0].pixelFormat = .bgra8Unorm
+
         descriptor.colorAttachments[0].isBlendingEnabled = true
 
         // alpha blending
         descriptor.colorAttachments[0].rgbBlendOperation = .add
         descriptor.colorAttachments[0].alphaBlendOperation = .add
-        descriptor.colorAttachments[0].sourceRGBBlendFactor = .one
+        descriptor.colorAttachments[0].sourceRGBBlendFactor = .sourceAlpha
         descriptor.colorAttachments[0].destinationRGBBlendFactor = .oneMinusSourceAlpha
         descriptor.colorAttachments[0].sourceAlphaBlendFactor = .sourceAlpha
-        descriptor.colorAttachments[0].destinationAlphaBlendFactor = .zero
+        descriptor.colorAttachments[0].destinationAlphaBlendFactor = .oneMinusBlendAlpha
         return descriptor
     }()
 

@@ -42,20 +42,6 @@ class StrokeRenderer {
         }
     }
 
-    static let renderPipelineDescriptor: MTLRenderPipelineDescriptor = {
-        let descriptor = MTLRenderPipelineDescriptor()
-        descriptor.colorAttachments[0].isBlendingEnabled = true
-
-        // alpha blending
-        descriptor.colorAttachments[0].rgbBlendOperation = .add
-        descriptor.colorAttachments[0].alphaBlendOperation = .add
-        descriptor.colorAttachments[0].sourceRGBBlendFactor = .one
-        descriptor.colorAttachments[0].destinationRGBBlendFactor = .oneMinusSourceAlpha
-        descriptor.colorAttachments[0].sourceAlphaBlendFactor = .sourceAlpha
-        descriptor.colorAttachments[0].destinationAlphaBlendFactor = .zero
-        return descriptor
-    }()
-
     func render(
         input0: PenInputEvent,
         input1: PenInputEvent,
@@ -123,13 +109,14 @@ class StrokeRenderer {
             renderPassDescription.colorAttachments[0].texture = store.activeLayer.msaaTexture
             renderPassDescription.colorAttachments[0].resolveTexture = store.activeLayer.texture
             renderPassDescription.colorAttachments[0].loadAction = .load
+            renderPassDescription.colorAttachments[0].clearColor = MTLClearColor(red: 0, green: 0, blue: 0, alpha: 0)
             renderPassDescription.colorAttachments[0].storeAction = .storeAndMultisampleResolve
 
             let encoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescription)!
 
-            let descriptor = Self.renderPipelineDescriptor
+            let descriptor = MTLRenderPipelineDescriptor()
             descriptor.sampleCount = store.activeLayer.sampleCount
-            descriptor.colorAttachments[0].pixelFormat = .bgra8Unorm
+            descriptor.colorAttachments[0].pixelFormat = store.activeLayer.pixelFormat
             descriptor.vertexFunction = store.device.resource.function(.brushVertex)
             descriptor.fragmentFunction = store.device.resource.function(.brushFragment)
             let renderPipelineState = try! store.device.metalDevice.makeRenderPipelineState(descriptor: descriptor)
@@ -145,9 +132,8 @@ class StrokeRenderer {
             )
             encoder.setViewport(viewPort)
             encoder.setVertexBuffer(buffer, offset: 0, index: 0)
-
             setTransform(encoder: encoder, transform: projection, index: 1)
-
+            encoder.setFragmentTexture(store.activeLayer.texture, index: 0)
             encoder.drawPrimitives(type: .point, vertexStart: 0, vertexCount: Int(count))
             encoder.endEncoding()
             commandBuffer.commit()
@@ -155,12 +141,12 @@ class StrokeRenderer {
         }
     }
 
-    func setTransform<A, B>(encoder: MTLComputeCommandEncoder, transform: Transform2D<A, B>, index: Int) {
+    private func setTransform<A, B>(encoder: MTLComputeCommandEncoder, transform: Transform2D<A, B>, index: Int) {
         var matrix = transform.matrix
         encoder.setBytes(&matrix, length: MemoryLayout<simd_float4x4>.size, index: index)
     }
 
-    func setTransform<A, B>(encoder: MTLRenderCommandEncoder, transform: Transform2D<A, B>, index: Int) {
+    private func setTransform<A, B>(encoder: MTLRenderCommandEncoder, transform: Transform2D<A, B>, index: Int) {
         var matrix = transform.matrix
         encoder.setVertexBytes(&matrix, length: MemoryLayout<simd_float4x4>.size, index: index)
     }
