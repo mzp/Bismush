@@ -59,16 +59,26 @@ kernel void bezier_interpolation(uint2 tid [[threadgroup_position_in_grid]],
 struct StrokeOut {
     float4 position [[position]];
     float size [[point_size]];
+    float opacity;
 };
 
 vertex StrokeOut brush_vertex(const device float3 *vertices [[buffer(0)]],
                               const device float4x4 &projection [[buffer(1)]],
+                              texture2d<half> texture [[texture(2)]],
                               uint vertexID [[vertex_id]]) {
     StrokeOut out;
     float3 v = vertices[vertexID];
     float4 point = projection * float4(v.xy, 1, 1);
+
+    constexpr sampler textureSampler(mag_filter::linear, min_filter::linear);
+    const float2 pos = point.xy / point.w;
+    const half4 destinationColor =
+        texture.sample(textureSampler, float2(pos.x / texture.get_width(),
+                                              pos.y / texture.get_height()));
+
     out.position = point;
     out.size = v.z * 10;
+    out.opacity = min(1.0, max(v.z + 0.2, (float)destinationColor.w));
     return out;
 }
 
@@ -78,6 +88,5 @@ fragment float4 brush_fragment(StrokeOut in [[stage_in]],
     if (length(pointCoord - float2(0.5)) > 0.5) {
         discard_fragment();
     }
-    float4 out_color = float4(1, 1, 1, 1);
-    return out_color;
+    return float4(1, 1, 1, in.opacity);
 }

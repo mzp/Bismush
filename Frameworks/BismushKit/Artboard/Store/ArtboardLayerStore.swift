@@ -20,6 +20,8 @@ class ArtboardLayerStore {
     let texture: MTLTexture
     let msaaTexture: MTLTexture
 
+    let pixelFormat: MTLPixelFormat = .rgba8Unorm
+
     init(canvasLayer: CanvasLayer, context: CanvasContext) {
         self.canvasLayer = canvasLayer
         self.context = context
@@ -29,7 +31,7 @@ class ArtboardLayerStore {
             let description = MTLTextureDescriptor()
             description.width = Int(canvasLayer.size.width)
             description.height = Int(canvasLayer.size.height)
-            description.pixelFormat = .bgra8Unorm
+            description.pixelFormat = pixelFormat
             description.usage = [.shaderRead, .renderTarget, .shaderWrite]
             description.textureType = .type2D
 
@@ -39,7 +41,7 @@ class ArtboardLayerStore {
         }
 
         let desc = MTLTextureDescriptor.texture2DDescriptor(
-            pixelFormat: .bgra8Unorm,
+            pixelFormat: pixelFormat,
             width: texture.width,
             height: texture.height,
             mipmapped: false
