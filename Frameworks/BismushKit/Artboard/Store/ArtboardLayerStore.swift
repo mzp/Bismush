@@ -58,9 +58,16 @@ class ArtboardLayerStore {
         .identity()
     }
 
-    var textureTransform: Transform2D<LayerCoordinate, LayerPixelCoordinate> {
+    var renderTransform: Transform2D<LayerCoordinate, LayerPixelCoordinate> {
         Transform2D(matrix:
             Transform2D.translate(x: -1, y: -1) *
                 Transform2D.scale(x: Float(1 / canvasLayer.size.width * 2), y: Float(1 / canvasLayer.size.height * 2)))
+    }
+
+    var textureTransform: Transform2D<TextureCoordinate, LayerPixelCoordinate> {
+        Transform2D(matrix:
+            Transform2D.translate(x: 0, y: 1) *
+                Transform2D.rotate(x: .pi) *
+                Transform2D.scale(x: Float(1 / canvasLayer.size.width), y: Float(1 / canvasLayer.size.height)))
     }
 }

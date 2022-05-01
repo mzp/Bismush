@@ -9,14 +9,14 @@ import BismushKit
 import SwiftUI
 import UIKit
 
-protocol ArtboardDelegate: AnyObject {
+protocol MobileArtboardDelegate: AnyObject {
     func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?, in view: UIView)
     func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?, in view: UIView)
     func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?, in view: UIView)
 }
 
 class MobileArtboardView: ArtboardView {
-    weak var artboardDelegate: ArtboardDelegate?
+    weak var artboardDelegate: MobileArtboardDelegate?
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         artboardDelegate?.touchesBegan(touches, with: event, in: self)
@@ -68,7 +68,7 @@ struct MobileArtboard: UIViewRepresentable {
         return that
     }
 
-    class Coordinator: ArtboardDelegate {
+    class Coordinator: MobileArtboardDelegate {
         private let parent: MobileArtboard
 
         init(parent: MobileArtboard) {

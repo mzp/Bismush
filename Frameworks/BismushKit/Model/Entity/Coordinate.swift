@@ -27,6 +27,9 @@ public class LayerPixelCoordinate: Coordinate {}
 // left bottom: (-1, -1) top right: (1, 1)
 public class LayerCoordinate: Coordinate {}
 
+// top left: (0, 0) bottom right (1, 1)
+public class TextureCoordinate: Coordinate {}
+
 public struct Size<T: Coordinate>: Codable, CustomStringConvertible {
     var rawValue: SIMD2<Float>
 
@@ -52,6 +55,9 @@ public struct Size<T: Coordinate>: Codable, CustomStringConvertible {
 
 public struct Point<T: Coordinate>: Codable, CustomStringConvertible {
     var rawValue: SIMD2<Float>
+
+    public var x: Float { rawValue.x }
+    public var y: Float { rawValue.y }
 
     static func zero<T>() -> Point<T> {
         .init(x: 0, y: 0)

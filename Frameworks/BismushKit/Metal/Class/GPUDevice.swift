@@ -19,11 +19,11 @@ public class GPUDevice {
         self.metalDevice = metalDevice
     }
 
-    func scope<T>(_ label: String, perform: () -> T) -> T {
+    func scope<T>(_ label: String, perform: () throws -> T) rethrows -> T {
         let scope = scope(for: label)
         scope.begin()
         defer { scope.end() }
-        return perform()
+        return try perform()
     }
 
     func scope(for label: String) -> MTLCaptureScope {
@@ -36,12 +36,16 @@ public class GPUDevice {
         return scope!
     }
 
-    func capture(label _: String, url: URL) throws {
-        let captureDescriptor = MTLCaptureDescriptor()
-        captureDescriptor.captureObject = metalDevice // scope(for: label)
-        captureDescriptor.destination = .gpuTraceDocument
-        captureDescriptor.outputURL = url
+    func makeComputePipelineState(_ name: FunctionName) throws -> MTLComputePipelineState {
+        try metalDevice.makeComputePipelineState(
+            function: resource.function(name))
+    }
 
-        try MTLCaptureManager.shared().startCapture(with: captureDescriptor)
+    func shader() -> ShaderStore {
+        ShaderStore(device: self)
+    }
+
+    func makeArray<T>(options: MTLResourceOptions) -> MetalMutableArray<T> {
+        MetalMutableArray(device: self, options: options)
     }
 }

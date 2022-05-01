@@ -13,6 +13,5 @@ FOUNDATION_EXPORT double BismushKitVersionNumber;
 //! Project version string for BismushKit.
 FOUNDATION_EXPORT const unsigned char BismushKitVersionString[];
 
-// In this header, you should import all the public headers of your framework using statements like #import <BismushKit/PublicHeader.h>
-
-
+ #import <BismushKit/BMKLayerContext.h>
+ #import <BismushKit/BMKStroke.h>

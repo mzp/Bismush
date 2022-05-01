@@ -20,6 +20,7 @@ open class ArtboardView: MTKView, MTKViewDelegate {
         renderer = ArtboardRenderer(store: store)
         super.init(frame: .zero, device: store.device.metalDevice)
         delegate = self
+        clearColor = MTLClearColor(red: 1, green: 1, blue: 1, alpha: 1)
     }
 
     @available(*, unavailable)
@@ -28,7 +29,7 @@ open class ArtboardView: MTKView, MTKViewDelegate {
     }
 
     public func mtkView(_: MTKView, drawableSizeWillChange size: CGSize) {
-        BismushLogger.metal.info("Size changed: \(size.debugDescription)")
+        BismushLogger.event.info("Size changed: \(size.debugDescription)")
         viewPortSize = Size(cgSize: size)
     }
 
