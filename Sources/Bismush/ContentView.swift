@@ -10,25 +10,21 @@ import BismushKit
 import SwiftUI
 
 struct ContentView: View {
-    @State var store: ArtboardStore
-    let stroke: Brush
-
-    init(store: ArtboardStore) {
-        self.store = store
-        stroke = Brush(store: store)
-    }
-
+    @EnvironmentObject var viewModel: ArtboardViewModel
     var body: some View {
-        DesktopArtboard(store: store)
+        DesktopArtboard(store: viewModel.store)
             .onMouseDragged(perform: mouseDragged(with:in:))
-            .onMouseUp(perform: { _, _ in stroke.clear() })
+            .onMouseUp(perform: { _, _ in viewModel.brush.clear() })
             .frame(width: 800, height: 800, alignment: .center)
     }
 
     func mouseDragged(with event: NSEvent, in view: NSView) {
-        BismushLogger.desktop.debug("Mouse dragged at \(event.locationInWindow.debugDescription) \(event.pressure)")
-        stroke.add(
-            inputEvent: .init(point: Point(cgPoint: event.locationInWindow), pressure: event.pressure),
+        BismushLogger.desktop.trace("Mouse dragged \(event.debugDescription)")
+        let location = view.convert(event.locationInWindow, from: nil)
+        let point = Point<ViewCoordinate>(cgPoint: location)
+        BismushLogger.desktop.trace("\(event.locationInWindow.debugDescription) -> (\(point.x), \(point.y))")
+        viewModel.brush.add(
+            pressurePoint: .init(point: point, pressure: event.pressure),
             viewSize: Size(cgSize: view.frame.size)
         )
     }
@@ -36,6 +32,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(store: ArtboardStore.makeSample())
+        ContentView().environmentObject(ArtboardViewModel())
     }
 }

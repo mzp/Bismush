@@ -9,14 +9,14 @@ import AppKit
 import BismushKit
 import SwiftUI
 
-protocol ArtboardDelegate: AnyObject {
+protocol DesktopArtboardDelegate: AnyObject {
     func mouseUp(with event: NSEvent, in view: NSView)
     func mouseDragged(with event: NSEvent, in view: NSView)
     func mouseDown(with event: NSEvent, in view: NSView)
 }
 
 class DesktopArtboardView: ArtboardView {
-    weak var artboardDelegate: ArtboardDelegate?
+    weak var artboardDelegate: DesktopArtboardDelegate?
 
     override func mouseDragged(with event: NSEvent) {
         artboardDelegate?.mouseDragged(with: event, in: self)
@@ -67,7 +67,7 @@ struct DesktopArtboard: NSViewRepresentable {
         return that
     }
 
-    class Coordinator: ArtboardDelegate {
+    class Coordinator: DesktopArtboardDelegate {
         private let parent: DesktopArtboard
 
         init(parent: DesktopArtboard) {

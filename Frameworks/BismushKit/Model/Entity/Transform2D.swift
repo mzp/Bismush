@@ -42,7 +42,29 @@ struct Transform2D<T: Coordinate, S: Coordinate> {
         return float4x4(rows: rows)
     }
 
-    static func rotate(angle: Float) -> simd_float4x4 {
+    static func rotate(x angle: Float) -> simd_float4x4 {
+        let rows = [
+            simd_float4(1, 0, 0, 0),
+            simd_float4(0, cos(angle), -sin(angle), 0),
+            simd_float4(0, sin(angle), cos(angle), 0),
+            simd_float4(0, 0, 0, 1),
+        ]
+
+        return float4x4(rows: rows)
+    }
+
+    static func rotate(y angle: Float) -> simd_float4x4 {
+        let rows = [
+            simd_float4(cos(angle), 0, sin(angle), 0),
+            simd_float4(0, 1, 0, 0),
+            simd_float4(-sin(angle), 0, cos(angle), 0),
+            simd_float4(0, 0, 0, 1),
+        ]
+
+        return float4x4(rows: rows)
+    }
+
+    static func rotate(z angle: Float) -> simd_float4x4 {
         let rows = [
             simd_float4(cos(angle), -sin(angle), 0, 0),
             simd_float4(sin(angle), cos(angle), 0, 0),

@@ -18,11 +18,13 @@ import XCTest
 class RendererTestCase: XCTestCase {
     var store: ArtboardStore!
 
+    var canvasSize: Size<CanvasPixelCoordinate> = .init(width: 100, height: 100)
+
     override func setUpWithError() throws {
         try super.setUpWithError()
         store = ArtboardStore(canvas: Canvas(layers: [
-            CanvasLayer(layerType: .empty, size: Size(width: 100, height: 100)),
-        ], size: Size(width: 100, height: 100)))
+            CanvasLayer(layerType: .empty, size: canvasSize),
+        ], size: canvasSize))
     }
 
     override func tearDownWithError() throws {

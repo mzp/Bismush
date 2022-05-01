@@ -9,21 +9,6 @@ import Metal
 import MetalKit
 
 class ResourceLoader {
-    enum FunctionName: String, CustomStringConvertible {
-        var description: String {
-            rawValue
-        }
-
-        case layerVertex = "layer_vertex"
-        case layerFragment = "layer_fragment"
-        case strokePoint = "stroke_point"
-        case strokeVertex = "stroke_vertex"
-        case strokeFragment = "stroke_fragment"
-        case brushVertex = "brush_vertex"
-        case brushFragment = "brush_fragment"
-        case bezierInterpolation = "bezier_interpolation"
-    }
-
     private let device: MTLDevice
     private let library: MTLLibrary
     private let bundle: Bundle

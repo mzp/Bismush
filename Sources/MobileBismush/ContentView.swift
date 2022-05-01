@@ -9,37 +9,38 @@ import BismushKit
 import SwiftUI
 
 struct ContentView: View {
-    @State var store: ArtboardStore
-    let stroke: Brush
-
-    init(store: ArtboardStore) {
-        self.store = store
-        stroke = Brush(store: store)
-    }
+    @EnvironmentObject var viewModel: MobileArtboardViewModel
 
     var body: some View {
-        MobileArtboard(store: store)
-            .onTouchesEnded(perform: { _, _, _ in stroke.clear() })
+        MobileArtboard(store: viewModel.store)
+            .onTouchesEnded(perform: { _, _, _ in viewModel.brush.clear() })
             .onTouchesMoved(perform: touchesMoved(_:with:in:))
             .edgesIgnoringSafeArea(.all)
     }
 
     func touchesMoved(_ touches: Set<UITouch>, with _: UIEvent?, in view: UIView) {
-        BismushLogger.mobile.info("Touches moved: \(touches.debugDescription)")
+        BismushLogger.mobile.trace("Touches moved: \(touches.debugDescription)")
         if let touch = touches.first {
             let location = touch.location(in: view)
             let point = Point<ViewCoordinate>(
                 x: Float(location.x),
                 y: Float(view.frame.size.height - location.y)
             )
-            let inputEvent = PenInputEvent(point: point, pressure: Float(touch.force))
-            stroke.add(inputEvent: inputEvent, viewSize: Size(cgSize: view.frame.size))
+            let force: Float
+            if touch.type == .pencil {
+                force = Float(touch.force)
+            } else {
+                // Finger tap event doesn't have force value
+                force = 1
+            }
+            let pressurePoint = PressurePoint(point: point, pressure: force)
+            viewModel.brush.add(pressurePoint: pressurePoint, viewSize: Size(cgSize: view.frame.size))
         }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(store: ArtboardStore.makeSample())
+        ContentView().environmentObject(MobileArtboardViewModel())
     }
 }
