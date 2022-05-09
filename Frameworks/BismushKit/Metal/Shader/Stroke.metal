@@ -9,7 +9,6 @@
 #include <BismushKit/BMKStroke.h>
 #include <metal_stdlib>
 using namespace metal;
-#define BRUSH_SIZE 50
 
 struct BrushOut {
     float4 position [[position]];

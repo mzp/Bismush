@@ -14,13 +14,13 @@ protocol CanvasContext {
 }
 
 class ArtboardLayerStore {
-    let sampleCount = 4
-    let context: CanvasContext
     let canvasLayer: CanvasLayer
     let texture: MTLTexture
-    let msaaTexture: MTLTexture
-
     let pixelFormat: MTLPixelFormat = .rgba8Unorm
+
+    private let context: CanvasContext
+    private let msaaTexture: MTLTexture
+    private var dirty = true
 
     init(canvasLayer: CanvasLayer, context: CanvasContext) {
         self.canvasLayer = canvasLayer
@@ -47,12 +47,34 @@ class ArtboardLayerStore {
             mipmapped: false
         )
         desc.textureType = .type2DMultisample
-        desc.sampleCount = sampleCount
+        desc.sampleCount = 4
         desc.usage = [.renderTarget, .shaderRead, .shaderWrite]
         msaaTexture = context.device.metalDevice.makeTexture(descriptor: desc)!
     }
 
     var device: GPUDevice { context.device }
+
+    func render(commandBuffer: MTLCommandBuffer, perform: (MTLRenderCommandEncoder) -> Void) {
+        let renderPassDescription = MTLRenderPassDescriptor()
+        renderPassDescription.colorAttachments[0].texture = msaaTexture
+        renderPassDescription.colorAttachments[0].resolveTexture = texture
+        renderPassDescription.colorAttachments[0].loadAction = dirty ? .clear : .load
+        renderPassDescription.colorAttachments[0].clearColor = MTLClearColor(red: 1, green: 1, blue: 1, alpha: 0)
+        renderPassDescription.colorAttachments[0].storeAction = .storeAndMultisampleResolve
+        let encoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescription)!
+        let viewPort = MTLViewport(
+            originX: 0,
+            originY: 0,
+            width: Double(canvasLayer.size.width),
+            height: Double(canvasLayer.size.height),
+            znear: -1,
+            zfar: 1
+        )
+        encoder.setViewport(viewPort)
+        perform(encoder)
+        encoder.endEncoding()
+        dirty = false
+    }
 
     var transform: Transform2D<LayerPixelCoordinate, CanvasPixelCoordinate> {
         .identity()

@@ -12,7 +12,6 @@ using namespace metal;
 
 constant constexpr float kAround = 0.1;
 constant constexpr float kBrush = 0.07;
-constant constexpr float kCircle = 50;
 constant constexpr float kEffect = 0.8;
 
 kernel void water_color_init(device float4 *currentColor
@@ -49,7 +48,7 @@ kernel void water_color_mix(device BMKStroke *strokes [[buffer(0)]] /* out */,
             float4(currentColor.xyz, max(opacity, float(destinationColor.w)));
 
         // mix with around color
-        const float cr = max(kCircle * point.z, 1.0);
+        const float cr = max(context->brushSize * point.z, 1.0);
 
         const float4 points[] = {float4(point.x - cr, point.y - cr, 0, 1),
                                  float4(point.x - cr, point.y + cr, 0, 1),
