@@ -34,7 +34,7 @@ class WaterColorMix {
             encoder.setBytes(&context, length: MemoryLayout<BMKLayerContext>.size, index: 2)
             encoder.setBuffer(strokes.content, offset: 0, index: 3)
 
-            encoder.dispatchThreads(
+            encoder.dispatchThreadgroups(
                 MTLSize(width: 1, height: 1, depth: 1),
                 threadsPerThreadgroup: MTLSize(width: 1, height: 1, depth: 1)
             )
@@ -71,7 +71,7 @@ class WaterColorMix {
             encoder.setTexture(store.activeLayer.texture, index: 3)
             encoder.setBytes(&context, length: MemoryLayout<BMKLayerContext>.size, index: 4)
 
-            encoder.dispatchThreads(
+            encoder.dispatchThreadgroups(
                 MTLSize(width: 1, height: 1, depth: 1),
                 threadsPerThreadgroup: MTLSize(width: 1, height: 1, depth: 1)
             )

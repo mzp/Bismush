@@ -52,7 +52,7 @@ class BezierInterpolate {
             var delta = 1 / Float(count)
             encoder.setBytes(&delta, length: MemoryLayout<Float>.size, index: 5)
 
-            encoder.dispatchThreads(
+            encoder.dispatchThreadgroups(
                 MTLSize(width: count, height: 1, depth: 1),
                 threadsPerThreadgroup: MTLSize(width: 1, height: 1, depth: 1)
             )
