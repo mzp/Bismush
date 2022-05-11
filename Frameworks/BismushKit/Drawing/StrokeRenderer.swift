@@ -26,7 +26,11 @@ class StrokeRenderer {
 
             store.activeLayer.render(commandBuffer: commandBuffer) { encoder in
                 let descriptor = MTLRenderPipelineDescriptor()
-                descriptor.sampleCount = 4
+                if store.device.capability.msaa {
+                    descriptor.sampleCount = 4
+                } else {
+                    descriptor.sampleCount = 1
+                }
                 descriptor.colorAttachments[0].pixelFormat = store.activeLayer.pixelFormat
                 descriptor.vertexFunction = store.device.resource.function(.brushVertex)
                 descriptor.fragmentFunction = store.device.resource.function(.brushFragment)

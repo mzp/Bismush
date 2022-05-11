@@ -136,6 +136,12 @@ enum BismushDiagnose {
             diagnose.append("ray tracing")
         }
 
+        if device.supports32BitMSAA {
+            diagnose.append("msaa")
+        } else {
+            diagnose.append("no msaa")
+        }
+
         BismushLogger.metal.info("Use \(device.name) (\(diagnose.joined(separator: "; ")))")
     }
     // swiftlint:enable function_body_length
