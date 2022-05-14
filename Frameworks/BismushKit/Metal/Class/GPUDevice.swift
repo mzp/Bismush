@@ -10,9 +10,11 @@ import MetalKit
 
 public class GPUDevice {
     let metalDevice: MTLDevice
+
     private var scopes = [String: MTLCaptureScope]()
 
     lazy var resource: ResourceLoader = .init(device: metalDevice)
+    lazy var capability: MetalDeviceCapability = .init(device: metalDevice)
 
     init(metalDevice: MTLDevice) {
         BismushDiagnose.record(device: metalDevice)
