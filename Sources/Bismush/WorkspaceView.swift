@@ -7,27 +7,10 @@
 
 import SwiftUI
 
-struct Pallet: View {
-    @EnvironmentObject var viewModel: ArtboardViewModel
-    var color: NSColor
-
-    var body: some View {
-        Button(
-            action: {
-                viewModel.brushColor = Color(nsColor: color)
-            },
-            label: {
-                Color(nsColor: color).frame(width: 16, height: 16)
-            }
-        )
-    }
-}
-
 struct WorkspaceView<Content: View>: View {
     @EnvironmentObject var viewModel: ArtboardViewModel
 
     var content: () -> Content
-
     init(@ViewBuilder content: @escaping () -> Content) {
         self.content = content
     }
@@ -36,17 +19,10 @@ struct WorkspaceView<Content: View>: View {
         NavigationView {
             List {
                 Section("Color") {
-                    HStack {
-                        Pallet(color: .red)
-                        Pallet(color: .yellow)
-                        Pallet(color: .cyan)
-                    }
-                    HStack {
-                        Pallet(color: .white)
-                        Pallet(color: .black)
-                    }
+                    Color(nsColor: viewModel.brushColor).frame(width: 16, height: 16)
+                    RGBSlider(color: $viewModel.brushColor)
                 }
-            }
+            }.frame(width: 400)
             content()
         }
     }

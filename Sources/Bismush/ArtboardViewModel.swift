@@ -13,23 +13,15 @@ class ArtboardViewModel: ObservableObject {
     let store: ArtboardStore
     let brush: Brush
 
+    @Published var brushColor: NSColor {
+        didSet {
+            brush.color = BismushColor(cgColor: brushColor.cgColor)
+        }
+    }
+
     init() {
         store = ArtboardStore.makeSample()
         brush = Brush(store: store)
-    }
-
-    var brushColor: Color {
-        get {
-            let color = brush.color
-            return Color(
-                red: Double(color.red),
-                green: Double(color.green),
-                blue: Double(color.blue),
-                opacity: Double(color.alpha)
-            )
-        }
-        set {
-            brush.color = BismushColor(cgColor: newValue.cgColor!)
-        }
+        brushColor = brush.color.nsColor
     }
 }
