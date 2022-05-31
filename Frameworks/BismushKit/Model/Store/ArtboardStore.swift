@@ -10,6 +10,11 @@ import Metal
 import simd
 import SwiftUI
 
+public struct Snapshot {
+    var texture: MTLTexture
+    var msaaTexture: MTLTexture?
+}
+
 public class ArtboardStore: CanvasContext {
     let canvas: Canvas
     let device: GPUDevice
@@ -21,6 +26,19 @@ public class ArtboardStore: CanvasContext {
         layers = canvas.layers.map { layer in
             ArtboardLayerStore(canvasLayer: layer, context: self)
         }
+    }
+
+    public func getSnapshot() -> Snapshot {
+        BismushLogger.drawing.info("get snapshot")
+        let snapshot = Snapshot(texture: activeLayer.texture, msaaTexture: activeLayer.msaaTexture)
+        activeLayer.needsNewTexture = true
+        return snapshot
+    }
+
+    public func restore(snapshot: Snapshot) {
+        BismushLogger.drawing.info("resotre from snapshot")
+        activeLayer.texture = snapshot.texture
+        activeLayer.msaaTexture = snapshot.msaaTexture
     }
 
     public static func makeSample() -> ArtboardStore {

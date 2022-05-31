@@ -15,12 +15,14 @@ protocol CanvasContext {
 
 class ArtboardLayerStore {
     let canvasLayer: CanvasLayer
-    let texture: MTLTexture
+    var texture: MTLTexture
     let pixelFormat: MTLPixelFormat = .rgba8Unorm
 
     private let context: CanvasContext
-    private let msaaTexture: MTLTexture?
+    var msaaTexture: MTLTexture?
     private var dirty = true
+
+    var needsNewTexture = false
 
     init(canvasLayer: CanvasLayer, context: CanvasContext) {
         self.canvasLayer = canvasLayer
@@ -60,7 +62,43 @@ class ArtboardLayerStore {
     var device: GPUDevice { context.device }
 
     func render(commandBuffer: MTLCommandBuffer, perform: (MTLRenderCommandEncoder) -> Void) {
+        defer {
+            needsNewTexture = false
+            dirty = false
+        }
+
         let renderPassDescription = MTLRenderPassDescriptor()
+
+        if needsNewTexture {
+            if let encoder = commandBuffer.makeBlitCommandEncoder() {
+                let description = MTLTextureDescriptor()
+                description.width = Int(canvasLayer.size.width)
+                description.height = Int(canvasLayer.size.height)
+                description.pixelFormat = pixelFormat
+                description.usage = [.shaderRead, .renderTarget, .shaderWrite]
+                description.textureType = .type2D
+                let newTexture = context.device.metalDevice.makeTexture(descriptor: description)!
+
+                let newMsaaTexture: MTLTexture?
+                if context.device.capability.msaa {
+                    description.textureType = .type2DMultisample
+                    description.sampleCount = 4
+                    newMsaaTexture = context.device.metalDevice.makeTexture(descriptor: description)!
+                } else {
+                    newMsaaTexture = nil
+                }
+
+                encoder.copy(from: texture, to: newTexture)
+                if let msaaTexture = msaaTexture, let newMsaaTexture = newMsaaTexture {
+                    encoder.copy(from: msaaTexture, to: newMsaaTexture)
+                }
+                encoder.endEncoding()
+
+                msaaTexture = newMsaaTexture
+                texture = newTexture
+            }
+        }
+
         if context.device.capability.msaa {
             renderPassDescription.colorAttachments[0].texture = msaaTexture
             renderPassDescription.colorAttachments[0].resolveTexture = texture
@@ -84,7 +122,6 @@ class ArtboardLayerStore {
         encoder.setViewport(viewPort)
         perform(encoder)
         encoder.endEncoding()
-        dirty = false
     }
 
     var transform: Transform2D<LayerPixelCoordinate, CanvasPixelCoordinate> {
