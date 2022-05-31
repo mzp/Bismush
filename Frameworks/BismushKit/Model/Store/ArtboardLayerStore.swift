@@ -70,33 +70,7 @@ class ArtboardLayerStore {
         let renderPassDescription = MTLRenderPassDescriptor()
 
         if needsNewTexture {
-            if let encoder = commandBuffer.makeBlitCommandEncoder() {
-                let description = MTLTextureDescriptor()
-                description.width = Int(canvasLayer.size.width)
-                description.height = Int(canvasLayer.size.height)
-                description.pixelFormat = pixelFormat
-                description.usage = [.shaderRead, .renderTarget, .shaderWrite]
-                description.textureType = .type2D
-                let newTexture = context.device.metalDevice.makeTexture(descriptor: description)!
-
-                let newMsaaTexture: MTLTexture?
-                if context.device.capability.msaa {
-                    description.textureType = .type2DMultisample
-                    description.sampleCount = 4
-                    newMsaaTexture = context.device.metalDevice.makeTexture(descriptor: description)!
-                } else {
-                    newMsaaTexture = nil
-                }
-
-                encoder.copy(from: texture, to: newTexture)
-                if let msaaTexture = msaaTexture, let newMsaaTexture = newMsaaTexture {
-                    encoder.copy(from: msaaTexture, to: newMsaaTexture)
-                }
-                encoder.endEncoding()
-
-                msaaTexture = newMsaaTexture
-                texture = newTexture
-            }
+            createNewTexture(commandBuffer: commandBuffer)
         }
 
         if context.device.capability.msaa {
@@ -132,6 +106,36 @@ class ArtboardLayerStore {
         Transform2D(matrix:
             Transform2D.translate(x: -1, y: -1) *
                 Transform2D.scale(x: Float(1 / canvasLayer.size.width * 2), y: Float(1 / canvasLayer.size.height * 2)))
+    }
+
+    func createNewTexture(commandBuffer: MTLCommandBuffer) {
+        if let encoder = commandBuffer.makeBlitCommandEncoder() {
+            let description = MTLTextureDescriptor()
+            description.width = Int(canvasLayer.size.width)
+            description.height = Int(canvasLayer.size.height)
+            description.pixelFormat = pixelFormat
+            description.usage = [.shaderRead, .renderTarget, .shaderWrite]
+            description.textureType = .type2D
+            let newTexture = context.device.metalDevice.makeTexture(descriptor: description)!
+
+            let newMsaaTexture: MTLTexture?
+            if context.device.capability.msaa {
+                description.textureType = .type2DMultisample
+                description.sampleCount = 4
+                newMsaaTexture = context.device.metalDevice.makeTexture(descriptor: description)!
+            } else {
+                newMsaaTexture = nil
+            }
+
+            encoder.copy(from: texture, to: newTexture)
+            if let msaaTexture = msaaTexture, let newMsaaTexture = newMsaaTexture {
+                encoder.copy(from: msaaTexture, to: newMsaaTexture)
+            }
+            encoder.endEncoding()
+
+            msaaTexture = newMsaaTexture
+            texture = newTexture
+        }
     }
 
     var textureTransform: Transform2D<TextureCoordinate, LayerPixelCoordinate> {
