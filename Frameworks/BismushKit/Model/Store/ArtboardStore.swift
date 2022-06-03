@@ -16,7 +16,7 @@ public struct Snapshot {
 }
 
 public class ArtboardStore: CanvasContext {
-    let canvas: Canvas
+    public let canvas: Canvas
     let device: GPUDevice
     private(set) var layers = [ArtboardLayerStore]()
 
@@ -44,7 +44,8 @@ public class ArtboardStore: CanvasContext {
     public static func makeSample() -> ArtboardStore {
         .init(canvas: Canvas(
             layers: [
-                CanvasLayer(layerType: .empty, size: Size(width: 800, height: 800)),
+                CanvasLayer(name: "#1", layerType: .empty, size: Size(width: 800, height: 800)),
+                CanvasLayer(name: "#2", layerType: .empty, size: Size(width: 800, height: 800)),
             ],
             size: Size(width: 800, height: 800)
         ))
