@@ -5,10 +5,12 @@
 //  Created by mzp on 4/24/22.
 //
 
+import BismushKit
 import SwiftUI
 
 struct WorkspaceView<Content: View>: View {
     @EnvironmentObject var viewModel: ArtboardViewModel
+    @EnvironmentObject var store: ArtboardStore
 
     var content: () -> Content
     init(@ViewBuilder content: @escaping () -> Content) {
@@ -23,7 +25,7 @@ struct WorkspaceView<Content: View>: View {
                     RGBSlider(color: $viewModel.brushColor)
                 }
                 Section("Layer") {
-                    CanvasLayerView()
+                    CanvasLayerList(viewModel: .init(store: store))
                 }.frame(height: 100, alignment: .topLeading)
             }.frame(width: 400)
             content()

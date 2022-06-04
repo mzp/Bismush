@@ -10,13 +10,16 @@ import SwiftUI
 
 @main
 struct BismushApp: App {
+    let artboardStore = ArtboardStore.makeSample()
+
     var body: some Scene {
         WindowGroup {
             WorkspaceView {
                 ContentView()
             }
             .navigationTitle("CanvasTest")
-            .environmentObject(ArtboardViewModel())
+            .environmentObject(ArtboardViewModel(store: artboardStore))
+            .environmentObject(artboardStore)
         }
     }
 }

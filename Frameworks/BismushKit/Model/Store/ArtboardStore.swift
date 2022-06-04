@@ -15,7 +15,7 @@ public struct Snapshot {
     var msaaTexture: MTLTexture?
 }
 
-public class ArtboardStore: CanvasContext {
+public class ArtboardStore: CanvasContext, ObservableObject {
     public let canvas: Canvas
     let device: GPUDevice
     private(set) var layers = [ArtboardLayerStore]()

@@ -19,8 +19,8 @@ class ArtboardViewModel: ObservableObject {
         }
     }
 
-    init() {
-        store = ArtboardStore.makeSample()
+    init(store: ArtboardStore) {
+        self.store = store
         brush = Brush(store: store)
         brushColor = brush.color.nsColor
     }
