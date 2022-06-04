@@ -18,7 +18,7 @@ public struct Snapshot {
 public class ArtboardStore: CanvasContext, ObservableObject {
     public let canvas: Canvas
     let device: GPUDevice
-    private(set) var layers = [ArtboardLayerStore]()
+    public var layers = [ArtboardLayerStore]()
 
     public init(canvas: Canvas) {
         self.canvas = canvas
@@ -46,6 +46,8 @@ public class ArtboardStore: CanvasContext, ObservableObject {
             layers: [
                 CanvasLayer(name: "#1", layerType: .empty, size: Size(width: 800, height: 800)),
                 CanvasLayer(name: "#2", layerType: .empty, size: Size(width: 800, height: 800)),
+                CanvasLayer(name: "square", layerType: .builtin(name: "square"), size: Size(width: 800, height: 800)),
+                CanvasLayer(name: "yosemite", layerType: .builtin(name: "yosemite"), size: Size(width: 800, height: 800)),
             ],
             size: Size(width: 800, height: 800)
         ))

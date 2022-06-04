@@ -9,17 +9,17 @@ import BismushKit
 import SwiftUI
 
 struct CanvasLayerList: View {
-    var viewModel: CanvasLayerListViewModel
-
-    @State var selection: String?
+    @ObservedObject var viewModel: CanvasLayerListViewModel
     var body: some View {
-        VStack {
-            Table(viewModel.layers, selection: $selection) {
-                TableColumn("Visible") { layer in
-                    Toggle("Visibe", isOn: .constant(layer.visible)).labelsHidden()
+        List {
+            ForEach(Array(viewModel.layers.enumerated()), id: \.1) { index, layer in
+                HStack {
+                    Toggle("Visible", isOn: viewModel.visible(index: index)).labelsHidden()
+                    Text(layer.name)
                 }
-                TableColumn("Name", value: \.name)
-            }
+            }.onMove(perform: { fromOffsets, toOffset in
+                viewModel.move(fromOffsets: fromOffsets, toOffset: toOffset)
+            })
         }
     }
 }

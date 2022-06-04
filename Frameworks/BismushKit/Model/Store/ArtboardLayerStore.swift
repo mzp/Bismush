@@ -13,8 +13,8 @@ protocol CanvasContext {
     var modelViewMatrix: Transform2D<WorldCoordinate, CanvasPixelCoordinate> { get }
 }
 
-class ArtboardLayerStore {
-    let canvasLayer: CanvasLayer
+public class ArtboardLayerStore {
+    public var canvasLayer: CanvasLayer
     var texture: MTLTexture
     let pixelFormat: MTLPixelFormat = .rgba8Unorm
 
@@ -23,6 +23,15 @@ class ArtboardLayerStore {
     private var dirty = true
 
     var needsNewTexture = false
+
+    public var visible: Bool {
+        get {
+            canvasLayer.visible
+        }
+        set {
+            canvasLayer.visible = newValue
+        }
+    }
 
     init(canvasLayer: CanvasLayer, context: CanvasContext) {
         self.canvasLayer = canvasLayer
@@ -62,6 +71,9 @@ class ArtboardLayerStore {
     var device: GPUDevice { context.device }
 
     func render(commandBuffer: MTLCommandBuffer, perform: (MTLRenderCommandEncoder) -> Void) {
+        guard visible else {
+            return
+        }
         defer {
             needsNewTexture = false
             dirty = false
