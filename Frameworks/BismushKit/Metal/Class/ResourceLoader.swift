@@ -15,7 +15,7 @@ class ResourceLoader {
 
     init(device: MTLDevice) {
         self.device = device
-        let bundle = Bundle(for: ArtboardLayerRenderer.self)
+        let bundle = Bundle(for: ResourceLoader.self)
         let library = try! device.makeDefaultLibrary(bundle: bundle)
         BismushLogger.metal.debug("Using library: \(library.description) in \(bundle)")
 

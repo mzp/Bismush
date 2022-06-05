@@ -15,11 +15,11 @@ struct BismushApp: App {
     var body: some Scene {
         WindowGroup {
             WorkspaceView {
-                ContentView()
+                Artboard()
             }
             .navigationTitle("CanvasTest")
-            .environmentObject(ArtboardViewModel(store: artboardStore))
             .environmentObject(artboardStore)
+            .environmentObject(ArtboardViewModel(store: artboardStore))
         }
     }
 }

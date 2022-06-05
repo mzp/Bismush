@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  Artboard.swift
 //  Shared
 //
 //  Created by mzp on 3/13/22.
@@ -9,7 +9,7 @@ import AppKit
 import BismushKit
 import SwiftUI
 
-struct ContentView: View {
+struct Artboard: View {
     @EnvironmentObject var viewModel: ArtboardViewModel
 
     @Environment(\.undoManager) var undoManagerInEnv
@@ -54,8 +54,8 @@ struct ContentView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct ArtboardPreviews: PreviewProvider {
     static var previews: some View {
-        ContentView().environmentObject(ArtboardViewModel(store: ArtboardStore.makeSample()))
+        Artboard().environmentObject(ArtboardViewModel(store: ArtboardStore.makeSample()))
     }
 }

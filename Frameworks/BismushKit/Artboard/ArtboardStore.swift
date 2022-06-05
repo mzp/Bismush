@@ -16,9 +16,15 @@ public struct Snapshot {
 }
 
 public class ArtboardStore: CanvasContext, ObservableObject {
+    struct Context {
+        var encoder: MTLRenderCommandEncoder
+        var viewPortSize: Size<ViewCoordinate>
+    }
+
     public let canvas: Canvas
-    let device: GPUDevice
     public var layers = [ArtboardLayerStore]()
+
+    let device: GPUDevice
 
     public init(canvas: Canvas) {
         self.canvas = canvas
@@ -27,6 +33,29 @@ public class ArtboardStore: CanvasContext, ObservableObject {
             ArtboardLayerStore(canvasLayer: layer, context: self)
         }
     }
+
+    var canvasSize: Size<CanvasPixelCoordinate> {
+        canvas.size
+    }
+
+    var activeLayer: ArtboardLayerStore {
+        layers.first!
+    }
+
+    public static func makeSample() -> ArtboardStore {
+        let size: Size<CanvasPixelCoordinate> = .init(width: 800, height: 800)
+        return .init(canvas: Canvas(
+            layers: [
+                CanvasLayer(name: "#1", layerType: .empty, size: size),
+                CanvasLayer(name: "#2", layerType: .empty, size: size),
+                CanvasLayer(name: "square", layerType: .builtin(name: "square"), size: size),
+                CanvasLayer(name: "yosemite", layerType: .builtin(name: "yosemite"), size: size),
+            ],
+            size: size
+        ))
+    }
+
+    // MARK: - Undo/redo
 
     public func getSnapshot() -> Snapshot {
         BismushLogger.drawing.info("get snapshot")
@@ -41,25 +70,7 @@ public class ArtboardStore: CanvasContext, ObservableObject {
         activeLayer.msaaTexture = snapshot.msaaTexture
     }
 
-    public static func makeSample() -> ArtboardStore {
-        .init(canvas: Canvas(
-            layers: [
-                CanvasLayer(name: "#1", layerType: .empty, size: Size(width: 800, height: 800)),
-                CanvasLayer(name: "#2", layerType: .empty, size: Size(width: 800, height: 800)),
-                CanvasLayer(name: "square", layerType: .builtin(name: "square"), size: Size(width: 800, height: 800)),
-                CanvasLayer(name: "yosemite", layerType: .builtin(name: "yosemite"), size: Size(width: 800, height: 800)),
-            ],
-            size: Size(width: 800, height: 800)
-        ))
-    }
-
-    var canvasSize: Size<CanvasPixelCoordinate> {
-        canvas.size
-    }
-
-    var activeLayer: ArtboardLayerStore {
-        layers.first!
-    }
+    // MARK: - Transform
 
     func normalize(viewPortSize: Size<ViewCoordinate>) -> Transform2D<ViewCoordinate, ViewPortCoordinate> {
         Transform2D(matrix:
@@ -79,5 +90,17 @@ public class ArtboardStore: CanvasContext, ObservableObject {
     var modelViewMatrix: Transform2D<WorldCoordinate, CanvasPixelCoordinate> {
         Transform2D(matrix:
             Transform2D.scale(x: Float(1 / canvas.size.width), y: Float(1 / canvas.size.height)))
+    }
+
+    // MARK: - Render
+
+    func render(context: Context) {
+        let context = ArtboardLayerStore.Context(
+            encoder: context.encoder,
+            projection: projection(viewPortSize: context.viewPortSize) * modelViewMatrix
+        )
+        for layer in layers.reversed() {
+            layer.render(context: context)
+        }
     }
 }

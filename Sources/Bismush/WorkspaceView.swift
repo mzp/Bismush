@@ -18,16 +18,16 @@ struct WorkspaceView<Content: View>: View {
     }
 
     var body: some View {
-        HStack {
-            List {
+        HStack(alignment: .top) {
+            VStack(alignment: .leading) {
                 Section("Color") {
                     Color(nsColor: viewModel.brushColor).frame(width: 16, height: 16)
                     RGBSlider(color: $viewModel.brushColor)
                 }
                 Section("Layer") {
                     CanvasLayerList(viewModel: .init(store: store))
-                }.frame(height: 100, alignment: .topLeading)
-            }.frame(width: 400)
+                }
+            }.padding()
             content()
         }
     }
