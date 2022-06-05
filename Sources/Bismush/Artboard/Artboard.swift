@@ -10,13 +10,13 @@ import BismushKit
 import SwiftUI
 
 struct Artboard: View {
-    @EnvironmentObject var viewModel: ArtboardViewModel
+    @ObservedObject var viewModel: ArtboardViewModel
 
     @Environment(\.undoManager) var undoManagerInEnv
     @State var undoManager: UndoManager?
 
     var body: some View {
-        DesktopArtboard(store: viewModel.store)
+        DesktopArtboard(store: viewModel.store.artboard)
             .onMouseDown(perform: mouseDown(with:in:))
             .onMouseDragged(perform: mouseDragged(with:in:))
             .onMouseUp(perform: mouseUp(with:in:))
@@ -28,12 +28,12 @@ struct Artboard: View {
     }
 
     func mouseDown(with _: NSEvent, in _: NSView) {
-        let snapshot = viewModel.store.getSnapshot()
+        let snapshot = viewModel.store.artboard.getSnapshot()
         undoManager?.registerUndo(withTarget: viewModel.store, handler: { store in
-            let redoSnapshot = store.getSnapshot()
-            store.restore(snapshot: snapshot)
+            let redoSnapshot = store.artboard.getSnapshot()
+            store.artboard.restore(snapshot: snapshot)
             undoManager?.registerUndo(withTarget: store, handler: { store in
-                store.restore(snapshot: redoSnapshot)
+                store.artboard.restore(snapshot: redoSnapshot)
             })
         })
     }
@@ -56,6 +56,6 @@ struct Artboard: View {
 
 struct ArtboardPreviews: PreviewProvider {
     static var previews: some View {
-        Artboard().environmentObject(ArtboardViewModel(store: ArtboardStore.makeSample()))
+        Artboard(viewModel: ArtboardViewModel(store: BismushStore()))
     }
 }

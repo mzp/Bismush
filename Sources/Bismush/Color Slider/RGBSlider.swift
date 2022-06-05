@@ -26,12 +26,13 @@ struct NumberStepper: View {
 struct RGBSlider: View {
     @ObservedObject var model: RGBColorViewModel
 
-    init(color: Binding<NSColor>) {
-        model = RGBColorViewModel(color: color)
+    init(viewModel: RGBColorViewModel) {
+        model = viewModel
     }
 
     var body: some View {
         VStack(alignment: .leading) {
+            Color(nsColor: model.color).frame(width: 16, height: 16)
             HStack(alignment: .center) {
                 ColorComponentSlider(startColor: .black, endColor: .red, value: $model.red)
                     .makeAlignmentGuide()
@@ -57,15 +58,5 @@ struct RGBSlider: View {
             }
             .accessibilityLabel("Alpha")
         }
-    }
-}
-
-struct RGBSliderPreview: PreviewProvider {
-    @State static var color: NSColor = .black
-    static var previews: some View {
-        VStack {
-            Color(nsColor: color).frame(width: 30, height: 30)
-            RGBSlider(color: $color)
-        }.frame(width: 400, height: 400)
     }
 }

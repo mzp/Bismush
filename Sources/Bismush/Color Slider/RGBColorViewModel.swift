@@ -5,6 +5,7 @@
 //  Created by mzp on 5/15/22.
 //
 
+import BismushKit
 import Foundation
 import SwiftUI
 
@@ -13,14 +14,22 @@ class RGBColorViewModel: ObservableObject {
         NSColor(red: CGFloat(red), green: CGFloat(green), blue: CGFloat(blue), alpha: CGFloat(alpha))
     }
 
-    @Binding var color: NSColor
+    var color: NSColor {
+        get { store.brush.color.nsColor }
+        set {
+            objectWillChange.send()
+            store.brush.color = BismushColor(cgColor: newValue.cgColor)
+        }
+    }
 
-    init(color: Binding<NSColor>) {
-        _color = color
-        red = Float(color.wrappedValue.redComponent)
-        green = Float(color.wrappedValue.greenComponent)
-        blue = Float(color.wrappedValue.blueComponent)
-        alpha = Float(color.wrappedValue.alphaComponent)
+    private let store: BismushStore
+
+    init(store: BismushStore) {
+        self.store = store
+        red = Float(store.brush.color.red)
+        green = Float(store.brush.color.green)
+        blue = Float(store.brush.color.blue)
+        alpha = Float(store.brush.color.alpha)
     }
 
     @Published var red: Float {

@@ -9,8 +9,7 @@ import BismushKit
 import SwiftUI
 
 struct WorkspaceView<Content: View>: View {
-    @EnvironmentObject var viewModel: ArtboardViewModel
-    @EnvironmentObject var store: ArtboardStore
+    @EnvironmentObject var store: BismushStore
 
     var content: () -> Content
     init(@ViewBuilder content: @escaping () -> Content) {
@@ -21,13 +20,14 @@ struct WorkspaceView<Content: View>: View {
         HStack(alignment: .top) {
             VStack(alignment: .leading) {
                 Section("Color") {
-                    Color(nsColor: viewModel.brushColor).frame(width: 16, height: 16)
-                    RGBSlider(color: $viewModel.brushColor)
+                    RGBSlider(viewModel: .init(store: store))
                 }
                 Section("Layer") {
                     CanvasLayerList(viewModel: .init(store: store))
                 }
-            }.padding()
+            }
+            .frame(width: 200)
+            .padding()
             content()
         }
     }

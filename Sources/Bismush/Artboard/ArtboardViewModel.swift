@@ -10,18 +10,12 @@ import Foundation
 import SwiftUI
 
 class ArtboardViewModel: ObservableObject {
-    let store: ArtboardStore
-    let brush: Brush
-
-    @Published var brushColor: NSColor {
-        didSet {
-            brush.color = BismushColor(cgColor: brushColor.cgColor)
-        }
+    let store: BismushStore
+    var brush: Brush {
+        store.brush
     }
 
-    init(store: ArtboardStore) {
+    init(store: BismushStore) {
         self.store = store
-        brush = Brush(store: store)
-        brushColor = brush.color.nsColor
     }
 }

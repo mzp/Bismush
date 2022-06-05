@@ -23,9 +23,3 @@ struct CanvasLayerList: View {
         }
     }
 }
-
-struct CanvasLayerListPreview: PreviewProvider {
-    static var previews: some View {
-        CanvasLayerList(viewModel: .init(store: ArtboardStore.makeSample()))
-    }
-}
