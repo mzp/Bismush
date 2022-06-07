@@ -6,13 +6,14 @@
 //
 
 import AppKit
+import BismushKit
 import Foundation
 import XCTest
 @testable import Bismush
 
 class RGBColorViewModelTests: XCTestCase {
     func testColor() throws {
-        let colorVM = RGBColorViewModel(color: .constant(NSColor(red: 0, green: 0, blue: 0, alpha: 1)))
+        let colorVM = RGBColorViewModel(store: BismushStore())
         colorVM.red = 1
         XCTAssertEqual(colorVM.currentColor, NSColor(red: 1, green: 0, blue: 0, alpha: 1))
 

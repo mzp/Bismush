@@ -16,4 +16,16 @@ public class BismushStore: ObservableObject {
         artboard = ArtboardStore.makeSample()
         brush = Brush(store: artboard)
     }
+
+    public func getSnapshot() -> Snapshot {
+        artboard.getSnapshot()
+    }
+
+    public func restore(snapshot: Snapshot) {
+        artboard.restore(snapshot: snapshot)
+    }
+
+    public class func makeSample() -> BismushStore {
+        BismushStore()
+    }
 }

@@ -4,6 +4,7 @@
 //
 //  Created by mzp on 5/15/22.
 //
+import BismushKit
 import SwiftUI
 
 struct NumberStepper: View {
@@ -24,11 +25,7 @@ struct NumberStepper: View {
 }
 
 struct RGBSlider: View {
-    @ObservedObject var model: RGBColorViewModel
-
-    init(viewModel: RGBColorViewModel) {
-        model = viewModel
-    }
+    @EnvironmentObject var model: RGBColorViewModel
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -57,6 +54,14 @@ struct RGBSlider: View {
                 NumberStepper(value: $model.alpha)
             }
             .accessibilityLabel("Alpha")
+        }
+    }
+}
+
+struct RGBSlider_Previews: PreviewProvider {
+    static var previews: some View {
+        SampleViewModel {
+            RGBSlider()
         }
     }
 }

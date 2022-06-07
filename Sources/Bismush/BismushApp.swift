@@ -10,15 +10,14 @@ import SwiftUI
 
 @main
 struct BismushApp: App {
-    var bismushStore = BismushStore()
-
     var body: some Scene {
         WindowGroup {
-            WorkspaceView {
-                Artboard(viewModel: ArtboardViewModel(store: bismushStore))
+            BismushViewModelProvider(bismushStore: BismushStore.makeSample()) {
+                WorkspaceView {
+                    Artboard()
+                }
             }
             .navigationTitle("CanvasTest")
-            .environmentObject(bismushStore)
         }
     }
 }

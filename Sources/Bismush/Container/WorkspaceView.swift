@@ -9,8 +9,6 @@ import BismushKit
 import SwiftUI
 
 struct WorkspaceView<Content: View>: View {
-    @EnvironmentObject var store: BismushStore
-
     var content: () -> Content
     init(@ViewBuilder content: @escaping () -> Content) {
         self.content = content
@@ -20,10 +18,10 @@ struct WorkspaceView<Content: View>: View {
         HStack(alignment: .top) {
             VStack(alignment: .leading) {
                 Section("Color") {
-                    RGBSlider(viewModel: .init(store: store))
+                    RGBSlider()
                 }
                 Section("Layer") {
-                    CanvasLayerList(viewModel: .init(store: store))
+                    CanvasLayerList()
                 }
             }
             .frame(width: 200)
@@ -35,8 +33,10 @@ struct WorkspaceView<Content: View>: View {
 
 struct WorkspaceView_Previews: PreviewProvider {
     static var previews: some View {
-        WorkspaceView {
-            Color.red.frame(width: 100, height: 100)
+        SampleViewModel {
+            WorkspaceView {
+                Color.red.frame(width: 100, height: 100)
+            }
         }
     }
 }

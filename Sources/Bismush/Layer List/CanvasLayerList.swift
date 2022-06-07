@@ -9,7 +9,7 @@ import BismushKit
 import SwiftUI
 
 struct CanvasLayerList: View {
-    @ObservedObject var viewModel: CanvasLayerListViewModel
+    @EnvironmentObject var viewModel: CanvasLayerListViewModel
     var body: some View {
         List {
             ForEach(Array(viewModel.layers.enumerated()), id: \.1) { index, layer in
@@ -20,6 +20,14 @@ struct CanvasLayerList: View {
             }.onMove(perform: { fromOffsets, toOffset in
                 viewModel.move(fromOffsets: fromOffsets, toOffset: toOffset)
             })
+        }
+    }
+}
+
+struct CanvasLayerList_Previews: PreviewProvider {
+    static var previews: some View {
+        SampleViewModel {
+            CanvasLayerList()
         }
     }
 }
