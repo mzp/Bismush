@@ -23,6 +23,11 @@ targets:
   BismushUI:
     type: framework
     platform: [macOS, iOS]
+    scheme:
+      testTargets:
+        - BismushUI_UnitTests_${platform}
+    dependencies:
+      - target: BismushKit_${platform}
     info:
       path: Frameworks/BismushUI/Supports Files/Info.plist
     preBuildScripts:
@@ -45,6 +50,17 @@ targets:
       path: Tests/UnitTests/BismushKit/Info.plist
     dependencies:
       - target: BismushKit_${platform}
+
+  BismushUI_UnitTests:
+    type: bundle.unit-test
+    platform: [macOS, iOS]
+    sources:
+      - Tests/UnitTests/BismushUI
+    info:
+      path: Tests/UnitTests/BismushUI/Info.plist
+    dependencies:
+      - target: BismushUI_${platform}
+
 
   Bismush:
     type: application
