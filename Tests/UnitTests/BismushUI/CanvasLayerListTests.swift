@@ -8,7 +8,7 @@
 import BismushKit
 import SwiftUI
 import XCTest
-@testable import Bismush
+@testable import BismushUI
 
 class CanvasLayerListTests: XCTestCase {
     private let store = BismushStore()

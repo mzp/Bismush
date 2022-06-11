@@ -6,6 +6,7 @@
 //
 
 import BismushKit
+import BismushUI
 import SwiftUI
 
 struct WorkspaceView<Content: View>: View {

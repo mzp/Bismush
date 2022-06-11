@@ -20,6 +20,26 @@ targets:
       - Frameworks/BismushKit
     settings:
       MTL_LANGUAGE_REVISION: Metal24
+  BismushUI:
+    type: framework
+    platform: [macOS, iOS]
+    scheme:
+      testTargets:
+        - BismushUI_UnitTests_${platform}
+    dependencies:
+      - target: BismushKit_${platform}
+    info:
+      path: Frameworks/BismushUI/Supports Files/Info.plist
+    preBuildScripts:
+      - path: Scripts/swiftformat.sh
+        name: Swift Format
+      - path: Scripts/clang-format.sh
+        name: clang-format
+    postCompileScripts:
+      - script: Scripts/swiftlint.sh
+        name: Swiftlint
+    sources:
+      - Frameworks/BismushUI
 
   BismushKit_UnitTests:
     type: bundle.unit-test
@@ -31,6 +51,17 @@ targets:
     dependencies:
       - target: BismushKit_${platform}
 
+  BismushUI_UnitTests:
+    type: bundle.unit-test
+    platform: [macOS, iOS]
+    sources:
+      - Tests/UnitTests/BismushUI
+    info:
+      path: Tests/UnitTests/BismushUI/Info.plist
+    dependencies:
+      - target: BismushUI_${platform}
+
+
   Bismush:
     type: application
     platform: macOS
@@ -40,6 +71,7 @@ targets:
         - Bismush_UnitTests
     dependencies:
       - target: BismushKit_macOS
+      - target: BismushUI_macOS
     entitlements:
       path: Sources/Bismush/Supports Files/Bismush.entitlements
       properties:
@@ -77,6 +109,7 @@ targets:
     platform: iOS
     dependencies:
       - target: BismushKit_iOS
+      - target: BismushUI_iOS
     scheme:
       testTargets:
         - MobileBismush_UITests

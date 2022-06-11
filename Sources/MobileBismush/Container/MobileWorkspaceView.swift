@@ -5,6 +5,7 @@
 //  Created by mzp on 4/24/22.
 //
 
+import BismushUI
 import SwiftUI
 
 struct Pallet: View {
@@ -33,8 +34,8 @@ struct MobileWorkspaceView<Content: View>: View {
     }
 
     var body: some View {
-        HStack {
-            List {
+        HStack(alignment: .top) {
+            VStack(alignment: .leading) {
                 Section("Color") {
                     Pallet(color: .red)
                     Pallet(color: .yellow)
@@ -42,7 +43,10 @@ struct MobileWorkspaceView<Content: View>: View {
                     Pallet(color: .white)
                     Pallet(color: .black)
                 }
-            }.frame(width: 100)
+                Section("Layer") {
+                    CanvasLayerList()
+                }
+            }.frame(width: 250)
             content()
         }
     }
