@@ -30,7 +30,7 @@ public class LayerCoordinate: Coordinate {}
 // top left: (0, 0) bottom right (1, 1)
 public class TextureCoordinate: Coordinate {}
 
-public struct Size<T: Coordinate>: Codable, CustomStringConvertible {
+public struct Size<T: Coordinate>: Codable, CustomStringConvertible, Equatable, Hashable {
     var rawValue: SIMD2<Float>
 
     var width: Float { rawValue.x }

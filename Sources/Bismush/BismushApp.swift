@@ -12,11 +12,12 @@ import SwiftUI
 struct BismushApp: App {
     var body: some Scene {
         WindowGroup {
-            WorkspaceView {
-                ContentView()
+            BismushViewModelProvider(bismushStore: BismushStore.makeSample()) {
+                WorkspaceView {
+                    Artboard()
+                }
             }
             .navigationTitle("CanvasTest")
-            .environmentObject(ArtboardViewModel())
         }
     }
 }

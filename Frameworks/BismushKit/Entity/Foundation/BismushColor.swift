@@ -8,6 +8,10 @@
 import CoreGraphics
 import Foundation
 
+#if os(macOS)
+    import AppKit
+#endif
+
 public struct BismushColor {
     var rawValue: SIMD4<Float>
 
@@ -35,4 +39,15 @@ public struct BismushColor {
     }
 
     static let black = Self(rawValue: SIMD4(0, 0, 0, 1))
+
+    #if os(macOS)
+        public var nsColor: NSColor {
+            NSColor(
+                red: CGFloat(red),
+                green: CGFloat(green),
+                blue: CGFloat(blue),
+                alpha: CGFloat(alpha)
+            )
+        }
+    #endif
 }

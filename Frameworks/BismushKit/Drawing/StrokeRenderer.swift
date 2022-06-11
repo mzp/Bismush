@@ -24,7 +24,7 @@ class StrokeRenderer {
         store.device.scope("\(#function)") {
             let commandBuffer = commandQueue.makeCommandBuffer()!
 
-            store.activeLayer.render(commandBuffer: commandBuffer) { encoder in
+            store.activeLayer.draw(commandBuffer: commandBuffer) { encoder in
                 let descriptor = MTLRenderPipelineDescriptor()
                 if store.device.capability.msaa {
                     descriptor.sampleCount = 4

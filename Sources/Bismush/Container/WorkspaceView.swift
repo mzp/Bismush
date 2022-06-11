@@ -5,24 +5,27 @@
 //  Created by mzp on 4/24/22.
 //
 
+import BismushKit
 import SwiftUI
 
 struct WorkspaceView<Content: View>: View {
-    @EnvironmentObject var viewModel: ArtboardViewModel
-
     var content: () -> Content
     init(@ViewBuilder content: @escaping () -> Content) {
         self.content = content
     }
 
     var body: some View {
-        NavigationView {
-            List {
+        HStack(alignment: .top) {
+            VStack(alignment: .leading) {
                 Section("Color") {
-                    Color(nsColor: viewModel.brushColor).frame(width: 16, height: 16)
-                    RGBSlider(color: $viewModel.brushColor)
+                    RGBSlider()
                 }
-            }.frame(width: 400)
+                Section("Layer") {
+                    CanvasLayerList()
+                }
+            }
+            .frame(width: 200)
+            .padding()
             content()
         }
     }
@@ -30,8 +33,10 @@ struct WorkspaceView<Content: View>: View {
 
 struct WorkspaceView_Previews: PreviewProvider {
     static var previews: some View {
-        WorkspaceView {
-            Color.red.frame(width: 100, height: 100)
+        SampleViewModel {
+            WorkspaceView {
+                Color.red.frame(width: 100, height: 100)
+            }
         }
     }
 }

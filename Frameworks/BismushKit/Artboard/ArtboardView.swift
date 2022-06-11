@@ -11,13 +11,11 @@ open class ArtboardView: MTKView, MTKViewDelegate {
     private let store: ArtboardStore
     private let commandQueue: MTLCommandQueue
     private var viewPortSize: Size<ViewCoordinate> = .zero()
-    private let renderer: ArtboardRenderer
 
     public init(store: ArtboardStore) {
         self.store = store
         commandQueue = store.device.metalDevice.makeCommandQueue()!
         commandQueue.label = "Artboard"
-        renderer = ArtboardRenderer(store: store)
         super.init(frame: .zero, device: store.device.metalDevice)
         delegate = self
         clearColor = MTLClearColor(red: 1, green: 1, blue: 1, alpha: 1)
@@ -57,7 +55,7 @@ open class ArtboardView: MTKView, MTKViewDelegate {
         )
         encoder.label = "Frame"
         encoder.setViewport(viewPort)
-        renderer.render(context: .init(
+        store.render(context: .init(
             encoder: encoder,
             viewPortSize: viewPortSize
         ))

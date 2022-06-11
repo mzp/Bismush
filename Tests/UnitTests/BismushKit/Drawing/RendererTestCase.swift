@@ -23,7 +23,7 @@ class RendererTestCase: XCTestCase {
     override func setUpWithError() throws {
         try super.setUpWithError()
         store = ArtboardStore(canvas: Canvas(layers: [
-            CanvasLayer(layerType: .empty, size: canvasSize),
+            CanvasLayer(name: "test", layerType: .empty, size: canvasSize),
         ], size: canvasSize))
     }
 
