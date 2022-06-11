@@ -8,11 +8,11 @@
 import BismushKit
 import SwiftUI
 
-struct ContentView: View {
+struct Artboard: View {
     @EnvironmentObject var viewModel: MobileArtboardViewModel
 
     var body: some View {
-        MobileArtboard(store: viewModel.store)
+        MobileArtboard(store: viewModel.store.artboard)
             .onTouchesEnded(perform: { _, _, _ in viewModel.brush.clear() })
             .onTouchesMoved(perform: touchesMoved(_:with:in:))
             .edgesIgnoringSafeArea(.all)
@@ -41,6 +41,8 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView().environmentObject(MobileArtboardViewModel())
+        SampleViewModel {
+            Artboard()
+        }
     }
 }

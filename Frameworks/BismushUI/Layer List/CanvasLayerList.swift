@@ -8,9 +8,12 @@
 import BismushKit
 import SwiftUI
 
-struct CanvasLayerList: View {
+public struct CanvasLayerList: View {
     @EnvironmentObject var viewModel: CanvasLayerListViewModel
-    var body: some View {
+
+    public init() {}
+
+    public var body: some View {
         List {
             ForEach(Array(viewModel.layers.enumerated()), id: \.1) { index, layer in
                 HStack {
@@ -26,8 +29,6 @@ struct CanvasLayerList: View {
 
 struct CanvasLayerList_Previews: PreviewProvider {
     static var previews: some View {
-        SampleViewModel {
-            CanvasLayerList()
-        }
+        CanvasLayerList().environmentObject(CanvasLayerListViewModel(store: BismushStore.makeSample()))
     }
 }

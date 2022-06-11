@@ -9,10 +9,10 @@ import BismushKit
 import Foundation
 import SwiftUI
 
-class CanvasLayerListViewModel: ObservableObject {
+public class CanvasLayerListViewModel: ObservableObject {
     private var store: BismushStore
 
-    init(store: BismushStore) {
+    public init(store: BismushStore) {
         self.store = store
     }
 
