@@ -27,7 +27,7 @@ class ArtboardLayerStoreTests: XCTestCase {
     func testData() throws {
         let layer = CanvasLayer(
             name: "#yosemite",
-            layerType: .empty,
+            layerType: .builtin(name: "yosemite"),
             size: .init(width: 800, height: 800)
         )
         let store = ArtboardLayerStore(canvasLayer: layer, context: context)
@@ -50,41 +50,58 @@ class ArtboardLayerStoreTests: XCTestCase {
 
     func image(_ data: Data, width: Int, height: Int) -> NSImage? {
         var data = data
+        let bitCount = 8
+        guard let provider = CGDataProvider(data: data as CFData) else {
+            return nil
+        }
+
+        let cgImage = CGImage(
+            width: width,
+            height: height,
+            bitsPerComponent: bitCount,
+            bitsPerPixel: bitCount * 4,
+            bytesPerRow: MemoryLayout<Float>.size * 4 * width,
+            space: CGColorSpaceCreateDeviceRGB(),
+            bitmapInfo: [CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue)],
+            provider: provider,
+            decode: nil,
+            shouldInterpolate: false,
+            intent: .defaultIntent
+        )
+
+        if let cgImage = cgImage {
+            return NSImage(cgImage: cgImage, size: .init(width: width, height: height))
+        } else {
+            return nil
+        }
+    }
+
+    func image2(_ data: Data, width: Int, height: Int) -> NSImage? {
+        var data = data
         let bitCount = 1 + Float.significandBitCount + Float.exponentBitCount
-        // 128 bpp, 32 bpc, kCGImageAlphaNoneSkipLast |kCGBitmapFloatComponents
-        let pointer = UnsafeMutableRawPointer(mutating: &data)
-        let context = CGContext(data: pointer,
-                                width: width,
-                                height: height,
-                                bitsPerComponent: bitCount,
-                                bytesPerRow: MemoryLayout<Float>.size * 4 * width,
-                                space: CGColorSpaceCreateDeviceRGB(),
-                                bitmapInfo: CGImageAlphaInfo.noneSkipLast.rawValue | CGBitmapInfo.floatComponents.rawValue)
-        let cgImage = context?.makeImage()
-        return nil
-        /*        guard let provider = CGDataProvider(data: data as CFData) else {
-             return nil
-         }
+        guard let provider = CGDataProvider(data: data as CFData) else {
+            return nil
+        }
 
-         let cgImage = CGImage(
-             width: width,
-             height: height,
-             bitsPerComponent: bitCount,
-             bitsPerPixel: bitCount * 4,
-             bytesPerRow: MemoryLayout<Float>.size * 4 * width,
-             space: CGColorSpaceCreateDeviceRGB(),
-             bitmapInfo: [.floatComponents, CGBitmapInfo(rawValue: CGImageAlphaInfo.last.rawValue)],
-             provider: provider,
-             decode: nil,
-             shouldInterpolate: false,
-             intent: .defaultIntent
-         )
+        let cgImage = CGImage(
+            width: width,
+            height: height,
+            bitsPerComponent: bitCount,
+            bitsPerPixel: bitCount * 4,
+            bytesPerRow: MemoryLayout<Float>.size * 4 * width,
+            space: CGColorSpaceCreateDeviceRGB(),
+            bitmapInfo: [.floatComponents, CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue)],
+            provider: provider,
+            decode: nil,
+            shouldInterpolate: false,
+            intent: .defaultIntent
+        )
 
-         if let cgImage = cgImage {
-             return NSImage(cgImage: cgImage, size: .init(width: width, height: height))
-         } else {
-             return nil
-         }*/
+        if let cgImage = cgImage {
+            return NSImage(cgImage: cgImage, size: .init(width: width, height: height))
+        } else {
+            return nil
+        }
         /*
          size_t
          CGDataProviderRef provider = CGDataProviderCreateWithData(NULL, data, bufferLength, NULL);

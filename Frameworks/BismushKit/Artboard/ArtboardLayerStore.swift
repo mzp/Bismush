@@ -100,16 +100,16 @@ public class ArtboardLayerStore {
         let size = canvasLayer.size
         let width = Int(size.width)
         let height = Int(size.height)
+        let bytesPerRow = MemoryLayout<Float>.size * 4 * width
         let count = width * height * 4
-
         let bytes = [Float](repeating: 0, count: count)
         texture.getBytes(
             UnsafeMutableRawPointer(mutating: bytes),
-            bytesPerRow: 4 * MemoryLayout<Float>.size * width,
+            bytesPerRow: bytesPerRow,
             from: MTLRegionMake2D(0, 0, width, height),
             mipmapLevel: 0
         )
-        return Data(bytes: bytes, count: count)
+        return Data(bytes: bytes, count: 4 * count)
     }
 
     // MARK: - Transform
