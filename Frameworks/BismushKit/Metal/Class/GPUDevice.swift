@@ -11,6 +11,8 @@ import MetalKit
 public class GPUDevice {
     let metalDevice: MTLDevice
 
+    static let `default` = GPUDevice(metalDevice: MTLCreateSystemDefaultDevice()!)
+
     private var scopes = [String: MTLCaptureScope]()
 
     lazy var resource: ResourceLoader = .init(device: metalDevice)

@@ -41,6 +41,8 @@ public class ArtboardLayerStore {
         self.context = context
 
         switch canvasLayer.layerType {
+        case .data:
+            fallthrough
         case .empty:
             let description = MTLTextureDescriptor()
             description.width = Int(canvasLayer.size.width)
@@ -50,6 +52,9 @@ public class ArtboardLayerStore {
             description.textureType = .type2D
 
             texture = context.device.metalDevice.makeTexture(descriptor: description)!
+
+        // id -> Data
+        // replace
         case let .builtin(name: name):
             texture = context.device.resource.bultinTexture(name: name)
         }
@@ -87,6 +92,24 @@ public class ArtboardLayerStore {
         set {
             canvasLayer.visible = newValue
         }
+    }
+
+    // MARK: - Serialize
+
+    var data: Data {
+        let size = canvasLayer.size
+        let width = Int(size.width)
+        let height = Int(size.height)
+        let count = width * height * 4
+
+        let bytes = [Float](repeating: 0, count: count)
+        texture.getBytes(
+            UnsafeMutableRawPointer(mutating: bytes),
+            bytesPerRow: 4 * MemoryLayout<Float>.size * width,
+            from: MTLRegionMake2D(0, 0, width, height),
+            mipmapLevel: 0
+        )
+        return Data(bytes: bytes, count: count)
     }
 
     // MARK: - Transform
