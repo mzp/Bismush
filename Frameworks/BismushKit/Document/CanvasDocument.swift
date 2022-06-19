@@ -43,8 +43,8 @@ public class CanvasDocument: ReferenceFileDocument {
         self
     }
 
-    public func fileWrapper(snapshot: CanvasDocument, configuration _: WriteConfiguration) throws -> FileWrapper {
-        let container = FileWrapper(directoryWithFileWrappers: [:])
+    public func fileWrapper(snapshot: CanvasDocument, configuration: WriteConfiguration) throws -> FileWrapper {
+        let container = configuration.existingFile ?? FileWrapper(directoryWithFileWrappers: [:])
 
         // MetaData
         let data = try JSONEncoder().encode(snapshot.canvas)
@@ -52,8 +52,12 @@ public class CanvasDocument: ReferenceFileDocument {
 
         // Data
         let layerContainer = FileWrapper(directoryWithFileWrappers: [:])
+        layerContainer.preferredFilename = "Layers"
         for layer in snapshot.artboard.layers {
-            layerContainer.addRegularFile(withContents: layer.data, preferredFilename: "\(layer.canvasLayer.id).layerData")
+            layerContainer.addRegularFile(
+                withContents: layer.data,
+                preferredFilename: "\(layer.canvasLayer.id).layerData"
+            )
         }
         container.addFileWrapper(layerContainer)
 

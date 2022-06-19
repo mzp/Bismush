@@ -78,7 +78,7 @@ targets:
         com.apple.security.app-sandbox: true
         com.apple.security.files.user-selected.read-write: true
     info:
-      path: Sources/Supports Files/Bismush/Info.plist
+      path: Sources/Bismush/Supports Files/Info.plist
     preBuildScripts:
       - path: Scripts/swiftformat.sh
         name: Swift Format
