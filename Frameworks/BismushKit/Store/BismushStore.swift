@@ -9,11 +9,13 @@ import Foundation
 import SwiftUI
 
 public class BismushStore: ObservableObject {
+    public let document: CanvasDocument
     public let artboard: ArtboardStore
     public let brush: Brush
 
-    public init() {
-        artboard = ArtboardStore.makeSample()
+    public init(document: CanvasDocument) {
+        self.document = document
+        artboard = document.artboard
         brush = Brush(store: artboard)
     }
 
@@ -26,6 +28,6 @@ public class BismushStore: ObservableObject {
     }
 
     public class func makeSample() -> BismushStore {
-        BismushStore()
+        BismushStore(document: CanvasDocument())
     }
 }

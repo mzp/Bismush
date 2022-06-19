@@ -10,10 +10,9 @@ import SwiftUI
 
 @main
 struct BismushApp: App {
-    @StateObject var store = BismushStore.makeSample()
     var body: some Scene {
-        WindowGroup {
-            ViewModelProvider(bismushStore: store) {
+        DocumentGroup(newDocument: { CanvasDocument() }) { configuration in
+            ViewModelProvider(document: configuration.document) {
                 WorkspaceView {
                     Artboard()
                 }

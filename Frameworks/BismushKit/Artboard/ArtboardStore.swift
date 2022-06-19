@@ -42,19 +42,6 @@ public class ArtboardStore: CanvasContext, ObservableObject {
         layers.first!
     }
 
-    public static func makeSample() -> ArtboardStore {
-        let size: Size<CanvasPixelCoordinate> = .init(width: 800, height: 800)
-        return .init(canvas: Canvas(
-            layers: [
-                CanvasLayer(name: "#1", layerType: .empty, size: size),
-                CanvasLayer(name: "#2", layerType: .empty, size: size),
-                CanvasLayer(name: "square", layerType: .builtin(name: "square"), size: size),
-                CanvasLayer(name: "yosemite", layerType: .builtin(name: "yosemite"), size: size),
-            ],
-            size: size
-        ))
-    }
-
     // MARK: - Undo/redo
 
     public func getSnapshot() -> Snapshot {

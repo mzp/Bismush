@@ -76,6 +76,7 @@ targets:
       path: Sources/Bismush/Supports Files/Bismush.entitlements
       properties:
         com.apple.security.app-sandbox: true
+        com.apple.security.files.user-selected.read-write: true
     info:
       path: Sources/Supports Files/Bismush/Info.plist
     preBuildScripts:

@@ -10,7 +10,14 @@ import BismushUI
 import SwiftUI
 
 struct ViewModelProvider<Content: View>: View {
+    @ObservedObject var document: CanvasDocument
     var bismushStore: BismushStore
+
+    init(document: CanvasDocument, content: @escaping () -> Content) {
+        self.document = document
+        bismushStore = BismushStore(document: document)
+        self.content = content
+    }
 
     var content: () -> Content
     var body: some View {
@@ -22,11 +29,11 @@ struct ViewModelProvider<Content: View>: View {
 }
 
 struct SampleViewModel<Content: View>: View {
-    @StateObject var store = BismushStore.makeSample()
+    @StateObject var document = CanvasDocument.sample
     var content: () -> Content
 
     var body: some View {
-        ViewModelProvider(bismushStore: store) {
+        ViewModelProvider(document: document) {
             content()
         }
     }
