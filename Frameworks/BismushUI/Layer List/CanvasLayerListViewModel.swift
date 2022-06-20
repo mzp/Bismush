@@ -17,24 +17,26 @@ public class CanvasLayerListViewModel: ObservableObject {
     }
 
     var layers: [CanvasLayer] {
-        store.canvasRender.layerRenderers.map { layer in
-            layer.canvasLayer
-        }
+        /*        store.canvasRender.layerRenderers.map { layer in
+             layer.canvasLayer
+         }*/
+        []
     }
 
-    func visible(index: Int) -> Binding<Bool> {
+    func visible(index _: Int) -> Binding<Bool> {
         Binding(
             get: {
-                self.store.canvasRender.layerRenderers[index].visible
+//                self.store.canvasRender.layerRenderers[index].visible
+                true
             },
-            set: { visible in
-                self.store.canvasRender.layerRenderers[index].visible = visible
-                self.objectWillChange.send()
+            set: { _ in
+//                self.store.canvasRender.layerRenderers[index].visible = visible
+//                self.objectWillChange.send()
             }
         )
     }
 
-    func move(fromOffsets: IndexSet, toOffset: Int) {
-        store.canvasRender.layerRenderers.move(fromOffsets: fromOffsets, toOffset: toOffset)
+    func move(fromOffsets _: IndexSet, toOffset _: Int) {
+//        store.canvasRender.layerRenderers.move(fromOffsets: fromOffsets, toOffset: toOffset)
     }
 }

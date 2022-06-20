@@ -28,14 +28,14 @@ struct Artboard: View {
     }
 
     func mouseDown(with _: NSEvent, in _: NSView) {
-        let snapshot = viewModel.store.getSnapshot()
-        undoManager?.registerUndo(withTarget: viewModel.store, handler: { store in
-            let redoSnapshot = store.getSnapshot()
-            store.restore(snapshot: snapshot)
-            undoManager?.registerUndo(withTarget: store, handler: { store in
-                store.restore(snapshot: redoSnapshot)
-            })
-        })
+        /*        let snapshot = viewModel.store.getSnapshot()
+         undoManager?.registerUndo(withTarget: viewModel.store, handler: { store in
+             let redoSnapshot = store.getSnapshot()
+             store.restore(snapshot: snapshot)
+             undoManager?.registerUndo(withTarget: store, handler: { store in
+                 store.restore(snapshot: redoSnapshot)
+             })
+         })*/
     }
 
     func mouseDragged(with event: NSEvent, in view: NSView) {

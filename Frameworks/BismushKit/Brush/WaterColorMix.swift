@@ -8,29 +8,29 @@
 import Foundation
 
 class WaterColorMix {
-    private let store: CanvasRenderer
+    private let document: CanvasDocument
     private var context: BMKLayerContext
     private var currentColor: MTLBuffer
     private let shader: ShaderStore
     private var initialized = false
 
-    init(store: CanvasRenderer, context: BMKLayerContext, point _: Point<ViewCoordinate>? = nil) {
-        self.store = store
+    init(document: CanvasDocument, context: BMKLayerContext, point _: Point<ViewCoordinate>? = nil) {
+        self.document = document
         self.context = context
         var color = context.brushColor
-        currentColor = store.device.metalDevice.makeBuffer(
+        currentColor = document.device.metalDevice.makeBuffer(
             bytes: &color,
             length: MemorySize.float4,
             options: .storageModeShared
         )!
-        shader = store.device.shader()
+        shader = document.device.shader()
     }
 
     private func updateCurrentColor(strokes: MetalMutableArray<BMKStroke> /* only use first element */ ) {
         assert(!strokes.isEmpty)
         try! shader.compute(.waterColorInit) { encoder in
             encoder.setBuffer(currentColor, offset: 0, index: 0)
-            encoder.setTexture(store.activeLayer.texture, index: 1)
+            encoder.setTexture(document.texture(canvasLayer: document.activeLayer), index: 1)
             encoder.setBytes(&context, length: MemoryLayout<BMKLayerContext>.size, index: 2)
             encoder.setBuffer(strokes.content, offset: 0, index: 3)
 
@@ -68,7 +68,7 @@ class WaterColorMix {
             encoder.setBuffer(strokes.content, offset: 0, index: 0)
             encoder.setBytes(&count, length: MemorySize.uint32, index: 1)
             encoder.setBuffer(currentColor, offset: 0, index: 2)
-            encoder.setTexture(store.activeLayer.texture, index: 3)
+            encoder.setTexture(document.texture(canvasLayer: document.activeLayer), index: 3)
             encoder.setBytes(&context, length: MemoryLayout<BMKLayerContext>.size, index: 4)
 
             encoder.dispatchThreadgroups(

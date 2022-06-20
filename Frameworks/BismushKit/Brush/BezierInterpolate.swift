@@ -9,20 +9,18 @@ import Foundation
 
 class BezierInterpolate {
     private let shader: ShaderStore
-    private let store: CanvasRenderer
     private let transform: Transform2D<LayerPixelCoordinate, ViewCoordinate>
     private var strokes: MetalMutableArray<BMKStroke>
 
-    init(store: CanvasRenderer, size: Size<ViewCoordinate>) {
-        self.store = store
-        shader = store.device.shader()
+    init(document: CanvasDocument, size: Size<ViewCoordinate>) {
+        shader = document.device.shader()
         transform =
-            store.activeLayer.transform *
-            (store.normalize(viewPortSize: size) *
-                store.projection(viewPortSize: size) *
-                store.modelViewMatrix).inverse
+            document.activeLayer.transform *
+            (document.canvas.normalize(viewPortSize: size) *
+                document.canvas.projection(viewPortSize: size) *
+                document.canvas.modelViewMatrix).inverse
 
-        strokes = store.device.makeArray(options: .storageModeShared)
+        strokes = document.device.makeArray(options: .storageModeShared)
     }
 
     func interpolate(

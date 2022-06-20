@@ -8,16 +8,6 @@
 import Metal
 import simd
 
-protocol RenderContext {
-    var device: GPUDevice { get }
-    var modelViewMatrix: Transform2D<WorldCoordinate, CanvasPixelCoordinate> { get }
-}
-
-protocol DocumentContext {
-    func texture(canvasLayer: CanvasLayer) -> MTLTexture
-    func msaaTexture(canvasLayer: CanvasLayer) -> MTLTexture?
-}
-
 public class CanvasLayerRenderer {
     struct Context {
         var encoder: MTLRenderCommandEncoder
@@ -29,46 +19,26 @@ public class CanvasLayerRenderer {
         var textureCoordinate: SIMD2<Float>
     }
 
-    public var canvasLayer: CanvasLayer
-    var texture: MTLTexture
-    var msaaTexture: MTLTexture?
-    let pixelFormat: MTLPixelFormat = .rgba8Unorm
+//    public var canvasLayer: CanvasLayer
+//    var texture: MTLTexture
+//    var msaaTexture: MTLTexture?
+//    let pixelFormat: MTLPixelFormat = .rgba8Unorm
 
-    private let renderContext: RenderContext
-    private let documentContext: DocumentContext
     private let buffer: MTLBuffer
     private let renderPipelineState: MTLRenderPipelineState
-
+    private let document: CanvasDocument
     var needsNewTexture = false
 
-    init(
-        canvasLayer: CanvasLayer,
-        documentContext: DocumentContext,
-        renderContext: RenderContext
-    ) {
-        self.canvasLayer = canvasLayer
-        self.renderContext = renderContext
-        self.documentContext = documentContext
+    init(document: CanvasDocument) {
+//        self.canvasLayer = canvasLayer
+        self.document = document
 
-        buffer = renderContext.device.metalDevice.makeBuffer(length: MemoryLayout<Vertex>.size * 6)!
+        buffer = document.device.metalDevice.makeBuffer(length: MemoryLayout<Vertex>.size * 6)!
 
         let descriptor = Self.renderPipelineDescriptor
-        descriptor.vertexFunction = renderContext.device.resource.function(.layerVertex)
-        descriptor.fragmentFunction = renderContext.device.resource.function(.layerFragment)
-        texture = documentContext.texture(canvasLayer: canvasLayer)
-        msaaTexture = documentContext.msaaTexture(canvasLayer: canvasLayer)
-        renderPipelineState = try! renderContext.device.metalDevice.makeRenderPipelineState(descriptor: descriptor)
-    }
-
-    var device: GPUDevice { renderContext.device }
-
-    public var visible: Bool {
-        get {
-            canvasLayer.visible
-        }
-        set {
-            canvasLayer.visible = newValue
-        }
+        descriptor.vertexFunction = document.device.resource.function(.layerVertex)
+        descriptor.fragmentFunction = document.device.resource.function(.layerFragment)
+        renderPipelineState = try! document.device.metalDevice.makeRenderPipelineState(descriptor: descriptor)
     }
 
     // MARK: - Serialize
@@ -92,16 +62,6 @@ public class CanvasLayerRenderer {
      */
 
     // MARK: - Transform
-
-    var transform: Transform2D<LayerPixelCoordinate, CanvasPixelCoordinate> {
-        .identity()
-    }
-
-    var renderTransform: Transform2D<LayerCoordinate, LayerPixelCoordinate> {
-        Transform2D(matrix:
-            Transform2D.translate(x: -1, y: -1) *
-                Transform2D.scale(x: Float(1 / canvasLayer.size.width * 2), y: Float(1 / canvasLayer.size.height * 2)))
-    }
 
     /*    func createNewTexture(commandBuffer: MTLCommandBuffer) {
          if let encoder = commandBuffer.makeBlitCommandEncoder() {
@@ -132,47 +92,23 @@ public class CanvasLayerRenderer {
              texture = newTexture
          }
      }*/
+    /*
+     var transform: Transform2D<LayerPixelCoordinate, CanvasPixelCoordinate> {
+         .identity()
+     }
 
-    var textureTransform: Transform2D<TextureCoordinate, LayerPixelCoordinate> {
-        Transform2D(matrix:
-            Transform2D.translate(x: 0, y: 1) *
-                Transform2D.rotate(x: .pi) *
-                Transform2D.scale(x: Float(1 / canvasLayer.size.width), y: Float(1 / canvasLayer.size.height)))
-    }
+     var renderTransform: Transform2D<LayerCoordinate, LayerPixelCoordinate> {
+         Transform2D(matrix:
+             Transform2D.translate(x: -1, y: -1) *
+                 Transform2D.scale(x: Float(1 / canvasLayer.size.width * 2), y: Float(1 / canvasLayer.size.height * 2)))
+     }
 
-    // MARK: - Drawing
-
-    func draw(commandBuffer: MTLCommandBuffer, perform: (MTLRenderCommandEncoder) -> Void) {
-        guard visible else {
-            return
-        }
-
-        let renderPassDescription = MTLRenderPassDescriptor()
-        let texture = documentContext.texture(canvasLayer: canvasLayer)
-        if let msaaTexture = documentContext.msaaTexture(canvasLayer: canvasLayer) {
-            renderPassDescription.colorAttachments[0].texture = msaaTexture
-            renderPassDescription.colorAttachments[0].resolveTexture = texture
-            renderPassDescription.colorAttachments[0].storeAction = .storeAndMultisampleResolve
-        } else {
-            renderPassDescription.colorAttachments[0].texture = texture
-            renderPassDescription.colorAttachments[0].storeAction = .store
-        }
-        renderPassDescription.colorAttachments[0].loadAction = .load
-        renderPassDescription.colorAttachments[0].clearColor = MTLClearColor(red: 1, green: 1, blue: 1, alpha: 0)
-
-        let encoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescription)!
-        let viewPort = MTLViewport(
-            originX: 0,
-            originY: 0,
-            width: Double(canvasLayer.size.width),
-            height: Double(canvasLayer.size.height),
-            znear: -1,
-            zfar: 1
-        )
-        encoder.setViewport(viewPort)
-        perform(encoder)
-        encoder.endEncoding()
-    }
+     var textureTransform: Transform2D<TextureCoordinate, LayerPixelCoordinate> {
+         Transform2D(matrix:
+             Transform2D.translate(x: 0, y: 1) *
+                 Transform2D.rotate(x: .pi) *
+                 Transform2D.scale(x: Float(1 / canvasLayer.size.width), y: Float(1 / canvasLayer.size.height)))
+     }*/
 
     // MARK: - render
 
@@ -192,10 +128,11 @@ public class CanvasLayerRenderer {
         return descriptor
     }()
 
-    func render(context: Context) {
-        guard visible else { return }
+    func render(canvasLayer: CanvasLayer, context: Context) {
+        guard canvasLayer.visible else { return }
+        let vertices = vertices(size: canvasLayer.size)
         buffer.contents().copyMemory(from: vertices, byteCount: MemoryLayout<Vertex>.size * 6)
-        let texture = documentContext.texture(canvasLayer: canvasLayer)
+        let texture = document.texture(canvasLayer: canvasLayer)
 
         let encoder = context.encoder
         encoder.setRenderPipelineState(renderPipelineState)
@@ -207,8 +144,7 @@ public class CanvasLayerRenderer {
         encoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: vertices.count)
     }
 
-    var vertices: [Vertex] {
-        let size = canvasLayer.size
+    private func vertices(size: Size<CanvasPixelCoordinate>) -> [Vertex] {
         let width = Float(size.width)
         let height = Float(size.height)
         return [

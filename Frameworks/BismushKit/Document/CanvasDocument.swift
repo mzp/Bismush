@@ -13,20 +13,8 @@ extension UTType {
     static let canvas = UTType(exportedAs: "jp.mzp.bismush.canvas")
 }
 
-public class CanvasDocument: ReferenceFileDocument, DocumentContext {
+public class CanvasDocument: ReferenceFileDocument {
     static let kLayerContainerName = "Layers"
-
-    /*    struct Context: DocumentContext {
-         var fileWrapper: FileWrapper?
-
-         var layerContainer: FileWrapper? {
-             fileWrapper?.fileWrappers?[CanvasDocument.kLayerContainerName]
-         }
-
-         func layer(id: String) -> Data? {
-             layerContainer?.fileWrappers?["\(id).layerData"]?.regularFileContents
-         }
-     }*/
 
     func layer(id _: String) -> Data? {
         nil
@@ -81,6 +69,16 @@ public class CanvasDocument: ReferenceFileDocument, DocumentContext {
         return container
     }
 
+    // MARK: - Layer
+
+    var device: GPUDevice {
+        GPUDevice.default
+    }
+
+    var activeLayer: CanvasLayer {
+        canvas.layers.first!
+    }
+
     // MARK: - Texture
 
     private var textures = [String: MTLTexture]()
@@ -104,7 +102,7 @@ public class CanvasDocument: ReferenceFileDocument, DocumentContext {
             description.usage = [.shaderRead, .renderTarget, .shaderWrite]
             description.textureType = .type2D
 
-            texture = GPUDevice.default.metalDevice.makeTexture(descriptor: description)!
+            texture = device.metalDevice.makeTexture(descriptor: description)!
 
             if let data = layer(id: canvasLayer.id) {
                 let bytesPerRow = MemoryLayout<Float>.size * 4 * width
@@ -119,7 +117,7 @@ public class CanvasDocument: ReferenceFileDocument, DocumentContext {
                 }
             }
         case let .builtin(name: name):
-            texture = GPUDevice.default.resource.bultinTexture(name: name)
+            texture = device.resource.bultinTexture(name: name)
         }
         textures[canvasLayer.id] = texture
         return texture
@@ -141,7 +139,7 @@ public class CanvasDocument: ReferenceFileDocument, DocumentContext {
         desc.textureType = .type2DMultisample
         desc.sampleCount = 4
         desc.usage = [.renderTarget, .shaderRead, .shaderWrite]
-        let texture = GPUDevice.default.metalDevice.makeTexture(descriptor: desc)!
+        let texture = device.metalDevice.makeTexture(descriptor: desc)!
         msaaTextures[canvasLayer.id] = texture
         return texture
     }

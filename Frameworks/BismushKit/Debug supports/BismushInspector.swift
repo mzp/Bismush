@@ -29,4 +29,11 @@ public class BismushInspector {
             intent: .defaultIntent
         )
     }
+
+    func buffer(buffer: MTLBuffer, count: Int) -> [SIMD2<Float>] {
+        Array(
+            UnsafeBufferPointer(start: buffer.contents().bindMemory(to: SIMD2<Float>.self, capacity: count),
+                                count: count)
+        )
+    }
 }
