@@ -9,11 +9,11 @@ import Foundation
 
 class BezierInterpolate {
     private let shader: ShaderStore
-    private let store: ArtboardStore
+    private let store: CanvasRenderer
     private let transform: Transform2D<LayerPixelCoordinate, ViewCoordinate>
     private var strokes: MetalMutableArray<BMKStroke>
 
-    init(store: ArtboardStore, size: Size<ViewCoordinate>) {
+    init(store: CanvasRenderer, size: Size<ViewCoordinate>) {
         self.store = store
         shader = store.device.shader()
         transform =

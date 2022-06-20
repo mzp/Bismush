@@ -18,7 +18,7 @@ public class Brush {
 
     private var session: Session?
 
-    private let store: ArtboardStore
+    private let store: CanvasRenderer
     private var renderer: StrokeRenderer?
     private var points = RingBuffer<PressurePoint>(capacity: 4)
 
@@ -39,7 +39,7 @@ public class Brush {
 
     private var context: BMKLayerContext
 
-    public init(store: ArtboardStore, brushSize: Float = 50) {
+    public init(store: CanvasRenderer, brushSize: Float = 50) {
         self.store = store
 
         context = BMKLayerContext(

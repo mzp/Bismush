@@ -10,21 +10,21 @@ import SwiftUI
 
 public class BismushStore: ObservableObject {
     public let document: CanvasDocument
-    public let artboard: ArtboardStore
+    public let canvasRender: CanvasRenderer
     public let brush: Brush
 
     public init(document: CanvasDocument) {
         self.document = document
-        artboard = document.artboard
-        brush = Brush(store: artboard)
+        canvasRender = CanvasRenderer(document: document)
+        brush = Brush(store: canvasRender)
     }
 
     public func getSnapshot() -> Snapshot {
-        artboard.getSnapshot()
+        canvasRender.getSnapshot()
     }
 
     public func restore(snapshot: Snapshot) {
-        artboard.restore(snapshot: snapshot)
+        canvasRender.restore(snapshot: snapshot)
     }
 
     public class func makeSample() -> BismushStore {

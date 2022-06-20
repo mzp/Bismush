@@ -11,10 +11,10 @@ import simd
 
 class StrokeRenderer {
     private let commandQueue: MTLCommandQueue
-    private let store: ArtboardStore
+    private let store: CanvasRenderer
     private var context: BMKLayerContext
 
-    init(store: ArtboardStore, context: BMKLayerContext) {
+    init(store: CanvasRenderer, context: BMKLayerContext) {
         self.store = store
         self.context = context
         commandQueue = store.device.metalDevice.makeCommandQueue()!
@@ -39,7 +39,7 @@ class StrokeRenderer {
 
                 encoder.setVertexBuffer(strokes.content, offset: 0, index: 0)
                 encoder.setVertexBytes(&context, length: MemoryLayout<BMKLayerContext>.size, index: 1)
-                encoder.setVertexTexture(store.activeLayer.texture, index: 2)
+//                encoder.setVertexTexture(store.activeLayer.texture, index: 2)
 
                 encoder.drawPrimitives(type: .point, vertexStart: 0, vertexCount: Int(strokes.count))
             }

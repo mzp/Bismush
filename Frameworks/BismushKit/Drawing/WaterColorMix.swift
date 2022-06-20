@@ -8,13 +8,13 @@
 import Foundation
 
 class WaterColorMix {
-    private let store: ArtboardStore
+    private let store: CanvasRenderer
     private var context: BMKLayerContext
     private var currentColor: MTLBuffer
     private let shader: ShaderStore
     private var initialized = false
 
-    init(store: ArtboardStore, context: BMKLayerContext, point _: Point<ViewCoordinate>? = nil) {
+    init(store: CanvasRenderer, context: BMKLayerContext, point _: Point<ViewCoordinate>? = nil) {
         self.store = store
         self.context = context
         var color = context.brushColor

@@ -32,7 +32,7 @@ class MobileArtboardView: ArtboardView {
 }
 
 struct MobileArtboard: UIViewRepresentable {
-    var store: ArtboardStore
+    var store: CanvasRenderer
 
     var onTouchesBegan: ((Set<UITouch>, UIEvent?, UIView) -> Void)?
     var onTouchesMoved: ((Set<UITouch>, UIEvent?, UIView) -> Void)?

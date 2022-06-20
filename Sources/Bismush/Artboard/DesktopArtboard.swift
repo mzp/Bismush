@@ -7,6 +7,7 @@
 
 import AppKit
 import BismushKit
+import BismushUI
 import SwiftUI
 
 protocol DesktopArtboardDelegate: AnyObject {
@@ -32,7 +33,7 @@ class DesktopArtboardView: ArtboardView {
 }
 
 struct DesktopArtboard: NSViewRepresentable {
-    var store: ArtboardStore
+    var store: CanvasRenderer
     var onMouseDown: ((NSEvent, NSView) -> Void)?
     var onMouseDragged: ((NSEvent, NSView) -> Void)?
     var onMouseUp: ((NSEvent, NSView) -> Void)?

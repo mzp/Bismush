@@ -9,7 +9,7 @@ import CoreGraphics
 import XCTest
 @testable import BismushKit
 
-class DummyContext: RenderContext, DataContext {
+class DummyContext: RenderContext, DocumentContext {
     var data: Data?
     var device: GPUDevice { .default }
 
@@ -36,7 +36,7 @@ class ArtboardLayerStoreTests: XCTestCase {
             size: .init(width: 800, height: 800)
         )
         let context = DummyContext()
-        let store = ArtboardLayerStore(canvasLayer: layer, dataContext: context, renderContext: context)
+        let store = CanvasLayerRenderer(canvasLayer: layer, documentContext: context, renderContext: context)
         let data = store.data
 
         let dataLayer = CanvasLayer(
@@ -45,7 +45,7 @@ class ArtboardLayerStoreTests: XCTestCase {
             size: .init(width: 800, height: 800)
         )
         context.data = data
-        let restoredStore = ArtboardLayerStore(canvasLayer: dataLayer, dataContext: context, renderContext: context)
+        let restoredStore = CanvasLayerRenderer(canvasLayer: dataLayer, documentContext: context, renderContext: context)
         let restoredData = restoredStore.data
 
         let attachment = XCTAttachment(image: try XCTUnwrap(image(data, width: 800, height: 800)))

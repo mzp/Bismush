@@ -9,7 +9,7 @@ import Metal
 import MetalKit
 
 public class GPUDevice {
-    let metalDevice: MTLDevice
+    public let metalDevice: MTLDevice
 
     static let `default` = GPUDevice(metalDevice: MTLCreateSystemDefaultDevice()!)
 

@@ -5,14 +5,15 @@
 //  Created by mzp on 3/15/22.
 //
 
+import BismushKit
 import MetalKit
 
 open class ArtboardView: MTKView, MTKViewDelegate {
-    private let store: ArtboardStore
+    private let store: CanvasRenderer
     private let commandQueue: MTLCommandQueue
     private var viewPortSize: Size<ViewCoordinate> = .zero()
 
-    public init(store: ArtboardStore) {
+    public init(store: CanvasRenderer) {
         self.store = store
         commandQueue = store.device.metalDevice.makeCommandQueue()!
         commandQueue.label = "Artboard"

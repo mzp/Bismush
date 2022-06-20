@@ -16,7 +16,7 @@ struct Artboard: View {
     @State var undoManager: UndoManager?
 
     var body: some View {
-        DesktopArtboard(store: viewModel.store.artboard)
+        DesktopArtboard(store: viewModel.store.canvasRender)
             .onMouseDown(perform: mouseDown(with:in:))
             .onMouseDragged(perform: mouseDragged(with:in:))
             .onMouseUp(perform: mouseUp(with:in:))

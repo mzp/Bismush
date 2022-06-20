@@ -1,5 +1,5 @@
 //
-//  ArtboardStore.swift
+//  CanvasRenderer.swift
 //  Bismush
 //
 //  Created by mzp on 3/23/22.
@@ -10,27 +10,35 @@ import Metal
 import simd
 import SwiftUI
 
-public struct Snapshot {
-    var texture: MTLTexture
-    var msaaTexture: MTLTexture?
-}
-
-public class ArtboardStore: RenderContext, ObservableObject {
-    struct Context {
+public class CanvasRenderer: RenderContext, ObservableObject {
+    public struct Context {
         var encoder: MTLRenderCommandEncoder
         var viewPortSize: Size<ViewCoordinate>
+
+        public init(encoder: MTLRenderCommandEncoder, viewPortSize: Size<ViewCoordinate>) {
+            self.encoder = encoder
+            self.viewPortSize = viewPortSize
+        }
     }
 
-    public let canvas: Canvas
-    public var layers = [ArtboardLayerStore]()
+    public var canvas: Canvas {
+        document.canvas
+    }
 
-    let device: GPUDevice
+    public var layerRenderers = [CanvasLayerRenderer]()
+    private let document: CanvasDocument
 
-    init(canvas: Canvas, dataContext: DataContext) {
-        self.canvas = canvas
+    public let device: GPUDevice
+
+    init(document: CanvasDocument) {
+        self.document = document
         device = GPUDevice(metalDevice: MTLCreateSystemDefaultDevice()!)
-        layers = canvas.layers.map { layer in
-            ArtboardLayerStore(canvasLayer: layer, dataContext: dataContext, renderContext: self)
+        layerRenderers = document.canvas.layers.map { layer in
+            CanvasLayerRenderer(
+                canvasLayer: layer,
+                documentContext: document,
+                renderContext: self
+            )
         }
     }
 
@@ -38,8 +46,8 @@ public class ArtboardStore: RenderContext, ObservableObject {
         canvas.size
     }
 
-    var activeLayer: ArtboardLayerStore {
-        layers.first!
+    var activeLayer: CanvasLayerRenderer {
+        layerRenderers.first!
     }
 
     // MARK: - Undo/redo
@@ -81,12 +89,12 @@ public class ArtboardStore: RenderContext, ObservableObject {
 
     // MARK: - Render
 
-    func render(context: Context) {
-        let context = ArtboardLayerStore.Context(
+    public func render(context: Context) {
+        let context = CanvasLayerRenderer.Context(
             encoder: context.encoder,
             projection: projection(viewPortSize: context.viewPortSize) * modelViewMatrix
         )
-        for layer in layers.reversed() {
+        for layer in layerRenderers.reversed() {
             layer.render(context: context)
         }
     }

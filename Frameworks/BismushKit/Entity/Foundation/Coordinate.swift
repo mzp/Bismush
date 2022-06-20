@@ -33,8 +33,8 @@ public class TextureCoordinate: Coordinate {}
 public struct Size<T: Coordinate>: Codable, CustomStringConvertible, Equatable, Hashable {
     var rawValue: SIMD2<Float>
 
-    var width: Float { rawValue.x }
-    var height: Float { rawValue.y }
+    public var width: Float { rawValue.x }
+    public var height: Float { rawValue.y }
 
     init(width: Float, height: Float) {
         rawValue = SIMD2(width, height)
@@ -44,7 +44,7 @@ public struct Size<T: Coordinate>: Codable, CustomStringConvertible, Equatable, 
         rawValue = SIMD2(Float(cgSize.width), Float(cgSize.height))
     }
 
-    static func zero() -> Size<T> {
+    public static func zero() -> Size<T> {
         Size(width: 0, height: 0)
     }
 
