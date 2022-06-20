@@ -33,13 +33,13 @@ class DesktopArtboardView: ArtboardView {
 }
 
 struct DesktopArtboard: NSViewRepresentable {
-    var store: CanvasRenderer
+    var document: CanvasDocument
     var onMouseDown: ((NSEvent, NSView) -> Void)?
     var onMouseDragged: ((NSEvent, NSView) -> Void)?
     var onMouseUp: ((NSEvent, NSView) -> Void)?
 
     func makeNSView(context: Context) -> DesktopArtboardView {
-        let view = DesktopArtboardView(store: store)
+        let view = DesktopArtboardView(document: document)
         view.artboardDelegate = context.coordinator
         return view
     }

@@ -16,7 +16,15 @@ public class BismushStore: ObservableObject {
     public init(document: CanvasDocument) {
         self.document = document
         canvasRender = CanvasRenderer(document: document)
-        brush = Brush(document: document, store: canvasRender)
+        brush = Brush(document: document)
+    }
+
+    public func getSnapshot() -> CanvasDocumentSnapshot {
+        document.snapshot()
+    }
+
+    public func restore(snapshot: CanvasDocumentSnapshot) {
+        document.restore(snapshot: snapshot)
     }
 
     public class func makeSample() -> BismushStore {

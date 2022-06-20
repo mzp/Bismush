@@ -9,15 +9,15 @@ import BismushKit
 import MetalKit
 
 open class ArtboardView: MTKView, MTKViewDelegate {
-    private let store: CanvasRenderer
+    private let renderer: CanvasRenderer
     private let commandQueue: MTLCommandQueue
     private var viewPortSize: Size<ViewCoordinate> = .zero()
 
-    public init(store: CanvasRenderer) {
-        self.store = store
-        commandQueue = store.device.metalDevice.makeCommandQueue()!
+    public init(document: CanvasDocument) {
+        renderer = CanvasRenderer(document: document)
+        commandQueue = document.device.metalDevice.makeCommandQueue()!
         commandQueue.label = "Artboard"
-        super.init(frame: .zero, device: store.device.metalDevice)
+        super.init(frame: .zero, device: document.device.metalDevice)
         delegate = self
         clearColor = MTLClearColor(red: 1, green: 1, blue: 1, alpha: 1)
     }
@@ -56,7 +56,7 @@ open class ArtboardView: MTKView, MTKViewDelegate {
         )
         encoder.label = "Frame"
         encoder.setViewport(viewPort)
-        store.render(context: .init(
+        renderer.render(context: .init(
             encoder: encoder,
             viewPortSize: viewPortSize
         ))

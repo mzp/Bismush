@@ -16,11 +16,8 @@ extension UTType {
 public class CanvasDocument: ReferenceFileDocument {
     static let kLayerContainerName = "Layers"
 
-    func layer(id _: String) -> Data? {
-        nil
-    }
-
-    let canvas: Canvas
+    public var canvas: Canvas
+    private let file: FileWrapper?
 
     public static var readableContentTypes: [UTType] {
         [.canvas]
@@ -34,6 +31,7 @@ public class CanvasDocument: ReferenceFileDocument {
 
     public init(canvas: Canvas = .sample) {
         self.canvas = canvas
+        file = nil
     }
 
     public required init(configuration: ReadConfiguration) throws {
@@ -41,14 +39,15 @@ public class CanvasDocument: ReferenceFileDocument {
             fatalError("Invalid file format")
         }
         canvas = try JSONDecoder().decode(Canvas.self, from: data)
+        file = configuration.file
     }
 
-    public func snapshot(contentType: UTType) throws -> CanvasDocument {
-        assert(contentType.identifier == "jp.mzp.bismush.canvas")
-        return self
+    public func snapshot(contentType _: UTType) throws -> CanvasDocumentSnapshot {
+//        assert(contentType.identifier == "jp.mzp.bismush.canvas")
+        snapshot()
     }
 
-    public func fileWrapper(snapshot: CanvasDocument, configuration: WriteConfiguration) throws -> FileWrapper {
+    public func fileWrapper(snapshot: CanvasDocumentSnapshot, configuration: WriteConfiguration) throws -> FileWrapper {
         let container = configuration.existingFile ?? FileWrapper(directoryWithFileWrappers: [:])
 
         // MetaData
@@ -58,20 +57,47 @@ public class CanvasDocument: ReferenceFileDocument {
         // Data
         let layerContainer = FileWrapper(directoryWithFileWrappers: [:])
         layerContainer.preferredFilename = Self.kLayerContainerName
-        /*        for layer in snapshot.artboard.layerRenderers {
-             layerContainer.addRegularFile(
-                 withContents: layer.data,
-                 preferredFilename: "\(layer.canvasLayer.id).layerData"
-             )
-         }*/
+
+        for key in textures.keys {
+            if let data = snapshot.textures[key]?.bmkData {
+                layerContainer.addRegularFile(
+                    withContents: data,
+                    preferredFilename: "\(key).texture"
+                )
+            }
+        }
+        for key in msaaTextures.keys {
+            if let data = snapshot.msaaTextures[key]?.bmkData {
+                layerContainer.addRegularFile(
+                    withContents: data,
+                    preferredFilename: "\(key).msaatexture"
+                )
+            }
+        }
         container.addFileWrapper(layerContainer)
 
         return container
     }
 
+    // MARK: - Snapshot
+
+    func snapshot() -> CanvasDocumentSnapshot {
+        .init(
+            canvas: canvas,
+            textures: textures,
+            msaaTextures: msaaTextures
+        )
+    }
+
+    func restore(snapshot: CanvasDocumentSnapshot) {
+        canvas = snapshot.canvas
+        textures = snapshot.textures
+        msaaTextures = snapshot.msaaTextures
+    }
+
     // MARK: - Layer
 
-    var device: GPUDevice {
+    public var device: GPUDevice {
         GPUDevice.default
     }
 
@@ -83,6 +109,14 @@ public class CanvasDocument: ReferenceFileDocument {
 
     private var textures = [String: MTLTexture]()
     private var msaaTextures = [String: MTLTexture]()
+
+    private var layerContainer: FileWrapper? {
+        file?.fileWrappers?[CanvasDocument.kLayerContainerName]
+    }
+
+    private func layer(id: String, type: String) -> Data? {
+        layerContainer?.fileWrappers?["\(id).\(type)"]?.regularFileContents
+    }
 
     func texture(canvasLayer: CanvasLayer) -> MTLTexture {
         if let texture = textures[canvasLayer.id] {
@@ -104,17 +138,8 @@ public class CanvasDocument: ReferenceFileDocument {
 
             texture = device.metalDevice.makeTexture(descriptor: description)!
 
-            if let data = layer(id: canvasLayer.id) {
-                let bytesPerRow = MemoryLayout<Float>.size * 4 * width
-
-                _ = data.withUnsafeBytes { pointer in
-                    texture.replace(
-                        region: MTLRegionMake2D(0, 0, width, height),
-                        mipmapLevel: 0,
-                        withBytes: pointer,
-                        bytesPerRow: bytesPerRow
-                    )
-                }
+            if let data = layer(id: canvasLayer.id, type: "texture") {
+                texture.bmkData = data
             }
         case let .builtin(name: name):
             texture = device.resource.bultinTexture(name: name)
@@ -130,16 +155,24 @@ public class CanvasDocument: ReferenceFileDocument {
         if let texture = msaaTextures[canvasLayer.id] {
             return texture
         }
+        let width = Int(canvasLayer.size.width)
+        let height = Int(canvasLayer.size.height)
+
         let desc = MTLTextureDescriptor.texture2DDescriptor(
             pixelFormat: canvasLayer.pixelFormat,
-            width: Int(canvasLayer.size.width),
-            height: Int(canvasLayer.size.height),
+            width: width,
+            height: height,
             mipmapped: false
         )
         desc.textureType = .type2DMultisample
         desc.sampleCount = 4
         desc.usage = [.renderTarget, .shaderRead, .shaderWrite]
         let texture = device.metalDevice.makeTexture(descriptor: desc)!
+
+        if let data = layer(id: canvasLayer.id, type: "msaatexture") {
+            texture.bmkData = data
+        }
+
         msaaTextures[canvasLayer.id] = texture
         return texture
     }

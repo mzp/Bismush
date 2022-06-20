@@ -14,10 +14,10 @@ class LayerDrawer {
     private let commandQueue: MTLCommandQueue
     private var context: BMKLayerContext
 
-    init(document: CanvasDocument, store: CanvasRenderer, context: BMKLayerContext) {
+    init(document: CanvasDocument, context: BMKLayerContext) {
         self.document = document
         self.context = context
-        commandQueue = store.device.metalDevice.makeCommandQueue()!
+        commandQueue = document.device.metalDevice.makeCommandQueue()!
     }
 
     func draw(strokes: MetalMutableArray<BMKStroke>) {

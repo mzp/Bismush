@@ -18,7 +18,6 @@ public class Brush {
 
     private var session: Session?
 
-    private let store: CanvasRenderer
     private var points = RingBuffer<PressurePoint>(capacity: 4)
 
     public var color: BismushColor {
@@ -39,9 +38,8 @@ public class Brush {
     private var context: BMKLayerContext
     private let document: CanvasDocument
 
-    public init(document: CanvasDocument, store: CanvasRenderer, brushSize: Float = 50) {
+    public init(document: CanvasDocument, brushSize: Float = 50) {
         self.document = document
-        self.store = store
 
         context = BMKLayerContext(
             brushColor: SIMD4<Float>(0, 0, 0, 1),
@@ -69,7 +67,7 @@ public class Brush {
             if session == nil {
                 let interporater = BezierInterpolate(document: document, size: viewSize)
                 let mixer = WaterColorMix(document: document, context: context)
-                let renderer = LayerDrawer(document: document, store: store, context: context)
+                let renderer = LayerDrawer(document: document, context: context)
                 session = Session(interporater: interporater, mixer: mixer, renderer: renderer)
                 BismushLogger.drawing.debug("brush session starts")
             }
