@@ -17,7 +17,9 @@ public class CanvasLayerListViewModel: ObservableObject {
     }
 
     var layers: [CanvasLayer] {
-        store.artboard.layers.map(\.canvasLayer)
+        store.artboard.layers.map { layer in
+            layer.canvasLayer
+        }
     }
 
     func visible(index: Int) -> Binding<Bool> {

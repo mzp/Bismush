@@ -9,7 +9,7 @@ import CoreGraphics
 import XCTest
 @testable import BismushKit
 
-class DummyContext: CanvasContext {
+class DummyContext: RenderContext {
     var device: GPUDevice { .default }
 
     var modelViewMatrix: Transform2D<WorldCoordinate, CanvasPixelCoordinate> {
@@ -49,7 +49,6 @@ class ArtboardLayerStoreTests: XCTestCase {
     }
 
     func image(_ data: Data, width: Int, height: Int) -> NSImage? {
-        var data = data
         let bitCount = 8
         guard let provider = CGDataProvider(data: data as CFData) else {
             return nil
@@ -74,57 +73,5 @@ class ArtboardLayerStoreTests: XCTestCase {
         } else {
             return nil
         }
-    }
-
-    func image2(_ data: Data, width: Int, height: Int) -> NSImage? {
-        var data = data
-        let bitCount = 1 + Float.significandBitCount + Float.exponentBitCount
-        guard let provider = CGDataProvider(data: data as CFData) else {
-            return nil
-        }
-
-        let cgImage = CGImage(
-            width: width,
-            height: height,
-            bitsPerComponent: bitCount,
-            bitsPerPixel: bitCount * 4,
-            bytesPerRow: MemoryLayout<Float>.size * 4 * width,
-            space: CGColorSpaceCreateDeviceRGB(),
-            bitmapInfo: [.floatComponents, CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue)],
-            provider: provider,
-            decode: nil,
-            shouldInterpolate: false,
-            intent: .defaultIntent
-        )
-
-        if let cgImage = cgImage {
-            return NSImage(cgImage: cgImage, size: .init(width: width, height: height))
-        } else {
-            return nil
-        }
-        /*
-         size_t
-         CGDataProviderRef provider = CGDataProviderCreateWithData(NULL, data, bufferLength, NULL);
-         size_t bitsPerComponent = 8;
-         size_t bitsPerPixel = 32;
-         size_t bytesPerRow = 4 * width;
-         CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateDeviceRGB();
-         CGBitmapInfo bitmapInfo = kCGBitmapByteOrderDefault | kCGImageAlphaPremultipliedLast;
-         CGColorRenderingIntent renderingIntent = kCGRenderingIntentDefault;
-
-         CGImageRef iref = CGImageCreate(width,
-                                         height,
-                                         bitsPerComponent,
-                                         bitsPerPixel,
-                                         bytesPerRow,
-                                         colorSpaceRef,
-                                         bitmapInfo,
-                                         provider,   // data provider
-                                         NULL,       // decode
-                                         YES,        // should interpolate
-                                         renderingIntent);
-
-         _image = [[NSImage alloc] initWithCGImage:iref size:NSMakeSize(width, height)];
-         */
     }
 }

@@ -8,9 +8,13 @@
 import Metal
 import simd
 
-protocol CanvasContext {
+protocol RenderContext {
     var device: GPUDevice { get }
     var modelViewMatrix: Transform2D<WorldCoordinate, CanvasPixelCoordinate> { get }
+}
+
+protocol DataContext {
+    func layer(id: String) -> Data?
 }
 
 public class ArtboardLayerStore {
@@ -29,34 +33,48 @@ public class ArtboardLayerStore {
     var msaaTexture: MTLTexture?
     let pixelFormat: MTLPixelFormat = .rgba8Unorm
 
-    private let context: CanvasContext
+    private let renderContext: RenderContext
     private var dirty = true
     private let buffer: MTLBuffer
     private let renderPipelineState: MTLRenderPipelineState
 
     var needsNewTexture = false
 
-    init(canvasLayer: CanvasLayer, context: CanvasContext) {
+    init(canvasLayer: CanvasLayer, dataContext: DataContext, canvasContext: RenderContext) {
         self.canvasLayer = canvasLayer
-        self.context = context
+        renderContext = canvasContext
 
         switch canvasLayer.layerType {
-        case .data:
-            fallthrough
         case .empty:
+            let size = canvasLayer.size
+            let width = Int(size.width)
+            let height = Int(size.height)
+
             let description = MTLTextureDescriptor()
-            description.width = Int(canvasLayer.size.width)
-            description.height = Int(canvasLayer.size.height)
+            description.width = width
+            description.height = height
             description.pixelFormat = pixelFormat
             description.usage = [.shaderRead, .renderTarget, .shaderWrite]
             description.textureType = .type2D
 
-            texture = context.device.metalDevice.makeTexture(descriptor: description)!
+            let texture = canvasContext.device.metalDevice.makeTexture(descriptor: description)!
 
-        // id -> Data
-        // replace
+            if let data = dataContext.layer(id: canvasLayer.id) {
+                let bytesPerRow = MemoryLayout<Float>.size * 4 * width
+
+                data.withUnsafeBytes { pointer in
+                    texture.replace(
+                        region: MTLRegionMake2D(0, 0, width, height),
+                        mipmapLevel: 0,
+                        withBytes: pointer,
+                        bytesPerRow: bytesPerRow
+                    )
+                }
+                dirty = false
+            }
+            self.texture = texture
         case let .builtin(name: name):
-            texture = context.device.resource.bultinTexture(name: name)
+            texture = canvasContext.device.resource.bultinTexture(name: name)
         }
 
         let desc = MTLTextureDescriptor.texture2DDescriptor(
@@ -66,24 +84,24 @@ public class ArtboardLayerStore {
             mipmapped: false
         )
 
-        if context.device.capability.msaa {
+        if canvasContext.device.capability.msaa {
             desc.textureType = .type2DMultisample
             desc.sampleCount = 4
             desc.usage = [.renderTarget, .shaderRead, .shaderWrite]
-            msaaTexture = context.device.metalDevice.makeTexture(descriptor: desc)!
+            msaaTexture = canvasContext.device.metalDevice.makeTexture(descriptor: desc)!
         } else {
             msaaTexture = nil
         }
 
-        buffer = context.device.metalDevice.makeBuffer(length: MemoryLayout<Vertex>.size * 6)!
+        buffer = canvasContext.device.metalDevice.makeBuffer(length: MemoryLayout<Vertex>.size * 6)!
 
         let descriptor = Self.renderPipelineDescriptor
-        descriptor.vertexFunction = context.device.resource.function(.layerVertex)
-        descriptor.fragmentFunction = context.device.resource.function(.layerFragment)
-        renderPipelineState = try! context.device.metalDevice.makeRenderPipelineState(descriptor: descriptor)
+        descriptor.vertexFunction = canvasContext.device.resource.function(.layerVertex)
+        descriptor.fragmentFunction = canvasContext.device.resource.function(.layerFragment)
+        renderPipelineState = try! canvasContext.device.metalDevice.makeRenderPipelineState(descriptor: descriptor)
     }
 
-    var device: GPUDevice { context.device }
+    var device: GPUDevice { renderContext.device }
 
     public var visible: Bool {
         get {
@@ -132,13 +150,13 @@ public class ArtboardLayerStore {
             description.pixelFormat = pixelFormat
             description.usage = [.shaderRead, .renderTarget, .shaderWrite]
             description.textureType = .type2D
-            let newTexture = context.device.metalDevice.makeTexture(descriptor: description)!
+            let newTexture = renderContext.device.metalDevice.makeTexture(descriptor: description)!
 
             let newMsaaTexture: MTLTexture?
-            if context.device.capability.msaa {
+            if renderContext.device.capability.msaa {
                 description.textureType = .type2DMultisample
                 description.sampleCount = 4
-                newMsaaTexture = context.device.metalDevice.makeTexture(descriptor: description)!
+                newMsaaTexture = renderContext.device.metalDevice.makeTexture(descriptor: description)!
             } else {
                 newMsaaTexture = nil
             }
@@ -178,7 +196,7 @@ public class ArtboardLayerStore {
             createNewTexture(commandBuffer: commandBuffer)
         }
 
-        if context.device.capability.msaa {
+        if renderContext.device.capability.msaa {
             renderPassDescription.colorAttachments[0].texture = msaaTexture
             renderPassDescription.colorAttachments[0].resolveTexture = texture
             renderPassDescription.colorAttachments[0].storeAction = .storeAndMultisampleResolve

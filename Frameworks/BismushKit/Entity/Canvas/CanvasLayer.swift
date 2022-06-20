@@ -7,7 +7,6 @@
 import SwiftUI
 
 public enum LayerType: Codable, Equatable, Hashable {
-    case data(_: Data)
     case empty
 
     // For debug

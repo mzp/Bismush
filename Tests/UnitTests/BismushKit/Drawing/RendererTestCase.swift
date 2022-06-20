@@ -14,6 +14,12 @@ import Vision
 import XCTest
 @testable import BismushKit
 
+class TestDataContext: DataContext {
+    func layer(id _: String) -> Data {
+        Data()
+    }
+}
+
 // swiftlint:disable test_case_accessibility
 class RendererTestCase: XCTestCase {
     var store: ArtboardStore!
@@ -24,7 +30,7 @@ class RendererTestCase: XCTestCase {
         try super.setUpWithError()
         store = ArtboardStore(canvas: Canvas(layers: [
             CanvasLayer(name: "test", layerType: .empty, size: canvasSize),
-        ], size: canvasSize))
+        ], size: canvasSize), dataContext: TestDataContext())
     }
 
     override func tearDownWithError() throws {

@@ -15,7 +15,7 @@ public struct Snapshot {
     var msaaTexture: MTLTexture?
 }
 
-public class ArtboardStore: CanvasContext, ObservableObject {
+public class ArtboardStore: RenderContext, ObservableObject {
     struct Context {
         var encoder: MTLRenderCommandEncoder
         var viewPortSize: Size<ViewCoordinate>
@@ -26,11 +26,11 @@ public class ArtboardStore: CanvasContext, ObservableObject {
 
     let device: GPUDevice
 
-    public init(canvas: Canvas) {
+    init(canvas: Canvas, dataContext: DataContext) {
         self.canvas = canvas
         device = GPUDevice(metalDevice: MTLCreateSystemDefaultDevice()!)
         layers = canvas.layers.map { layer in
-            ArtboardLayerStore(canvasLayer: layer, context: self)
+            ArtboardLayerStore(canvasLayer: layer, dataContext: dataContext, canvasContext: self)
         }
     }
 

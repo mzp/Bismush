@@ -14,6 +14,16 @@ extension UTType {
 }
 
 public class CanvasDocument: ReferenceFileDocument {
+    static let kLayerContainerName = "Layers"
+
+    struct Context: DataContext {
+        var fileWrapper: FileWrapper?
+
+        func layer(id: String) -> Data? {
+            fileWrapper?.fileWrappers?[CanvasDocument.kLayerContainerName]?.fileWrappers?["\(id).layerData"]?.serializedRepresentation
+        }
+    }
+
     private let canvas: Canvas
     public let artboard: ArtboardStore
 
@@ -29,12 +39,12 @@ public class CanvasDocument: ReferenceFileDocument {
 
     public init(canvas: Canvas = .sample) {
         self.canvas = canvas
-        artboard = ArtboardStore(canvas: canvas)
+        artboard = ArtboardStore(canvas: canvas, dataContext: Context())
     }
 
-    public required init(configuration _: ReadConfiguration) throws {
+    public required init(configuration: ReadConfiguration) throws {
         canvas = .sample
-        artboard = ArtboardStore(canvas: canvas)
+        artboard = ArtboardStore(canvas: canvas, dataContext: Context(fileWrapper: configuration.file))
     }
 
     public func snapshot(contentType _: UTType) throws -> CanvasDocument {
@@ -52,7 +62,7 @@ public class CanvasDocument: ReferenceFileDocument {
 
         // Data
         let layerContainer = FileWrapper(directoryWithFileWrappers: [:])
-        layerContainer.preferredFilename = "Layers"
+        layerContainer.preferredFilename = Self.kLayerContainerName
         for layer in snapshot.artboard.layers {
             layerContainer.addRegularFile(
                 withContents: layer.data,
