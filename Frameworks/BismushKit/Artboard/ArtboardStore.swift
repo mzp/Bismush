@@ -30,7 +30,7 @@ public class ArtboardStore: RenderContext, ObservableObject {
         self.canvas = canvas
         device = GPUDevice(metalDevice: MTLCreateSystemDefaultDevice()!)
         layers = canvas.layers.map { layer in
-            ArtboardLayerStore(canvasLayer: layer, dataContext: dataContext, canvasContext: self)
+            ArtboardLayerStore(canvasLayer: layer, dataContext: dataContext, renderContext: self)
         }
     }
 

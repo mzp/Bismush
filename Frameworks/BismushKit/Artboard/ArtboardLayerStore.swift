@@ -40,9 +40,9 @@ public class ArtboardLayerStore {
 
     var needsNewTexture = false
 
-    init(canvasLayer: CanvasLayer, dataContext: DataContext, canvasContext: RenderContext) {
+    init(canvasLayer: CanvasLayer, dataContext: DataContext, renderContext: RenderContext) {
         self.canvasLayer = canvasLayer
-        renderContext = canvasContext
+        self.renderContext = renderContext
 
         switch canvasLayer.layerType {
         case .empty:
@@ -57,7 +57,7 @@ public class ArtboardLayerStore {
             description.usage = [.shaderRead, .renderTarget, .shaderWrite]
             description.textureType = .type2D
 
-            let texture = canvasContext.device.metalDevice.makeTexture(descriptor: description)!
+            let texture = renderContext.device.metalDevice.makeTexture(descriptor: description)!
 
             if let data = dataContext.layer(id: canvasLayer.id) {
                 let bytesPerRow = MemoryLayout<Float>.size * 4 * width
@@ -74,7 +74,7 @@ public class ArtboardLayerStore {
             }
             self.texture = texture
         case let .builtin(name: name):
-            texture = canvasContext.device.resource.bultinTexture(name: name)
+            texture = renderContext.device.resource.bultinTexture(name: name)
         }
 
         let desc = MTLTextureDescriptor.texture2DDescriptor(
@@ -84,21 +84,21 @@ public class ArtboardLayerStore {
             mipmapped: false
         )
 
-        if canvasContext.device.capability.msaa {
+        if renderContext.device.capability.msaa {
             desc.textureType = .type2DMultisample
             desc.sampleCount = 4
             desc.usage = [.renderTarget, .shaderRead, .shaderWrite]
-            msaaTexture = canvasContext.device.metalDevice.makeTexture(descriptor: desc)!
+            msaaTexture = renderContext.device.metalDevice.makeTexture(descriptor: desc)!
         } else {
             msaaTexture = nil
         }
 
-        buffer = canvasContext.device.metalDevice.makeBuffer(length: MemoryLayout<Vertex>.size * 6)!
+        buffer = renderContext.device.metalDevice.makeBuffer(length: MemoryLayout<Vertex>.size * 6)!
 
         let descriptor = Self.renderPipelineDescriptor
-        descriptor.vertexFunction = canvasContext.device.resource.function(.layerVertex)
-        descriptor.fragmentFunction = canvasContext.device.resource.function(.layerFragment)
-        renderPipelineState = try! canvasContext.device.metalDevice.makeRenderPipelineState(descriptor: descriptor)
+        descriptor.vertexFunction = renderContext.device.resource.function(.layerVertex)
+        descriptor.fragmentFunction = renderContext.device.resource.function(.layerFragment)
+        renderPipelineState = try! renderContext.device.metalDevice.makeRenderPipelineState(descriptor: descriptor)
     }
 
     var device: GPUDevice { renderContext.device }

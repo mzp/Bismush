@@ -19,8 +19,12 @@ public class CanvasDocument: ReferenceFileDocument {
     struct Context: DataContext {
         var fileWrapper: FileWrapper?
 
+        var layerContainer: FileWrapper? {
+            fileWrapper?.fileWrappers?[CanvasDocument.kLayerContainerName]
+        }
+
         func layer(id: String) -> Data? {
-            fileWrapper?.fileWrappers?[CanvasDocument.kLayerContainerName]?.fileWrappers?["\(id).layerData"]?.serializedRepresentation
+            layerContainer?.fileWrappers?["\(id).layerData"]?.regularFileContents
         }
     }
 
@@ -43,14 +47,16 @@ public class CanvasDocument: ReferenceFileDocument {
     }
 
     public required init(configuration: ReadConfiguration) throws {
-        canvas = .sample
+        guard let data = configuration.file.fileWrappers?["Info.json"]?.regularFileContents else {
+            fatalError("Invalid file format")
+        }
+        canvas = try JSONDecoder().decode(Canvas.self, from: data)
         artboard = ArtboardStore(canvas: canvas, dataContext: Context(fileWrapper: configuration.file))
     }
 
-    public func snapshot(contentType _: UTType) throws -> CanvasDocument {
-//        assert(contentType.identifier == "jp.mzp.bismush.canvas")
-        // TODO: Create snapshot
-        self
+    public func snapshot(contentType: UTType) throws -> CanvasDocument {
+        assert(contentType.identifier == "jp.mzp.bismush.canvas")
+        return self
     }
 
     public func fileWrapper(snapshot: CanvasDocument, configuration: WriteConfiguration) throws -> FileWrapper {

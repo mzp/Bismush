@@ -15,8 +15,8 @@ import XCTest
 @testable import BismushKit
 
 class TestDataContext: DataContext {
-    func layer(id _: String) -> Data {
-        Data()
+    func layer(id _: String) -> Data? {
+        nil
     }
 }
 

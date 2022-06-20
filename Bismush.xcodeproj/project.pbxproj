@@ -18,6 +18,8 @@
 		0F651E5F1F26AFE580741A08 /* ArtboardLayerStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F6708556969F354C381479 /* ArtboardLayerStore.swift */; };
 		12D8938E22C43C8F2F531156 /* RingBufferTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA133AB5D70EDCE4007D891 /* RingBufferTests.swift */; };
 		12DEECCBD76824AB3DAE413D /* Layer.metal in Sources */ = {isa = PBXBuildFile; fileRef = 034F5F90B58FBA6354552230 /* Layer.metal */; };
+		13F8F97028601B54008F9380 /* BismushInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F8F96F28601B54008F9380 /* BismushInspector.swift */; };
+		13F8F97128601B54008F9380 /* BismushInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F8F96F28601B54008F9380 /* BismushInspector.swift */; };
 		17723D29D9B943551180AD4C /* BismushUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 07B92CA94934F023036BD021 /* BismushUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1ACA030E56F9BE9A774A385C /* MetalDeviceCapability.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8BCECCFB31CB8C39786765 /* MetalDeviceCapability.swift */; };
 		1BA726D98C97497689EC22DB /* RingBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35337BECFB668B3E885A11BB /* RingBuffer.swift */; };
@@ -333,6 +335,7 @@
 		0BC445ED01FB66CE90322781 /* yosemite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yosemite.png; sourceTree = "<group>"; };
 		0F06C470880D8AD03A8196BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		1000DF4D942B68D3D9B4D4CB /* BismushKit_UnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BismushKit_UnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		13F8F96F28601B54008F9380 /* BismushInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BismushInspector.swift; sourceTree = "<group>"; };
 		154599ADF4642CA2B0265938 /* MobileBismush.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MobileBismush.entitlements; sourceTree = "<group>"; };
 		1CC68BB84E6DED0903A5C154 /* DesktopArtboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesktopArtboard.swift; sourceTree = "<group>"; };
 		25D2DD5B0C19D49E3D3F1820 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -656,6 +659,7 @@
 			children = (
 				7E1435DA6B63DCB0B9BCA070 /* BismushDiagnose.swift */,
 				2B9597D885110F827DFA203C /* BismushLogger.swift */,
+				13F8F96F28601B54008F9380 /* BismushInspector.swift */,
 			);
 			path = "Debug supports";
 			sourceTree = "<group>";
@@ -1720,6 +1724,7 @@
 				BAE887A2AA4B2E975D62FDE0 /* FunctionName.swift in Sources */,
 				E7F7DDC36AEDC0297A2DA825 /* GPUDevice.swift in Sources */,
 				12DEECCBD76824AB3DAE413D /* Layer.metal in Sources */,
+				13F8F97128601B54008F9380 /* BismushInspector.swift in Sources */,
 				BACE24706C1C19C78F627248 /* MemorySize.swift in Sources */,
 				1ACA030E56F9BE9A774A385C /* MetalDeviceCapability.swift in Sources */,
 				C957D5E36C150F63D6C72EE9 /* PressurePoint.swift in Sources */,
@@ -1766,6 +1771,7 @@
 				06D6EE175826AC8604F6E5B2 /* FunctionName.swift in Sources */,
 				775574CD6C4AD94F3823218B /* GPUDevice.swift in Sources */,
 				8179A92A777E38F3E3DCE009 /* Layer.metal in Sources */,
+				13F8F97028601B54008F9380 /* BismushInspector.swift in Sources */,
 				8BA1FC69ACF99F431E9EF550 /* MemorySize.swift in Sources */,
 				4B86D7EC7E706B9198D43F0D /* MetalDeviceCapability.swift in Sources */,
 				A525FFCFA8ECA0E6566EBA8C /* PressurePoint.swift in Sources */,

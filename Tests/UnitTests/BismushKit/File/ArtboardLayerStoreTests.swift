@@ -9,11 +9,16 @@ import CoreGraphics
 import XCTest
 @testable import BismushKit
 
-class DummyContext: RenderContext {
+class DummyContext: RenderContext, DataContext {
+    var data: Data?
     var device: GPUDevice { .default }
 
     var modelViewMatrix: Transform2D<WorldCoordinate, CanvasPixelCoordinate> {
         .identity()
+    }
+
+    func layer(id _: String) -> Data? {
+        data
     }
 }
 
@@ -30,15 +35,17 @@ class ArtboardLayerStoreTests: XCTestCase {
             layerType: .builtin(name: "yosemite"),
             size: .init(width: 800, height: 800)
         )
-        let store = ArtboardLayerStore(canvasLayer: layer, context: context)
+        let context = DummyContext()
+        let store = ArtboardLayerStore(canvasLayer: layer, dataContext: context, renderContext: context)
         let data = store.data
 
         let dataLayer = CanvasLayer(
             name: "#yosemite",
-            layerType: .data(data),
+            layerType: .empty,
             size: .init(width: 800, height: 800)
         )
-        let restoredStore = ArtboardLayerStore(canvasLayer: dataLayer, context: context)
+        context.data = data
+        let restoredStore = ArtboardLayerStore(canvasLayer: dataLayer, dataContext: context, renderContext: context)
         let restoredData = restoredStore.data
 
         let attachment = XCTAttachment(image: try XCTUnwrap(image(data, width: 800, height: 800)))
@@ -48,27 +55,8 @@ class ArtboardLayerStoreTests: XCTestCase {
         XCTAssertEqual(data, restoredData)
     }
 
-    func image(_ data: Data, width: Int, height: Int) -> NSImage? {
-        let bitCount = 8
-        guard let provider = CGDataProvider(data: data as CFData) else {
-            return nil
-        }
-
-        let cgImage = CGImage(
-            width: width,
-            height: height,
-            bitsPerComponent: bitCount,
-            bitsPerPixel: bitCount * 4,
-            bytesPerRow: MemoryLayout<Float>.size * 4 * width,
-            space: CGColorSpaceCreateDeviceRGB(),
-            bitmapInfo: [CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue)],
-            provider: provider,
-            decode: nil,
-            shouldInterpolate: false,
-            intent: .defaultIntent
-        )
-
-        if let cgImage = cgImage {
+    private func image(_ data: Data, width: Int, height: Int) -> NSImage? {
+        if let cgImage = BismushInspector.image(data, width: width, height: height) {
             return NSImage(cgImage: cgImage, size: .init(width: width, height: height))
         } else {
             return nil
