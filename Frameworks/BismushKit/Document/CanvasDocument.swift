@@ -13,7 +13,7 @@ extension UTType {
     static let canvas = UTType(exportedAs: "jp.mzp.bismush.canvas")
 }
 
-public class CanvasDocument: ReferenceFileDocument {
+public class CanvasDocument: ReferenceFileDocument, LayerTextureContext {
     static let kLayerContainerName = "Layers"
     public var canvas: Canvas
     private let file: FileWrapper?
@@ -59,19 +59,17 @@ public class CanvasDocument: ReferenceFileDocument {
         let layerContainer = FileWrapper(directoryWithFileWrappers: [:])
         layerContainer.preferredFilename = Self.kLayerContainerName
 
-        for key in textures.keys {
-            if let data = snapshot.textures[key]?.bmkData {
+        for texture in snapshot.textures {
+            let id = texture.canvasLayer.id
+            layerContainer.addRegularFile(
+                withContents: texture.texture.bmkData,
+                preferredFilename: "\(id).texture"
+            )
+
+            if let data = texture.msaaTexture?.bmkData {
                 layerContainer.addRegularFile(
                     withContents: data,
-                    preferredFilename: "\(key).texture"
-                )
-            }
-        }
-        for key in msaaTextures.keys {
-            if let data = snapshot.msaaTextures[key]?.bmkData {
-                layerContainer.addRegularFile(
-                    withContents: data,
-                    preferredFilename: "\(key).msaatexture"
+                    preferredFilename: "\(id).msaatexture"
                 )
             }
         }
@@ -85,15 +83,18 @@ public class CanvasDocument: ReferenceFileDocument {
     func snapshot() -> CanvasDocumentSnapshot {
         .init(
             canvas: canvas,
-            textures: textures,
-            msaaTextures: msaaTextures
+            textures: textures.values.map { $0.copyOnWrite() }
         )
     }
 
     func restore(snapshot: CanvasDocumentSnapshot) {
         canvas = snapshot.canvas
-        textures = snapshot.textures
-        msaaTextures = snapshot.msaaTextures
+
+        textures.removeAll(keepingCapacity: true)
+
+        for texture in snapshot.textures {
+            textures[texture.canvasLayer] = texture
+        }
     }
 
     // MARK: - Layer
@@ -108,73 +109,20 @@ public class CanvasDocument: ReferenceFileDocument {
 
     // MARK: - Texture
 
-    private var textures = [String: MTLTexture]()
-    private var msaaTextures = [String: MTLTexture]()
+    private var textures = [CanvasLayer: LayerTexture]()
 
     private var layerContainer: FileWrapper? {
         file?.fileWrappers?[CanvasDocument.kLayerContainerName]
     }
 
-    private func layer(id: String, type: String) -> Data? {
+    func layer(id: String, type: String) -> Data? {
         layerContainer?.fileWrappers?["\(id).\(type)"]?.regularFileContents
     }
 
-    func texture(canvasLayer: CanvasLayer) -> MTLTexture {
-        if let texture = textures[canvasLayer.id] {
-            return texture
+    func texture(canvasLayer: CanvasLayer) -> LayerTexture {
+        if textures[canvasLayer] == nil {
+            textures[canvasLayer] = LayerTexture(canvasLayer: canvasLayer, context: self)
         }
-        let texture: MTLTexture
-        switch canvasLayer.layerType {
-        case .empty:
-            let size = canvasLayer.size
-            let width = Int(size.width)
-            let height = Int(size.height)
-
-            let description = MTLTextureDescriptor()
-            description.width = width
-            description.height = height
-            description.pixelFormat = canvasLayer.pixelFormat
-            description.usage = [.shaderRead, .renderTarget, .shaderWrite]
-            description.textureType = .type2D
-
-            texture = device.metalDevice.makeTexture(descriptor: description)!
-
-            if let data = layer(id: canvasLayer.id, type: "texture") {
-                texture.bmkData = data
-            }
-        case let .builtin(name: name):
-            texture = device.resource.bultinTexture(name: name)
-        }
-        textures[canvasLayer.id] = texture
-        return texture
-    }
-
-    func msaaTexture(canvasLayer: CanvasLayer) -> MTLTexture? {
-        guard GPUDevice.default.capability.msaa else {
-            return nil
-        }
-        if let texture = msaaTextures[canvasLayer.id] {
-            return texture
-        }
-        let width = Int(canvasLayer.size.width)
-        let height = Int(canvasLayer.size.height)
-
-        let desc = MTLTextureDescriptor.texture2DDescriptor(
-            pixelFormat: canvasLayer.pixelFormat,
-            width: width,
-            height: height,
-            mipmapped: false
-        )
-        desc.textureType = .type2DMultisample
-        desc.sampleCount = 4
-        desc.usage = [.renderTarget, .shaderRead, .shaderWrite]
-        let texture = device.metalDevice.makeTexture(descriptor: desc)!
-
-        if let data = layer(id: canvasLayer.id, type: "msaatexture") {
-            texture.bmkData = data
-        }
-
-        msaaTextures[canvasLayer.id] = texture
-        return texture
+        return textures[canvasLayer]!
     }
 }

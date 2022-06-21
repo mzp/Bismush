@@ -95,7 +95,7 @@ public class CanvasLayerRenderer {
 
         var projection = context.projection.matrix
         encoder.setVertexBytes(&projection, length: MemoryLayout<simd_float4x4>.size, index: 1)
-        encoder.setFragmentTexture(texture, index: 0)
+        encoder.setFragmentTexture(texture.texture, index: 0)
         encoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: vertices.count)
     }
 

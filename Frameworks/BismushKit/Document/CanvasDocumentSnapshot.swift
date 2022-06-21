@@ -9,6 +9,5 @@ import Foundation
 
 public struct CanvasDocumentSnapshot {
     var canvas: Canvas
-    var textures: [String: MTLTexture]
-    var msaaTextures: [String: MTLTexture]
+    var textures: [LayerTexture]
 }

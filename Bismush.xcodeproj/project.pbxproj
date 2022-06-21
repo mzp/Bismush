@@ -23,6 +23,8 @@
 		0B9EF72D3E8448114519ADF0 /* SIMD3+Bismush.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E8C26A376EDD96EB2A8EFB1 /* SIMD3+Bismush.swift */; };
 		0EEBEF5E18FEB51EA07DF465 /* CanvasLayerList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850F8E37062CCE330FCC49D6 /* CanvasLayerList.swift */; };
 		12D8938E22C43C8F2F531156 /* RingBufferTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA133AB5D70EDCE4007D891 /* RingBufferTests.swift */; };
+		137BD0F4286163BC00FFFDE7 /* LayerTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137BD0F3286163BC00FFFDE7 /* LayerTexture.swift */; };
+		137BD0F5286163BC00FFFDE7 /* LayerTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137BD0F3286163BC00FFFDE7 /* LayerTexture.swift */; };
 		17723D29D9B943551180AD4C /* BismushUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 07B92CA94934F023036BD021 /* BismushUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1830DBC0C62652F77970CEBA /* FunctionName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09B3C5C12ABFD0E1C9DD34FE /* FunctionName.swift */; };
 		1906D8BFD1FC463516A8048E /* CanvasLayerRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42BEAAD006B66774D56533F1 /* CanvasLayerRenderer.swift */; };
@@ -344,6 +346,7 @@
 		0F06C470880D8AD03A8196BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		1000DF4D942B68D3D9B4D4CB /* BismushKit_UnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BismushKit_UnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		11769D8E548071A4A2F008E8 /* Layer.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Layer.metal; sourceTree = "<group>"; };
+		137BD0F3286163BC00FFFDE7 /* LayerTexture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayerTexture.swift; sourceTree = "<group>"; };
 		13BB38EDD83B652044B5FCD7 /* Canvas+Transform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Canvas+Transform.swift"; sourceTree = "<group>"; };
 		154599ADF4642CA2B0265938 /* MobileBismush.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MobileBismush.entitlements; sourceTree = "<group>"; };
 		1CC68BB84E6DED0903A5C154 /* DesktopArtboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesktopArtboard.swift; sourceTree = "<group>"; };
@@ -534,6 +537,7 @@
 				2F8093643CB98318AD9C6007 /* CanvasDocument.swift */,
 				BED5FBEFDEE1C1BDFC564BAA /* CanvasDocumentSnapshot.swift */,
 				77C3AC70EC97E71778FD8C42 /* MTLTexture+Data.swift */,
+				137BD0F3286163BC00FFFDE7 /* LayerTexture.swift */,
 			);
 			path = Document;
 			sourceTree = "<group>";
@@ -1723,6 +1727,7 @@
 				4796DA9C68B2BEEDCE1739E1 /* LayerDrawer.metal in Sources */,
 				A7D62EACD1B05C6387FC798B /* LayerDrawer.swift in Sources */,
 				DA430599E22F8BB3A7E93C96 /* MTLTexture+Data.swift in Sources */,
+				137BD0F5286163BC00FFFDE7 /* LayerTexture.swift in Sources */,
 				93602A470E0F86D8C3B08313 /* MemorySize.swift in Sources */,
 				C7871FDA83FA783B692CFDA5 /* MetalDeviceCapability.swift in Sources */,
 				C957D5E36C150F63D6C72EE9 /* PressurePoint.swift in Sources */,
@@ -1773,6 +1778,7 @@
 				07FFD35C5167660C1910EFBE /* LayerDrawer.metal in Sources */,
 				748D09701D41178F02141C57 /* LayerDrawer.swift in Sources */,
 				92AFAD45DFE6EB2143382D35 /* MTLTexture+Data.swift in Sources */,
+				137BD0F4286163BC00FFFDE7 /* LayerTexture.swift in Sources */,
 				C558D3840B85B269E9C6D6D6 /* MemorySize.swift in Sources */,
 				261CA910A05E0E2ACB67779E /* MetalDeviceCapability.swift in Sources */,
 				A525FFCFA8ECA0E6566EBA8C /* PressurePoint.swift in Sources */,

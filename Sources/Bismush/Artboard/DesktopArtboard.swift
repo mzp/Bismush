@@ -44,7 +44,10 @@ struct DesktopArtboard: NSViewRepresentable {
         return view
     }
 
-    func updateNSView(_: DesktopArtboardView, context _: Context) {}
+    func updateNSView(_ view: DesktopArtboardView, context: Context) {
+        context.coordinator.parent = self
+        view.artboardDelegate = context.coordinator
+    }
 
     func makeCoordinator() -> Coordinator {
         Coordinator(parent: self)
@@ -69,7 +72,7 @@ struct DesktopArtboard: NSViewRepresentable {
     }
 
     class Coordinator: DesktopArtboardDelegate {
-        private let parent: DesktopArtboard
+        var parent: DesktopArtboard
 
         init(parent: DesktopArtboard) {
             self.parent = parent

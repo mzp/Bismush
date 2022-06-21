@@ -24,27 +24,14 @@ class LayerDrawer {
 
     func draw(strokes: MetalMutableArray<BMKStroke>) {
         document.device.scope("\(#function)") {
-            let canvasLayer = document.activeLayer
+            let canvasLayer = self.document.activeLayer
             guard canvasLayer.visible else {
                 return
             }
             let commandBuffer = commandQueue.makeCommandBuffer()!
-            let renderPassDescription = MTLRenderPassDescriptor()
             let texture = document.texture(canvasLayer: canvasLayer)
-            if let msaaTexture = document.msaaTexture(canvasLayer: canvasLayer) {
-                renderPassDescription.colorAttachments[0].texture = msaaTexture
-                renderPassDescription.colorAttachments[0].resolveTexture = texture
-                renderPassDescription.colorAttachments[0].storeAction = .storeAndMultisampleResolve
-            } else {
-                renderPassDescription.colorAttachments[0].texture = texture
-                renderPassDescription.colorAttachments[0].storeAction = .store
-            }
-
-            renderPassDescription.colorAttachments[0].loadAction = dirty ? .clear : .load
-            dirty = false
-            renderPassDescription.colorAttachments[0].clearColor = MTLClearColor(red: 1, green: 1, blue: 1, alpha: 0)
-
-            let encoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescription)!
+            texture.makeWritable(commandBuffer: commandBuffer)
+            let encoder = commandBuffer.makeRenderCommandEncoder(descriptor: texture.renderPassDescriptor)!
             let viewPort = MTLViewport(
                 originX: 0,
                 originY: 0,
@@ -69,7 +56,7 @@ class LayerDrawer {
 
             encoder.setVertexBuffer(strokes.content, offset: 0, index: 0)
             encoder.setVertexBytes(&context, length: MemoryLayout<BMKLayerContext>.size, index: 1)
-            encoder.setVertexTexture(document.texture(canvasLayer: document.activeLayer), index: 2)
+            encoder.setVertexTexture(document.texture(canvasLayer: document.activeLayer).texture, index: 2)
 
             encoder.drawPrimitives(type: .point, vertexStart: 0, vertexCount: Int(strokes.count))
 
