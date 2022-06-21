@@ -99,7 +99,7 @@ public class CanvasDocument: ReferenceFileDocument {
     // MARK: - Layer
 
     public var device: GPUDevice {
-        GPUDevice.default
+        GPUDevice.default // TODO: document should not know system config?
     }
 
     var activeLayer: CanvasLayer {

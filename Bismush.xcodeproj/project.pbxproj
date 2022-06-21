@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -332,7 +332,7 @@
 /* Begin PBXFileReference section */
 		00439E9260DD1AF0F1C1EB52 /* BMKDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BMKDefines.h; sourceTree = "<group>"; };
 		0249529DF47613A66884C051 /* MobileBismush_UnitTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = MobileBismush_UnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		04A2D879615BD04815A504C3 /* .swiftformat */ = {isa = PBXFileReference; path = .swiftformat; sourceTree = "<group>"; };
+		04A2D879615BD04815A504C3 /* .swiftformat */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftformat; sourceTree = "<group>"; };
 		07B92CA94934F023036BD021 /* BismushUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BismushUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		08357BEDDDAF54069A225502 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		09AF1812197F5D99FEFD5F7F /* RGBSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RGBSlider.swift; sourceTree = "<group>"; };
@@ -408,7 +408,7 @@
 		B6CED7C2E12F25B66A7A285A /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		B7BC006603E34B5160EC8982 /* RGBColorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RGBColorViewModel.swift; sourceTree = "<group>"; };
 		BC842B9FE7F06CE54474BA7D /* Canvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Canvas.swift; sourceTree = "<group>"; };
-		BC91ED6F629A218295F2006B /* .clang-format */ = {isa = PBXFileReference; path = ".clang-format"; sourceTree = "<group>"; };
+		BC91ED6F629A218295F2006B /* .clang-format */ = {isa = PBXFileReference; lastKnownFileType = text; path = ".clang-format"; sourceTree = "<group>"; };
 		BE4F0C0F7ACC3BE07F921576 /* swiftformat.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = swiftformat.sh; sourceTree = "<group>"; };
 		BED5FBEFDEE1C1BDFC564BAA /* CanvasDocumentSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasDocumentSnapshot.swift; sourceTree = "<group>"; };
 		BEE02B50FEDA338D7273DA7F /* BismushInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BismushInspector.swift; sourceTree = "<group>"; };
@@ -529,6 +529,8 @@
 		10F93D50A710EF26DBE12B2A /* Document */ = {
 			isa = PBXGroup;
 			children = (
+				BC842B9FE7F06CE54474BA7D /* Canvas.swift */,
+				A568EF98D795B5DD8DFDC07A /* CanvasLayer.swift */,
 				2F8093643CB98318AD9C6007 /* CanvasDocument.swift */,
 				BED5FBEFDEE1C1BDFC564BAA /* CanvasDocumentSnapshot.swift */,
 				77C3AC70EC97E71778FD8C42 /* MTLTexture+Data.swift */,
@@ -732,15 +734,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		6BA8DDB2A5159D979FC886EE /* Canvas */ = {
-			isa = PBXGroup;
-			children = (
-				BC842B9FE7F06CE54474BA7D /* Canvas.swift */,
-				A568EF98D795B5DD8DFDC07A /* CanvasLayer.swift */,
-			);
-			path = Canvas;
-			sourceTree = "<group>";
-		};
 		7147DFFA8E42FC3F2092B447 /* Renderer */ = {
 			isa = PBXGroup;
 			children = (
@@ -860,7 +853,6 @@
 		BFFFC6051164DD74353D9993 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
-				6BA8DDB2A5159D979FC886EE /* Canvas */,
 				9E7C590DCD58ABF11C09DA59 /* Foundation */,
 				1AEF0F6D79817F85CEFDC896 /* Metal */,
 			);
