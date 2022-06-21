@@ -10,9 +10,9 @@ import Foundation
 import SwiftUI
 
 class MobileArtboardViewModel: ObservableObject {
-    let store: BismushStore
+    let store: BismushEditor
 
-    init(store: BismushStore) {
+    init(store: BismushEditor) {
         self.store = store
     }
 

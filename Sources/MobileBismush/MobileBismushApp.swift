@@ -10,7 +10,7 @@ import SwiftUI
 
 @main
 struct MobileBismushApp: App {
-    @StateObject var store = BismushStore.makeSample()
+    @StateObject var store = BismushEditor.makeSample()
 
     var body: some Scene {
         WindowGroup {

@@ -14,6 +14,8 @@ class LayerDrawer {
     private let commandQueue: MTLCommandQueue
     private var context: BMKLayerContext
 
+    var dirty = true
+
     init(document: CanvasDocument, context: BMKLayerContext) {
         self.document = document
         self.context = context
@@ -37,7 +39,9 @@ class LayerDrawer {
                 renderPassDescription.colorAttachments[0].texture = texture
                 renderPassDescription.colorAttachments[0].storeAction = .store
             }
-            renderPassDescription.colorAttachments[0].loadAction = .load
+
+            renderPassDescription.colorAttachments[0].loadAction = dirty ? .clear : .load
+            dirty = false
             renderPassDescription.colorAttachments[0].clearColor = MTLClearColor(red: 1, green: 1, blue: 1, alpha: 0)
 
             let encoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescription)!

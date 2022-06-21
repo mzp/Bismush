@@ -9,7 +9,7 @@ import BismushUI
 import SwiftUI
 
 struct ViewModelProvider<Content: View>: View {
-    var bismushStore: BismushStore
+    var bismushStore: BismushEditor
 
     var content: () -> Content
     var body: some View {
@@ -21,7 +21,7 @@ struct ViewModelProvider<Content: View>: View {
 
 struct SampleViewModel<Content: View>: View {
     var content: () -> Content
-    @StateObject var store = BismushStore.makeSample()
+    @StateObject var store = BismushEditor.makeSample()
     var body: some View {
         ViewModelProvider(bismushStore: store) {
             content()

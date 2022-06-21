@@ -79,6 +79,20 @@ targets:
         com.apple.security.files.user-selected.read-write: true
     info:
       path: Sources/Bismush/Supports Files/Info.plist
+      properties:
+        CFBundleDocumentTypes:
+          - CFBundleTypeIconFiles: []
+            CFBundleTypeName: Bismush Canvas File
+            LSItemContentTypes:
+                - jp.mzp.bismush.canvas
+        UTExportedTypeDeclarations:
+          - UTTypeConformsTo:
+              - com.apple.package
+            UTTypeDescription: Bismush Canvas File
+            UTTypeIcons: []
+            UTTypeIdentifier: jp.mzp.bismush.canvas
+            UTTypeTagSpecification:
+              - public.filename-extension: ["bismush"]
     preBuildScripts:
       - path: Scripts/swiftformat.sh
         name: Swift Format

@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-public class BismushStore: ObservableObject {
+public class BismushEditor: ObservableObject {
     public let document: CanvasDocument
     public let canvasRender: CanvasRenderer
     public let brush: Brush
@@ -27,7 +27,7 @@ public class BismushStore: ObservableObject {
         document.restore(snapshot: snapshot)
     }
 
-    public class func makeSample() -> BismushStore {
-        BismushStore(document: CanvasDocument())
+    public class func makeSample() -> BismushEditor {
+        BismushEditor(document: CanvasDocument())
     }
 }

@@ -15,9 +15,17 @@ extension UTType {
 
 public class CanvasDocument: ReferenceFileDocument {
     static let kLayerContainerName = "Layers"
-
     public var canvas: Canvas
     private let file: FileWrapper?
+
+    public static let sample = CanvasDocument()
+
+    public init(canvas: Canvas = .sample) {
+        self.canvas = canvas
+        file = nil
+    }
+
+    // MARK: - ReferenceFileDocument
 
     public static var readableContentTypes: [UTType] {
         [.canvas]
@@ -25,13 +33,6 @@ public class CanvasDocument: ReferenceFileDocument {
 
     public static var writableContentTypes: [UTType] {
         [.canvas]
-    }
-
-    public static let sample = CanvasDocument()
-
-    public init(canvas: Canvas = .sample) {
-        self.canvas = canvas
-        file = nil
     }
 
     public required init(configuration: ReadConfiguration) throws {
@@ -42,9 +43,9 @@ public class CanvasDocument: ReferenceFileDocument {
         file = configuration.file
     }
 
-    public func snapshot(contentType _: UTType) throws -> CanvasDocumentSnapshot {
-//        assert(contentType.identifier == "jp.mzp.bismush.canvas")
-        snapshot()
+    public func snapshot(contentType: UTType) throws -> CanvasDocumentSnapshot {
+        assert(contentType.identifier == "jp.mzp.bismush.canvas")
+        return snapshot()
     }
 
     public func fileWrapper(snapshot: CanvasDocumentSnapshot, configuration: WriteConfiguration) throws -> FileWrapper {

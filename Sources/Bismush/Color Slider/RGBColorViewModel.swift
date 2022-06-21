@@ -15,21 +15,21 @@ class RGBColorViewModel: ObservableObject {
     }
 
     var color: NSColor {
-        get { store.brush.color.nsColor }
+        get { editor.brush.color.nsColor }
         set {
             objectWillChange.send()
-            store.brush.color = BismushColor(cgColor: newValue.cgColor)
+            editor.brush.color = BismushColor(cgColor: newValue.cgColor)
         }
     }
 
-    private let store: BismushStore
+    private let editor: BismushEditor
 
-    init(store: BismushStore) {
-        self.store = store
-        red = Float(store.brush.color.red)
-        green = Float(store.brush.color.green)
-        blue = Float(store.brush.color.blue)
-        alpha = Float(store.brush.color.alpha)
+    init(editor: BismushEditor) {
+        self.editor = editor
+        red = Float(editor.brush.color.red)
+        green = Float(editor.brush.color.green)
+        blue = Float(editor.brush.color.blue)
+        alpha = Float(editor.brush.color.alpha)
     }
 
     @Published var red: Float {

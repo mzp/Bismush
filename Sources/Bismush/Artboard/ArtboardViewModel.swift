@@ -10,12 +10,12 @@ import Foundation
 import SwiftUI
 
 class ArtboardViewModel: ObservableObject {
-    let store: BismushStore
+    let editor: BismushEditor
     var brush: Brush {
-        store.brush
+        editor.brush
     }
 
-    init(store: BismushStore) {
-        self.store = store
+    init(editor: BismushEditor) {
+        self.editor = editor
     }
 }

@@ -11,7 +11,7 @@ import XCTest
 @testable import BismushUI
 
 class CanvasLayerListTests: XCTestCase {
-    private let store = BismushStore()
+    private let store = BismushEditor()
     private var viewModel: CanvasLayerListViewModel!
 
     override func setUpWithError() throws {

@@ -36,7 +36,7 @@ public class CanvasRenderer: ObservableObject {
             encoder: context.encoder,
             projection: document.canvas.projection(viewPortSize: context.viewPortSize) * document.canvas.modelViewMatrix
         )
-        for layer in document.canvas.layers {
+        for layer in document.canvas.layers.reversed() {
             layerRenderer.render(canvasLayer: layer, context: context)
         }
     }

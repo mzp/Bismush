@@ -41,16 +41,18 @@
 			<key>UTTypeDescription</key>
 			<string>Bismush Canvas File</string>
 			<key>UTTypeIcons</key>
-			<dict/>
+			<array/>
 			<key>UTTypeIdentifier</key>
 			<string>jp.mzp.bismush.canvas</string>
 			<key>UTTypeTagSpecification</key>
-			<dict>
-				<key>public.filename-extension</key>
-				<array>
-					<string>bismush</string>
-				</array>
-			</dict>
+			<array>
+				<dict>
+					<key>public.filename-extension</key>
+					<array>
+						<string>bismush</string>
+					</array>
+				</dict>
+			</array>
 		</dict>
 	</array>
 </dict>

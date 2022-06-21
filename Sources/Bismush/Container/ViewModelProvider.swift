@@ -11,20 +11,20 @@ import SwiftUI
 
 struct ViewModelProvider<Content: View>: View {
     @ObservedObject var document: CanvasDocument
-    var bismushStore: BismushStore
+    var editor: BismushEditor
 
     init(document: CanvasDocument, content: @escaping () -> Content) {
         self.document = document
-        bismushStore = BismushStore(document: document)
+        editor = BismushEditor(document: document)
         self.content = content
     }
 
     var content: () -> Content
     var body: some View {
         content()
-            .environmentObject(ArtboardViewModel(store: bismushStore))
-            .environmentObject(RGBColorViewModel(store: bismushStore))
-            .environmentObject(CanvasLayerListViewModel(store: bismushStore))
+            .environmentObject(ArtboardViewModel(editor: editor))
+            .environmentObject(RGBColorViewModel(editor: editor))
+            .environmentObject(CanvasLayerListViewModel(editor: editor))
     }
 }
 
