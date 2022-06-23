@@ -12,7 +12,7 @@ struct Artboard: View {
     @EnvironmentObject var viewModel: MobileArtboardViewModel
 
     var body: some View {
-        MobileArtboard(store: viewModel.store.artboard)
+        MobileArtboard(editor: viewModel.editor)
             .onTouchesEnded(perform: { _, _, _ in viewModel.brush.clear() })
             .onTouchesMoved(perform: touchesMoved(_:with:in:))
             .edgesIgnoringSafeArea(.all)

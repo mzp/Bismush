@@ -1,5 +1,5 @@
 //
-//  RendererTestCase.swift
+//  RenderingTestCase.swift
 //  Bismush
 //
 //  Created by mzp on 4/10/22.
@@ -14,23 +14,21 @@ import Vision
 import XCTest
 @testable import BismushKit
 
-class TestDataContext: DocumentContext {
-    func layer(id _: String) -> Data? {
-        nil
-    }
-}
-
 // swiftlint:disable test_case_accessibility
-class RendererTestCase: XCTestCase {
-    var store: CanvasRenderer!
+class RenderingTestCase: XCTestCase {
+    var renderer: CanvasRenderer!
+    var document: CanvasDocument!
 
-    var canvasSize: Size<CanvasPixelCoordinate> = .init(width: 100, height: 100)
+    func createDocument() -> CanvasDocument {
+        CanvasDocument(canvas: .init(layers: [
+            CanvasLayer(name: "test", layerType: .empty, size: .init(width: 100, height: 100)),
+        ], size: .init(width: 100, height: 100)))
+    }
 
     override func setUpWithError() throws {
         try super.setUpWithError()
-        store = CanvasRenderer(canvas: Canvas(layers: [
-            CanvasLayer(name: "test", layerType: .empty, size: canvasSize),
-        ], size: canvasSize), dataContext: TestDataContext())
+        document = createDocument()
+        renderer = CanvasRenderer(document: document)
     }
 
     override func tearDownWithError() throws {
@@ -42,9 +40,14 @@ class RendererTestCase: XCTestCase {
         add(attachment)
     }
 
+    func resource(name: String, type: String) -> String? {
+        Bundle(for: RenderingTestCase.self).path(forResource: name, ofType: type) ??
+            Bundle(for: CanvasRenderer.self).path(forResource: name, ofType: type)
+    }
+
     #if os(macOS)
         func distance(name: String, type: String) -> Float {
-            let expectImagePath = Bundle(for: RendererTestCase.self).path(forResource: name, ofType: type)!
+            let expectImagePath = resource(name: name, type: type)!
             let expectNSImage = NSImage(contentsOfFile: expectImagePath)!
             let expectCGImage = expectNSImage.cgImage(forProposedRect: nil, context: nil, hints: nil)!
             let actualCGImage = image!.cgImage(forProposedRect: nil, context: nil, hints: nil)!
@@ -56,7 +59,7 @@ class RendererTestCase: XCTestCase {
         }
     #else
         func distance(name: String, type: String) -> Float {
-            let expectImagePath: String = Bundle(for: RendererTestCase.self).path(forResource: name, ofType: type)!
+            let expectImagePath: String = resource(name: name, type: type)!
             let expectImage = UIImage(contentsOfFile: expectImagePath)!
 
             let expectCGImage = expectImage.cgImage!
@@ -72,18 +75,21 @@ class RendererTestCase: XCTestCase {
     #endif
 
     #if os(macOS)
-        private var image: NSImage? {
-            let ciImage = CIImage(mtlTexture: store.activeLayer.texture)!
+        private var image: NSImage!
+
+        func render() {
+            let ciImage = CIImage(mtlTexture: document.texture(canvasLayer: document.activeLayer).texture)!
             let rep = NSCIImageRep(ciImage: ciImage)
             let nsImage = NSImage(size: rep.size)
             nsImage.addRepresentation(rep)
-
-            return nsImage
+            image = nsImage
         }
     #else
-        private var image: UIImage? {
-            let ciImage = CIImage(mtlTexture: store.activeLayer.texture)!
-            return UIImage(ciImage: ciImage)
+        private var image: UIImage!
+
+        func render() {
+            let ciImage = CIImage(mtlTexture: document.texture(canvasLayer: document.activeLayer).texture)!
+            image = UIImage(ciImage: ciImage)
         }
     #endif
 

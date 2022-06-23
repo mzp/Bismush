@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct CanvasDocumentSnapshot {
+public struct CanvasDocumentSnapshot: Equatable {
     var canvas: Canvas
     var textures: [LayerTexture]
 }

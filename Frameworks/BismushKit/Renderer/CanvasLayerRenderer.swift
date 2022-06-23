@@ -35,36 +35,6 @@ public class CanvasLayerRenderer {
         renderPipelineState = try! document.device.metalDevice.makeRenderPipelineState(descriptor: descriptor)
     }
 
-    /*    func createNewTexture(commandBuffer: MTLCommandBuffer) {
-     +         if let encoder = commandBuffer.makeBlitCommandEncoder() {
-     +             let description = MTLTextureDescriptor()
-     +             description.width = Int(canvasLayer.size.width)
-     +             description.height = Int(canvasLayer.size.height)
-     +             description.pixelFormat = pixelFormat
-     +             description.usage = [.shaderRead, .renderTarget, .shaderWrite]
-     +             description.textureType = .type2D
-     +             let newTexture = renderContext.device.metalDevice.makeTexture(descriptor: description)!
-     +
-     +             let newMsaaTexture: MTLTexture?
-     +             if renderContext.device.capability.msaa {
-     +                 description.textureType = .type2DMultisample
-     +                 description.sampleCount = 4
-     +                 newMsaaTexture = renderContext.device.metalDevice.makeTexture(descriptor: description)!
-     +             } else {
-     +                 newMsaaTexture = nil
-     +             }
-     +
-     +             encoder.copy(from: texture, to: newTexture)
-     +             if let msaaTexture = msaaTexture, let newMsaaTexture = newMsaaTexture {
-     +                 encoder.copy(from: msaaTexture, to: newMsaaTexture)
-     +             }
-     +             encoder.endEncoding()
-     +
-     +             msaaTexture = newMsaaTexture
-     +             texture = newTexture
-     +         }
-     +     }*/
-
     // MARK: - render
 
     static let renderPipelineDescriptor: MTLRenderPipelineDescriptor = {

@@ -10,16 +10,16 @@ import SwiftUI
 
 @main
 struct MobileBismushApp: App {
-    @StateObject var store = BismushEditor.makeSample()
+    @StateObject var editor = BismushEditor.makeSample()
 
     var body: some Scene {
         WindowGroup {
-            ViewModelProvider(bismushStore: store) {
+            ViewModelProvider(editor: editor) {
                 MobileWorkspaceView {
                     Artboard()
                 }
             }
-            .environmentObject(store)
+            .environmentObject(editor)
         }
     }
 }

@@ -11,13 +11,17 @@ import SwiftUI
 @main
 struct BismushApp: App {
     var body: some Scene {
-        DocumentGroup(newDocument: { CanvasDocument() }) { configuration in
-            ViewModelProvider(document: configuration.document) {
-                WorkspaceView {
-                    Artboard()
+        DocumentGroup(
+            newDocument: {
+                CanvasDocument()
+            }, editor: { configuration in
+                ViewModelProvider(document: configuration.document) {
+                    WorkspaceView {
+                        Artboard()
+                    }
                 }
+                .navigationTitle("CanvasTest")
             }
-            .navigationTitle("CanvasTest")
-        }
+        )
     }
 }

@@ -10,17 +10,17 @@ import Foundation
 import SwiftUI
 
 class MobileArtboardViewModel: ObservableObject {
-    let store: BismushEditor
+    let editor: BismushEditor
 
-    init(store: BismushEditor) {
-        self.store = store
+    init(editor: BismushEditor) {
+        self.editor = editor
     }
 
-    var brush: Brush { store.brush }
+    var brush: Brush { editor.brush }
 
     var brushColor: Color {
         get {
-            let color = store.brush.color
+            let color = editor.brush.color
             return Color(
                 red: Double(color.red),
                 green: Double(color.green),
@@ -29,7 +29,7 @@ class MobileArtboardViewModel: ObservableObject {
             )
         }
         set {
-            store.brush.color = BismushColor(cgColor: newValue.cgColor!)
+            editor.brush.color = BismushColor(cgColor: newValue.cgColor!)
         }
     }
 }

@@ -8,7 +8,7 @@
 import CoreGraphics
 import Foundation
 
-public struct Canvas: Codable {
+public struct Canvas: Codable, Equatable {
     public var layers: [CanvasLayer]
     public var size: Size<CanvasPixelCoordinate>
 

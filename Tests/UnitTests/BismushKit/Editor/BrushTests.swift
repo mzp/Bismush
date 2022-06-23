@@ -8,12 +8,12 @@
 import XCTest
 @testable import BismushKit
 
-class BrushTests: RendererTestCase {
+class BrushTests: RenderingTestCase {
     private var brush: Brush!
     let viewSize: Size<ViewCoordinate> = .init(width: 100, height: 100)
     override func setUpWithError() throws {
         try super.setUpWithError()
-        brush = Brush(store: store, brushSize: 10)
+        brush = Brush(document: document, brushSize: 10)
     }
 
     func testRender() throws {
@@ -22,6 +22,7 @@ class BrushTests: RendererTestCase {
         brush.add(pressurePoint: .init(point: .init(x: 70, y: 20), pressure: 1), viewSize: viewSize)
         brush.add(pressurePoint: .init(point: .init(x: 80, y: 30), pressure: 1), viewSize: viewSize)
         brush.add(pressurePoint: .init(point: .init(x: 100, y: 100), pressure: 1), viewSize: viewSize)
+        render()
         let distance = distance(name: "bezier", type: "png")
         XCTAssertLessThan(distance, 10)
     }

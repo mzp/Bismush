@@ -9,21 +9,21 @@ import BismushUI
 import SwiftUI
 
 struct ViewModelProvider<Content: View>: View {
-    var bismushStore: BismushEditor
+    @ObservedObject var editor: BismushEditor
 
     var content: () -> Content
     var body: some View {
         content()
-            .environmentObject(CanvasLayerListViewModel(store: bismushStore))
-            .environmentObject(MobileArtboardViewModel(store: bismushStore))
+            .environmentObject(CanvasLayerListViewModel(editor: editor))
+            .environmentObject(MobileArtboardViewModel(editor: editor))
     }
 }
 
 struct SampleViewModel<Content: View>: View {
     var content: () -> Content
-    @StateObject var store = BismushEditor.makeSample()
+    @StateObject var editor = BismushEditor.makeSample()
     var body: some View {
-        ViewModelProvider(bismushStore: store) {
+        ViewModelProvider(editor: editor) {
             content()
         }
     }

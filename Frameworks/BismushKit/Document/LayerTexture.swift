@@ -12,7 +12,7 @@ protocol LayerTextureContext {
     func layer(id: String, type: String) -> Data?
 }
 
-class LayerTexture {
+class LayerTexture: Equatable {
     enum State {
         case clean
         case uninitialized
@@ -26,7 +26,12 @@ class LayerTexture {
     private(set) var texture: MTLTexture
     private(set) var msaaTexture: MTLTexture?
 
-    private init(canvasLayer: CanvasLayer, context: LayerTextureContext, texture: MTLTexture, msaaTexture: MTLTexture?) {
+    private init(
+        canvasLayer: CanvasLayer,
+        context: LayerTextureContext,
+        texture: MTLTexture,
+        msaaTexture: MTLTexture?
+    ) {
         self.canvasLayer = canvasLayer
         self.context = context
         self.texture = texture
@@ -138,5 +143,10 @@ class LayerTexture {
         } else {
             return self
         }
+    }
+
+    static func == (lhs: LayerTexture, rhs: LayerTexture) -> Bool {
+        lhs.texture.bmkData == rhs.texture.bmkData &&
+            lhs.msaaTexture?.bmkData == rhs.msaaTexture?.bmkData
     }
 }

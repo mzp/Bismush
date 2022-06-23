@@ -35,12 +35,17 @@ public class CanvasDocument: ReferenceFileDocument, LayerTextureContext {
         [.canvas]
     }
 
-    public required init(configuration: ReadConfiguration) throws {
-        guard let data = configuration.file.fileWrappers?["Info.json"]?.regularFileContents else {
+    public required convenience init(configuration: ReadConfiguration) throws {
+        try self.init(file: configuration.file)
+    }
+
+    init(file: FileWrapper) throws {
+        guard let data = file.fileWrappers?["Info.json"]?.regularFileContents else {
             fatalError("Invalid file format")
         }
         canvas = try JSONDecoder().decode(Canvas.self, from: data)
-        file = configuration.file
+        self.file = file
+        _ = texture(canvasLayer: activeLayer)
     }
 
     public func snapshot(contentType: UTType) throws -> CanvasDocumentSnapshot {
@@ -50,7 +55,10 @@ public class CanvasDocument: ReferenceFileDocument, LayerTextureContext {
 
     public func fileWrapper(snapshot: CanvasDocumentSnapshot, configuration: WriteConfiguration) throws -> FileWrapper {
         let container = configuration.existingFile ?? FileWrapper(directoryWithFileWrappers: [:])
+        return try flieWrapper(snapshot: snapshot, container: container)
+    }
 
+    func flieWrapper(snapshot: CanvasDocumentSnapshot, container: FileWrapper) throws -> FileWrapper {
         // MetaData
         let data = try JSONEncoder().encode(snapshot.canvas)
         container.addRegularFile(withContents: data, preferredFilename: "Info.json")

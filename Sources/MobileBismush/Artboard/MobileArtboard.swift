@@ -6,6 +6,7 @@
 //
 
 import BismushKit
+import BismushUI
 import SwiftUI
 import UIKit
 
@@ -32,19 +33,21 @@ class MobileArtboardView: ArtboardView {
 }
 
 struct MobileArtboard: UIViewRepresentable {
-    var store: CanvasRenderer
+    var document: CanvasDocument
 
     var onTouchesBegan: ((Set<UITouch>, UIEvent?, UIView) -> Void)?
     var onTouchesMoved: ((Set<UITouch>, UIEvent?, UIView) -> Void)?
     var onTouchesEnded: ((Set<UITouch>, UIEvent?, UIView) -> Void)?
 
     func makeUIView(context: Context) -> MobileArtboardView {
-        let view = MobileArtboardView(store: store)
+        let view = MobileArtboardView(document: document)
         view.artboardDelegate = context.coordinator
         return view
     }
 
-    func updateUIView(_: MobileArtboardView, context _: Context) {}
+    func updateUIView(_: MobileArtboardView, context: Context) {
+        context.coordinator.parent = self
+    }
 
     func makeCoordinator() -> Coordinator {
         Coordinator(parent: self)
@@ -69,7 +72,7 @@ struct MobileArtboard: UIViewRepresentable {
     }
 
     class Coordinator: MobileArtboardDelegate {
-        private let parent: MobileArtboard
+        var parent: MobileArtboard
 
         init(parent: MobileArtboard) {
             self.parent = parent
