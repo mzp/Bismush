@@ -357,7 +357,6 @@
 		5043075D4D9C707D777F454A /* project.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = project.yml; sourceTree = "<group>"; };
 		5470BE55386A1F5C20A7BB17 /* BismushKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BismushKit.h; sourceTree = "<group>"; };
 		552D6961EAE0E59CE441ECA2 /* BismushUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BismushUI.h; sourceTree = "<group>"; };
-		5B9448F427BB7AE1AA400EC5 /* All.Everything.xctestplan */ = {isa = PBXFileReference; path = All.Everything.xctestplan; sourceTree = "<group>"; };
 		5D25107273F62654134E3A99 /* All.iOS.xctestplan */ = {isa = PBXFileReference; path = All.iOS.xctestplan; sourceTree = "<group>"; };
 		65D3663CC42C022016FAABB6 /* MobileArtboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileArtboardViewModel.swift; sourceTree = "<group>"; };
 		6A6D2AB2586FFFB049C2FEA2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -781,7 +780,6 @@
 		AEADA3E3DA92D110F001B58A /* Plans */ = {
 			isa = PBXGroup;
 			children = (
-				5B9448F427BB7AE1AA400EC5 /* All.Everything.xctestplan */,
 				5D25107273F62654134E3A99 /* All.iOS.xctestplan */,
 				FB293DFFEF370E717E95E907 /* All.macOS.xctestplan */,
 			);
@@ -1217,7 +1215,7 @@
 				};
 			};
 			buildConfigurationList = 1411B5A57CA3255FDAD21181 /* Build configuration list for PBXProject "Bismush" */;
-			compatibilityVersion = "Xcode 10.0";
+			compatibilityVersion = "Xcode 11.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (

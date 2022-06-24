@@ -201,7 +201,7 @@ schemes:
         Bismush: all
     test:
       testPlans:
-        - path: All.xctestplan
+        - path: Tests/Plans/All.macOS.xctestplan
           defaultPlan: true
   All.iOS:
     build:
@@ -209,19 +209,8 @@ schemes:
         MobileBismush: all
     test:
       testPlans:
-#        - path: Tests/Plans/All.iOS.xctestplan
-#          defaultPlan: true
-  All.Everything:
-    build:
-      targets:
-        Bismush: all
-        MobileBismush: all
-      test:
-        testPlans:
-#          - path: Tests/Plans/All.Everything.xctestplan
-#            defaultPlan: true
-          - path: Tests/Plans/All-macOS.xctestplan
-#          - path: Tests/Plans/All.iOS.xctestplan
+        - path: Tests/Plans/All.iOS.xctestplan
+          defaultPlan: true
 
 configs:
   CI: debug
