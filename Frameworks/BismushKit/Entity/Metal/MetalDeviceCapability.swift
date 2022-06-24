@@ -15,7 +15,8 @@ class MetalDeviceCapability {
 
     var msaa: Bool {
         // Simulator doesn't suport this
-        device.supports32BitMSAA
+//        device.supports32BitMSAA
+        false
     }
 
     var nonUniformThreadgroupSize: Bool {

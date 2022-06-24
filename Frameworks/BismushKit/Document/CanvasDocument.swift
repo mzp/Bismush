@@ -18,7 +18,7 @@ public class CanvasDocument: ReferenceFileDocument, LayerTextureContext {
     public var canvas: Canvas
     private let file: FileWrapper?
 
-    public static let sample = CanvasDocument()
+    public static let sample = CanvasDocument(canvas: .empty)
 
     public init(canvas: Canvas = .sample) {
         self.canvas = canvas
@@ -49,7 +49,9 @@ public class CanvasDocument: ReferenceFileDocument, LayerTextureContext {
     }
 
     public func snapshot(contentType: UTType) throws -> CanvasDocumentSnapshot {
-        assert(contentType.identifier == "jp.mzp.bismush.canvas")
+        if contentType.identifier != "jp.mzp.bismush.canvas" {
+            BismushLogger.file.warning("\(#function) \(contentType) is requested")
+        }
         return snapshot()
     }
 

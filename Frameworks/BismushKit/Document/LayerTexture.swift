@@ -102,12 +102,18 @@ class LayerTexture: Equatable {
             renderPassDescriptior.colorAttachments[0].storeAction = .store
         }
 
-        renderPassDescriptior.colorAttachments[0].loadAction = state == .uninitialized ? .clear : .load
-        renderPassDescriptior.colorAttachments[0].clearColor = MTLClearColor(red: 1, green: 1, blue: 1, alpha: 0)
+        if state == .uninitialized {
+            renderPassDescriptior.colorAttachments[0].loadAction = .clear
+            renderPassDescriptior.colorAttachments[0].clearColor = MTLClearColor(red: 1, green: 1, blue: 1, alpha: 0)
+        } else {
+            renderPassDescriptior.colorAttachments[0].loadAction = .load
+        }
         return renderPassDescriptior
     }
 
     func makeWritable(commandBuffer: MTLCommandBuffer) {
+        state = .clean
+
         guard state == .copyOnWrite else {
             return
         }
@@ -132,7 +138,6 @@ class LayerTexture: Equatable {
             }
             encoder.endEncoding()
         }
-        state = .clean
     }
 
     func copyOnWrite() -> LayerTexture {

@@ -9,9 +9,16 @@ import BismushUI
 import SwiftUI
 
 struct ViewModelProvider<Content: View>: View {
-    @ObservedObject var editor: BismushEditor
-
+    @ObservedObject var document: CanvasDocument
     var content: () -> Content
+    var editor: BismushEditor
+
+    init(document: CanvasDocument, content: @escaping () -> Content) {
+        self.document = document
+        editor = BismushEditor(document: document)
+        self.content = content
+    }
+
     var body: some View {
         content()
             .environmentObject(CanvasLayerListViewModel(editor: editor))
@@ -21,9 +28,9 @@ struct ViewModelProvider<Content: View>: View {
 
 struct SampleViewModel<Content: View>: View {
     var content: () -> Content
-    @StateObject var editor = BismushEditor.makeSample()
+    @StateObject var document: CanvasDocument = .sample
     var body: some View {
-        ViewModelProvider(editor: editor) {
+        ViewModelProvider(document: document) {
             content()
         }
     }

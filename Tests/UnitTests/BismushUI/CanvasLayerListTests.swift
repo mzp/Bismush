@@ -11,16 +11,16 @@ import XCTest
 @testable import BismushUI
 
 class CanvasLayerListTests: XCTestCase {
-    private let store = BismushEditor()
+    private let editor = BismushEditor()
     private var viewModel: CanvasLayerListViewModel!
 
     override func setUpWithError() throws {
         try super.setUpWithError()
-        viewModel = CanvasLayerListViewModel(store: store)
+        viewModel = CanvasLayerListViewModel(editor: editor)
     }
 
     func testLayers() throws {
-        XCTAssertEqual(viewModel.layers.count, store.artboard.layers.count)
+        XCTAssertEqual(viewModel.layers.count, editor.document.canvas.layers.count)
     }
 
     func testVisible() {

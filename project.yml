@@ -92,7 +92,7 @@ targets:
             UTTypeIcons: []
             UTTypeIdentifier: jp.mzp.bismush.canvas
             UTTypeTagSpecification:
-              - public.filename-extension: ["bismush"]
+              public.filename-extension: ["bismush"]
     preBuildScripts:
       - path: Scripts/swiftformat.sh
         name: Swift Format
@@ -131,10 +131,26 @@ targets:
         - MobileBismush_UnitTests
     info:
       path: Sources/MobileBismush/Supports Files/Info.plist
+      properties:
+        CFBundleDocumentTypes:
+          - CFBundleTypeIconFiles: []
+            CFBundleTypeName: Bismush Canvas File
+            LSItemContentTypes:
+                - jp.mzp.bismush.canvas
+        UTExportedTypeDeclarations:
+          - UTTypeConformsTo:
+              - com.apple.package
+            UTTypeDescription: Bismush Canvas File
+            UTTypeIcons: []
+            UTTypeIdentifier: jp.mzp.bismush.canvas
+            UTTypeTagSpecification:
+              public.filename-extension: ["bismush"]
+ 
     entitlements:
       path: Sources/MobileBismush/Supports Files/MobileBismush.entitlements
       properties:
         com.apple.security.app-sandbox: true
+        com.apple.security.files.user-selected.read-write: true
     settings:
       SUPPORTS_MACCATALYST: true
     preBuildScripts:
