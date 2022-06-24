@@ -34,16 +34,6 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "EA07B4FFAF2C8C78146CCEB3"
-               BuildableName = "Bismush_UITests.xctest"
-               BlueprintName = "Bismush_UITests"
-               ReferencedContainer = "container:Bismush.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "4EFA348AF2224AB1DF373E2C"
                BuildableName = "Bismush_UnitTests.xctest"
                BlueprintName = "Bismush_UnitTests"

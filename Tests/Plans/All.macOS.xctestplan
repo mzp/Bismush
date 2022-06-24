@@ -1,0 +1,46 @@
+{
+  "configurations" : [
+    {
+      "id" : "DAFAE5B6-8A52-458D-B00E-5CDEAA061FCC",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false,
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:Bismush.xcodeproj",
+      "identifier" : "068FB895A5E0E850190E80B5",
+      "name" : "Bismush"
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:Bismush.xcodeproj",
+        "identifier" : "4EFA348AF2224AB1DF373E2C",
+        "name" : "Bismush_UnitTests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:Bismush.xcodeproj",
+        "identifier" : "02CF2224AA986125B67AD12B",
+        "name" : "BismushKit_UnitTests_macOS"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:Bismush.xcodeproj",
+        "identifier" : "6F0E0A19B5F3EB9800CE810E",
+        "name" : "BismushUI_UnitTests_macOS"
+      }
+    }
+  ],
+  "version" : 1
+}

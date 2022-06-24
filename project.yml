@@ -1,73 +1,11 @@
 name: Bismush
 targets:
-  BismushKit:
-    type: framework
-    platform: [macOS, iOS]
-    scheme:
-      testTargets:
-        - BismushKit_UnitTests_${platform}
-    info:
-      path: Frameworks/BismushKit/Supports Files/Info.plist
-    preBuildScripts:
-      - path: Scripts/swiftformat.sh
-        name: Swift Format
-      - path: Scripts/clang-format.sh
-        name: clang-format
-    postCompileScripts:
-      - script: Scripts/swiftlint.sh
-        name: Swiftlint
-    sources: 
-      - Frameworks/BismushKit
-    settings:
-      MTL_LANGUAGE_REVISION: Metal24
-  BismushUI:
-    type: framework
-    platform: [macOS, iOS]
-    scheme:
-      testTargets:
-        - BismushUI_UnitTests_${platform}
-    dependencies:
-      - target: BismushKit_${platform}
-    info:
-      path: Frameworks/BismushUI/Supports Files/Info.plist
-    preBuildScripts:
-      - path: Scripts/swiftformat.sh
-        name: Swift Format
-      - path: Scripts/clang-format.sh
-        name: clang-format
-    postCompileScripts:
-      - script: Scripts/swiftlint.sh
-        name: Swiftlint
-    sources:
-      - Frameworks/BismushUI
-
-  BismushKit_UnitTests:
-    type: bundle.unit-test
-    platform: [macOS, iOS]
-    sources: 
-      - Tests/UnitTests/BismushKit
-    info:
-      path: Tests/UnitTests/BismushKit/Info.plist
-    dependencies:
-      - target: BismushKit_${platform}
-
-  BismushUI_UnitTests:
-    type: bundle.unit-test
-    platform: [macOS, iOS]
-    sources:
-      - Tests/UnitTests/BismushUI
-    info:
-      path: Tests/UnitTests/BismushUI/Info.plist
-    dependencies:
-      - target: BismushUI_${platform}
-
-
+  # MARK: - Application
   Bismush:
     type: application
     platform: macOS
     scheme:
       testTargets:
-        - Bismush_UITests
         - Bismush_UnitTests
     dependencies:
       - target: BismushKit_macOS
@@ -101,24 +39,7 @@ targets:
         name: Swiftlint
     sources:
       - Sources/Bismush
-  Bismush_UITests:
-    type: bundle.ui-testing
-    platform: macOS
-    dependencies:
-      - target: Bismush
-    info:
-      path: Tests/UITests/Bismush/Info.plist
-    sources: 
-      - Tests/UITests/Bismush
-  Bismush_UnitTests:
-    type: bundle.unit-test
-    platform: macOS
-    dependencies:
-      - target: Bismush
-    info:
-      path: Tests/UnitTests/Bismush/Info.plist
-    sources: 
-      - Tests/UnitTests/Bismush
+
   MobileBismush:
     type: application
     platform: iOS
@@ -127,7 +48,6 @@ targets:
       - target: BismushUI_iOS
     scheme:
       testTargets:
-        - MobileBismush_UITests
         - MobileBismush_UnitTests
     info:
       path: Sources/MobileBismush/Supports Files/Info.plist
@@ -145,7 +65,7 @@ targets:
             UTTypeIdentifier: jp.mzp.bismush.canvas
             UTTypeTagSpecification:
               public.filename-extension: ["bismush"]
- 
+
     entitlements:
       path: Sources/MobileBismush/Supports Files/MobileBismush.entitlements
       properties:
@@ -159,25 +79,100 @@ targets:
     postCompileScripts:
       - script: Scripts/swiftlint.sh
         name: Swiftlint
-    sources: 
+    sources:
       - Sources/MobileBismush
-  MobileBismush_UITests:
-    type: bundle.ui-testing
-    platform: iOS
-    dependencies:
-      - target: MobileBismush
+
+  # MARK: - Framework
+  BismushKit:
+    type: framework
+    platform: [macOS, iOS]
+    scheme:
+      testTargets:
+        - BismushKit_UnitTests_${platform}
     info:
-      path: Tests/UITests/MobileBismush/Info.plist
+      path: Frameworks/BismushKit/Supports Files/Info.plist
+    preBuildScripts:
+      - path: Scripts/swiftformat.sh
+        name: Swift Format
+      - path: Scripts/clang-format.sh
+        name: clang-format
+    postCompileScripts:
+      - script: Scripts/swiftlint.sh
+        name: Swiftlint
     sources: 
-      - Tests/UITests/MobileBismush
+      - Frameworks/BismushKit
+    settings:
+      MTL_LANGUAGE_REVISION: Metal24
+
+  BismushUI:
+    type: framework
+    platform: [macOS, iOS]
+    scheme:
+      testTargets:
+        - BismushUI_UnitTests_${platform}
+    dependencies:
+      - target: BismushKit_${platform}
+    info:
+      path: Frameworks/BismushUI/Supports Files/Info.plist
+    preBuildScripts:
+      - path: Scripts/swiftformat.sh
+        name: Swift Format
+      - path: Scripts/clang-format.sh
+        name: clang-format
+    postCompileScripts:
+      - script: Scripts/swiftlint.sh
+        name: Swiftlint
+    sources:
+      - Frameworks/BismushUI
+
+  # MARK: - Tests
+  Bismush_UnitTests:
+    type: bundle.unit-test
+    platform: macOS
+    dependencies:
+      - target: Bismush
+    info:
+      path: Tests/UnitTests/Bismush/Info.plist
+    sources:
+      - Tests/UnitTests/Bismush
+    settings:
+      GENERATE_INFOPLIST_FILE: true
+
   MobileBismush_UnitTests:
     type: bundle.unit-test
     platform: iOS
     dependencies:
       - target: MobileBismush
-    sources: 
+    sources:
       - Tests/UnitTests/MobileBismush
+    settings:
+      GENERATE_INFOPLIST_FILE: true
 
+  BismushKit_UnitTests:
+    type: bundle.unit-test
+    platform: [macOS, iOS]
+    sources:
+      - Tests/UnitTests/BismushKit
+    info:
+      path: Tests/UnitTests/BismushKit/Info.plist
+    dependencies:
+      - target: BismushKit_${platform}
+    settings:
+      GENERATE_INFOPLIST_FILE: true
+
+  BismushUI_UnitTests:
+    type: bundle.unit-test
+    platform: [macOS, iOS]
+    sources:
+      - Tests/UnitTests/BismushUI
+    info:
+      path: Tests/UnitTests/BismushUI/Info.plist
+    dependencies:
+      - target: BismushUI_${platform}
+    settings:
+      GENERATE_INFOPLIST_FILE: true
+
+# MARK: - Aggregate scheme
 schemes:
   CI.macOS:
     build:
@@ -185,8 +180,9 @@ schemes:
         Bismush: all
     test:
       targets:
-        - Bismush_UITests
         - Bismush_UnitTests
+        - BismushKit_UnitTests_macOS
+        - BismushUI_UnitTests_macOS
   CI.iOS:
     build:
       targets:
@@ -194,9 +190,38 @@ schemes:
       config: CI
     test:
         targets:
-            - MobileBismush_UITests
+            - BismushKit_UnitTests_iOS
+            - BismushUI_UnitTests_iOS
             - MobileBismush_UnitTests
         config: CI
+
+  All.macOS:
+    build:
+      targets:
+        Bismush: all
+    test:
+      testPlans:
+        - path: Tests/Plans/All.macOS.xctestplan
+          defaultPlan: true
+  All.iOS:
+    build:
+      targets:
+        MobileBismush: all
+    test:
+      testPlans:
+        - path: Tests/Plans/All.iOS.xctestplan
+          defaultPlan: true
+  All.Everything:
+    build:
+      targets:
+        Bismush: all
+        MobileBismush: all
+      test:
+        testPlans:
+          - path: Tests/Plans/All.Everything.xctestplan
+            defaultPlan: true
+          - path: Tests/Plans/All.macOS.xctestplan
+          - path: Tests/Plans/All.iOS.xctestplan
 
 configs:
   CI: debug
@@ -234,3 +259,4 @@ fileGroups:
   - .swiftformat
   - .github
   - .clang-format
+  - Tests/Plans

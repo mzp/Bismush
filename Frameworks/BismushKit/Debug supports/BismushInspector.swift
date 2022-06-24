@@ -37,3 +37,10 @@ public class BismushInspector {
         )
     }
 }
+
+extension LayerTexture {
+    var inspectImage: CGImage? {
+        let size = canvasLayer.size
+        return BismushInspector.image(texture.bmkData, width: Int(size.width), height: Int(size.height))
+    }
+}

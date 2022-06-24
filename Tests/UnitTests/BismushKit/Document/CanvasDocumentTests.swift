@@ -44,6 +44,31 @@ class CanvasDocumentTests: XCTestCase {
                 viewSize: .init(width: 800, height: 800)
             )
         }
+        brush.clear()
+
+        let commandQueue = MTLCreateSystemDefaultDevice()!.makeCommandQueue()!
+        let commandBuffer = commandQueue.makeCommandBuffer()!
+        document.texture(canvasLayer: document.activeLayer).makeWritable(commandBuffer: commandBuffer)
+        commandBuffer.commit()
+        commandBuffer.waitUntilCompleted()
+    }
+
+    private func XCTAssertNotEqualSnapshot(_ lhs: CanvasDocumentSnapshot, _ rhs: CanvasDocumentSnapshot) {
+        XCTAssertNotEqual(lhs, rhs)
+    }
+
+    private func attach(name: String = "image", snapshot: CanvasDocumentSnapshot) {
+        for (index, texture) in snapshot.textures.enumerated() {
+            if let image = texture.inspectImage {
+                #if os(macOS)
+                    let attachment = XCTAttachment(image: NSImage(cgImage: image, size: NSSize(width: image.width, height: image.height)))
+                #else
+                    let attachment = XCTAttachment(image: UIImage(cgImage: image))
+                #endif
+                attachment.name = "\(name).\(index).png"
+                add(attachment)
+            }
+        }
     }
 
     func testPersist() throws {
@@ -60,6 +85,8 @@ class CanvasDocumentTests: XCTestCase {
 
         let documentFromFile = try CanvasDocument(file: FileWrapper(url: fileURL))
         let snapshotFromFile = try self.snapshot(document: documentFromFile)
+        attach(name: "original", snapshot: snapshot)
+        attach(name: "from file", snapshot: snapshotFromFile)
         XCTAssertEqual(snapshot, snapshotFromFile)
     }
 
@@ -71,23 +98,28 @@ class CanvasDocumentTests: XCTestCase {
             .init(x: 600, y: 200),
             .init(x: 500, y: 300),
             .init(x: 400, y: 400),
+            .init(x: 300, y: 300),
         ])
         let snapshotAfterEdit = try snapshot(document: document)
-
+        attach(name: "before", snapshot: snapshotBeforeEdit)
+        attach(name: "after", snapshot: snapshotAfterEdit)
         XCTAssertNotEqual(snapshotBeforeEdit, snapshotAfterEdit)
 
         document.restore(snapshot: snapshotBeforeEdit)
         let snapshotAfterRestore1 = try snapshot(document: document)
+        attach(name: "restore 1", snapshot: snapshotAfterRestore1)
         XCTAssertEqual(snapshotBeforeEdit, snapshotAfterRestore1)
 
         document.restore(snapshot: snapshotAfterEdit)
         let snapshotAfterRestore2 = try snapshot(document: document)
+        attach(name: "restore 2", snapshot: snapshotAfterRestore2)
         XCTAssertEqual(snapshotAfterEdit, snapshotAfterRestore2)
     }
 
     func testHealth() throws {
         let modifiedSnapshot = try snapshot(document: document)
         let vanillaSnapshot = try snapshot(document: CanvasDocument())
+        attach(snapshot: modifiedSnapshot)
         XCTAssertNotEqual(vanillaSnapshot, modifiedSnapshot)
     }
 

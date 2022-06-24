@@ -112,8 +112,7 @@ class LayerTexture: Equatable {
     }
 
     func makeWritable(commandBuffer: MTLCommandBuffer) {
-        state = .clean
-
+        defer { state = .clean }
         guard state == .copyOnWrite else {
             return
         }

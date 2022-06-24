@@ -21,6 +21,20 @@
                ReferencedContainer = "container:Bismush.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "5E9652098AC1BB028D8C567C"
+               BuildableName = "MobileBismush.app"
+               BlueprintName = "MobileBismush"
+               ReferencedContainer = "container:Bismush.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -30,36 +44,6 @@
       onlyGenerateCoverageForSpecifiedTargets = "NO"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "4EFA348AF2224AB1DF373E2C"
-               BuildableName = "Bismush_UnitTests.xctest"
-               BlueprintName = "Bismush_UnitTests"
-               ReferencedContainer = "container:Bismush.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "02CF2224AA986125B67AD12B"
-               BuildableName = "BismushKit_UnitTests.xctest"
-               BlueprintName = "BismushKit_UnitTests_macOS"
-               ReferencedContainer = "container:Bismush.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6F0E0A19B5F3EB9800CE810E"
-               BuildableName = "BismushUI_UnitTests.xctest"
-               BlueprintName = "BismushUI_UnitTests_macOS"
-               ReferencedContainer = "container:Bismush.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
@@ -70,8 +54,6 @@
             ReferencedContainer = "container:Bismush.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
-      <CommandLineArguments>
-      </CommandLineArguments>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"

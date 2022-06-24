@@ -34,9 +34,19 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "F8970B74C1AA4C7A6E879659"
-               BuildableName = "MobileBismush_UITests.xctest"
-               BlueprintName = "MobileBismush_UITests"
+               BlueprintIdentifier = "D3083B656B9664F370F14505"
+               BuildableName = "BismushKit_UnitTests.xctest"
+               BlueprintName = "BismushKit_UnitTests_iOS"
+               ReferencedContainer = "container:Bismush.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "973A5456EDD875B81997A9B0"
+               BuildableName = "BismushUI_UnitTests.xctest"
+               BlueprintName = "BismushUI_UnitTests_iOS"
                ReferencedContainer = "container:Bismush.xcodeproj">
             </BuildableReference>
          </TestableReference>

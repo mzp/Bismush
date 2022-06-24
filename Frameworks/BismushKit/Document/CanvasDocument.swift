@@ -18,7 +18,8 @@ public class CanvasDocument: ReferenceFileDocument, LayerTextureContext {
     public var canvas: Canvas
     private let file: FileWrapper?
 
-    public static let sample = CanvasDocument(canvas: .empty)
+    public static let sample = CanvasDocument(canvas: .sample)
+    public static let empty = CanvasDocument(canvas: .empty)
 
     public init(canvas: Canvas = .sample) {
         self.canvas = canvas

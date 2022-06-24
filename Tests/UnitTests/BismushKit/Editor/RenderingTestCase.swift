@@ -46,19 +46,19 @@ class RenderingTestCase: XCTestCase {
     }
 
     #if os(macOS)
-        func distance(name: String, type: String) -> Float {
+        func distance(name: String, type: String) throws -> Float {
             let expectImagePath = resource(name: name, type: type)!
             let expectNSImage = NSImage(contentsOfFile: expectImagePath)!
             let expectCGImage = expectNSImage.cgImage(forProposedRect: nil, context: nil, hints: nil)!
             let actualCGImage = image!.cgImage(forProposedRect: nil, context: nil, hints: nil)!
-            let expectFeaturePrint = featurePrint(expectCGImage)!
-            let actualFeaturePrint = featurePrint(actualCGImage)!
+            let expectFeaturePrint = try featurePrint(expectCGImage)!
+            let actualFeaturePrint = try featurePrint(actualCGImage)!
             var distance: Float = .infinity
             try! expectFeaturePrint.computeDistance(&distance, to: actualFeaturePrint)
             return distance
         }
     #else
-        func distance(name: String, type: String) -> Float {
+        func distance(name: String, type: String) throws -> Float {
             let expectImagePath: String = resource(name: name, type: type)!
             let expectImage = UIImage(contentsOfFile: expectImagePath)!
 
@@ -66,8 +66,8 @@ class RenderingTestCase: XCTestCase {
             let context = CIContext(options: nil)
             let actualImage = try! XCTUnwrap(image)
             let actualCGImage = context.createCGImage(actualImage.ciImage!, from: actualImage.ciImage!.extent)!
-            let expectFeaturePrint = featurePrint(expectCGImage)!
-            let actualFeaturePrint = featurePrint(actualCGImage)!
+            let expectFeaturePrint = try featurePrint(expectCGImage)!
+            let actualFeaturePrint = try featurePrint(actualCGImage)!
             var distance: Float = .infinity
             try! expectFeaturePrint.computeDistance(&distance, to: actualFeaturePrint)
             return distance
@@ -93,13 +93,13 @@ class RenderingTestCase: XCTestCase {
         }
     #endif
 
-    private func featurePrint(_ image: CGImage) -> VNFeaturePrintObservation? {
+    private func featurePrint(_ image: CGImage) throws -> VNFeaturePrintObservation? {
         let request = VNGenerateImageFeaturePrintRequest()
 
         let requestHandler = VNImageRequestHandler(cgImage: image,
                                                    orientation: .down,
                                                    options: [:])
-        try! requestHandler.perform([request])
+        try requestHandler.perform([request])
         guard let result = request.results?.first else { return nil }
         return result
     }
