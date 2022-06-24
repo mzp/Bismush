@@ -61,7 +61,10 @@ class CanvasDocumentTests: XCTestCase {
         for (index, texture) in snapshot.textures.enumerated() {
             if let image = texture.inspectImage {
                 #if os(macOS)
-                    let attachment = XCTAttachment(image: NSImage(cgImage: image, size: NSSize(width: image.width, height: image.height)))
+                    let attachment = XCTAttachment(
+                        image: NSImage(cgImage: image,
+                                       size: NSSize(width: image.width, height: image.height))
+                    )
                 #else
                     let attachment = XCTAttachment(image: UIImage(cgImage: image))
                 #endif
