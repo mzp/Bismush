@@ -271,3 +271,4 @@ fileGroups:
   - .clang-format
   - Tests/Plans
   - fastlane
+  - Gemfile

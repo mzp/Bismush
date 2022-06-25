@@ -396,6 +396,7 @@
 		C092715C7FCDBD5BFE74BC69 /* CanvasLayer+Transform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CanvasLayer+Transform.swift"; sourceTree = "<group>"; };
 		C0B79569575E3B1182D9E628 /* Transform2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transform2D.swift; sourceTree = "<group>"; };
 		C530414467DAC13B9F3B059E /* LayerDrawer.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = LayerDrawer.metal; sourceTree = "<group>"; };
+		C5F10BC82CA33DD60668060C /* Gemfile */ = {isa = PBXFileReference; path = Gemfile; sourceTree = "<group>"; };
 		C885AFC19DF307A85F2B5B6E /* BismushEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BismushEditor.swift; sourceTree = "<group>"; };
 		CB6FA48BD29AF3D2C9A6811B /* BezierInterpolate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BezierInterpolate.swift; sourceTree = "<group>"; };
 		CB7914FECE8F6DD5263246E9 /* BezierInterporate.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = BezierInterporate.metal; sourceTree = "<group>"; };
@@ -811,6 +812,7 @@
 			children = (
 				BC91ED6F629A218295F2006B /* .clang-format */,
 				04A2D879615BD04815A504C3 /* .swiftformat */,
+				C5F10BC82CA33DD60668060C /* Gemfile */,
 				5043075D4D9C707D777F454A /* project.yml */,
 				2BD3543651FEC03AD919D0CD /* README.md */,
 				87DE4759B36B4F2B99136D82 /* Sources */,

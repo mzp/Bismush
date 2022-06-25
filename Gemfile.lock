@@ -233,6 +233,7 @@ PLATFORMS
 DEPENDENCIES
   fastlane
   rubocop
+  xcodeproj
 
 BUNDLED WITH
    2.3.11
