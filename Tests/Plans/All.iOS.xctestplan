@@ -1,0 +1,46 @@
+{
+  "configurations" : [
+    {
+      "id" : "FE7C8FC8-C70D-4A27-8A02-7107D5B35BCE",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false,
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:Bismush.xcodeproj",
+      "identifier" : "5E9652098AC1BB028D8C567C",
+      "name" : "MobileBismush"
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:Bismush.xcodeproj",
+        "identifier" : "D3083B656B9664F370F14505",
+        "name" : "BismushKit_UnitTests_iOS"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:Bismush.xcodeproj",
+        "identifier" : "973A5456EDD875B81997A9B0",
+        "name" : "BismushUI_UnitTests_iOS"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:Bismush.xcodeproj",
+        "identifier" : "FDCD93CDAF8948C8293983F1",
+        "name" : "MobileBismush_UnitTests"
+      }
+    }
+  ],
+  "version" : 1
+}

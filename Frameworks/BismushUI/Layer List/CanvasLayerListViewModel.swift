@@ -10,29 +10,29 @@ import Foundation
 import SwiftUI
 
 public class CanvasLayerListViewModel: ObservableObject {
-    private var store: BismushStore
+    private var editor: BismushEditor
 
-    public init(store: BismushStore) {
-        self.store = store
+    public init(editor: BismushEditor) {
+        self.editor = editor
     }
 
     var layers: [CanvasLayer] {
-        store.artboard.layers.map(\.canvasLayer)
+        editor.document.canvas.layers
     }
 
     func visible(index: Int) -> Binding<Bool> {
         Binding(
             get: {
-                self.store.artboard.layers[index].visible
+                self.editor.document.canvas.layers[index].visible
             },
             set: { visible in
-                self.store.artboard.layers[index].visible = visible
+                self.editor.document.canvas.layers[index].visible = visible
                 self.objectWillChange.send()
             }
         )
     }
 
     func move(fromOffsets: IndexSet, toOffset: Int) {
-        store.artboard.layers.move(fromOffsets: fromOffsets, toOffset: toOffset)
+        editor.document.canvas.layers.move(fromOffsets: fromOffsets, toOffset: toOffset)
     }
 }

@@ -1,5 +1,88 @@
 name: Bismush
 targets:
+  # MARK: - Application
+  Bismush:
+    type: application
+    platform: macOS
+    scheme:
+      testTargets:
+        - Bismush_UnitTests
+    dependencies:
+      - target: BismushKit_macOS
+      - target: BismushUI_macOS
+    entitlements:
+      path: Sources/Bismush/Supports Files/Bismush.entitlements
+      properties:
+        com.apple.security.app-sandbox: true
+        com.apple.security.files.user-selected.read-write: true
+    info:
+      path: Sources/Bismush/Supports Files/Info.plist
+      properties:
+        CFBundleDocumentTypes:
+          - CFBundleTypeIconFiles: []
+            CFBundleTypeName: Bismush Canvas File
+            LSItemContentTypes:
+                - jp.mzp.bismush.canvas
+        UTExportedTypeDeclarations:
+          - UTTypeConformsTo:
+              - com.apple.package
+            UTTypeDescription: Bismush Canvas File
+            UTTypeIcons: []
+            UTTypeIdentifier: jp.mzp.bismush.canvas
+            UTTypeTagSpecification:
+              public.filename-extension: ["bismush"]
+    preBuildScripts:
+      - path: Scripts/swiftformat.sh
+        name: Swift Format
+    postCompileScripts:
+      - script: Scripts/swiftlint.sh
+        name: Swiftlint
+    sources:
+      - Sources/Bismush
+
+  MobileBismush:
+    type: application
+    platform: iOS
+    dependencies:
+      - target: BismushKit_iOS
+      - target: BismushUI_iOS
+    scheme:
+      testTargets:
+        - MobileBismush_UnitTests
+    info:
+      path: Sources/MobileBismush/Supports Files/Info.plist
+      properties:
+        CFBundleDocumentTypes:
+          - CFBundleTypeIconFiles: []
+            CFBundleTypeName: Bismush Canvas File
+            LSItemContentTypes:
+                - jp.mzp.bismush.canvas
+        UTExportedTypeDeclarations:
+          - UTTypeConformsTo:
+              - com.apple.package
+            UTTypeDescription: Bismush Canvas File
+            UTTypeIcons: []
+            UTTypeIdentifier: jp.mzp.bismush.canvas
+            UTTypeTagSpecification:
+              public.filename-extension: ["bismush"]
+
+    entitlements:
+      path: Sources/MobileBismush/Supports Files/MobileBismush.entitlements
+      properties:
+        com.apple.security.app-sandbox: true
+        com.apple.security.files.user-selected.read-write: true
+    settings:
+      SUPPORTS_MACCATALYST: true
+    preBuildScripts:
+      - path: Scripts/swiftformat.sh
+        name: Swift Format
+    postCompileScripts:
+      - script: Scripts/swiftlint.sh
+        name: Swiftlint
+    sources:
+      - Sources/MobileBismush
+
+  # MARK: - Framework
   BismushKit:
     type: framework
     platform: [macOS, iOS]
@@ -20,6 +103,7 @@ targets:
       - Frameworks/BismushKit
     settings:
       MTL_LANGUAGE_REVISION: Metal24
+
   BismushUI:
     type: framework
     platform: [macOS, iOS]
@@ -41,15 +125,40 @@ targets:
     sources:
       - Frameworks/BismushUI
 
+  # MARK: - Tests
+  Bismush_UnitTests:
+    type: bundle.unit-test
+    platform: macOS
+    dependencies:
+      - target: Bismush
+    info:
+      path: Tests/UnitTests/Bismush/Info.plist
+    sources:
+      - Tests/UnitTests/Bismush
+    settings:
+      GENERATE_INFOPLIST_FILE: true
+
+  MobileBismush_UnitTests:
+    type: bundle.unit-test
+    platform: iOS
+    dependencies:
+      - target: MobileBismush
+    sources:
+      - Tests/UnitTests/MobileBismush
+    settings:
+      GENERATE_INFOPLIST_FILE: true
+
   BismushKit_UnitTests:
     type: bundle.unit-test
     platform: [macOS, iOS]
-    sources: 
+    sources:
       - Tests/UnitTests/BismushKit
     info:
       path: Tests/UnitTests/BismushKit/Info.plist
     dependencies:
       - target: BismushKit_${platform}
+    settings:
+      GENERATE_INFOPLIST_FILE: true
 
   BismushUI_UnitTests:
     type: bundle.unit-test
@@ -60,93 +169,10 @@ targets:
       path: Tests/UnitTests/BismushUI/Info.plist
     dependencies:
       - target: BismushUI_${platform}
-
-
-  Bismush:
-    type: application
-    platform: macOS
-    scheme:
-      testTargets:
-        - Bismush_UITests
-        - Bismush_UnitTests
-    dependencies:
-      - target: BismushKit_macOS
-      - target: BismushUI_macOS
-    entitlements:
-      path: Sources/Bismush/Supports Files/Bismush.entitlements
-      properties:
-        com.apple.security.app-sandbox: true
-    info:
-      path: Sources/Supports Files/Bismush/Info.plist
-    preBuildScripts:
-      - path: Scripts/swiftformat.sh
-        name: Swift Format
-    postCompileScripts:
-      - script: Scripts/swiftlint.sh
-        name: Swiftlint
-    sources:
-      - Sources/Bismush
-  Bismush_UITests:
-    type: bundle.ui-testing
-    platform: macOS
-    dependencies:
-      - target: Bismush
-    info:
-      path: Tests/UITests/Bismush/Info.plist
-    sources: 
-      - Tests/UITests/Bismush
-  Bismush_UnitTests:
-    type: bundle.unit-test
-    platform: macOS
-    dependencies:
-      - target: Bismush
-    info:
-      path: Tests/UnitTests/Bismush/Info.plist
-    sources: 
-      - Tests/UnitTests/Bismush
-  MobileBismush:
-    type: application
-    platform: iOS
-    dependencies:
-      - target: BismushKit_iOS
-      - target: BismushUI_iOS
-    scheme:
-      testTargets:
-        - MobileBismush_UITests
-        - MobileBismush_UnitTests
-    info:
-      path: Sources/MobileBismush/Supports Files/Info.plist
-    entitlements:
-      path: Sources/MobileBismush/Supports Files/MobileBismush.entitlements
-      properties:
-        com.apple.security.app-sandbox: true
     settings:
-      SUPPORTS_MACCATALYST: true
-    preBuildScripts:
-      - path: Scripts/swiftformat.sh
-        name: Swift Format
-    postCompileScripts:
-      - script: Scripts/swiftlint.sh
-        name: Swiftlint
-    sources: 
-      - Sources/MobileBismush
-  MobileBismush_UITests:
-    type: bundle.ui-testing
-    platform: iOS
-    dependencies:
-      - target: MobileBismush
-    info:
-      path: Tests/UITests/MobileBismush/Info.plist
-    sources: 
-      - Tests/UITests/MobileBismush
-  MobileBismush_UnitTests:
-    type: bundle.unit-test
-    platform: iOS
-    dependencies:
-      - target: MobileBismush
-    sources: 
-      - Tests/UnitTests/MobileBismush
+      GENERATE_INFOPLIST_FILE: true
 
+# MARK: - Aggregate scheme
 schemes:
   CI.macOS:
     build:
@@ -154,8 +180,9 @@ schemes:
         Bismush: all
     test:
       targets:
-        - Bismush_UITests
         - Bismush_UnitTests
+        - BismushKit_UnitTests_macOS
+        - BismushUI_UnitTests_macOS
   CI.iOS:
     build:
       targets:
@@ -163,9 +190,27 @@ schemes:
       config: CI
     test:
         targets:
-            - MobileBismush_UITests
+            - BismushKit_UnitTests_iOS
+            - BismushUI_UnitTests_iOS
             - MobileBismush_UnitTests
         config: CI
+
+  All.macOS:
+    build:
+      targets:
+        Bismush: all
+    test:
+      testPlans:
+        - path: Tests/Plans/All.macOS.xctestplan
+          defaultPlan: true
+  All.iOS:
+    build:
+      targets:
+        MobileBismush: all
+    test:
+      testPlans:
+        - path: Tests/Plans/All.iOS.xctestplan
+          defaultPlan: true
 
 configs:
   CI: debug
@@ -203,3 +248,4 @@ fileGroups:
   - .swiftformat
   - .github
   - .clang-format
+  - Tests/Plans

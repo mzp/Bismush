@@ -29,6 +29,6 @@ public struct CanvasLayerList: View {
 
 struct CanvasLayerList_Previews: PreviewProvider {
     static var previews: some View {
-        CanvasLayerList().environmentObject(CanvasLayerListViewModel(store: BismushStore.makeSample()))
+        CanvasLayerList().environmentObject(CanvasLayerListViewModel(editor: BismushEditor.makeSample()))
     }
 }

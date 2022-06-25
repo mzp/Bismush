@@ -13,13 +13,11 @@ public class Brush {
     struct Session {
         var interporater: BezierInterpolate
         var mixer: WaterColorMix
-        var renderer: StrokeRenderer
+        var renderer: LayerDrawer
     }
 
     private var session: Session?
 
-    private let store: ArtboardStore
-    private var renderer: StrokeRenderer?
     private var points = RingBuffer<PressurePoint>(capacity: 4)
 
     public var color: BismushColor {
@@ -38,15 +36,16 @@ public class Brush {
     }
 
     private var context: BMKLayerContext
+    private let document: CanvasDocument
 
-    public init(store: ArtboardStore, brushSize: Float = 50) {
-        self.store = store
+    public init(document: CanvasDocument, brushSize: Float = 50) {
+        self.document = document
 
         context = BMKLayerContext(
             brushColor: SIMD4<Float>(0, 0, 0, 1),
             brushSize: brushSize,
-            textureProjection: store.activeLayer.textureTransform.matrix,
-            layerProjection: store.activeLayer.renderTransform.matrix
+            textureProjection: document.activeLayer.textureTransform.matrix,
+            layerProjection: document.activeLayer.renderTransform.matrix
         )
     }
 
@@ -66,9 +65,9 @@ public class Brush {
 
         if points.count == 4 {
             if session == nil {
-                let interporater = BezierInterpolate(store: store, size: viewSize)
-                let mixer = WaterColorMix(store: store, context: context)
-                let renderer = StrokeRenderer(store: store, context: context)
+                let interporater = BezierInterpolate(document: document, size: viewSize)
+                let mixer = WaterColorMix(document: document, context: context)
+                let renderer = LayerDrawer(document: document, context: context)
                 session = Session(interporater: interporater, mixer: mixer, renderer: renderer)
                 BismushLogger.drawing.debug("brush session starts")
             }

@@ -7,6 +7,7 @@
 
 import AppKit
 import BismushKit
+import BismushUI
 import SwiftUI
 
 protocol DesktopArtboardDelegate: AnyObject {
@@ -32,18 +33,21 @@ class DesktopArtboardView: ArtboardView {
 }
 
 struct DesktopArtboard: NSViewRepresentable {
-    var store: ArtboardStore
+    var document: CanvasDocument
     var onMouseDown: ((NSEvent, NSView) -> Void)?
     var onMouseDragged: ((NSEvent, NSView) -> Void)?
     var onMouseUp: ((NSEvent, NSView) -> Void)?
 
     func makeNSView(context: Context) -> DesktopArtboardView {
-        let view = DesktopArtboardView(store: store)
+        let view = DesktopArtboardView(document: document)
         view.artboardDelegate = context.coordinator
         return view
     }
 
-    func updateNSView(_: DesktopArtboardView, context _: Context) {}
+    func updateNSView(_ view: DesktopArtboardView, context: Context) {
+        context.coordinator.parent = self
+        view.artboardDelegate = context.coordinator
+    }
 
     func makeCoordinator() -> Coordinator {
         Coordinator(parent: self)
@@ -68,7 +72,7 @@ struct DesktopArtboard: NSViewRepresentable {
     }
 
     class Coordinator: DesktopArtboardDelegate {
-        private let parent: DesktopArtboard
+        var parent: DesktopArtboard
 
         init(parent: DesktopArtboard) {
             self.parent = parent

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
    LastUpgradeVersion = "1200"
-   version = "1.3">
+   version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES"
@@ -34,9 +34,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "EA07B4FFAF2C8C78146CCEB3"
-               BuildableName = "Bismush_UITests.xctest"
-               BlueprintName = "Bismush_UITests"
+               BlueprintIdentifier = "4EFA348AF2224AB1DF373E2C"
+               BuildableName = "Bismush_UnitTests.xctest"
+               BlueprintName = "Bismush_UnitTests"
                ReferencedContainer = "container:Bismush.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -44,9 +44,19 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "4EFA348AF2224AB1DF373E2C"
-               BuildableName = "Bismush_UnitTests.xctest"
-               BlueprintName = "Bismush_UnitTests"
+               BlueprintIdentifier = "02CF2224AA986125B67AD12B"
+               BuildableName = "BismushKit_UnitTests.xctest"
+               BlueprintName = "BismushKit_UnitTests_macOS"
+               ReferencedContainer = "container:Bismush.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "6F0E0A19B5F3EB9800CE810E"
+               BuildableName = "BismushUI_UnitTests.xctest"
+               BlueprintName = "BismushUI_UnitTests_macOS"
                ReferencedContainer = "container:Bismush.xcodeproj">
             </BuildableReference>
          </TestableReference>

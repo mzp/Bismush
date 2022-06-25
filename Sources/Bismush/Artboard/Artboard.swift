@@ -16,7 +16,7 @@ struct Artboard: View {
     @State var undoManager: UndoManager?
 
     var body: some View {
-        DesktopArtboard(store: viewModel.store.artboard)
+        DesktopArtboard(document: viewModel.editor.document)
             .onMouseDown(perform: mouseDown(with:in:))
             .onMouseDragged(perform: mouseDragged(with:in:))
             .onMouseUp(perform: mouseUp(with:in:))
@@ -28,8 +28,8 @@ struct Artboard: View {
     }
 
     func mouseDown(with _: NSEvent, in _: NSView) {
-        let snapshot = viewModel.store.getSnapshot()
-        undoManager?.registerUndo(withTarget: viewModel.store, handler: { store in
+        let snapshot = viewModel.editor.getSnapshot()
+        undoManager?.registerUndo(withTarget: viewModel.editor, handler: { store in
             let redoSnapshot = store.getSnapshot()
             store.restore(snapshot: snapshot)
             undoManager?.registerUndo(withTarget: store, handler: { store in

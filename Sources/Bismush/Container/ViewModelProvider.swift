@@ -10,23 +10,30 @@ import BismushUI
 import SwiftUI
 
 struct ViewModelProvider<Content: View>: View {
-    var bismushStore: BismushStore
+    @ObservedObject var document: CanvasDocument
+    var editor: BismushEditor
+
+    init(document: CanvasDocument, content: @escaping () -> Content) {
+        self.document = document
+        editor = BismushEditor(document: document)
+        self.content = content
+    }
 
     var content: () -> Content
     var body: some View {
         content()
-            .environmentObject(ArtboardViewModel(store: bismushStore))
-            .environmentObject(RGBColorViewModel(store: bismushStore))
-            .environmentObject(CanvasLayerListViewModel(store: bismushStore))
+            .environmentObject(ArtboardViewModel(editor: editor))
+            .environmentObject(RGBColorViewModel(editor: editor))
+            .environmentObject(CanvasLayerListViewModel(editor: editor))
     }
 }
 
 struct SampleViewModel<Content: View>: View {
-    @StateObject var store = BismushStore.makeSample()
+    @StateObject var document = CanvasDocument.sample
     var content: () -> Content
 
     var body: some View {
-        ViewModelProvider(bismushStore: store) {
+        ViewModelProvider(document: document) {
             content()
         }
     }

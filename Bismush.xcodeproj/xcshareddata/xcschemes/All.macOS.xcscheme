@@ -15,9 +15,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "EB9FB15088B74104B736823E"
-               BuildableName = "BismushKit.framework"
-               BlueprintName = "BismushKit_macOS"
+               BlueprintIdentifier = "068FB895A5E0E850190E80B5"
+               BuildableName = "Bismush.app"
+               BlueprintName = "Bismush"
                ReferencedContainer = "container:Bismush.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -29,24 +29,20 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       onlyGenerateCoverageForSpecifiedTargets = "NO"
       shouldUseLaunchSchemeArgsEnv = "YES">
+      <TestPlans>
+         <TestPlanReference
+            default = "YES"
+            reference = "container:Tests/Plans/All.macOS.xctestplan">
+         </TestPlanReference>
+      </TestPlans>
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "02CF2224AA986125B67AD12B"
-               BuildableName = "BismushKit_UnitTests.xctest"
-               BlueprintName = "BismushKit_UnitTests_macOS"
-               ReferencedContainer = "container:Bismush.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "EB9FB15088B74104B736823E"
-            BuildableName = "BismushKit.framework"
-            BlueprintName = "BismushKit_macOS"
+            BlueprintIdentifier = "068FB895A5E0E850190E80B5"
+            BuildableName = "Bismush.app"
+            BlueprintName = "Bismush"
             ReferencedContainer = "container:Bismush.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -63,17 +59,16 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "EB9FB15088B74104B736823E"
-            BuildableName = "BismushKit.framework"
-            BlueprintName = "BismushKit_macOS"
+            BlueprintIdentifier = "068FB895A5E0E850190E80B5"
+            BuildableName = "Bismush.app"
+            BlueprintName = "Bismush"
             ReferencedContainer = "container:Bismush.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
-      <CommandLineArguments>
-      </CommandLineArguments>
+      </BuildableProductRunnable>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -85,14 +80,12 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "EB9FB15088B74104B736823E"
-            BuildableName = "BismushKit.framework"
-            BlueprintName = "BismushKit_macOS"
+            BlueprintIdentifier = "068FB895A5E0E850190E80B5"
+            BuildableName = "Bismush.app"
+            BlueprintName = "Bismush"
             ReferencedContainer = "container:Bismush.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
-      <CommandLineArguments>
-      </CommandLineArguments>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
