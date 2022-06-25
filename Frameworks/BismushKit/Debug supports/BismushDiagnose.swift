@@ -54,10 +54,12 @@ enum BismushDiagnose {
             return "mac Catalyst 1"
         case .macCatalyst2:
             return "mac Catalyst 2"
+        // swiftlint:disable switch_case_alignment
         #if swift(>=5.7) // i.e. >= Xcode14
             case .metal3:
                 return "metal 3"
         #endif
+        // swiftlint:enable switch_case_alignment
         default:
             return "unknown"
         }
