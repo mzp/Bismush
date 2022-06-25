@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -315,7 +315,7 @@
 		00439E9260DD1AF0F1C1EB52 /* BMKDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BMKDefines.h; sourceTree = "<group>"; };
 		0132052196BDD8751A25F4C4 /* LayerTexture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayerTexture.swift; sourceTree = "<group>"; };
 		0249529DF47613A66884C051 /* MobileBismush_UnitTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = MobileBismush_UnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		04A2D879615BD04815A504C3 /* .swiftformat */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftformat; sourceTree = "<group>"; };
+		04A2D879615BD04815A504C3 /* .swiftformat */ = {isa = PBXFileReference; path = .swiftformat; sourceTree = "<group>"; };
 		07B92CA94934F023036BD021 /* BismushUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BismushUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		08357BEDDDAF54069A225502 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		09AF1812197F5D99FEFD5F7F /* RGBSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RGBSlider.swift; sourceTree = "<group>"; };
@@ -357,7 +357,7 @@
 		5043075D4D9C707D777F454A /* project.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = project.yml; sourceTree = "<group>"; };
 		5470BE55386A1F5C20A7BB17 /* BismushKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BismushKit.h; sourceTree = "<group>"; };
 		552D6961EAE0E59CE441ECA2 /* BismushUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BismushUI.h; sourceTree = "<group>"; };
-		5D25107273F62654134E3A99 /* All.iOS.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = All.iOS.xctestplan; sourceTree = "<group>"; };
+		5D25107273F62654134E3A99 /* All.iOS.xctestplan */ = {isa = PBXFileReference; path = All.iOS.xctestplan; sourceTree = "<group>"; };
 		65D3663CC42C022016FAABB6 /* MobileArtboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileArtboardViewModel.swift; sourceTree = "<group>"; };
 		6A6D2AB2586FFFB049C2FEA2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		7285CEFEBBC847DEB5237516 /* BMKStroke.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BMKStroke.h; sourceTree = "<group>"; };
@@ -376,7 +376,7 @@
 		8A79FC0F25C098F0AC0EB7B6 /* BismushUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BismushUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B7B1DA875F043DF8456504A /* CanvasLayerListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasLayerListTests.swift; sourceTree = "<group>"; };
 		907148F790EF2806D0F2DD3A /* lint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = lint.yml; sourceTree = "<group>"; };
-		9213875265869D3D8C8500B4 /* Fastfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Fastfile; sourceTree = "<group>"; };
+		9213875265869D3D8C8500B4 /* Fastfile */ = {isa = PBXFileReference; path = Fastfile; sourceTree = "<group>"; };
 		9247222A0EB78F83EF1F6627 /* GPUDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPUDevice.swift; sourceTree = "<group>"; };
 		943B84DBB4493E534AABDD8E /* MobileArtboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileArtboard.swift; sourceTree = "<group>"; };
 		9A9818456E8FA04DC978F08C /* Bismush_UnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Bismush_UnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -389,7 +389,7 @@
 		B5E8D0EC46D70E23A5E26224 /* MobileBismushApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileBismushApp.swift; sourceTree = "<group>"; };
 		B6CED7C2E12F25B66A7A285A /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		B7BC006603E34B5160EC8982 /* RGBColorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RGBColorViewModel.swift; sourceTree = "<group>"; };
-		BC91ED6F629A218295F2006B /* .clang-format */ = {isa = PBXFileReference; lastKnownFileType = text; path = ".clang-format"; sourceTree = "<group>"; };
+		BC91ED6F629A218295F2006B /* .clang-format */ = {isa = PBXFileReference; path = ".clang-format"; sourceTree = "<group>"; };
 		BE4F0C0F7ACC3BE07F921576 /* swiftformat.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = swiftformat.sh; sourceTree = "<group>"; };
 		BED5FBEFDEE1C1BDFC564BAA /* CanvasDocumentSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasDocumentSnapshot.swift; sourceTree = "<group>"; };
 		BEE02B50FEDA338D7273DA7F /* BismushInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BismushInspector.swift; sourceTree = "<group>"; };
@@ -419,7 +419,7 @@
 		F6E0EB72C342DC9BB4C0D758 /* Artboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artboard.swift; sourceTree = "<group>"; };
 		F815E58457BA6240A8C5C2F1 /* BismushApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BismushApp.swift; sourceTree = "<group>"; };
 		FAF2C9FE2F94F9E7C40AB95E /* ShaderStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShaderStore.swift; sourceTree = "<group>"; };
-		FB293DFFEF370E717E95E907 /* All.macOS.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = All.macOS.xctestplan; sourceTree = "<group>"; };
+		FB293DFFEF370E717E95E907 /* All.macOS.xctestplan */ = {isa = PBXFileReference; path = All.macOS.xctestplan; sourceTree = "<group>"; };
 		FCEBCBC957B44E3156B5B5C1 /* Bismush.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bismush.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF44414254E4EF411AF6D870 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1229,6 +1229,8 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 1200;
+				TargetAttributes = {
+				};
 			};
 			buildConfigurationList = 1411B5A57CA3255FDAD21181 /* Build configuration list for PBXProject "Bismush" */;
 			compatibilityVersion = "Xcode 11.0";
@@ -1332,7 +1334,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftlint because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    cat \"${SCRIPT_INPUT_FILE_LIST_0}\" | xargs swift run swiftlint lint | tee Reports/${TARGETNAME}.lint.txt\nfi\n";
+			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftlint because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    cat \"${SCRIPT_INPUT_FILE_LIST_0}\" | xargs swift run -Xlinker \"-no_compact_unwind\" swiftlint lint | tee Reports/${TARGETNAME}.lint.txt\nfi\n";
 		};
 		1731118BF03317B0A9DAB599 /* Swift Format */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1372,7 +1374,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftlint because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    cat \"${SCRIPT_INPUT_FILE_LIST_0}\" | xargs swift run swiftlint lint | tee Reports/${TARGETNAME}.lint.txt\nfi\n";
+			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftlint because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    cat \"${SCRIPT_INPUT_FILE_LIST_0}\" | xargs swift run -Xlinker \"-no_compact_unwind\" swiftlint lint | tee Reports/${TARGETNAME}.lint.txt\nfi\n";
 		};
 		3F07E2D71F8A5385511B7E7D /* Swift Format */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1432,7 +1434,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftlint because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    cat \"${SCRIPT_INPUT_FILE_LIST_0}\" | xargs swift run swiftlint lint | tee Reports/${TARGETNAME}.lint.txt\nfi\n";
+			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftlint because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    cat \"${SCRIPT_INPUT_FILE_LIST_0}\" | xargs swift run -Xlinker \"-no_compact_unwind\" swiftlint lint | tee Reports/${TARGETNAME}.lint.txt\nfi\n";
 		};
 		6FCCAB3D5D43C808AF315BA4 /* Swift Lint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1452,7 +1454,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftlint because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    cat \"${SCRIPT_INPUT_FILE_LIST_0}\" | xargs swift run swiftlint lint | tee Reports/${TARGETNAME}.lint.txt\nfi\n";
+			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftlint because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    cat \"${SCRIPT_INPUT_FILE_LIST_0}\" | xargs swift run -Xlinker \"-no_compact_unwind\" swiftlint lint | tee Reports/${TARGETNAME}.lint.txt\nfi\n";
 		};
 		7B57EFF5CE41C2422A980ED2 /* Swift Format */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1532,7 +1534,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftlint because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    cat \"${SCRIPT_INPUT_FILE_LIST_0}\" | xargs swift run swiftlint lint | tee Reports/${TARGETNAME}.lint.txt\nfi\n";
+			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftlint because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    cat \"${SCRIPT_INPUT_FILE_LIST_0}\" | xargs swift run -Xlinker \"-no_compact_unwind\" swiftlint lint | tee Reports/${TARGETNAME}.lint.txt\nfi\n";
 		};
 		B09BA7E21746F9693B8DD01E /* Swift Lint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1552,7 +1554,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftlint because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    cat \"${SCRIPT_INPUT_FILE_LIST_0}\" | xargs swift run swiftlint lint | tee Reports/${TARGETNAME}.lint.txt\nfi\n";
+			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftlint because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    cat \"${SCRIPT_INPUT_FILE_LIST_0}\" | xargs swift run -Xlinker \"-no_compact_unwind\" swiftlint lint | tee Reports/${TARGETNAME}.lint.txt\nfi\n";
 		};
 		B3A7F4ACA0A6A98C117E3B7C /* Swift Lint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1572,7 +1574,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftlint because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    cat \"${SCRIPT_INPUT_FILE_LIST_0}\" | xargs swift run swiftlint lint | tee Reports/${TARGETNAME}.lint.txt\nfi\n";
+			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftlint because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    cat \"${SCRIPT_INPUT_FILE_LIST_0}\" | xargs swift run -Xlinker \"-no_compact_unwind\" swiftlint lint | tee Reports/${TARGETNAME}.lint.txt\nfi\n";
 		};
 		BB50175A63E36B97CD1847EF /* Swift Lint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1592,7 +1594,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftlint because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    cat \"${SCRIPT_INPUT_FILE_LIST_0}\" | xargs swift run swiftlint lint | tee Reports/${TARGETNAME}.lint.txt\nfi\n";
+			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftlint because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    cat \"${SCRIPT_INPUT_FILE_LIST_0}\" | xargs swift run -Xlinker \"-no_compact_unwind\" swiftlint lint | tee Reports/${TARGETNAME}.lint.txt\nfi\n";
 		};
 		BEFAD481AF3D1ED97BC507C0 /* Swift Format */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1692,7 +1694,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftlint because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    cat \"${SCRIPT_INPUT_FILE_LIST_0}\" | xargs swift run swiftlint lint | tee Reports/${TARGETNAME}.lint.txt\nfi\n";
+			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftlint because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    cat \"${SCRIPT_INPUT_FILE_LIST_0}\" | xargs swift run -Xlinker \"-no_compact_unwind\" swiftlint lint | tee Reports/${TARGETNAME}.lint.txt\nfi\n";
 		};
 		DEA9229DB99368C154B6ABFD /* Swift Lint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1712,7 +1714,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftlint because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    cat \"${SCRIPT_INPUT_FILE_LIST_0}\" | xargs swift run swiftlint lint | tee Reports/${TARGETNAME}.lint.txt\nfi\n";
+			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftlint because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    cat \"${SCRIPT_INPUT_FILE_LIST_0}\" | xargs swift run -Xlinker \"-no_compact_unwind\" swiftlint lint | tee Reports/${TARGETNAME}.lint.txt\nfi\n";
 		};
 		E1084EA61779C2B3EA10AE9F /* Swift Lint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1732,7 +1734,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftlint because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    cat \"${SCRIPT_INPUT_FILE_LIST_0}\" | xargs swift run swiftlint lint | tee Reports/${TARGETNAME}.lint.txt\nfi\n";
+			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftlint because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    cat \"${SCRIPT_INPUT_FILE_LIST_0}\" | xargs swift run -Xlinker \"-no_compact_unwind\" swiftlint lint | tee Reports/${TARGETNAME}.lint.txt\nfi\n";
 		};
 		EF3ED0019932EE08D4F6D0DD /* Swift Format */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1792,7 +1794,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftlint because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    cat \"${SCRIPT_INPUT_FILE_LIST_0}\" | xargs swift run swiftlint lint | tee Reports/${TARGETNAME}.lint.txt\nfi\n";
+			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftlint because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    cat \"${SCRIPT_INPUT_FILE_LIST_0}\" | xargs swift run -Xlinker \"-no_compact_unwind\" swiftlint lint | tee Reports/${TARGETNAME}.lint.txt\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
