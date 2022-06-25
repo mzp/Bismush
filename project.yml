@@ -104,6 +104,13 @@ targets:
       - Frameworks/BismushKit
     settings:
       MTL_LANGUAGE_REVISION: Metal24
+    preBuildScripts:
+      - path: Scripts/clang-format.sh
+        name: clang-format
+        inputFileLists:
+          - $(SRCROOT)/BuildTools/FileLists/Shaders.xcfilelist
+        outputFiles:
+          - $(SRCROOT)/BuildTools/Reports/Shaders.clangformat.txt
 
   BismushUI:
     templates:
@@ -232,6 +239,7 @@ settings:
     DEVELOPMENT_TEAM: VG2YYSKSHY
     CODE_SIGN_STYLE: Automatic
     CODE_SIGN_IDENTITY: "-"
+    DEAD_CODE_STRIPPING: true
   configs:
     CI:
       DEVELOPMENT_TEAM:

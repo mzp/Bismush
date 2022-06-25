@@ -1151,6 +1151,7 @@
 			buildPhases = (
 				2C3136FD505F336F721E6CBB /* Swift Lint */,
 				BEFAD481AF3D1ED97BC507C0 /* Swift Format */,
+				71ED0674E48958F0D0885899 /* clang-format */,
 				59050E54841037CC0B4B6685 /* Headers */,
 				400B4DCDDCB2CA7B9932ABAA /* Sources */,
 				F9DD31C3878B1AA8AABA2EE5 /* Resources */,
@@ -1191,6 +1192,7 @@
 			buildPhases = (
 				DEA9229DB99368C154B6ABFD /* Swift Lint */,
 				8B55C3B00708AA778F52C83F /* Swift Format */,
+				2327EBB81606BAAE46F0350C /* clang-format */,
 				D8F18916C5E160961192576A /* Headers */,
 				170229A488A5FCEBC5EB287C /* Sources */,
 				C782F53656EABA8669728C44 /* Resources */,
@@ -1356,6 +1358,26 @@
 			shellPath = /bin/sh;
 			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftformat because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    swift run swiftformat --filelist \"${SCRIPT_INPUT_FILE_LIST_0}\" --report Reports/${TARGETNAME}.format.json\nfi\n";
 		};
+		2327EBB81606BAAE46F0350C /* clang-format */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"$(SRCROOT)/BuildTools/FileLists/Shaders.xcfilelist",
+			);
+			inputPaths = (
+			);
+			name = "clang-format";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(SRCROOT)/BuildTools/Reports/Shaders.clangformat.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/sh\necho nhnoeth\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftformat because BISMUSH_SKIP_TEST is set\"\n    exit 0\nfi\n\nif which clang-format > /dev/null; then\n  cd \"$SRCROOT\"\n  find . -name \"*.metal\" -exec clang-format -i \\{\\} \\;\nfi\n";
+		};
 		2C3136FD505F336F721E6CBB /* Swift Lint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1455,6 +1477,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftlint because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    cat \"${SCRIPT_INPUT_FILE_LIST_0}\" | xargs swift run -Xlinker \"-no_compact_unwind\" swiftlint lint | tee Reports/${TARGETNAME}.lint.txt\nfi\n";
+		};
+		71ED0674E48958F0D0885899 /* clang-format */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"$(SRCROOT)/BuildTools/FileLists/Shaders.xcfilelist",
+			);
+			inputPaths = (
+			);
+			name = "clang-format";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(SRCROOT)/BuildTools/Reports/Shaders.clangformat.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/sh\necho nhnoeth\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftformat because BISMUSH_SKIP_TEST is set\"\n    exit 0\nfi\n\nif which clang-format > /dev/null; then\n  cd \"$SRCROOT\"\n  find . -name \"*.metal\" -exec clang-format -i \\{\\} \\;\nfi\n";
 		};
 		7B57EFF5CE41C2422A980ED2 /* Swift Format */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2189,6 +2231,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -2638,6 +2681,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = VG2YYSKSHY;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -2893,6 +2937,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = VG2YYSKSHY;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
