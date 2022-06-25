@@ -1,9 +1,0 @@
-Sources/Bismush/Artboard/Artboard.swift
-Sources/Bismush/Artboard/ArtboardViewModel.swift
-Sources/Bismush/Artboard/DesktopArtboard.swift
-Sources/Bismush/BismushApp.swift
-Sources/Bismush/Color Slider/ColorComponentSlider.swift
-Sources/Bismush/Color Slider/RGBColorViewModel.swift
-Sources/Bismush/Color Slider/RGBSlider.swift
-Sources/Bismush/Container/ViewModelProvider.swift
-Sources/Bismush/Container/WorkspaceView.swift

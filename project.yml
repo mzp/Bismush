@@ -1,7 +1,24 @@
 name: Bismush
+targetTemplates:
+  Lint:
+    preBuildScripts:
+      - path: Scripts/swiftlint.sh
+        name: Swift Lint
+        inputFileLists:
+          - $(SRCROOT)/BuildTools/FileLists/${target_name}.xcfilelist
+        outputFiles:
+          - $(SRCROOT)/BuildTools/Reports/${target_name}.lint.txt
+      - path: Scripts/swiftformat.sh
+        name: Swift Format
+        inputFileLists:
+          - $(SRCROOT)/BuildTools/FileLists/${target_name}.xcfilelist
+        outputFiles:
+          - $(SRCROOT)/BuildTools/Reports/${target_name}.format.json
 targets:
   # MARK: - Application
   Bismush:
+    templates:
+      - Lint
     type: application
     platform: macOS
     scheme:
@@ -31,17 +48,12 @@ targets:
             UTTypeIdentifier: jp.mzp.bismush.canvas
             UTTypeTagSpecification:
               public.filename-extension: ["bismush"]
-    preBuildScripts:
-      - path: Scripts/swiftformat.sh
-        name: Swift Format
-        inputFileLists:
-          - $(SRCROOT)/BuildTools/Bismush.xcfilelist
-        outputFileLists:
-          - $(SRCROOT)/BuildTools/Bismush.xcfilelist
     sources:
       - Sources/Bismush
 
   MobileBismush:
+    templates:
+      - Lint
     type: application
     platform: iOS
     dependencies:
@@ -74,18 +86,13 @@ targets:
         com.apple.security.files.user-selected.read-write: true
     settings:
       SUPPORTS_MACCATALYST: true
-    preBuildScripts:
-      - path: Scripts/swiftformat.sh
-        name: Swift Format
-        inputFileLists:
-          - $(SRCROOT)/BuildTools/MobileBismush.xcfilelist
-        outputFileLists:
-          - $(SRCROOT)/BuildTools/MobileBismush.xcfilelist
     sources:
       - Sources/MobileBismush
 
   # MARK: - Framework
   BismushKit:
+    templates:
+      - Lint
     type: framework
     platform: [macOS, iOS]
     scheme:
@@ -97,21 +104,10 @@ targets:
       - Frameworks/BismushKit
     settings:
       MTL_LANGUAGE_REVISION: Metal24
-    preBuildScripts:
-      - path: Scripts/swiftformat.sh
-        name: Swift Format
-        inputFileLists:
-          - $(SRCROOT)/BuildTools/BismushKit.xcfilelist
-        outputFileLists:
-          - $(SRCROOT)/BuildTools/BismushKit.xcfilelist
-      - path: Scripts/clang-format.sh
-        name: clang-format
-        inputFileLists:
-          - $(SRCROOT)/BuildTools/Shaders.xcfilelist
-        outputFileLists:
-          - $(SRCROOT)/BuildTools/Shaders.xcfilelist
 
   BismushUI:
+    templates:
+      - Lint
     type: framework
     platform: [macOS, iOS]
     scheme:
@@ -121,18 +117,13 @@ targets:
       - target: BismushKit_${platform}
     info:
       path: Frameworks/BismushUI/Supports Files/Info.plist
-    preBuildScripts:
-      - path: Scripts/swiftformat.sh
-        name: Swift Format
-        inputFileLists:
-          - $(SRCROOT)/BuildTools/BismushUI.xcfilelist
-        outputFileLists:
-          - $(SRCROOT)/BuildTools/BismushUI.xcfilelist
     sources:
       - Frameworks/BismushUI
 
   # MARK: - Tests
   Bismush_UnitTests:
+    templates:
+      - Lint
     type: bundle.unit-test
     platform: macOS
     dependencies:
@@ -143,15 +134,10 @@ targets:
       - Tests/UnitTests/Bismush
     settings:
       GENERATE_INFOPLIST_FILE: true
-    preBuildScripts:
-      - path: Scripts/swiftformat.sh
-        name: Swift Format
-        inputFileLists:
-          - $(SRCROOT)/BuildTools/Bismush_UnitTests.xcfilelist
-        outputFileLists:
-          - $(SRCROOT)/BuildTools/Bismush_UnitTests.xcfilelist
 
   MobileBismush_UnitTests:
+    templates:
+      - Lint
     type: bundle.unit-test
     platform: iOS
     dependencies:
@@ -160,16 +146,10 @@ targets:
       - Tests/UnitTests/MobileBismush
     settings:
       GENERATE_INFOPLIST_FILE: true
-    preBuildScripts:
-      - path: Scripts/swiftformat.sh
-        name: Swift Format
-        inputFileLists:
-          - $(SRCROOT)/BuildTools/MobileBismush_UnitTests.xcfilelist
-        outputFileLists:
-          - $(SRCROOT)/BuildTools/MobileBismush_UnitTests.xcfilelist
-
 
   BismushKit_UnitTests:
+    templates:
+      - Lint
     type: bundle.unit-test
     platform: [macOS, iOS]
     sources:
@@ -180,17 +160,10 @@ targets:
       - target: BismushKit_${platform}
     settings:
       GENERATE_INFOPLIST_FILE: true
-    preBuildScripts:
-      - path: Scripts/swiftformat.sh
-        name: Swift Format
-        inputFileLists:
-          - $(SRCROOT)/BuildTools/BismushKit_UnitTests.xcfilelist
-        outputFileLists:
-          - $(SRCROOT)/BuildTools/BismushKit_UnitTests.xcfilelist
-      - script: Scripts/swiftlint.sh
-
 
   BismushUI_UnitTests:
+    templates:
+      - Lint
     type: bundle.unit-test
     platform: [macOS, iOS]
     sources:
@@ -201,13 +174,6 @@ targets:
       - target: BismushUI_${platform}
     settings:
       GENERATE_INFOPLIST_FILE: true
-    preBuildScripts:
-      - path: Scripts/swiftformat.sh
-        name: Swift Format
-        inputFileLists:
-          - $(SRCROOT)/BuildTools/BismushUI_UnitTests.xcfilelist
-        outputFileLists:
-          - $(SRCROOT)/BuildTools/BismushUI_UnitTests.xcfilelist
 
 # MARK: - Aggregate scheme
 schemes:
@@ -248,6 +214,14 @@ schemes:
       testPlans:
         - path: Tests/Plans/All.iOS.xctestplan
           defaultPlan: true
+    preBuildScripts:
+      - path: Scripts/swiftformat.sh
+        name: Format
+        inputFileLists:
+          - $(SRCROOT)/BuildTools/Bismush.xcfilelist
+        outputFileLists:
+          - $(SRCROOT)/BuildTools/Bismush.xcfilelist
+
 
 configs:
   CI: debug
