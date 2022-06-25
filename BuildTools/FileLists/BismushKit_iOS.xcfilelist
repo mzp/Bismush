@@ -1,0 +1,32 @@
+Frameworks/BismushKit/Debug supports/BismushDiagnose.swift
+Frameworks/BismushKit/Debug supports/BismushInspector.swift
+Frameworks/BismushKit/Debug supports/BismushLogger.swift
+Frameworks/BismushKit/Document/Canvas.swift
+Frameworks/BismushKit/Document/CanvasDocument.swift
+Frameworks/BismushKit/Document/CanvasDocumentSnapshot.swift
+Frameworks/BismushKit/Document/CanvasLayer.swift
+Frameworks/BismushKit/Document/LayerTexture.swift
+Frameworks/BismushKit/Document/MTLTexture+Data.swift
+Frameworks/BismushKit/Editor/BismushEditor.swift
+Frameworks/BismushKit/Editor/Brush/BezierInterpolate.swift
+Frameworks/BismushKit/Editor/Brush/Brush.swift
+Frameworks/BismushKit/Editor/Brush/LayerDrawer.swift
+Frameworks/BismushKit/Editor/Brush/WaterColorMix.swift
+Frameworks/BismushKit/Entity/Foundation/BismushColor.swift
+Frameworks/BismushKit/Entity/Foundation/Coordinate.swift
+Frameworks/BismushKit/Entity/Foundation/PressurePoint.swift
+Frameworks/BismushKit/Entity/Foundation/RingBuffer.swift
+Frameworks/BismushKit/Entity/Foundation/Transform2D.swift
+Frameworks/BismushKit/Entity/Metal/DynamicBuffer.swift
+Frameworks/BismushKit/Entity/Metal/FunctionName+CustomStringConvertible.swift
+Frameworks/BismushKit/Entity/Metal/FunctionName.swift
+Frameworks/BismushKit/Entity/Metal/GPUDevice.swift
+Frameworks/BismushKit/Entity/Metal/MemorySize.swift
+Frameworks/BismushKit/Entity/Metal/MetalDeviceCapability.swift
+Frameworks/BismushKit/Entity/Metal/ResourceLoader.swift
+Frameworks/BismushKit/Entity/Metal/SIMD3+Bismush.swift
+Frameworks/BismushKit/Entity/Metal/ShaderStore.swift
+Frameworks/BismushKit/Renderer/Canvas+Transform.swift
+Frameworks/BismushKit/Renderer/CanvasLayer+Transform.swift
+Frameworks/BismushKit/Renderer/CanvasLayerRenderer.swift
+Frameworks/BismushKit/Renderer/CanvasRenderer.swift
