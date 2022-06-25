@@ -993,8 +993,8 @@
 			buildConfigurationList = 2D2C7CA078DB8ECCBEAEE61C /* Build configuration list for PBXNativeTarget "BismushKit_UnitTests_macOS" */;
 			buildPhases = (
 				60F042C10A6B965003E3E2A9 /* Swift Format */,
+				0CD0ED05965F42CF2265B397 /* Run Script */,
 				98F226E7FDFC742C28E29BAF /* Sources */,
-				980D899EB5B450C68732A804 /* Swiftlint */,
 				17DFC619694A7795667C13D6 /* Resources */,
 				2698E41008819B6DEDBF4F40 /* Frameworks */,
 				C102D4FD0AE30BEB9F506D30 /* Embed Frameworks */,
@@ -1015,7 +1015,6 @@
 			buildPhases = (
 				7B57EFF5CE41C2422A980ED2 /* Swift Format */,
 				FFA5BEE0E83B09292E08B6BF /* Sources */,
-				29D2BF1CD478555AF1203583 /* Swiftlint */,
 				EB6C397529B5C97594EA6506 /* Resources */,
 				D8EF3BC4132C91DEAA8085BB /* Frameworks */,
 				6B7825A0B4D580E415FE99CE /* Embed Frameworks */,
@@ -1037,7 +1036,6 @@
 			buildPhases = (
 				1731118BF03317B0A9DAB599 /* Swift Format */,
 				0D1667B16120CCB9372D101F /* Sources */,
-				BEC2ADD898F4C64883F94E16 /* Swiftlint */,
 			);
 			buildRules = (
 			);
@@ -1055,7 +1053,6 @@
 			buildPhases = (
 				3F07E2D71F8A5385511B7E7D /* Swift Format */,
 				7EC0595D8ED91DBA7D10F3C9 /* Sources */,
-				344C0AAC615F36C556D41C2D /* Swiftlint */,
 				AD3A84D06DE95BA0DDAAB149 /* Resources */,
 				BC7341B159D1A40A7DC23575 /* Frameworks */,
 				A19DBDC06B838DB67C74294D /* Embed Frameworks */,
@@ -1077,7 +1074,6 @@
 			buildPhases = (
 				C5CB9AD7C8B92B7A0763DF50 /* Swift Format */,
 				2E70B3CD5A47B426831A0344 /* Sources */,
-				06C220B20C589670F1610A46 /* Swiftlint */,
 				15255703721AED6BC6924F2F /* Frameworks */,
 				83AFC6DC1E71D3CE0D992DBA /* Embed Frameworks */,
 			);
@@ -1098,7 +1094,6 @@
 				EF3ED0019932EE08D4F6D0DD /* Swift Format */,
 				499896D17B0F04568AC7F435 /* Headers */,
 				F3A5DDB134CB14E9131D62AA /* Sources */,
-				D054436997B1FB1CD98B84DD /* Swiftlint */,
 				38464A6431460ABBF50823FE /* Frameworks */,
 			);
 			buildRules = (
@@ -1118,7 +1113,6 @@
 				C507BE4CD05DAF0BA999EC4D /* Swift Format */,
 				D39B1BF98300761FF996473F /* Headers */,
 				0A9FFA247B38854FFCAE0CDF /* Sources */,
-				003908C5048D8098F2C0B515 /* Swiftlint */,
 				04D72BB72319CE704C560753 /* Frameworks */,
 			);
 			buildRules = (
@@ -1137,7 +1131,6 @@
 			buildPhases = (
 				829EFB916116FB8A75F7A0B3 /* Swift Format */,
 				9B5CA07D48FF4E3F20570F37 /* Sources */,
-				698F01939A362A440AA69012 /* Swiftlint */,
 				A2A39789AA5C6384AC6A95A7 /* Frameworks */,
 				F3C678AB0E7B7217AFCC5A96 /* Embed Frameworks */,
 			);
@@ -1159,7 +1152,6 @@
 				71ED0674E48958F0D0885899 /* clang-format */,
 				59050E54841037CC0B4B6685 /* Headers */,
 				400B4DCDDCB2CA7B9932ABAA /* Sources */,
-				D9B60CCFCB6348FA37899F41 /* Swiftlint */,
 				F9DD31C3878B1AA8AABA2EE5 /* Resources */,
 			);
 			buildRules = (
@@ -1176,8 +1168,8 @@
 			buildConfigurationList = F954FE6637A81D6FB78CBFAD /* Build configuration list for PBXNativeTarget "BismushKit_UnitTests_iOS" */;
 			buildPhases = (
 				C7FE8CA4D48E44D8425E755F /* Swift Format */,
+				20D1785D9C6E8398F306EE34 /* Run Script */,
 				C5BF05C76D3BF3765D1D7875 /* Sources */,
-				D9816CFA501E15C5FA020FCC /* Swiftlint */,
 				E377F80BF882459EAD3C97B9 /* Resources */,
 				176D9208C81B01FB8054351B /* Frameworks */,
 				2988949E8B1465FFCE1DF5B1 /* Embed Frameworks */,
@@ -1200,7 +1192,6 @@
 				2327EBB81606BAAE46F0350C /* clang-format */,
 				D8F18916C5E160961192576A /* Headers */,
 				170229A488A5FCEBC5EB287C /* Sources */,
-				E09FA537FD0B4FE59A976646 /* Swiftlint */,
 				C782F53656EABA8669728C44 /* Resources */,
 			);
 			buildRules = (
@@ -1218,7 +1209,6 @@
 			buildPhases = (
 				F8D3AC528BA7328028189627 /* Swift Format */,
 				7A3A1B29FD00EFACABE50839 /* Sources */,
-				65796DF33A2062AA8B017886 /* Swiftlint */,
 			);
 			buildRules = (
 			);
@@ -1324,39 +1314,17 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		003908C5048D8098F2C0B515 /* Swiftlint */ = {
+		0CD0ED05965F42CF2265B397 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"$(SRCROOT)/BuildTools/BismushUI.xcfilelist",
 			);
 			inputPaths = (
 			);
-			name = Swiftlint;
+			name = "Run Script";
 			outputFileListPaths = (
-				"$(SRCROOT)/BuildTools/BismushUI.xcfilelist",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = Scripts/swiftlint.sh;
-		};
-		06C220B20C589670F1610A46 /* Swiftlint */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"$(SRCROOT)/BuildTools/BismushUI_UnitTests.xcfilelist",
-			);
-			inputPaths = (
-			);
-			name = Swiftlint;
-			outputFileListPaths = (
-				"$(SRCROOT)/BuildTools/BismushUI_UnitTests.xcfilelist",
 			);
 			outputPaths = (
 			);
@@ -1384,6 +1352,24 @@
 			shellPath = /bin/sh;
 			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftformat because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    for i in {0..$SCRIPT_INPUT_FILE_LIST_COUNT}\n    do\n      swift run -c release swiftformat \"$SRCROOT\" --filelist \"${SCRIPT_INPUT_FILE_LIST_$i}\"\n    done\nfi\n";
 		};
+		20D1785D9C6E8398F306EE34 /* Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = Scripts/swiftlint.sh;
+		};
 		2327EBB81606BAAE46F0350C /* clang-format */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1403,46 +1389,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "#!/bin/sh\necho nhnoeth\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftformat because BISMUSH_SKIP_TEST is set\"\n    exit 0\nfi\n\nif which clang-format > /dev/null; then\n  cd \"$SRCROOT\"\n  find . -name \"*.metal\" -exec clang-format -i \\{\\} \\;\nfi\n";
-		};
-		29D2BF1CD478555AF1203583 /* Swiftlint */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"$(SRCROOT)/BuildTools/Bismush.xcfilelist",
-			);
-			inputPaths = (
-			);
-			name = Swiftlint;
-			outputFileListPaths = (
-				"$(SRCROOT)/BuildTools/Bismush.xcfilelist",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = Scripts/swiftlint.sh;
-		};
-		344C0AAC615F36C556D41C2D /* Swiftlint */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"$(SRCROOT)/BuildTools/MobileBismush.xcfilelist",
-			);
-			inputPaths = (
-			);
-			name = Swiftlint;
-			outputFileListPaths = (
-				"$(SRCROOT)/BuildTools/MobileBismush.xcfilelist",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = Scripts/swiftlint.sh;
 		};
 		3F07E2D71F8A5385511B7E7D /* Swift Format */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1483,46 +1429,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftformat because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    for i in {0..$SCRIPT_INPUT_FILE_LIST_COUNT}\n    do\n      swift run -c release swiftformat \"$SRCROOT\" --filelist \"${SCRIPT_INPUT_FILE_LIST_$i}\"\n    done\nfi\n";
-		};
-		65796DF33A2062AA8B017886 /* Swiftlint */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"$(SRCROOT)/BuildTools/MobileBismush_UnitTests.xcfilelist",
-			);
-			inputPaths = (
-			);
-			name = Swiftlint;
-			outputFileListPaths = (
-				"$(SRCROOT)/BuildTools/MobileBismush_UnitTests.xcfilelist",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = Scripts/swiftlint.sh;
-		};
-		698F01939A362A440AA69012 /* Swiftlint */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"$(SRCROOT)/BuildTools/BismushUI_UnitTests.xcfilelist",
-			);
-			inputPaths = (
-			);
-			name = Swiftlint;
-			outputFileListPaths = (
-				"$(SRCROOT)/BuildTools/BismushUI_UnitTests.xcfilelist",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = Scripts/swiftlint.sh;
 		};
 		71ED0674E48958F0D0885899 /* clang-format */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1604,46 +1510,6 @@
 			shellPath = /bin/sh;
 			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftformat because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    for i in {0..$SCRIPT_INPUT_FILE_LIST_COUNT}\n    do\n      swift run -c release swiftformat \"$SRCROOT\" --filelist \"${SCRIPT_INPUT_FILE_LIST_$i}\"\n    done\nfi\n";
 		};
-		980D899EB5B450C68732A804 /* Swiftlint */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"$(SRCROOT)/BuildTools/BismushKit_UnitTests.xcfilelist",
-			);
-			inputPaths = (
-			);
-			name = Swiftlint;
-			outputFileListPaths = (
-				"$(SRCROOT)/BuildTools/BismushKit_UnitTests.xcfilelist",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = Scripts/swiftlint.sh;
-		};
-		BEC2ADD898F4C64883F94E16 /* Swiftlint */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"$(SRCROOT)/BuildTools/Bismush_UnitTests.xcfilelist",
-			);
-			inputPaths = (
-			);
-			name = Swiftlint;
-			outputFileListPaths = (
-				"$(SRCROOT)/BuildTools/Bismush_UnitTests.xcfilelist",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = Scripts/swiftlint.sh;
-		};
 		BEFAD481AF3D1ED97BC507C0 /* Swift Format */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1723,86 +1589,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftformat because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    for i in {0..$SCRIPT_INPUT_FILE_LIST_COUNT}\n    do\n      swift run -c release swiftformat \"$SRCROOT\" --filelist \"${SCRIPT_INPUT_FILE_LIST_$i}\"\n    done\nfi\n";
-		};
-		D054436997B1FB1CD98B84DD /* Swiftlint */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"$(SRCROOT)/BuildTools/BismushUI.xcfilelist",
-			);
-			inputPaths = (
-			);
-			name = Swiftlint;
-			outputFileListPaths = (
-				"$(SRCROOT)/BuildTools/BismushUI.xcfilelist",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = Scripts/swiftlint.sh;
-		};
-		D9816CFA501E15C5FA020FCC /* Swiftlint */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"$(SRCROOT)/BuildTools/BismushKit_UnitTests.xcfilelist",
-			);
-			inputPaths = (
-			);
-			name = Swiftlint;
-			outputFileListPaths = (
-				"$(SRCROOT)/BuildTools/BismushKit_UnitTests.xcfilelist",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = Scripts/swiftlint.sh;
-		};
-		D9B60CCFCB6348FA37899F41 /* Swiftlint */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"$(SRCROOT)/BuildTools/BismushKit.xcfilelist",
-			);
-			inputPaths = (
-			);
-			name = Swiftlint;
-			outputFileListPaths = (
-				"$(SRCROOT)/BuildTools/BismushKit.xcfilelist",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = Scripts/swiftlint.sh;
-		};
-		E09FA537FD0B4FE59A976646 /* Swiftlint */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"$(SRCROOT)/BuildTools/BismushKit.xcfilelist",
-			);
-			inputPaths = (
-			);
-			name = Swiftlint;
-			outputFileListPaths = (
-				"$(SRCROOT)/BuildTools/BismushKit.xcfilelist",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = Scripts/swiftlint.sh;
 		};
 		EF3ED0019932EE08D4F6D0DD /* Swift Format */ = {
 			isa = PBXShellScriptBuildPhase;
