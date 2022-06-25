@@ -1,7 +1,24 @@
 name: Bismush
+targetTemplates:
+  Lint:
+    preBuildScripts:
+      - path: Scripts/swiftlint.sh
+        name: Swift Lint
+        inputFileLists:
+          - $(SRCROOT)/BuildTools/FileLists/${target_name}.xcfilelist
+        outputFiles:
+          - $(SRCROOT)/BuildTools/Reports/${target_name}.lint.txt
+      - path: Scripts/swiftformat.sh
+        name: Swift Format
+        inputFileLists:
+          - $(SRCROOT)/BuildTools/FileLists/${target_name}.xcfilelist
+        outputFiles:
+          - $(SRCROOT)/BuildTools/Reports/${target_name}.format.json
 targets:
   # MARK: - Application
   Bismush:
+    templates:
+      - Lint
     type: application
     platform: macOS
     scheme:
@@ -31,16 +48,14 @@ targets:
             UTTypeIdentifier: jp.mzp.bismush.canvas
             UTTypeTagSpecification:
               public.filename-extension: ["bismush"]
-    preBuildScripts:
-      - path: Scripts/swiftformat.sh
-        name: Swift Format
-    postCompileScripts:
-      - script: Scripts/swiftlint.sh
-        name: Swiftlint
     sources:
       - Sources/Bismush
+    settings:
+      CODE_SIGN_IDENTITY: "-"
 
   MobileBismush:
+    templates:
+      - Lint
     type: application
     platform: iOS
     dependencies:
@@ -73,17 +88,13 @@ targets:
         com.apple.security.files.user-selected.read-write: true
     settings:
       SUPPORTS_MACCATALYST: true
-    preBuildScripts:
-      - path: Scripts/swiftformat.sh
-        name: Swift Format
-    postCompileScripts:
-      - script: Scripts/swiftlint.sh
-        name: Swiftlint
     sources:
       - Sources/MobileBismush
 
   # MARK: - Framework
   BismushKit:
+    templates:
+      - Lint
     type: framework
     platform: [macOS, iOS]
     scheme:
@@ -91,20 +102,21 @@ targets:
         - BismushKit_UnitTests_${platform}
     info:
       path: Frameworks/BismushKit/Supports Files/Info.plist
-    preBuildScripts:
-      - path: Scripts/swiftformat.sh
-        name: Swift Format
-      - path: Scripts/clang-format.sh
-        name: clang-format
-    postCompileScripts:
-      - script: Scripts/swiftlint.sh
-        name: Swiftlint
-    sources: 
+    sources:
       - Frameworks/BismushKit
     settings:
       MTL_LANGUAGE_REVISION: Metal24
+    preBuildScripts:
+      - path: Scripts/clang-format.sh
+        name: clang-format
+        inputFileLists:
+          - $(SRCROOT)/BuildTools/FileLists/Shaders.xcfilelist
+        outputFiles:
+          - $(SRCROOT)/BuildTools/Reports/Shaders.clangformat.txt
 
   BismushUI:
+    templates:
+      - Lint
     type: framework
     platform: [macOS, iOS]
     scheme:
@@ -114,19 +126,13 @@ targets:
       - target: BismushKit_${platform}
     info:
       path: Frameworks/BismushUI/Supports Files/Info.plist
-    preBuildScripts:
-      - path: Scripts/swiftformat.sh
-        name: Swift Format
-      - path: Scripts/clang-format.sh
-        name: clang-format
-    postCompileScripts:
-      - script: Scripts/swiftlint.sh
-        name: Swiftlint
     sources:
       - Frameworks/BismushUI
 
   # MARK: - Tests
   Bismush_UnitTests:
+    templates:
+      - Lint
     type: bundle.unit-test
     platform: macOS
     dependencies:
@@ -139,6 +145,8 @@ targets:
       GENERATE_INFOPLIST_FILE: true
 
   MobileBismush_UnitTests:
+    templates:
+      - Lint
     type: bundle.unit-test
     platform: iOS
     dependencies:
@@ -149,6 +157,8 @@ targets:
       GENERATE_INFOPLIST_FILE: true
 
   BismushKit_UnitTests:
+    templates:
+      - Lint
     type: bundle.unit-test
     platform: [macOS, iOS]
     sources:
@@ -161,6 +171,8 @@ targets:
       GENERATE_INFOPLIST_FILE: true
 
   BismushUI_UnitTests:
+    templates:
+      - Lint
     type: bundle.unit-test
     platform: [macOS, iOS]
     sources:
@@ -211,6 +223,14 @@ schemes:
       testPlans:
         - path: Tests/Plans/All.iOS.xctestplan
           defaultPlan: true
+    preBuildScripts:
+      - path: Scripts/swiftformat.sh
+        name: Format
+        inputFileLists:
+          - $(SRCROOT)/BuildTools/Bismush.xcfilelist
+        outputFileLists:
+          - $(SRCROOT)/BuildTools/Bismush.xcfilelist
+
 
 configs:
   CI: debug
@@ -221,6 +241,7 @@ settings:
     DEVELOPMENT_TEAM: VG2YYSKSHY
     CODE_SIGN_STYLE: Automatic
     CODE_SIGN_IDENTITY: "-"
+    DEAD_CODE_STRIPPING: true
   configs:
     CI:
       DEVELOPMENT_TEAM:
@@ -249,3 +270,4 @@ fileGroups:
   - .github
   - .clang-format
   - Tests/Plans
+  - fastlane
