@@ -50,6 +50,8 @@ targets:
               public.filename-extension: ["bismush"]
     sources:
       - Sources/Bismush
+    settings:
+      CODE_SIGN_IDENTITY: "-"
 
   MobileBismush:
     templates:

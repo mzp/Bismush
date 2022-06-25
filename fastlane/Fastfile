@@ -25,6 +25,15 @@ lane :xcodegen do
   end
 end
 
+desc 'Format all file'
+lane :format do
+  sh 'bundle', 'exec', 'rubocop', '-A', __FILE__
+  Dir.chdir(BUILD_TOOLS.to_s) do
+    sh 'swift', 'run', 'swiftformat', SRCROOT.to_s
+    sh 'swift', 'run', 'swiftlint', '--fix', SRCROOT.to_s
+  end
+end
+
 private_lane :generate_filelist do |option|
   SRCROOT.glob(option[:glob]) do |path|
     option[:output].puts path.to_s
@@ -40,8 +49,8 @@ private_lane :xcfilelist do |options|
             else
               [target]
             end
-  targets.each do |target|
-    File.open("BuildTools/FileLists/#{target}.xcfilelist", 'w') do |io|
+  targets.each do |target_name|
+    File.open("BuildTools/FileLists/#{target_name}.xcfilelist", 'w') do |io|
       info['sources'].each do |source|
         Pathname.new(source).glob('**/*.swift') do |path|
           io.puts path
@@ -75,6 +84,6 @@ private_lane :generate_metal do |option|
   end
 
   Dir.chdir(BUILD_TOOLS.to_s) do
-    sh 'swift', 'run', '-c', 'release', 'swiftformat', SRCROOT.join(option[:path]).to_s
+    sh 'swift', 'run', 'swiftformat', SRCROOT.join(option[:path]).to_s
   end
 end
