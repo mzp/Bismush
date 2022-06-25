@@ -46,6 +46,8 @@ enum BismushDiagnose {
             return "Apple 6"
         case .apple7:
             return "Apple 7"
+        case .apple8:
+            return "Apple 8"
         case .mac1:
             return "mac 1"
         case .mac2:
@@ -54,6 +56,8 @@ enum BismushDiagnose {
             return "mac Catalyst 1"
         case .macCatalyst2:
             return "mac Catalyst 2"
+        case .metal3:
+            return "metal 3"
         @unknown default:
             return "unknown"
         }
@@ -66,12 +70,7 @@ enum BismushDiagnose {
         var diagnose = [String]()
         let macGPUFamily = [
             MTLGPUFamily.mac2,
-            .mac1,
         ].first(where: { device.supportsFamily($0) })
-        let macCatalystGPUFamily = [
-            MTLGPUFamily.macCatalyst2,
-            .macCatalyst1,
-        ].first(where: device.supportsFamily)
         let appleGPUFamily = [
             MTLGPUFamily.apple7,
             .apple6,
@@ -88,7 +87,6 @@ enum BismushDiagnose {
         ].first(where: device.supportsFamily)
         let families = [
             macGPUFamily,
-            macCatalystGPUFamily,
             appleGPUFamily,
             commonGPUFamily,
         ].compactMap { family -> String? in

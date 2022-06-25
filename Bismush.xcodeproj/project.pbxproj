@@ -329,6 +329,7 @@
 		13BB38EDD83B652044B5FCD7 /* Canvas+Transform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Canvas+Transform.swift"; sourceTree = "<group>"; };
 		150137B2E5EF0A21FA87E5D9 /* CanvasDocumentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasDocumentTests.swift; sourceTree = "<group>"; };
 		154599ADF4642CA2B0265938 /* MobileBismush.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MobileBismush.entitlements; sourceTree = "<group>"; };
+		1BC8E5EE42FBBFBF36DBFE99 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		1CC68BB84E6DED0903A5C154 /* DesktopArtboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesktopArtboard.swift; sourceTree = "<group>"; };
 		2915FAD75937DF0BFDBC962B /* ViewModelProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelProvider.swift; sourceTree = "<group>"; };
 		2B9597D885110F827DFA203C /* BismushLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BismushLogger.swift; sourceTree = "<group>"; };
@@ -382,6 +383,7 @@
 		AD4483C3767BFFC164867210 /* RingBufferTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingBufferTests.swift; sourceTree = "<group>"; };
 		AD980C441DF3EED13860E505 /* bezier.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bezier.png; sourceTree = "<group>"; };
 		AE3C3F8F032FD0A4C8D95DD6 /* swiftlint.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = swiftlint.sh; sourceTree = "<group>"; };
+		B0DF516C9F6C1C685C38E54A /* report.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = report.xml; sourceTree = "<group>"; };
 		B1491A5B25C3DC346A7BAEC7 /* WaterColorMix.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = WaterColorMix.metal; sourceTree = "<group>"; };
 		B35E0B0AFB19A1927B6249C5 /* ResourceLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceLoader.swift; sourceTree = "<group>"; };
 		B5E8D0EC46D70E23A5E26224 /* MobileBismushApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileBismushApp.swift; sourceTree = "<group>"; };
@@ -722,6 +724,8 @@
 			isa = PBXGroup;
 			children = (
 				9213875265869D3D8C8500B4 /* Fastfile */,
+				1BC8E5EE42FBBFBF36DBFE99 /* README.md */,
+				B0DF516C9F6C1C685C38E54A /* report.xml */,
 			);
 			path = fastlane;
 			sourceTree = "<group>";
@@ -983,8 +987,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D2C7CA078DB8ECCBEAEE61C /* Build configuration list for PBXNativeTarget "BismushKit_UnitTests_macOS" */;
 			buildPhases = (
-				954B2E0A359226A0EABE0248 /* Swift Lint */,
 				60F042C10A6B965003E3E2A9 /* Swift Format */,
+				954B2E0A359226A0EABE0248 /* Swift Lint */,
 				98F226E7FDFC742C28E29BAF /* Sources */,
 				17DFC619694A7795667C13D6 /* Resources */,
 				2698E41008819B6DEDBF4F40 /* Frameworks */,
@@ -1004,8 +1008,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 286210535432A915E55F0177 /* Build configuration list for PBXNativeTarget "Bismush" */;
 			buildPhases = (
-				B09BA7E21746F9693B8DD01E /* Swift Lint */,
 				7B57EFF5CE41C2422A980ED2 /* Swift Format */,
+				B09BA7E21746F9693B8DD01E /* Swift Lint */,
 				FFA5BEE0E83B09292E08B6BF /* Sources */,
 				EB6C397529B5C97594EA6506 /* Resources */,
 				D8EF3BC4132C91DEAA8085BB /* Frameworks */,
@@ -1026,8 +1030,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BCEE6E4A5893C396566ED937 /* Build configuration list for PBXNativeTarget "Bismush_UnitTests" */;
 			buildPhases = (
-				6FCCAB3D5D43C808AF315BA4 /* Swift Lint */,
 				1731118BF03317B0A9DAB599 /* Swift Format */,
+				6FCCAB3D5D43C808AF315BA4 /* Swift Lint */,
 				0D1667B16120CCB9372D101F /* Sources */,
 			);
 			buildRules = (
@@ -1044,8 +1048,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B651D845993C10F52685C870 /* Build configuration list for PBXNativeTarget "MobileBismush" */;
 			buildPhases = (
-				F96D3D5757DE6C3DE9A42574 /* Swift Lint */,
 				3F07E2D71F8A5385511B7E7D /* Swift Format */,
+				F96D3D5757DE6C3DE9A42574 /* Swift Lint */,
 				7EC0595D8ED91DBA7D10F3C9 /* Sources */,
 				AD3A84D06DE95BA0DDAAB149 /* Resources */,
 				BC7341B159D1A40A7DC23575 /* Frameworks */,
@@ -1066,8 +1070,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 19D68FA7C472765397CB97CD /* Build configuration list for PBXNativeTarget "BismushUI_UnitTests_macOS" */;
 			buildPhases = (
-				B3A7F4ACA0A6A98C117E3B7C /* Swift Lint */,
 				C5CB9AD7C8B92B7A0763DF50 /* Swift Format */,
+				B3A7F4ACA0A6A98C117E3B7C /* Swift Lint */,
 				2E70B3CD5A47B426831A0344 /* Sources */,
 				15255703721AED6BC6924F2F /* Frameworks */,
 				83AFC6DC1E71D3CE0D992DBA /* Embed Frameworks */,
@@ -1086,8 +1090,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 29DD9C6A7C29E29976C73A1B /* Build configuration list for PBXNativeTarget "BismushUI_iOS" */;
 			buildPhases = (
-				E1084EA61779C2B3EA10AE9F /* Swift Lint */,
 				EF3ED0019932EE08D4F6D0DD /* Swift Format */,
+				E1084EA61779C2B3EA10AE9F /* Swift Lint */,
 				499896D17B0F04568AC7F435 /* Headers */,
 				F3A5DDB134CB14E9131D62AA /* Sources */,
 				38464A6431460ABBF50823FE /* Frameworks */,
@@ -1106,8 +1110,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B4566E6BABC2CE2CC19855A9 /* Build configuration list for PBXNativeTarget "BismushUI_macOS" */;
 			buildPhases = (
-				058CC447AF5E9F15A971176C /* Swift Lint */,
 				C507BE4CD05DAF0BA999EC4D /* Swift Format */,
+				058CC447AF5E9F15A971176C /* Swift Lint */,
 				D39B1BF98300761FF996473F /* Headers */,
 				0A9FFA247B38854FFCAE0CDF /* Sources */,
 				04D72BB72319CE704C560753 /* Frameworks */,
@@ -1126,8 +1130,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 30FE6E28DC673BAB510C019D /* Build configuration list for PBXNativeTarget "BismushUI_UnitTests_iOS" */;
 			buildPhases = (
-				6A3BCEE33FA4B3AD1C1C554A /* Swift Lint */,
 				829EFB916116FB8A75F7A0B3 /* Swift Format */,
+				6A3BCEE33FA4B3AD1C1C554A /* Swift Lint */,
 				9B5CA07D48FF4E3F20570F37 /* Sources */,
 				A2A39789AA5C6384AC6A95A7 /* Frameworks */,
 				F3C678AB0E7B7217AFCC5A96 /* Embed Frameworks */,
@@ -1146,8 +1150,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5A6C8A0A28E1AB3F39D957F7 /* Build configuration list for PBXNativeTarget "BismushKit_iOS" */;
 			buildPhases = (
-				2C3136FD505F336F721E6CBB /* Swift Lint */,
 				BEFAD481AF3D1ED97BC507C0 /* Swift Format */,
+				2C3136FD505F336F721E6CBB /* Swift Lint */,
 				71ED0674E48958F0D0885899 /* clang-format */,
 				59050E54841037CC0B4B6685 /* Headers */,
 				400B4DCDDCB2CA7B9932ABAA /* Sources */,
@@ -1166,8 +1170,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F954FE6637A81D6FB78CBFAD /* Build configuration list for PBXNativeTarget "BismushKit_UnitTests_iOS" */;
 			buildPhases = (
-				DD30B193AD017EADEC3C98D9 /* Swift Lint */,
 				C7FE8CA4D48E44D8425E755F /* Swift Format */,
+				DD30B193AD017EADEC3C98D9 /* Swift Lint */,
 				C5BF05C76D3BF3765D1D7875 /* Sources */,
 				E377F80BF882459EAD3C97B9 /* Resources */,
 				176D9208C81B01FB8054351B /* Frameworks */,
@@ -1187,8 +1191,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3C31ED5DDEC6ACEA0DB7E214 /* Build configuration list for PBXNativeTarget "BismushKit_macOS" */;
 			buildPhases = (
-				DEA9229DB99368C154B6ABFD /* Swift Lint */,
 				8B55C3B00708AA778F52C83F /* Swift Format */,
+				DEA9229DB99368C154B6ABFD /* Swift Lint */,
 				2327EBB81606BAAE46F0350C /* clang-format */,
 				D8F18916C5E160961192576A /* Headers */,
 				170229A488A5FCEBC5EB287C /* Sources */,
@@ -1207,8 +1211,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5D32955C1B99217A68728DF5 /* Build configuration list for PBXNativeTarget "MobileBismush_UnitTests" */;
 			buildPhases = (
-				BB50175A63E36B97CD1847EF /* Swift Lint */,
 				F8D3AC528BA7328028189627 /* Swift Format */,
+				BB50175A63E36B97CD1847EF /* Swift Lint */,
 				7A3A1B29FD00EFACABE50839 /* Sources */,
 			);
 			buildRules = (

@@ -2,18 +2,18 @@ name: Bismush
 targetTemplates:
   Lint:
     preBuildScripts:
-      - path: Scripts/swiftlint.sh
-        name: Swift Lint
-        inputFileLists:
-          - $(SRCROOT)/BuildTools/FileLists/${target_name}.xcfilelist
-        outputFiles:
-          - $(SRCROOT)/BuildTools/Reports/${target_name}.lint.txt
       - path: Scripts/swiftformat.sh
         name: Swift Format
         inputFileLists:
           - $(SRCROOT)/BuildTools/FileLists/${target_name}.xcfilelist
         outputFiles:
           - $(SRCROOT)/BuildTools/Reports/${target_name}.format.json
+      - path: Scripts/swiftlint.sh
+        name: Swift Lint
+        inputFileLists:
+          - $(SRCROOT)/BuildTools/FileLists/${target_name}.xcfilelist
+        outputFiles:
+          - $(SRCROOT)/BuildTools/Reports/${target_name}.lint.txt
 targets:
   # MARK: - Application
   Bismush:

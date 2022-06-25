@@ -44,9 +44,9 @@ class LayerDrawer {
 
             let descriptor = MTLRenderPipelineDescriptor()
             if document.device.capability.msaa {
-                descriptor.sampleCount = 4
+                descriptor.rasterSampleCount = 4
             } else {
-                descriptor.sampleCount = 1
+                descriptor.rasterSampleCount = 1
             }
             descriptor.colorAttachments[0].pixelFormat = document.activeLayer.pixelFormat
             descriptor.vertexFunction = document.device.resource.function(.brushVertex)
