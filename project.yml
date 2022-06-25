@@ -2,18 +2,18 @@ name: Bismush
 targetTemplates:
   Lint:
     preBuildScripts:
-      - path: Scripts/swiftlint.sh
-        name: Swift Lint
-        inputFileLists:
-          - $(SRCROOT)/BuildTools/FileLists/${target_name}.xcfilelist
-        outputFiles:
-          - $(SRCROOT)/BuildTools/Reports/${target_name}.lint.txt
       - path: Scripts/swiftformat.sh
         name: Swift Format
         inputFileLists:
           - $(SRCROOT)/BuildTools/FileLists/${target_name}.xcfilelist
         outputFiles:
           - $(SRCROOT)/BuildTools/Reports/${target_name}.format.json
+      - path: Scripts/swiftlint.sh
+        name: Swift Lint
+        inputFileLists:
+          - $(SRCROOT)/BuildTools/FileLists/${target_name}.xcfilelist
+        outputFiles:
+          - $(SRCROOT)/BuildTools/Reports/${target_name}.lint.txt
 targets:
   # MARK: - Application
   Bismush:
@@ -72,6 +72,8 @@ targets:
             CFBundleTypeName: Bismush Canvas File
             LSItemContentTypes:
                 - jp.mzp.bismush.canvas
+        UISupportsDocumentBrowser: true
+        LSSupportsOpeningDocumentsInPlace: true
         UTExportedTypeDeclarations:
           - UTTypeConformsTo:
               - com.apple.package
@@ -242,6 +244,8 @@ settings:
     CODE_SIGN_STYLE: Automatic
     CODE_SIGN_IDENTITY: "-"
     DEAD_CODE_STRIPPING: true
+    SWIFT_STRICT_CONCURRENCY: targeted
+    SWIFT_TREAT_WARNINGS_AS_ERRORS: YES
   configs:
     CI:
       DEVELOPMENT_TEAM:
@@ -271,3 +275,4 @@ fileGroups:
   - .clang-format
   - Tests/Plans
   - fastlane
+  - Gemfile

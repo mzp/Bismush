@@ -22,7 +22,6 @@ class MetalDeviceCapability {
         // Simulator doesn't suport this
         device.supportsFamily(.apple4) ||
             device.supportsFamily(.common3) ||
-            device.supportsFamily(.mac1) ||
-            device.supportsFamily(.macCatalyst1)
+            device.supportsFamily(.mac2)
     }
 }

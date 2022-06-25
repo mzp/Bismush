@@ -13,9 +13,9 @@ extension MTLTexture {
         get {
             let bytesPerRow = MemoryLayout<Float>.size * 4 * width
             let count = width * height * 4
-            let bytes = [Float](repeating: 0, count: count)
+            var bytes = [Float](repeating: 0, count: count)
             getBytes(
-                UnsafeMutableRawPointer(mutating: bytes),
+                &bytes,
                 bytesPerRow: bytesPerRow,
                 from: MTLRegionMake2D(0, 0, width, height),
                 mipmapLevel: 0
@@ -25,10 +25,13 @@ extension MTLTexture {
         set {
             let bytesPerRow = MemoryLayout<Float>.size * 4 * width
             newValue.withUnsafeBytes { pointer in
+                guard let baseAddress = pointer.baseAddress else {
+                    return
+                }
                 replace(
                     region: MTLRegionMake2D(0, 0, width, height),
                     mipmapLevel: 0,
-                    withBytes: pointer,
+                    withBytes: baseAddress,
                     bytesPerRow: bytesPerRow
                 )
             }
