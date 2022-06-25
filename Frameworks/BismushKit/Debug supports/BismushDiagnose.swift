@@ -48,17 +48,18 @@ enum BismushDiagnose {
             return "Apple 7"
         case .apple8:
             return "Apple 8"
-        case .mac1:
-            return "mac 1"
         case .mac2:
             return "mac 2"
         case .macCatalyst1:
             return "mac Catalyst 1"
         case .macCatalyst2:
             return "mac Catalyst 2"
-        case .metal3:
-            return "metal 3"
-        @unknown default:
+        default:
+            if #available(iOS 16, macOS 13, *) {
+                if family == .metal3 {
+                    return "metal3"
+                }
+            }
             return "unknown"
         }
     }
@@ -85,10 +86,20 @@ enum BismushDiagnose {
             .common2,
             .common1,
         ].first(where: device.supportsFamily)
+        let metalFamily: MTLGPUFamily?
+        if #available(iOS 16, macOS 13, *) {
+            metalFamily = [
+                MTLGPUFamily.metal3,
+            ].first(where: device.supportsFamily)
+        } else {
+            metalFamily = nil
+        }
+
         let families = [
             macGPUFamily,
             appleGPUFamily,
             commonGPUFamily,
+            metalFamily,
         ].compactMap { family -> String? in
             if let family = family {
                 return Self.gpuFamilyName(family)

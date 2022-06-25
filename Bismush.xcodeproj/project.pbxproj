@@ -1339,7 +1339,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftlint because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    cat \"${SCRIPT_INPUT_FILE_LIST_0}\" | xargs swift run -Xlinker \"-no_compact_unwind\" swiftlint lint | tee Reports/${TARGETNAME}.lint.txt\nfi\n";
+			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftlint because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    SDKROOT=(xcrun --sdk macosx --show-sdk-path)\n    cat \"${SCRIPT_INPUT_FILE_LIST_0}\" | xargs swift run -Xlinker \"-no_compact_unwind\" swiftlint lint | tee Reports/${TARGETNAME}.lint.txt\nfi\n";
 		};
 		1731118BF03317B0A9DAB599 /* Swift Format */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1359,7 +1359,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftformat because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    swift run swiftformat --filelist \"${SCRIPT_INPUT_FILE_LIST_0}\" --report Reports/${TARGETNAME}.format.json\nfi\n";
+			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftformat because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    SDKROOT=(xcrun --sdk macosx --show-sdk-path)\n    swift run swiftformat --filelist \"${SCRIPT_INPUT_FILE_LIST_0}\" --report Reports/${TARGETNAME}.format.json\nfi\n";
 		};
 		2327EBB81606BAAE46F0350C /* clang-format */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1399,7 +1399,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftlint because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    cat \"${SCRIPT_INPUT_FILE_LIST_0}\" | xargs swift run -Xlinker \"-no_compact_unwind\" swiftlint lint | tee Reports/${TARGETNAME}.lint.txt\nfi\n";
+			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftlint because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    SDKROOT=(xcrun --sdk macosx --show-sdk-path)\n    cat \"${SCRIPT_INPUT_FILE_LIST_0}\" | xargs swift run -Xlinker \"-no_compact_unwind\" swiftlint lint | tee Reports/${TARGETNAME}.lint.txt\nfi\n";
 		};
 		3F07E2D71F8A5385511B7E7D /* Swift Format */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1419,7 +1419,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftformat because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    swift run swiftformat --filelist \"${SCRIPT_INPUT_FILE_LIST_0}\" --report Reports/${TARGETNAME}.format.json\nfi\n";
+			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftformat because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    SDKROOT=(xcrun --sdk macosx --show-sdk-path)\n    swift run swiftformat --filelist \"${SCRIPT_INPUT_FILE_LIST_0}\" --report Reports/${TARGETNAME}.format.json\nfi\n";
 		};
 		60F042C10A6B965003E3E2A9 /* Swift Format */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1439,7 +1439,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftformat because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    swift run swiftformat --filelist \"${SCRIPT_INPUT_FILE_LIST_0}\" --report Reports/${TARGETNAME}.format.json\nfi\n";
+			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftformat because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    SDKROOT=(xcrun --sdk macosx --show-sdk-path)\n    swift run swiftformat --filelist \"${SCRIPT_INPUT_FILE_LIST_0}\" --report Reports/${TARGETNAME}.format.json\nfi\n";
 		};
 		6A3BCEE33FA4B3AD1C1C554A /* Swift Lint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1459,7 +1459,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftlint because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    cat \"${SCRIPT_INPUT_FILE_LIST_0}\" | xargs swift run -Xlinker \"-no_compact_unwind\" swiftlint lint | tee Reports/${TARGETNAME}.lint.txt\nfi\n";
+			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftlint because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    SDKROOT=(xcrun --sdk macosx --show-sdk-path)\n    cat \"${SCRIPT_INPUT_FILE_LIST_0}\" | xargs swift run -Xlinker \"-no_compact_unwind\" swiftlint lint | tee Reports/${TARGETNAME}.lint.txt\nfi\n";
 		};
 		6FCCAB3D5D43C808AF315BA4 /* Swift Lint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1479,7 +1479,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftlint because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    cat \"${SCRIPT_INPUT_FILE_LIST_0}\" | xargs swift run -Xlinker \"-no_compact_unwind\" swiftlint lint | tee Reports/${TARGETNAME}.lint.txt\nfi\n";
+			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftlint because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    SDKROOT=(xcrun --sdk macosx --show-sdk-path)\n    cat \"${SCRIPT_INPUT_FILE_LIST_0}\" | xargs swift run -Xlinker \"-no_compact_unwind\" swiftlint lint | tee Reports/${TARGETNAME}.lint.txt\nfi\n";
 		};
 		71ED0674E48958F0D0885899 /* clang-format */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1519,7 +1519,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftformat because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    swift run swiftformat --filelist \"${SCRIPT_INPUT_FILE_LIST_0}\" --report Reports/${TARGETNAME}.format.json\nfi\n";
+			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftformat because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    SDKROOT=(xcrun --sdk macosx --show-sdk-path)\n    swift run swiftformat --filelist \"${SCRIPT_INPUT_FILE_LIST_0}\" --report Reports/${TARGETNAME}.format.json\nfi\n";
 		};
 		829EFB916116FB8A75F7A0B3 /* Swift Format */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1539,7 +1539,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftformat because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    swift run swiftformat --filelist \"${SCRIPT_INPUT_FILE_LIST_0}\" --report Reports/${TARGETNAME}.format.json\nfi\n";
+			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftformat because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    SDKROOT=(xcrun --sdk macosx --show-sdk-path)\n    swift run swiftformat --filelist \"${SCRIPT_INPUT_FILE_LIST_0}\" --report Reports/${TARGETNAME}.format.json\nfi\n";
 		};
 		8B55C3B00708AA778F52C83F /* Swift Format */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1559,7 +1559,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftformat because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    swift run swiftformat --filelist \"${SCRIPT_INPUT_FILE_LIST_0}\" --report Reports/${TARGETNAME}.format.json\nfi\n";
+			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftformat because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    SDKROOT=(xcrun --sdk macosx --show-sdk-path)\n    swift run swiftformat --filelist \"${SCRIPT_INPUT_FILE_LIST_0}\" --report Reports/${TARGETNAME}.format.json\nfi\n";
 		};
 		954B2E0A359226A0EABE0248 /* Swift Lint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1579,7 +1579,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftlint because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    cat \"${SCRIPT_INPUT_FILE_LIST_0}\" | xargs swift run -Xlinker \"-no_compact_unwind\" swiftlint lint | tee Reports/${TARGETNAME}.lint.txt\nfi\n";
+			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftlint because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    SDKROOT=(xcrun --sdk macosx --show-sdk-path)\n    cat \"${SCRIPT_INPUT_FILE_LIST_0}\" | xargs swift run -Xlinker \"-no_compact_unwind\" swiftlint lint | tee Reports/${TARGETNAME}.lint.txt\nfi\n";
 		};
 		B09BA7E21746F9693B8DD01E /* Swift Lint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1599,7 +1599,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftlint because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    cat \"${SCRIPT_INPUT_FILE_LIST_0}\" | xargs swift run -Xlinker \"-no_compact_unwind\" swiftlint lint | tee Reports/${TARGETNAME}.lint.txt\nfi\n";
+			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftlint because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    SDKROOT=(xcrun --sdk macosx --show-sdk-path)\n    cat \"${SCRIPT_INPUT_FILE_LIST_0}\" | xargs swift run -Xlinker \"-no_compact_unwind\" swiftlint lint | tee Reports/${TARGETNAME}.lint.txt\nfi\n";
 		};
 		B3A7F4ACA0A6A98C117E3B7C /* Swift Lint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1619,7 +1619,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftlint because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    cat \"${SCRIPT_INPUT_FILE_LIST_0}\" | xargs swift run -Xlinker \"-no_compact_unwind\" swiftlint lint | tee Reports/${TARGETNAME}.lint.txt\nfi\n";
+			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftlint because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    SDKROOT=(xcrun --sdk macosx --show-sdk-path)\n    cat \"${SCRIPT_INPUT_FILE_LIST_0}\" | xargs swift run -Xlinker \"-no_compact_unwind\" swiftlint lint | tee Reports/${TARGETNAME}.lint.txt\nfi\n";
 		};
 		BB50175A63E36B97CD1847EF /* Swift Lint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1639,7 +1639,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftlint because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    cat \"${SCRIPT_INPUT_FILE_LIST_0}\" | xargs swift run -Xlinker \"-no_compact_unwind\" swiftlint lint | tee Reports/${TARGETNAME}.lint.txt\nfi\n";
+			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftlint because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    SDKROOT=(xcrun --sdk macosx --show-sdk-path)\n    cat \"${SCRIPT_INPUT_FILE_LIST_0}\" | xargs swift run -Xlinker \"-no_compact_unwind\" swiftlint lint | tee Reports/${TARGETNAME}.lint.txt\nfi\n";
 		};
 		BEFAD481AF3D1ED97BC507C0 /* Swift Format */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1659,7 +1659,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftformat because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    swift run swiftformat --filelist \"${SCRIPT_INPUT_FILE_LIST_0}\" --report Reports/${TARGETNAME}.format.json\nfi\n";
+			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftformat because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    SDKROOT=(xcrun --sdk macosx --show-sdk-path)\n    swift run swiftformat --filelist \"${SCRIPT_INPUT_FILE_LIST_0}\" --report Reports/${TARGETNAME}.format.json\nfi\n";
 		};
 		C507BE4CD05DAF0BA999EC4D /* Swift Format */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1679,7 +1679,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftformat because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    swift run swiftformat --filelist \"${SCRIPT_INPUT_FILE_LIST_0}\" --report Reports/${TARGETNAME}.format.json\nfi\n";
+			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftformat because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    SDKROOT=(xcrun --sdk macosx --show-sdk-path)\n    swift run swiftformat --filelist \"${SCRIPT_INPUT_FILE_LIST_0}\" --report Reports/${TARGETNAME}.format.json\nfi\n";
 		};
 		C5CB9AD7C8B92B7A0763DF50 /* Swift Format */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1699,7 +1699,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftformat because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    swift run swiftformat --filelist \"${SCRIPT_INPUT_FILE_LIST_0}\" --report Reports/${TARGETNAME}.format.json\nfi\n";
+			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftformat because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    SDKROOT=(xcrun --sdk macosx --show-sdk-path)\n    swift run swiftformat --filelist \"${SCRIPT_INPUT_FILE_LIST_0}\" --report Reports/${TARGETNAME}.format.json\nfi\n";
 		};
 		C7FE8CA4D48E44D8425E755F /* Swift Format */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1719,7 +1719,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftformat because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    swift run swiftformat --filelist \"${SCRIPT_INPUT_FILE_LIST_0}\" --report Reports/${TARGETNAME}.format.json\nfi\n";
+			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftformat because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    SDKROOT=(xcrun --sdk macosx --show-sdk-path)\n    swift run swiftformat --filelist \"${SCRIPT_INPUT_FILE_LIST_0}\" --report Reports/${TARGETNAME}.format.json\nfi\n";
 		};
 		DD30B193AD017EADEC3C98D9 /* Swift Lint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1739,7 +1739,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftlint because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    cat \"${SCRIPT_INPUT_FILE_LIST_0}\" | xargs swift run -Xlinker \"-no_compact_unwind\" swiftlint lint | tee Reports/${TARGETNAME}.lint.txt\nfi\n";
+			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftlint because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    SDKROOT=(xcrun --sdk macosx --show-sdk-path)\n    cat \"${SCRIPT_INPUT_FILE_LIST_0}\" | xargs swift run -Xlinker \"-no_compact_unwind\" swiftlint lint | tee Reports/${TARGETNAME}.lint.txt\nfi\n";
 		};
 		DEA9229DB99368C154B6ABFD /* Swift Lint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1759,7 +1759,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftlint because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    cat \"${SCRIPT_INPUT_FILE_LIST_0}\" | xargs swift run -Xlinker \"-no_compact_unwind\" swiftlint lint | tee Reports/${TARGETNAME}.lint.txt\nfi\n";
+			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftlint because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    SDKROOT=(xcrun --sdk macosx --show-sdk-path)\n    cat \"${SCRIPT_INPUT_FILE_LIST_0}\" | xargs swift run -Xlinker \"-no_compact_unwind\" swiftlint lint | tee Reports/${TARGETNAME}.lint.txt\nfi\n";
 		};
 		E1084EA61779C2B3EA10AE9F /* Swift Lint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1779,7 +1779,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftlint because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    cat \"${SCRIPT_INPUT_FILE_LIST_0}\" | xargs swift run -Xlinker \"-no_compact_unwind\" swiftlint lint | tee Reports/${TARGETNAME}.lint.txt\nfi\n";
+			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftlint because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    SDKROOT=(xcrun --sdk macosx --show-sdk-path)\n    cat \"${SCRIPT_INPUT_FILE_LIST_0}\" | xargs swift run -Xlinker \"-no_compact_unwind\" swiftlint lint | tee Reports/${TARGETNAME}.lint.txt\nfi\n";
 		};
 		EF3ED0019932EE08D4F6D0DD /* Swift Format */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1799,7 +1799,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftformat because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    swift run swiftformat --filelist \"${SCRIPT_INPUT_FILE_LIST_0}\" --report Reports/${TARGETNAME}.format.json\nfi\n";
+			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftformat because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    SDKROOT=(xcrun --sdk macosx --show-sdk-path)\n    swift run swiftformat --filelist \"${SCRIPT_INPUT_FILE_LIST_0}\" --report Reports/${TARGETNAME}.format.json\nfi\n";
 		};
 		F8D3AC528BA7328028189627 /* Swift Format */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1819,7 +1819,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftformat because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    swift run swiftformat --filelist \"${SCRIPT_INPUT_FILE_LIST_0}\" --report Reports/${TARGETNAME}.format.json\nfi\n";
+			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftformat because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    SDKROOT=(xcrun --sdk macosx --show-sdk-path)\n    swift run swiftformat --filelist \"${SCRIPT_INPUT_FILE_LIST_0}\" --report Reports/${TARGETNAME}.format.json\nfi\n";
 		};
 		F96D3D5757DE6C3DE9A42574 /* Swift Lint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1839,7 +1839,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftlint because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    cat \"${SCRIPT_INPUT_FILE_LIST_0}\" | xargs swift run -Xlinker \"-no_compact_unwind\" swiftlint lint | tee Reports/${TARGETNAME}.lint.txt\nfi\n";
+			shellScript = "#!/bin/sh\n\nif [[ $BISMUSH_SKIP_TEST == 1 ]]; then\n    echo \"Skip swiftlint because BISMUSH_SKIP_TEST is set\"\nelse\n    cd BuildTools\n    SDKROOT=(xcrun --sdk macosx --show-sdk-path)\n    cat \"${SCRIPT_INPUT_FILE_LIST_0}\" | xargs swift run -Xlinker \"-no_compact_unwind\" swiftlint lint | tee Reports/${TARGETNAME}.lint.txt\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
