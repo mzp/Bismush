@@ -54,12 +54,11 @@ enum BismushDiagnose {
             return "mac Catalyst 1"
         case .macCatalyst2:
             return "mac Catalyst 2"
+        #if swift(>=5.7) // i.e. >= Xcode14
+            case .metal3:
+                return "metal 3"
+        #endif
         default:
-            if #available(iOS 16, macOS 13, *) {
-                if family == .metal3 {
-                    return "metal3"
-                }
-            }
             return "unknown"
         }
     }
@@ -69,9 +68,17 @@ enum BismushDiagnose {
     // swiftlint:disable function_body_length
     static func record(device: MTLDevice) {
         var diagnose = [String]()
-        let macGPUFamily = [
-            MTLGPUFamily.mac2,
-        ].first(where: { device.supportsFamily($0) })
+        #if swift(>=5.7) // i.e. >= Xcode14
+            let macGPUFamily = [
+                MTLGPUFamily.metal3,
+                MTLGPUFamily.mac2,
+            ].first(where: { device.supportsFamily($0) })
+        #else
+            let macGPUFamily = [
+                MTLGPUFamily.mac2,
+            ].first(where: { device.supportsFamily($0) })
+        #endif
+
         let appleGPUFamily = [
             MTLGPUFamily.apple7,
             .apple6,
@@ -86,20 +93,11 @@ enum BismushDiagnose {
             .common2,
             .common1,
         ].first(where: device.supportsFamily)
-        let metalFamily: MTLGPUFamily?
-        if #available(iOS 16, macOS 13, *) {
-            metalFamily = [
-                MTLGPUFamily.metal3,
-            ].first(where: device.supportsFamily)
-        } else {
-            metalFamily = nil
-        }
 
         let families = [
             macGPUFamily,
             appleGPUFamily,
             commonGPUFamily,
-            metalFamily,
         ].compactMap { family -> String? in
             if let family = family {
                 return Self.gpuFamilyName(family)
