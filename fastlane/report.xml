@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="fastlane.lanes">
+    
+    
+    
+      
+      <testcase classname="fastlane.lanes" name="0: Switch to generate_metal lane" time="0.000121">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="1: swift run -c release swiftformat /Users/mzp/ghq/github.com/mzp/Bismush/Frameworks/BismushKit/Entity/Metal/FunctionName.swift" time="0.656902">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="2: xcodegen" time="0.08491">
+        
+      </testcase>
+    
+  </testsuite>
+</testsuites>

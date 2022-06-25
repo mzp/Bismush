@@ -4,6 +4,8 @@ if [[ $BISMUSH_SKIP_TEST == 1 ]]; then
     echo "Skip swiftformat because BISMUSH_SKIP_TEST is set"
 else
     cd BuildTools
-    SDKROOT=(xcrun --sdk macosx --show-sdk-path)
-    swift run -c release swiftformat "$SRCROOT"
+    for i in {0..$SCRIPT_INPUT_FILE_LIST_COUNT}
+    do
+      swift run -c release swiftformat "$SRCROOT" --filelist "${SCRIPT_INPUT_FILE_LIST_$i}"
+    done
 fi

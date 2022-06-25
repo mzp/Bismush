@@ -34,9 +34,17 @@ targets:
     preBuildScripts:
       - path: Scripts/swiftformat.sh
         name: Swift Format
+        inputFileLists:
+          - $(SRCROOT)/BuildTools/Bismush.xcfilelist
+        outputFileLists:
+          - $(SRCROOT)/BuildTools/Bismush.xcfilelist
     postCompileScripts:
       - script: Scripts/swiftlint.sh
         name: Swiftlint
+        inputFileLists:
+          - $(SRCROOT)/BuildTools/Bismush.xcfilelist
+        outputFileLists:
+          - $(SRCROOT)/BuildTools/Bismush.xcfilelist
     sources:
       - Sources/Bismush
 
@@ -76,9 +84,18 @@ targets:
     preBuildScripts:
       - path: Scripts/swiftformat.sh
         name: Swift Format
+        inputFileLists:
+          - $(SRCROOT)/BuildTools/MobileBismush.xcfilelist
+        outputFileLists:
+          - $(SRCROOT)/BuildTools/MobileBismush.xcfilelist
+
     postCompileScripts:
       - script: Scripts/swiftlint.sh
         name: Swiftlint
+        inputFileLists:
+          - $(SRCROOT)/BuildTools/MobileBismush.xcfilelist
+        outputFileLists:
+          - $(SRCROOT)/BuildTools/MobileBismush.xcfilelist
     sources:
       - Sources/MobileBismush
 
@@ -91,18 +108,30 @@ targets:
         - BismushKit_UnitTests_${platform}
     info:
       path: Frameworks/BismushKit/Supports Files/Info.plist
-    preBuildScripts:
-      - path: Scripts/swiftformat.sh
-        name: Swift Format
-      - path: Scripts/clang-format.sh
-        name: clang-format
-    postCompileScripts:
-      - script: Scripts/swiftlint.sh
-        name: Swiftlint
-    sources: 
+    sources:
       - Frameworks/BismushKit
     settings:
       MTL_LANGUAGE_REVISION: Metal24
+    preBuildScripts:
+      - path: Scripts/swiftformat.sh
+        name: Swift Format
+        inputFileLists:
+          - $(SRCROOT)/BuildTools/BismushKit.xcfilelist
+        outputFileLists:
+          - $(SRCROOT)/BuildTools/BismushKit.xcfilelist
+      - path: Scripts/clang-format.sh
+        name: clang-format
+        inputFileLists:
+          - $(SRCROOT)/BuildTools/Shaders.xcfilelist
+        outputFileLists:
+          - $(SRCROOT)/BuildTools/Shaders.xcfilelist
+    postCompileScripts:
+      - script: Scripts/swiftlint.sh
+        name: Swiftlint
+        inputFileLists:
+          - $(SRCROOT)/BuildTools/BismushKit.xcfilelist
+        outputFileLists:
+          - $(SRCROOT)/BuildTools/BismushKit.xcfilelist
 
   BismushUI:
     type: framework
@@ -117,11 +146,17 @@ targets:
     preBuildScripts:
       - path: Scripts/swiftformat.sh
         name: Swift Format
-      - path: Scripts/clang-format.sh
-        name: clang-format
+        inputFileLists:
+          - $(SRCROOT)/BuildTools/BismushUI.xcfilelist
+        outputFileLists:
+          - $(SRCROOT)/BuildTools/BismushUI.xcfilelist
     postCompileScripts:
       - script: Scripts/swiftlint.sh
         name: Swiftlint
+        inputFileLists:
+          - $(SRCROOT)/BuildTools/BismushUI.xcfilelist
+        outputFileLists:
+          - $(SRCROOT)/BuildTools/BismushUI.xcfilelist
     sources:
       - Frameworks/BismushUI
 
@@ -137,6 +172,20 @@ targets:
       - Tests/UnitTests/Bismush
     settings:
       GENERATE_INFOPLIST_FILE: true
+    preBuildScripts:
+      - path: Scripts/swiftformat.sh
+        name: Swift Format
+        inputFileLists:
+          - $(SRCROOT)/BuildTools/Bismush_UnitTests.xcfilelist
+        outputFileLists:
+          - $(SRCROOT)/BuildTools/Bismush_UnitTests.xcfilelist
+    postCompileScripts:
+      - script: Scripts/swiftlint.sh
+        name: Swiftlint
+        inputFileLists:
+          - $(SRCROOT)/BuildTools/Bismush_UnitTests.xcfilelist
+        outputFileLists:
+          - $(SRCROOT)/BuildTools/Bismush_UnitTests.xcfilelist
 
   MobileBismush_UnitTests:
     type: bundle.unit-test
@@ -147,6 +196,21 @@ targets:
       - Tests/UnitTests/MobileBismush
     settings:
       GENERATE_INFOPLIST_FILE: true
+    preBuildScripts:
+      - path: Scripts/swiftformat.sh
+        name: Swift Format
+        inputFileLists:
+          - $(SRCROOT)/BuildTools/MobileBismush_UnitTests.xcfilelist
+        outputFileLists:
+          - $(SRCROOT)/BuildTools/MobileBismush_UnitTests.xcfilelist
+    postCompileScripts:
+      - script: Scripts/swiftlint.sh
+        name: Swiftlint
+        inputFileLists:
+          - $(SRCROOT)/BuildTools/MobileBismush_UnitTests.xcfilelist
+        outputFileLists:
+          - $(SRCROOT)/BuildTools/MobileBismush_UnitTests.xcfilelist
+
 
   BismushKit_UnitTests:
     type: bundle.unit-test
@@ -159,6 +223,21 @@ targets:
       - target: BismushKit_${platform}
     settings:
       GENERATE_INFOPLIST_FILE: true
+    preBuildScripts:
+      - path: Scripts/swiftformat.sh
+        name: Swift Format
+        inputFileLists:
+          - $(SRCROOT)/BuildTools/BismushKit_UnitTests.xcfilelist
+        outputFileLists:
+          - $(SRCROOT)/BuildTools/BismushKit_UnitTests.xcfilelist
+    postCompileScripts:
+      - script: Scripts/swiftlint.sh
+        name: Swiftlint
+        inputFileLists:
+          - $(SRCROOT)/BuildTools/BismushKit_UnitTests.xcfilelist
+        outputFileLists:
+          - $(SRCROOT)/BuildTools/BismushKit_UnitTests.xcfilelist
+
 
   BismushUI_UnitTests:
     type: bundle.unit-test
@@ -171,6 +250,20 @@ targets:
       - target: BismushUI_${platform}
     settings:
       GENERATE_INFOPLIST_FILE: true
+    preBuildScripts:
+      - path: Scripts/swiftformat.sh
+        name: Swift Format
+        inputFileLists:
+          - $(SRCROOT)/BuildTools/BismushUI_UnitTests.xcfilelist
+        outputFileLists:
+          - $(SRCROOT)/BuildTools/BismushUI_UnitTests.xcfilelist
+    postCompileScripts:
+      - script: Scripts/swiftlint.sh
+        name: Swiftlint
+        inputFileLists:
+          - $(SRCROOT)/BuildTools/BismushUI_UnitTests.xcfilelist
+        outputFileLists:
+          - $(SRCROOT)/BuildTools/BismushUI_UnitTests.xcfilelist
 
 # MARK: - Aggregate scheme
 schemes:
@@ -249,3 +342,4 @@ fileGroups:
   - .github
   - .clang-format
   - Tests/Plans
+  - fastlane

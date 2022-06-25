@@ -13,6 +13,6 @@ let package = Package(
     ],
 
     targets: [
-        .target(name: "Sources", path: "Sources"),
+        .executableTarget(name: "Sources", path: "Sources"),
     ]
 )
