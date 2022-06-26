@@ -44,7 +44,7 @@ class CanvasDocumentTests: XCTestCase {
                 viewSize: .init(width: 800, height: 800)
             )
         }
-        brush.clear()
+        brush.commit()
 
         let commandQueue = MTLCreateSystemDefaultDevice()!.makeCommandQueue()!
         let commandBuffer = commandQueue.makeCommandBuffer()!

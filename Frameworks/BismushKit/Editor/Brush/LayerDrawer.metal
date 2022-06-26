@@ -32,9 +32,13 @@ vertex BrushOut brush_vertex(const device BMKStroke *vertices [[buffer(0)]],
 
 fragment float4 brush_fragment(BrushOut in [[stage_in]],
                                float2 pointCoord [[point_coord]]) {
-
-    if (length(pointCoord - float2(0.5)) > 0.5) {
+    float distance = length(pointCoord - float2(0.5));
+    if (distance > 0.5) {
         discard_fragment();
+        return float4(1, 1, 1, 0);
+    } else {
+        float4 color = in.color;
+
+        return color;
     }
-    return in.color;
 }

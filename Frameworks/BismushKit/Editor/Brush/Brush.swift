@@ -38,6 +38,11 @@ public class Brush {
     private var context: BMKLayerContext
     private let document: CanvasDocument
 
+    public var brushSize: Float {
+        get { context.brushSize }
+        set { context.brushSize = newValue }
+    }
+
     public init(document: CanvasDocument, brushSize: Float = 50) {
         self.document = document
 
@@ -49,7 +54,7 @@ public class Brush {
         )
     }
 
-    public func clear() {
+    public func commit() {
         BismushLogger.drawing.debug("brush session ends")
         session = nil
         points.removeAll()

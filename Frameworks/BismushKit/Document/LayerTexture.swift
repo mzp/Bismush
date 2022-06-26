@@ -13,15 +13,10 @@ protocol LayerTextureContext {
 }
 
 class LayerTexture: Equatable {
-    enum State {
-        case clean
-        case uninitialized
-        case copyOnWrite
-    }
-
     let canvasLayer: CanvasLayer
     private let context: LayerTextureContext
-    private var state: State
+    private var isCopyOnWrite: Bool
+    private var shouldClearOnNextRendering: Bool
 
     private(set) var texture: MTLTexture
     private(set) var msaaTexture: MTLTexture?
@@ -36,12 +31,14 @@ class LayerTexture: Equatable {
         self.context = context
         self.texture = texture
         self.msaaTexture = msaaTexture
-        state = .clean
+        shouldClearOnNextRendering = true
+        isCopyOnWrite = false
     }
 
     init(canvasLayer: CanvasLayer, context: LayerTextureContext) {
         self.canvasLayer = canvasLayer
         self.context = context
+        isCopyOnWrite = false
 
         switch canvasLayer.layerType {
         case .empty:
@@ -59,10 +56,11 @@ class LayerTexture: Equatable {
             let texture = context.device.metalDevice.makeTexture(descriptor: description)!
 
             if let data = context.layer(id: canvasLayer.id, type: "texture") {
+                BismushLogger.drawing.info("\(#function): Load texture data for \(canvasLayer.id)")
                 texture.bmkData = data
-                state = .clean
+                shouldClearOnNextRendering = false
             } else {
-                state = .uninitialized
+                shouldClearOnNextRendering = true
             }
             self.texture = texture
 
@@ -87,11 +85,15 @@ class LayerTexture: Equatable {
             }
         case let .builtin(name: name):
             texture = context.device.resource.bultinTexture(name: name)
-            state = .clean
+            shouldClearOnNextRendering = false
         }
     }
 
     var renderPassDescriptor: MTLRenderPassDescriptor {
+        defer {
+            // TOOD: property should not clear any state.
+            self.shouldClearOnNextRendering = false
+        }
         let renderPassDescriptior = MTLRenderPassDescriptor()
         if let msaaTexture = msaaTexture {
             renderPassDescriptior.colorAttachments[0].texture = msaaTexture
@@ -102,9 +104,11 @@ class LayerTexture: Equatable {
             renderPassDescriptior.colorAttachments[0].storeAction = .store
         }
 
-        if state == .uninitialized {
+        if shouldClearOnNextRendering {
             renderPassDescriptior.colorAttachments[0].loadAction = .clear
             renderPassDescriptior.colorAttachments[0].clearColor = MTLClearColor(red: 1, green: 1, blue: 1, alpha: 0)
+            let id = canvasLayer.id
+            BismushLogger.drawing.info("\(#function): Clear texture \(id)")
         } else {
             renderPassDescriptior.colorAttachments[0].loadAction = .load
         }
@@ -112,8 +116,8 @@ class LayerTexture: Equatable {
     }
 
     func makeWritable(commandBuffer: MTLCommandBuffer) {
-        defer { state = .clean }
-        guard state == .copyOnWrite else {
+        defer { isCopyOnWrite = false }
+        guard isCopyOnWrite else {
             return
         }
 
@@ -139,9 +143,10 @@ class LayerTexture: Equatable {
         }
     }
 
+    // TODO: naming?
     func copyOnWrite() -> LayerTexture {
         if canvasLayer.layerType == .empty {
-            state = .copyOnWrite
+            isCopyOnWrite = true
 
             return .init(canvasLayer: canvasLayer, context: context, texture: texture, msaaTexture: msaaTexture)
         } else {

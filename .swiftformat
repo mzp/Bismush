@@ -27,7 +27,6 @@
 --operatorfunc spaced
 --patternlet hoist
 --ranges spaced
---self remove
 --semicolons inline
 --stripunusedargs always
 --swiftversion 5.4
