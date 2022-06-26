@@ -38,16 +38,12 @@ class BrushTests: RenderingTestCase {
         brush.color = .red
         stroke(points: [
             .init(x: 0, y: 50),
-            .init(x: 0, y: 50),
-            .init(x: 0, y: 50),
             .init(x: 100, y: 50),
         ])
         brush.color = .blue
         // fastest
         stroke(points: [
             .init(x: 0, y: 0),
-            .init(x: 0, y: 100),
-            .init(x: 0, y: 100),
             .init(x: 0, y: 100),
         ])
 

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct PressurePoint: CustomDebugStringConvertible {
+public struct PressurePoint: CustomDebugStringConvertible, CustomStringConvertible {
     public var point: Point<ViewCoordinate> {
         Point(rawValue: rawValue.xy)
     }
@@ -23,7 +23,11 @@ public struct PressurePoint: CustomDebugStringConvertible {
     }
 
     public var debugDescription: String {
-        "PressurePoint: point=\(point), pressure=\(pressure)"
+        "PressurePoint(point: \(point), pressure: \(pressure))"
+    }
+
+    public var description: String {
+        "(\(point.x), \(point.y), \(pressure))"
     }
 
     static func * (transform: Transform2D<LayerPixelCoordinate, ViewCoordinate>, event: PressurePoint) -> SIMD3<Float> {
