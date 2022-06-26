@@ -41,6 +41,7 @@ class WaterColorMix {
         }
         let color = currentColor.contents().load(as: SIMD4<Float>.self)
         BismushLogger.drawing.trace("""
+        \(#function)
         Color: (\
         \(color.x, format: .fixed(precision: 2)), \
         \(color.y, format: .fixed(precision: 2)), \
@@ -57,6 +58,7 @@ class WaterColorMix {
 
         let color = currentColor.contents().load(as: SIMD4<Float>.self)
         BismushLogger.drawing.trace("""
+        \(#function)
         Color: (\
         \(color.x, format: .fixed(precision: 2)), \
         \(color.y, format: .fixed(precision: 2)), \

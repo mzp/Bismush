@@ -43,8 +43,8 @@ class BrushTests: RenderingTestCase {
         brush.color = .blue
         // fastest
         stroke(points: [
-            .init(x: 0, y: 0),
-            .init(x: 0, y: 100),
+            .init(x: 10, y: 0),
+            .init(x: 10, y: 100),
         ])
 
         // middle
@@ -59,17 +59,17 @@ class BrushTests: RenderingTestCase {
 
         // slowest
         stroke(points: [
-            .init(x: 60, y: 0),
-            .init(x: 60, y: 10),
-            .init(x: 60, y: 20),
-            .init(x: 60, y: 30),
-            .init(x: 60, y: 40),
-            .init(x: 60, y: 50),
-            .init(x: 60, y: 60),
-            .init(x: 60, y: 70),
-            .init(x: 60, y: 80),
-            .init(x: 60, y: 90),
-            .init(x: 60, y: 100),
+            .init(x: 50, y: 0),
+            .init(x: 50, y: 10),
+            .init(x: 50, y: 20),
+            .init(x: 50, y: 30),
+            .init(x: 50, y: 40),
+            .init(x: 50, y: 50),
+            .init(x: 50, y: 60),
+            .init(x: 50, y: 70),
+            .init(x: 50, y: 80),
+            .init(x: 50, y: 90),
+            .init(x: 50, y: 100),
         ])
 
         render()

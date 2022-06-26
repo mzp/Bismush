@@ -34,4 +34,6 @@ public struct PressurePoint: CustomDebugStringConvertible, CustomStringConvertib
         let point = transform * event.point
         return .init(point.rawValue, event.pressure)
     }
+
+    static let zero: PressurePoint = .init(point: .zero(), pressure: 0)
 }

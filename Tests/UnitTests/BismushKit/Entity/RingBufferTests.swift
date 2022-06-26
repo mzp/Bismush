@@ -64,4 +64,23 @@ class RingBufferTests: XCTestCase {
         XCTAssertEqual(2, ringBuffer[1])
         XCTAssertEqual(3, ringBuffer[2])
     }
+
+    func testGet() {
+        ringBuffer.append(0)
+        ringBuffer.append(1)
+
+        XCTAssertEqual(0, ringBuffer.get(index: 0))
+        XCTAssertEqual(1, ringBuffer.get(index: 1))
+        XCTAssertNil(ringBuffer.get(index: 2))
+        XCTAssertNil(ringBuffer.get(index: 3))
+    }
+
+    func testLast() {
+        XCTAssertNil(ringBuffer.last)
+
+        for value in 0 ..< 5 {
+            ringBuffer.append(value)
+            XCTAssertEqual(value, ringBuffer.last)
+        }
+    }
 }
