@@ -38,10 +38,3 @@ fragment float4 layer_fragment(LayerIn in [[stage_in]],
     const float4 color = texture.sample(textureSampler, in.textureCoordinate);
     return float4(color);
 }
-
-float4 layer_get_color(const device BMKLayerContext *context,
-                       texture2d<float> texture, float4 point) {
-    const float4 p = context->textureProjection * point;
-    const float4 color = texture.sample(textureSampler, p.xy / p.w);
-    return (float4)color;
-}

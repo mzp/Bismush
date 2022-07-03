@@ -11,7 +11,11 @@
 #include <BismushKit/BMKDefines.h>
 
 struct BMKLayerContext {
+    /// original brush color
     float4 brushColor;
+
+    /// brush color mixed with around color
+    float4 currentColor;
     float brushSize;
     float4x4 textureProjection; // LayerPixelCoordinate -> TextureCoordinate
     float4x4 layerProjection; // LayerPixelCoordinate -> LayerCoordinate

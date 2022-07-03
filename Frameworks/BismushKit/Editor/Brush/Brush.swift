@@ -12,7 +12,7 @@ import simd
 public class Brush {
     struct Session {
         var interporater: BezierInterpolate
-        var mixer: WaterColorMix
+//        var mixer: WaterColorMix
         var renderer: LayerDrawer
     }
 
@@ -21,7 +21,7 @@ public class Brush {
     private var points = RingBuffer<PressurePoint>(capacity: 4)
 
     public var color: BismushColor {
-        get { BismushColor(rawValue: context.brushColor) }
+        get { BismushColor(rawValue: context.value.brushColor) }
         set {
             BismushLogger.drawing.info("""
                 Brush color changed: \
@@ -31,27 +31,28 @@ public class Brush {
             \(newValue.alpha, format: .fixed(precision: 2)))
             """)
 
-            context.brushColor = newValue.rawValue
+            context.value.brushColor = newValue.rawValue
         }
     }
 
-    private var context: BMKLayerContext
+    private var context: MetalObject<BMKLayerContext>
     private let document: CanvasDocument
 
     public var brushSize: Float {
-        get { context.brushSize }
-        set { context.brushSize = newValue }
+        get { context.value.brushSize }
+        set { context.value.brushSize = newValue }
     }
 
     public init(document: CanvasDocument, brushSize: Float = 50) {
         self.document = document
 
-        context = BMKLayerContext(
+        context = try! document.device.makeObject(BMKLayerContext(
             brushColor: SIMD4<Float>(0, 0, 0, 1),
+            currentColor: SIMD4<Float>(0, 0, 0, 1),
             brushSize: brushSize,
             textureProjection: document.activeLayer.textureTransform.matrix,
             layerProjection: document.activeLayer.renderTransform.matrix
-        )
+        ))
     }
 
     public func commit() {
@@ -66,6 +67,7 @@ public class Brush {
             )
         }
         session = nil
+        context.value.currentColor = context.value.brushColor
         points.removeAll()
     }
 
@@ -75,9 +77,9 @@ public class Brush {
 
         if session == nil {
             let interporater = BezierInterpolate(document: document, size: viewSize)
-            let mixer = WaterColorMix(document: document, context: context)
+//            let mixer = WaterColorMix(document: document, context: context)
             let renderer = LayerDrawer(document: document, context: context)
-            session = Session(interporater: interporater, mixer: mixer, renderer: renderer)
+            session = Session(interporater: interporater, renderer: renderer)
             BismushLogger.drawing.debug("\(#function): Session starts")
         }
 
@@ -98,7 +100,7 @@ public class Brush {
             return
         }
         let strokes = session.interporater.interpolate(input0: input0, input1: input1, input2: input2, input3: input3)
-        session.mixer.mix(strokes: strokes)
+//        session.mixer.mix(strokes: strokes)
         session.renderer.draw(strokes: strokes)
     }
 }

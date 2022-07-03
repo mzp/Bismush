@@ -12,11 +12,11 @@ import simd
 class LayerDrawer {
     private let document: CanvasDocument
     private let commandQueue: MTLCommandQueue
-    private var context: BMKLayerContext
+    private var context: MetalObject<BMKLayerContext>
 
     var dirty = true
 
-    init(document: CanvasDocument, context: BMKLayerContext) {
+    init(document: CanvasDocument, context: MetalObject<BMKLayerContext>) {
         self.document = document
         self.context = context
         commandQueue = document.device.metalDevice.makeCommandQueue()!
@@ -56,8 +56,14 @@ class LayerDrawer {
             encoder.setRenderPipelineState(renderPipelineState)
 
             encoder.setVertexBuffer(strokes.content, offset: 0, index: 0)
-            encoder.setVertexBytes(&context, length: MemoryLayout<BMKLayerContext>.size, index: 1)
-            encoder.setVertexTexture(document.texture(canvasLayer: document.activeLayer).texture, index: 2)
+            encoder.setVertexBuffer(context.buffer, offset: 0, index: 1)
+//            encoder.setVertexBytes(&context, length: MemoryLayout<BMKLayerContext>.size, index: 1)
+
+            let texture = document.texture(canvasLayer: document.activeLayer).texture
+            encoder.setVertexTexture(texture, index: 2)
+
+//            encoder.setFragmentBuffer(context.buffer, offset: 0, index: 0)
+//            encoder.setFragmentTexture(texture, index: 1)
 
             encoder.drawPrimitives(type: .point, vertexStart: 0, vertexCount: Int(strokes.count))
 
