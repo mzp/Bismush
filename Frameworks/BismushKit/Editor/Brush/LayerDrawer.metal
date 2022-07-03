@@ -9,83 +9,15 @@
 #include <BismushKit/BMKStroke.h>
 #include <metal_stdlib>
 
-// TODO: App should provide this.
-constant constexpr float kAround = 0.1;
-constant constexpr float kBrush = 0.07;
-constant constexpr float kEffect = 0.8;
-
-#if 0
-constant constexpr float kAround = 0.1;
-constant constexpr float kBrush = 0.07;
-constant constexpr float kEffect = 0.8;
-
-kernel void water_color_init(device float4 *currentColor
-                             [[buffer(0)]] /* out */,
-                             texture2d<float> texture [[texture(1)]],
-                             device const BMKLayerContext *context
-                             [[buffer(2)]],
-                             device const BMKStroke &stroke [[buffer(3)]]) {
-    const float4 destinationColor =
-        layer_get_color(context, texture, float4(stroke.point.xy, 0, 1));
-    currentColor->xyz = context->brushColor.xyz;
-
-    if (destinationColor.w > 0) {
-        currentColor->xyz +=
-            kEffect * (destinationColor.xyz - context->brushColor.xyz);
-    }
-}
-
-kernel void water_color_mix(device BMKStroke *strokes [[buffer(0)]] /* out */,
-                            device const uint &count [[buffer(1)]],
-                            device float4 &currentColor [[buffer(2)]] /* out */,
-                            texture2d<float> texture [[texture(3)]],
-                            device const BMKLayerContext *context
-                            [[buffer(4)]]) {
-
-    for (uint i = 0; i < count; i++) {
-        const float3 point = strokes[i].point;
-
-        // update
-        const float4 destinationColor =
-            layer_get_color(context, texture, float4(point.xy, 0, 1));
-        float opacity = context->brushColor.w * max(point.z, 0.2);
-        strokes[i].color =
-            float4(currentColor.xyz, max(opacity, float(destinationColor.w)));
-
-        // mix with around color
-        const float cr = max(0.8 * context->brushSize * point.z / 2, 1.0);
-
-        const float4 points[] = {float4(point.x - cr, point.y - cr, 0, 1),
-                                 float4(point.x - cr, point.y + cr, 0, 1),
-                                 float4(point.x + cr, point.y - cr, 0, 1),
-                                 float4(point.x + cr, point.y + cr, 0, 1)};
-
-        float3 totalColor = float3(0, 0, 0);
-        uint count = 0;
-        for (uint i = 0; i < sizeof(points) / sizeof(points[0]); i++) {
-            const float4 color = layer_get_color(context, texture, points[i]);
-            if (color.w > 0) {
-                totalColor += color.xyz;
-                count += 1;
-            }
-        }
-
-        if (count > 0) {
-            // Average colors around the point
-            const float3 average_color = (float3)(totalColor / count);
-
-            // Provide effects from around colors
-            currentColor.xyz += (average_color - currentColor.xyz) * kAround;
-        }
-
-        // Provide effects from brush color
-        currentColor.xyz +=
-            (context->brushColor.xyz - currentColor.xyz) * kBrush;
-    }
-}
-
-#endif
 using namespace metal;
+
+// TODO: App should provide this.
+constant constexpr float kAround = 0.5;
+constant constexpr float kBrush = 0.07;
+constant constexpr float kEffect = 0.8;
+
+static constexpr sampler textureSampler(mag_filter::nearest,
+                                        min_filter::nearest);
 
 struct BrushOut {
     float4 position [[position]];
@@ -112,6 +44,9 @@ vertex BrushOut brush_vertex(const device BMKStroke *vertices [[buffer(0)]],
     out.position = point;
     out.size = context->brushSize * v.z;
     out.color = context->currentColor;
+
+    float opacity = context->brushColor.w * max(v.z, 0.2);
+    out.color.w = opacity;
     return out;
 }
 
@@ -128,7 +63,7 @@ fragment float4 brush_fragment(BrushOut in [[stage_in]],
     float4 color = in.color;
 
     // mix with around color
-    const float cr = max(0.8 * in.size / 2, 1.0);
+    const float cr = max(0.8 * context->brushSize / 2, 1.0);
 
     float2 point = in.position.xy;
     const float4 points[] = {float4(point.x - cr, point.y - cr, 0, 1),
@@ -136,22 +71,23 @@ fragment float4 brush_fragment(BrushOut in [[stage_in]],
                              float4(point.x + cr, point.y - cr, 0, 1),
                              float4(point.x + cr, point.y + cr, 0, 1)};
 
-    float3 totalColor = float3(0, 0, 0);
+    float4 totalColor = float4(0, 0, 0, 0);
     uint count = 0;
     for (uint i = 0; i < sizeof(points) / sizeof(points[0]); i++) {
         const float4 color = layer_get_color(context, texture, points[i]);
         if (color.w > 0) {
-            totalColor += color.xyz;
+            totalColor += color;
             count += 1;
         }
     }
 
     if (count > 0) {
         // Average colors around the point
-        const float3 average_color = (float3)(totalColor / count);
+        const float4 average_color = (totalColor / count);
 
         // Provide effects from around colors
-        color.xyz += (average_color - color.xyz) * kAround;
+        color.xyz += (average_color.xyz - color.xyz) * kAround;
+        color.w = max(color.w, average_color.w);
     }
 
     /*

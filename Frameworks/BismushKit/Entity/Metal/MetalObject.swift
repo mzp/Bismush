@@ -15,6 +15,7 @@ struct MetalObject<T> {
             buffer.contents().storeBytes(of: newValue, as: T.self)
         }
     }
+
     var device: GPUDevice
 
     init(_ value: T, device: GPUDevice) throws {

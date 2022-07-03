@@ -6,4 +6,4 @@
 //
 
 import Foundation
-struct UnsupportedError : Error {}
+struct UnsupportedError: Error {}

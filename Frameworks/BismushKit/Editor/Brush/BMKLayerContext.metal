@@ -5,7 +5,7 @@
 //  Created by mzp on 7/2/22.
 //
 
-#include "BMKLayerContext.h"
+#include <BismushKit/BMKLayerContext.h>
 #include <metal_stdlib>
 using namespace metal;
 

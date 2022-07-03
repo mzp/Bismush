@@ -57,13 +57,10 @@ class LayerDrawer {
 
             encoder.setVertexBuffer(strokes.content, offset: 0, index: 0)
             encoder.setVertexBuffer(context.buffer, offset: 0, index: 1)
-//            encoder.setVertexBytes(&context, length: MemoryLayout<BMKLayerContext>.size, index: 1)
+            encoder.setVertexTexture(document.activeTexture.texture, index: 0)
 
-            let texture = document.texture(canvasLayer: document.activeLayer).texture
-            encoder.setVertexTexture(texture, index: 2)
-
-//            encoder.setFragmentBuffer(context.buffer, offset: 0, index: 0)
-//            encoder.setFragmentTexture(texture, index: 1)
+            encoder.setFragmentBuffer(context.buffer, offset: 0, index: 0)
+            encoder.setFragmentTexture(document.activeTexture.texture, index: 1)
 
             encoder.drawPrimitives(type: .point, vertexStart: 0, vertexCount: Int(strokes.count))
 
