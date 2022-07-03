@@ -21,7 +21,7 @@ public class WorldCoordinate: Coordinate {}
 // left bottom: (0,0) top right: (canvas.width, canvas.height)
 public class CanvasPixelCoordinate: Coordinate {}
 
-// left bottom: (0,0) top right: (layer.width, layer.height)
+// top left: (0,0) bottom right: (layer.width, layer.height)
 public class LayerPixelCoordinate: Coordinate {}
 
 // left bottom: (-1, -1) top right: (1, 1)
