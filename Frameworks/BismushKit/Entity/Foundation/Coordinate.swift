@@ -44,6 +44,10 @@ public struct Size<T: Coordinate>: Codable, CustomStringConvertible, Equatable, 
         rawValue = SIMD2(Float(cgSize.width), Float(cgSize.height))
     }
 
+    public init(_ other: Size<some Coordinate>) {
+        rawValue = other.rawValue
+    }
+
     public static func zero() -> Size<T> {
         Size(width: 0, height: 0)
     }

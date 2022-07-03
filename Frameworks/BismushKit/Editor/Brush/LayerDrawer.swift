@@ -23,6 +23,7 @@ class LayerDrawer {
     }
 
     func draw(strokes: MetalMutableArray<BMKStroke>) {
+        BismushLogger.drawing.trace("\(BismushInspector.array(metalArray: strokes))")
         document.device.scope("\(#function)") {
             let canvasLayer = self.document.activeLayer
             guard canvasLayer.visible else {

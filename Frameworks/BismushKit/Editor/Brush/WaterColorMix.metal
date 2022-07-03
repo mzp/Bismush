@@ -48,7 +48,7 @@ kernel void water_color_mix(device BMKStroke *strokes [[buffer(0)]] /* out */,
             float4(currentColor.xyz, max(opacity, float(destinationColor.w)));
 
         // mix with around color
-        const float cr = 1; // max(0.8 * context->brushSize * point.z / 2, 1.0);
+        const float cr = max(0.8 * context->brushSize * point.z / 2, 1.0);
 
         const float4 points[] = {float4(point.x - cr, point.y - cr, 0, 1),
                                  float4(point.x - cr, point.y + cr, 0, 1),

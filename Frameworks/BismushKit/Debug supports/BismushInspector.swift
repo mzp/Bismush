@@ -30,18 +30,15 @@ public class BismushInspector {
         )
     }
 
-    public class func dump<T>(buffer: MTLBuffer, type: T.Type, count: Int) -> [T] {
+    public class func array<T>(buffer: MTLBuffer, type: T.Type, count: Int) -> [T] {
         Array(
             UnsafeBufferPointer(start: buffer.contents().bindMemory(to: type, capacity: count),
                                 count: count)
         )
     }
 
-    class func dump<T>(array: MetalMutableArray<T>) -> [T] {
-        guard let content = array.content else {
-            return []
-        }
-        return dump(buffer: content, type: T.self, count: array.count)
+    public class func array<T>(metalArray: MetalMutableArray<T>) -> [T] {
+        metalArray.array()
     }
 }
 

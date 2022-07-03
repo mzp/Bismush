@@ -18,8 +18,12 @@ public struct PressurePoint: CustomDebugStringConvertible, CustomStringConvertib
 
     var rawValue: SIMD3<Float>
 
-    public init(point: Point<ViewCoordinate>, pressure: Float) {
+    public init(point: Point<ViewCoordinate>, pressure: Float = 1.0) {
         rawValue = SIMD3(point.rawValue, pressure)
+    }
+
+    public init(x: Float, y: Float, pressure: Float = 1.0) {
+        rawValue = SIMD3(x: x, y: y, z: pressure)
     }
 
     public var debugDescription: String {

@@ -38,7 +38,7 @@ class BezierInterpolate {
             let length = simd_distance(point0.xy, point1.xy) +
                 simd_distance(point1.xy, point2.xy) +
                 simd_distance(point2.xy, point3.xy)
-            let count = Int(max(length, 4))
+            let count = Int(max(length * 1.5, 4))
             BismushLogger.drawing.trace("\(#function): count=\(count)")
             strokes.use(count: count)
             encoder.setBuffer(strokes.content, offset: 0, index: 0)
