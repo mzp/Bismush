@@ -45,6 +45,23 @@ struct RingBuffer<Element>: Sequence, Collection {
         contents[(index + position) % capacity]
     }
 
+    func get(index: Int) -> Element? {
+        if index < count {
+            return self[index]
+        } else {
+            return nil
+        }
+    }
+
+    var last: Element? {
+        if contents.isEmpty {
+            return nil
+        } else {
+            let index = (index - 1 + count) % count
+            return contents[index]
+        }
+    }
+
     struct Iterator: IteratorProtocol {
         var offset = 0
         var buffer: RingBuffer<Element>

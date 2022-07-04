@@ -13,6 +13,7 @@ Frameworks/BismushKit/Editor/Brush/Brush.swift
 Frameworks/BismushKit/Editor/Brush/LayerDrawer.swift
 Frameworks/BismushKit/Editor/Brush/WaterColorMix.swift
 Frameworks/BismushKit/Entity/Foundation/BismushColor.swift
+Frameworks/BismushKit/Entity/Foundation/BismushError.swift
 Frameworks/BismushKit/Entity/Foundation/Coordinate.swift
 Frameworks/BismushKit/Entity/Foundation/PressurePoint.swift
 Frameworks/BismushKit/Entity/Foundation/RingBuffer.swift
@@ -23,6 +24,8 @@ Frameworks/BismushKit/Entity/Metal/FunctionName.swift
 Frameworks/BismushKit/Entity/Metal/GPUDevice.swift
 Frameworks/BismushKit/Entity/Metal/MemorySize.swift
 Frameworks/BismushKit/Entity/Metal/MetalDeviceCapability.swift
+Frameworks/BismushKit/Entity/Metal/MetalMutableArray.swift
+Frameworks/BismushKit/Entity/Metal/MetalObject.swift
 Frameworks/BismushKit/Entity/Metal/ResourceLoader.swift
 Frameworks/BismushKit/Entity/Metal/SIMD3+Bismush.swift
 Frameworks/BismushKit/Entity/Metal/ShaderStore.swift

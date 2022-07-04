@@ -14,7 +14,7 @@ class WaterColorMix {
     private let shader: ShaderStore
     private var initialized = false
 
-    init(document: CanvasDocument, context: BMKLayerContext, point _: Point<ViewCoordinate>? = nil) {
+    init(document: CanvasDocument, context: BMKLayerContext) {
         self.document = document
         self.context = context
         var color = context.brushColor
@@ -41,6 +41,7 @@ class WaterColorMix {
         }
         let color = currentColor.contents().load(as: SIMD4<Float>.self)
         BismushLogger.drawing.trace("""
+        \(#function)
         Color: (\
         \(color.x, format: .fixed(precision: 2)), \
         \(color.y, format: .fixed(precision: 2)), \
@@ -57,6 +58,7 @@ class WaterColorMix {
 
         let color = currentColor.contents().load(as: SIMD4<Float>.self)
         BismushLogger.drawing.trace("""
+        \(#function)
         Color: (\
         \(color.x, format: .fixed(precision: 2)), \
         \(color.y, format: .fixed(precision: 2)), \

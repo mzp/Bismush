@@ -30,11 +30,15 @@ public class BismushInspector {
         )
     }
 
-    func buffer(buffer: MTLBuffer, count: Int) -> [SIMD2<Float>] {
+    public class func array<T>(buffer: MTLBuffer, type: T.Type, count: Int) -> [T] {
         Array(
-            UnsafeBufferPointer(start: buffer.contents().bindMemory(to: SIMD2<Float>.self, capacity: count),
+            UnsafeBufferPointer(start: buffer.contents().bindMemory(to: type, capacity: count),
                                 count: count)
         )
+    }
+
+    public class func array<T>(metalArray: MetalMutableArray<T>) -> [T] {
+        metalArray.array()
     }
 }
 
