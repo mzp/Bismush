@@ -29,33 +29,3 @@ struct DynamicBuffer {
         content = allocator(capacity)
     }
 }
-
-struct MetalMutableArray<T> {
-    var content: MTLBuffer?
-    private let device: GPUDevice
-    private let options: MTLResourceOptions
-    private(set) var count = 0
-    private var capacity = 0
-
-    var isEmpty: Bool {
-        // swiftlint:disable:next empty_count
-        count == 0
-    }
-
-    init(device: GPUDevice, options: MTLResourceOptions = .storageModeShared) {
-        self.device = device
-        self.options = options
-    }
-
-    mutating func use(count newCount: Int) {
-        count = newCount
-        guard capacity < newCount else {
-            return
-        }
-        capacity = max(capacity, 1)
-        while capacity < newCount {
-            capacity *= 2
-        }
-        content = device.metalDevice.makeBuffer(length: MemoryLayout<T>.stride * count, options: options)!
-    }
-}

@@ -50,4 +50,10 @@ public struct BismushColor {
             )
         }
     #endif
+
+    public static let white: BismushColor = .init(red: 1, green: 1, blue: 1, alpha: 1)
+    public static let red: BismushColor = .init(red: 1, green: 0, blue: 0, alpha: 1)
+    public static let green: BismushColor = .init(red: 0, green: 1, blue: 0, alpha: 1)
+    public static let blue: BismushColor = .init(red: 0, green: 0, blue: 1, alpha: 1)
+    public static let clear: BismushColor = .init(red: 1, green: 1, blue: 1, alpha: 0)
 }

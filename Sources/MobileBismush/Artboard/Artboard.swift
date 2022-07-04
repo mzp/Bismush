@@ -13,7 +13,7 @@ struct Artboard: View {
 
     var body: some View {
         MobileArtboard(document: viewModel.editor.document)
-            .onTouchesEnded(perform: { _, _, _ in viewModel.brush.clear() })
+            .onTouchesEnded(perform: { _, _, _ in viewModel.brush.commit() })
             .onTouchesMoved(perform: touchesMoved(_:with:in:))
             .edgesIgnoringSafeArea(.all)
     }

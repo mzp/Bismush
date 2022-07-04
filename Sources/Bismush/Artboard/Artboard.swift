@@ -50,7 +50,7 @@ struct Artboard: View {
     }
 
     func mouseUp(with _: NSEvent, in _: NSView) {
-        viewModel.brush.clear()
+        viewModel.brush.commit()
     }
 }
 

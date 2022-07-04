@@ -136,4 +136,8 @@ public class CanvasDocument: ReferenceFileDocument, LayerTextureContext {
         }
         return textures[canvasLayer]!
     }
+
+    var activeTexture: LayerTexture {
+        texture(canvasLayer: activeLayer)
+    }
 }

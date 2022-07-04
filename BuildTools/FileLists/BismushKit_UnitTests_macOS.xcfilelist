@@ -1,4 +1,6 @@
 Tests/UnitTests/BismushKit/Document/CanvasDocumentTests.swift
+Tests/UnitTests/BismushKit/Editor/BezierInterpolateTests.swift
 Tests/UnitTests/BismushKit/Editor/BrushTests.swift
 Tests/UnitTests/BismushKit/Editor/RenderingTestCase.swift
+Tests/UnitTests/BismushKit/Entity/MetalObjectTests.swift
 Tests/UnitTests/BismushKit/Entity/RingBufferTests.swift

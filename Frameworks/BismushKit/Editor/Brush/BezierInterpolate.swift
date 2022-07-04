@@ -29,6 +29,7 @@ class BezierInterpolate {
         input2: PressurePoint,
         input3: PressurePoint
     ) -> MetalMutableArray<BMKStroke> {
+        BismushLogger.drawing.trace("\(#function): \(input0) \(input1) \(input2) \(input3)")
         try! shader.compute(.bezierInterpolation) { encoder in
             var point0 = transform * input0
             var point1 = transform * input1
@@ -37,8 +38,8 @@ class BezierInterpolate {
             let length = simd_distance(point0.xy, point1.xy) +
                 simd_distance(point1.xy, point2.xy) +
                 simd_distance(point2.xy, point3.xy)
-            let count = Int(max(ceil(length / 2), 4))
-            BismushLogger.drawing.trace("Bezier interpolate: count=\(count)")
+            let count = Int(max(length * 1.5, 4))
+            BismushLogger.drawing.trace("\(#function): count=\(count)")
             strokes.use(count: count)
             encoder.setBuffer(strokes.content, offset: 0, index: 0)
 
