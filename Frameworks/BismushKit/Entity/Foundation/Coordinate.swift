@@ -44,7 +44,7 @@ public struct Size<T: Coordinate>: Codable, CustomStringConvertible, Equatable, 
         rawValue = SIMD2(Float(cgSize.width), Float(cgSize.height))
     }
 
-    public init(_ other: Size<some Coordinate>) {
+    public init<U>(_ other: Size<U>) {
         rawValue = other.rawValue
     }
 
