@@ -21,6 +21,10 @@ struct BMKLayerContext {
 float4 layer_get_color(const device BMKLayerContext *context,
                        metal::texture2d<float> texture,
                        const float4 point);
+template<typename T>
+T color_mix(T baseColor, T aditionalColor, float params) {
+    return baseColor + (aditionalColor - baseColor) * params;
+}
 #endif
 
 #endif /* Renderer_h */

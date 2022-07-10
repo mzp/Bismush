@@ -33,6 +33,7 @@ class BrushTests: RenderingTestCase {
     }
 
     func testMix() throws {
+        XCTSkip("This test isn't intended to run on CI.")
         brush.color = .red
         stroke(points: [
             .init(x: 0, y: 200),

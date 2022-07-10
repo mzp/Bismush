@@ -13,7 +13,6 @@
 struct BMKStroke {
     float3 point;
     float4 color;
-    float pressure;
 };
 
 #endif /* BMKDrawingContext_h */
