@@ -32,6 +32,7 @@
 		1906D8BFD1FC463516A8048E /* CanvasLayerRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42BEAAD006B66774D56533F1 /* CanvasLayerRenderer.swift */; };
 		19CDF2EF56C83678F265FD03 /* CanvasLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781523CEF987B7E316E2006F /* CanvasLayer.swift */; };
 		1BA726D98C97497689EC22DB /* RingBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35337BECFB668B3E885A11BB /* RingBuffer.swift */; };
+		1CA0AA249314543F739A5312 /* CanvasTransformTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C39EA721D28264A595E0AB9 /* CanvasTransformTests.swift */; };
 		1EB0E60983E744A84332A651 /* BismushKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0B3B3603D98AAC01ECAF202F /* BismushKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1EBF4266B49EBEB860FDEFFC /* Canvas+Transform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13BB38EDD83B652044B5FCD7 /* Canvas+Transform.swift */; };
 		2169409640BE359246E1E6D9 /* MetalMutableArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9136680632CBB9D07593F923 /* MetalMutableArray.swift */; };
@@ -51,6 +52,7 @@
 		38F35D625A25CBE2B283FDE1 /* CanvasRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77BF4AC93B790CF00DE3BC99 /* CanvasRenderer.swift */; };
 		3D9C1470234DD354ABE0D826 /* CanvasLayer+Transform.swift in Sources */ = {isa = PBXBuildFile; fileRef = C092715C7FCDBD5BFE74BC69 /* CanvasLayer+Transform.swift */; };
 		3DFADF6011A1850CC9B8B388 /* BismushUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8A79FC0F25C098F0AC0EB7B6 /* BismushUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3FB34E5EBA1CCF91A5A75AEC /* CanvasTransformTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C39EA721D28264A595E0AB9 /* CanvasTransformTests.swift */; };
 		453F22ED16A1BD17A8F6DBF6 /* GPUDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9247222A0EB78F83EF1F6627 /* GPUDevice.swift */; };
 		4796DA9C68B2BEEDCE1739E1 /* LayerDrawer.metal in Sources */ = {isa = PBXBuildFile; fileRef = C530414467DAC13B9F3B059E /* LayerDrawer.metal */; };
 		48431ED1091D33D6CC68B1A1 /* BismushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B3B3603D98AAC01ECAF202F /* BismushKit.framework */; };
@@ -130,6 +132,7 @@
 		BF30CEA0A1B410674E448F71 /* CanvasLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781523CEF987B7E316E2006F /* CanvasLayer.swift */; };
 		C1232BCA4D2B125A1221D810 /* CanvasDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8093643CB98318AD9C6007 /* CanvasDocument.swift */; };
 		C271432CA13D4E404971696E /* BismushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F29D8E06BAE28C83C76E963D /* BismushKit.framework */; };
+		C4B9A1C72F34CA1A9ECF4625 /* CanvasLayerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACC2F87554BC3EA23B8C17C /* CanvasLayerTests.swift */; };
 		C558D3840B85B269E9C6D6D6 /* MemorySize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F15B6949DBB74A390836E6C /* MemorySize.swift */; };
 		C7871FDA83FA783B692CFDA5 /* MetalDeviceCapability.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4EF932D0197F7A709F6CC46 /* MetalDeviceCapability.swift */; };
 		C79A411711B21712CD125186 /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D60BC8385F917854C25324FA /* Coordinate.swift */; };
@@ -153,6 +156,7 @@
 		F02E0B13DE647E5C4D630302 /* bezier.png in Resources */ = {isa = PBXBuildFile; fileRef = AD980C441DF3EED13860E505 /* bezier.png */; };
 		F035B8544D4CAF4DEF5E2405 /* Transform2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B79569575E3B1182D9E628 /* Transform2D.swift */; };
 		F1E5C5223B459817797A8AF4 /* BezierInterpolate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB6FA48BD29AF3D2C9A6811B /* BezierInterpolate.swift */; };
+		F2085561388E8ACFC047E8DB /* CanvasLayerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACC2F87554BC3EA23B8C17C /* CanvasLayerTests.swift */; };
 		F4A360539E07C2B11812F33C /* BismushUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8A79FC0F25C098F0AC0EB7B6 /* BismushUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F53CF1ADE395D4C8470F8A52 /* yosemite.png in Resources */ = {isa = PBXBuildFile; fileRef = 0BC445ED01FB66CE90322781 /* yosemite.png */; };
 		F5D3C95D390168826E879CA0 /* square.png in Resources */ = {isa = PBXBuildFile; fileRef = CE7AA190D205E98D16E52A92 /* square.png */; };
@@ -348,6 +352,7 @@
 		2915FAD75937DF0BFDBC962B /* ViewModelProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelProvider.swift; sourceTree = "<group>"; };
 		2B9597D885110F827DFA203C /* BismushLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BismushLogger.swift; sourceTree = "<group>"; };
 		2BD3543651FEC03AD919D0CD /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		2C39EA721D28264A595E0AB9 /* CanvasTransformTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasTransformTests.swift; sourceTree = "<group>"; };
 		2F0B76326CDE771A3D234162 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		2F3174F5AE0D0E30A3BB04FF /* BismushUI_UnitTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = BismushUI_UnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F8093643CB98318AD9C6007 /* CanvasDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasDocument.swift; sourceTree = "<group>"; };
@@ -396,6 +401,7 @@
 		943B84DBB4493E534AABDD8E /* MobileArtboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileArtboard.swift; sourceTree = "<group>"; };
 		9A9818456E8FA04DC978F08C /* Bismush_UnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Bismush_UnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5F42E2B32AC2021ADFFD0D7 /* MobileBismushTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileBismushTests.swift; sourceTree = "<group>"; };
+		AACC2F87554BC3EA23B8C17C /* CanvasLayerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasLayerTests.swift; sourceTree = "<group>"; };
 		ABB35955A11C8E879ABE913A /* MetalObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalObject.swift; sourceTree = "<group>"; };
 		AD4483C3767BFFC164867210 /* RingBufferTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingBufferTests.swift; sourceTree = "<group>"; };
 		AD980C441DF3EED13860E505 /* bezier.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bezier.png; sourceTree = "<group>"; };
@@ -697,6 +703,7 @@
 				EBB508BC3C4C9D1C9ADD3A5C /* Document */,
 				D49BA4F88DA320171B06EC3C /* Editor */,
 				DD1C9DE7A0A3F9B8D18C363E /* Entity */,
+				DE9E06F4F9B8C319F5B42BC1 /* Renderer */,
 			);
 			path = BismushKit;
 			sourceTree = "<group>";
@@ -890,6 +897,15 @@
 				AD4483C3767BFFC164867210 /* RingBufferTests.swift */,
 			);
 			path = Entity;
+			sourceTree = "<group>";
+		};
+		DE9E06F4F9B8C319F5B42BC1 /* Renderer */ = {
+			isa = PBXGroup;
+			children = (
+				AACC2F87554BC3EA23B8C17C /* CanvasLayerTests.swift */,
+				2C39EA721D28264A595E0AB9 /* CanvasTransformTests.swift */,
+			);
+			path = Renderer;
 			sourceTree = "<group>";
 		};
 		DFCD3E8C31CB4DAE1B452104 /* Bismush */ = {
@@ -2016,6 +2032,8 @@
 				13788712D4054EEE8DABFD66 /* BezierInterpolateTests.swift in Sources */,
 				78805BFDB84446C9A868A5AA /* BrushTests.swift in Sources */,
 				8EF59F54186487108A1F6225 /* CanvasDocumentTests.swift in Sources */,
+				C4B9A1C72F34CA1A9ECF4625 /* CanvasLayerTests.swift in Sources */,
+				1CA0AA249314543F739A5312 /* CanvasTransformTests.swift in Sources */,
 				8A5C38A09E36513C0CA907B0 /* MetalObjectTests.swift in Sources */,
 				78364BFA6C6B2F41F898490D /* RenderingTestCase.swift in Sources */,
 				1449916A72F24C78EAB08D23 /* RingBufferTests.swift in Sources */,
@@ -2037,6 +2055,8 @@
 				2AE2A55A52914552174CF91F /* BezierInterpolateTests.swift in Sources */,
 				5DB5805687367541885F7EFE /* BrushTests.swift in Sources */,
 				BB231679063D7EA76CED7356 /* CanvasDocumentTests.swift in Sources */,
+				F2085561388E8ACFC047E8DB /* CanvasLayerTests.swift in Sources */,
+				3FB34E5EBA1CCF91A5A75AEC /* CanvasTransformTests.swift in Sources */,
 				147198493C2AF4F469B73F84 /* MetalObjectTests.swift in Sources */,
 				15507A386A199091981D6E2E /* RenderingTestCase.swift in Sources */,
 				0BA828352675F3EC241D5885 /* RingBufferTests.swift in Sources */,
