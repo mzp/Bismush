@@ -21,8 +21,12 @@ class RenderingTestCase: XCTestCase {
 
     func createDocument() -> CanvasDocument {
         CanvasDocument(canvas: .init(layers: [
-            CanvasLayer(name: "test", layerType: .empty, size: .init(width: 100, height: 100)),
-        ], size: .init(width: 100, height: 100)))
+            CanvasLayer(name: "test", layerType: .empty, size: .init(width: 800, height: 800)),
+        ], size: .init(width: 800, height: 800)))
+    }
+
+    var viewSize: Size<ViewCoordinate> {
+        Size(document.canvas.size)
     }
 
     override func setUpWithError() throws {
@@ -38,6 +42,33 @@ class RenderingTestCase: XCTestCase {
         attachment.lifetime = .keepAlways
         attachment.name = "rendered"
         add(attachment)
+    }
+
+    func openWithPreview() throws {
+        let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil)
+
+        let newRep = NSBitmapImageRep(cgImage: cgImage!)
+        newRep.size = image.size
+        guard let data = newRep.representation(using: .png, properties: [:]) else {
+            return
+        }
+        guard let testName = invocation?.selector.description.replacingOccurrences(of: ":", with: "") else {
+            return
+        }
+        let tempDirectory = URL(filePath: NSTemporaryDirectory()).appending(path: "Bismush")
+        try FileManager.default.createDirectory(at: tempDirectory, withIntermediateDirectories: true)
+        let outputURL = tempDirectory.appending(path: "\(testName)-\(UUID()).png")
+
+        BismushLogger.testing.info("Saved to \(outputURL)")
+        try data.write(to: outputURL)
+
+        let process = Process()
+        process.executableURL = URL(filePath: "/usr/bin/open")
+        process.arguments = [outputURL.path]
+
+        process.launch()
+
+        process.waitUntilExit()
     }
 
     func resource(name: String, type: String) -> String? {
