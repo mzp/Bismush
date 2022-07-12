@@ -23,6 +23,9 @@ extension Canvas {
 
     var modelViewMatrix: Transform2D<WorldCoordinate, CanvasPixelCoordinate> {
         Transform2D(matrix:
-            Transform2D.scale(x: Float(1 / size.width), y: Float(1 / size.height)))
+            Transform2D.translate(x: 0, y: 1) *
+                Transform2D.rotate(x: .pi) *
+                Transform2D.scale(x: Float(1 / size.width), y: Float(1 / size.height))
+        )
     }
 }

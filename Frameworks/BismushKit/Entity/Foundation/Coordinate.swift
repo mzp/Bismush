@@ -18,16 +18,16 @@ public class ViewPortCoordinate: Coordinate {}
 // left bottom: (0,0) top right: (1, 1)
 public class WorldCoordinate: Coordinate {}
 
-// left bottom: (0,0) top right: (canvas.width, canvas.height)
+// top left: (0,0) bottom right: (canvas.width, canvas.height)
 public class CanvasPixelCoordinate: Coordinate {}
 
 // top left: (0,0) bottom right: (layer.width, layer.height)
 public class LayerPixelCoordinate: Coordinate {}
 
-// left bottom: (-1, -1) top right: (1, 1)
+// left top: (-1, -1) top right: (1, 1)
 public class LayerCoordinate: Coordinate {}
 
-// top left: (0, 0) bottom right (1, 1)
+// left bottom: (0, 0) top right (1, 1)
 public class TextureCoordinate: Coordinate {}
 
 public struct Size<T: Coordinate>: Codable, CustomStringConvertible, Equatable, Hashable {
@@ -57,7 +57,7 @@ public struct Size<T: Coordinate>: Codable, CustomStringConvertible, Equatable, 
     }
 }
 
-public struct Point<T: Coordinate>: Codable, CustomStringConvertible {
+public struct Point<T: Coordinate>: Codable, CustomStringConvertible, Equatable {
     var rawValue: SIMD2<Float>
 
     public var x: Float { rawValue.x }
