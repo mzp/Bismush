@@ -137,6 +137,14 @@ public class CanvasDocument: ReferenceFileDocument, LayerTextureContext {
         return textures[canvasLayer]!
     }
 
+    // TODO: activeTexture(layer) -> Texture
+
+    // MARK: - Draw
+
+    // TODO: Create session method
+    // compose 2 texture
+    
+
     var activeTexture: LayerTexture {
         texture(canvasLayer: activeLayer)
     }

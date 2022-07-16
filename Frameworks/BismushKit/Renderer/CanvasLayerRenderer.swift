@@ -54,6 +54,7 @@ public class CanvasLayerRenderer {
     }()
 
     func render(canvasLayer: CanvasLayer, context: Context) {
+        // TODO: render active texture
         guard canvasLayer.visible else { return }
         let vertices = vertices(size: canvasLayer.size)
         buffer.contents().copyMemory(from: vertices, byteCount: MemoryLayout<Vertex>.size * 6)
