@@ -35,6 +35,43 @@ class LayerTexture: Equatable {
         isCopyOnWrite = false
     }
 
+    init(activeLayer canvasLayer: CanvasLayer, context: LayerTextureContext) {
+        self.canvasLayer = canvasLayer
+        self.context = context
+        isCopyOnWrite = false
+
+        let size = canvasLayer.size
+        let width = Int(size.width)
+        let height = Int(size.height)
+
+        let description = MTLTextureDescriptor()
+        description.width = width
+        description.height = height
+        description.pixelFormat = canvasLayer.pixelFormat
+        description.usage = [.shaderRead, .renderTarget, .shaderWrite]
+        description.textureType = .type2D
+
+        let texture = context.device.metalDevice.makeTexture(descriptor: description)!
+        self.texture = texture
+        shouldClearOnNextRendering = true
+
+        if context.device.capability.msaa {
+            let desc = MTLTextureDescriptor.texture2DDescriptor(
+                pixelFormat: canvasLayer.pixelFormat,
+                width: width,
+                height: height,
+                mipmapped: false
+            )
+            desc.textureType = .type2DMultisample
+            desc.sampleCount = 4
+            desc.usage = [.renderTarget, .shaderRead, .shaderWrite]
+            let msaaTexture = context.device.metalDevice.makeTexture(descriptor: desc)!
+            self.msaaTexture = msaaTexture
+        } else {
+            msaaTexture = nil
+        }
+    }
+
     init(canvasLayer: CanvasLayer, context: LayerTextureContext) {
         self.canvasLayer = canvasLayer
         self.context = context
@@ -143,7 +180,7 @@ class LayerTexture: Equatable {
         }
     }
 
-    // TODO: naming?
+    // FIXME: naming?
     func copyOnWrite() -> LayerTexture {
         if canvasLayer.layerType == .empty {
             isCopyOnWrite = true

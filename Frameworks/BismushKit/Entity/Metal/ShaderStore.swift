@@ -25,7 +25,7 @@ class ShaderStore {
             dispatch(encoder)
             encoder.endEncoding()
             commandBuffer.commit()
-            commandBuffer.waitUntilCompleted() // TODO: use async?
+            commandBuffer.waitUntilCompleted() // FIXME: use async?
         }
     }
 

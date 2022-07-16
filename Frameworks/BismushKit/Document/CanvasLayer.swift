@@ -25,5 +25,5 @@ public struct CanvasLayer: Codable, Equatable, Hashable, Identifiable {
     var size: Size<CanvasPixelCoordinate>
     var pixelFormat: MTLPixelFormat = .rgba8Unorm
     public var visible = true
-    // TODO: implicit assume: same size, position as canvas
+    // FIXME: implicit assume: same size, position as canvas
 }

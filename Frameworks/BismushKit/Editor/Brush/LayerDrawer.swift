@@ -24,12 +24,14 @@ class LayerDrawer {
 
     func draw(strokes: MetalMutableArray<BMKStroke>) {
         document.device.scope("\(#function)") {
+            guard let texture = document.activeTexture else {
+                return
+            }
             let canvasLayer = self.document.activeLayer
             guard canvasLayer.visible else {
                 return
             }
             let commandBuffer = commandQueue.makeCommandBuffer()!
-            let texture = document.texture(canvasLayer: canvasLayer)
             texture.makeWritable(commandBuffer: commandBuffer)
             let encoder = commandBuffer.makeRenderCommandEncoder(descriptor: texture.renderPassDescriptor)!
             let viewPort = MTLViewport(

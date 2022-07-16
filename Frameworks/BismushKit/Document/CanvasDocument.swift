@@ -111,7 +111,7 @@ public class CanvasDocument: ReferenceFileDocument, LayerTextureContext {
     // MARK: - Layer
 
     public var device: GPUDevice {
-        GPUDevice.default // TODO: document should not know system config?
+        GPUDevice.default // FIXME: document should not know system config?
     }
 
     var activeLayer: CanvasLayer {
@@ -141,11 +141,11 @@ public class CanvasDocument: ReferenceFileDocument, LayerTextureContext {
 
     // MARK: - Draw
 
-    // TODO: Create session method
-    // compose 2 texture
-    
-
-    var activeTexture: LayerTexture {
-        texture(canvasLayer: activeLayer)
+    func beginSession() {
+        activeTexture = LayerTexture(activeLayer: activeLayer, context: self)
     }
+
+    func commitSession() {}
+
+    var activeTexture: LayerTexture?
 }

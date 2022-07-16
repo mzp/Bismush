@@ -34,7 +34,7 @@ vertex VertexOut session_commit_vertex(const device VertexIn *vertices [[buffer(
     return out;
 }
 
-fragment float4 layer_fragment(VertexOut in [[stage_in]],
+fragment float4 session_fragment(VertexOut in [[stage_in]],
                                texture2d<float> texture [[texture(0)]]) {
     const float4 color = texture.sample(textureSampler, in.textureCoordinate);
     return float4(color);

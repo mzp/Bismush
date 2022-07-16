@@ -62,7 +62,9 @@ public class Brush {
             input2: points.get(index: 2) ?? points.last ?? .zero,
             input3: points.get(index: 3) ?? points.last ?? .zero
         )
-        // TODO: commit texture
+        let sessionCommiter = SessionCommit(document: document, context: context)
+        sessionCommiter.commit()
+
         session = nil
         points.removeAll()
     }
@@ -75,12 +77,11 @@ public class Brush {
         """)
         points.append(pressurePoint)
         if session == nil {
+            document.beginSession()
             let interporater = BezierInterpolate(document: document, size: viewSize)
             let mixer = WaterColorMix(document: document, context: context)
             let renderer = LayerDrawer(document: document, context: context)
             session = Session(interporater: interporater, mixer: mixer, renderer: renderer)
-            // TODO: create texture
-            // TODO: tell renderer
             BismushLogger.drawing.debug("brush session starts")
         }
         if points.count == 4 {

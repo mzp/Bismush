@@ -34,10 +34,15 @@ public class CanvasRenderer: ObservableObject {
     public func render(context: Context) {
         let context = CanvasLayerRenderer.Context(
             encoder: context.encoder,
-            projection: document.canvas.projection(viewPortSize: context.viewPortSize) * document.canvas.modelViewMatrix
+            projection: document.canvas.projection(viewPortSize: context.viewPortSize) * document.canvas.modelViewMatrix,
+            pixelFormat: .bgra8Unorm
         )
         for layer in document.canvas.layers.reversed() {
             layerRenderer.render(canvasLayer: layer, context: context)
+
+            if document.activeLayer == layer, let activeTexture = document.activeTexture {
+                layerRenderer.render(texture: activeTexture, context: context)
+            }
         }
     }
 }
