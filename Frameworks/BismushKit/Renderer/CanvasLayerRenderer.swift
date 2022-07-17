@@ -43,7 +43,6 @@ public class CanvasLayerRenderer {
     }
 
     func render(canvasLayer: CanvasLayer, context: Context) {
-        // TODO: render active texture
         guard canvasLayer.visible else { return }
         let texture = document.texture(canvasLayer: canvasLayer)
         render(texture: texture, context: context)

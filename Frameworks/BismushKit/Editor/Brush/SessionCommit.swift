@@ -41,11 +41,12 @@ class SessionCommit {
                 zfar: 1
             )
             encoder.setViewport(viewPort)
+
             renderer.render(
                 texture: activeTexture,
                 context: .init(
                     encoder: encoder,
-                    projection: .identity(),
+                    projection: Transform2D(matrix: canvasLayer.renderTransform.matrix),
                     pixelFormat: canvasLayer.pixelFormat,
                     rasterSampleCount: 4
                 )

@@ -25,8 +25,6 @@
 		13788712D4054EEE8DABFD66 /* BezierInterpolateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3225C2868B6711B3F907AF /* BezierInterpolateTests.swift */; };
 		13D8A0A3287D491900F5CFAD /* SessionCommit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D8A0A2287D491900F5CFAD /* SessionCommit.swift */; };
 		13D8A0A4287D491900F5CFAD /* SessionCommit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D8A0A2287D491900F5CFAD /* SessionCommit.swift */; };
-		13D8A0A6287D492400F5CFAD /* SessionCommit.metal in Sources */ = {isa = PBXBuildFile; fileRef = 13D8A0A5287D492400F5CFAD /* SessionCommit.metal */; };
-		13D8A0A7287D492400F5CFAD /* SessionCommit.metal in Sources */ = {isa = PBXBuildFile; fileRef = 13D8A0A5287D492400F5CFAD /* SessionCommit.metal */; };
 		1449916A72F24C78EAB08D23 /* RingBufferTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4483C3767BFFC164867210 /* RingBufferTests.swift */; };
 		147198493C2AF4F469B73F84 /* MetalObjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CB29380CFAABD4504FBAA4 /* MetalObjectTests.swift */; };
 		15507A386A199091981D6E2E /* RenderingTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8832B6354C93F114E48B306C /* RenderingTestCase.swift */; };
@@ -349,7 +347,6 @@
 		13BB38EDD83B652044B5FCD7 /* Canvas+Transform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Canvas+Transform.swift"; sourceTree = "<group>"; };
 		13CB29380CFAABD4504FBAA4 /* MetalObjectTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalObjectTests.swift; sourceTree = "<group>"; };
 		13D8A0A2287D491900F5CFAD /* SessionCommit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCommit.swift; sourceTree = "<group>"; };
-		13D8A0A5287D492400F5CFAD /* SessionCommit.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = SessionCommit.metal; sourceTree = "<group>"; };
 		150137B2E5EF0A21FA87E5D9 /* CanvasDocumentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasDocumentTests.swift; sourceTree = "<group>"; };
 		154599ADF4642CA2B0265938 /* MobileBismush.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MobileBismush.entitlements; sourceTree = "<group>"; };
 		1BC8E5EE42FBBFBF36DBFE99 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -970,7 +967,6 @@
 				C530414467DAC13B9F3B059E /* LayerDrawer.metal */,
 				F6551105B693EFBC07AADD29 /* LayerDrawer.swift */,
 				13D8A0A2287D491900F5CFAD /* SessionCommit.swift */,
-				13D8A0A5287D492400F5CFAD /* SessionCommit.metal */,
 				B1491A5B25C3DC346A7BAEC7 /* WaterColorMix.metal */,
 				443C3BF912049AC27DD2F0FD /* WaterColorMix.swift */,
 			);
@@ -1921,7 +1917,6 @@
 				3373E62961825EA60F90C761 /* BismushError.swift in Sources */,
 				E9FF54B001B37FBFB44BAFDE /* BismushInspector.swift in Sources */,
 				9BF57B799AF517CB8A75B346 /* BismushLogger.swift in Sources */,
-				13D8A0A7287D492400F5CFAD /* SessionCommit.metal in Sources */,
 				6540755F096ABEEE55041ADF /* Brush.swift in Sources */,
 				1EBF4266B49EBEB860FDEFFC /* Canvas+Transform.swift in Sources */,
 				CDEBD6159ADFFB30DBE3FF05 /* Canvas.swift in Sources */,
@@ -1978,7 +1973,6 @@
 				157796DEFA85A847F12F3A8D /* BismushError.swift in Sources */,
 				09DCCE66020A09B227C3E95F /* BismushInspector.swift in Sources */,
 				61B41BB86E95C0403EE22500 /* BismushLogger.swift in Sources */,
-				13D8A0A6287D492400F5CFAD /* SessionCommit.metal in Sources */,
 				3327473238375B38C5B5982A /* Brush.swift in Sources */,
 				ED4FD4B3C1E7C35821951193 /* Canvas+Transform.swift in Sources */,
 				F860761BEBE3E9184F2DDFCD /* Canvas.swift in Sources */,
