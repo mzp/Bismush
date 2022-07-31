@@ -145,7 +145,9 @@ public class CanvasDocument: ReferenceFileDocument, LayerTextureContext {
         activeTexture = LayerTexture(activeLayer: activeLayer, context: self)
     }
 
-    func commitSession() {}
+    func commitSession() {
+        activeTexture = nil
+    }
 
     var activeTexture: LayerTexture?
 }

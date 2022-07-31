@@ -14,6 +14,7 @@ public class CanvasLayerRenderer {
         var projection: Transform2D<ViewPortCoordinate, CanvasPixelCoordinate>
         var pixelFormat: MTLPixelFormat
         var rasterSampleCount: Int = 1
+        var isBlendingEnabled = true
     }
 
     private let document: CanvasDocument
@@ -30,15 +31,27 @@ public class CanvasLayerRenderer {
         descriptor.rasterSampleCount = context.rasterSampleCount
         descriptor.colorAttachments[0].pixelFormat = context.pixelFormat
 
-        descriptor.colorAttachments[0].isBlendingEnabled = true
+        if context.isBlendingEnabled {
+            descriptor.colorAttachments[0].isBlendingEnabled = true
 
-        // alpha blending
-        descriptor.colorAttachments[0].rgbBlendOperation = .add
-        descriptor.colorAttachments[0].alphaBlendOperation = .add
-        descriptor.colorAttachments[0].sourceRGBBlendFactor = .sourceAlpha
-        descriptor.colorAttachments[0].destinationRGBBlendFactor = .oneMinusSourceAlpha
-        descriptor.colorAttachments[0].sourceAlphaBlendFactor = .sourceAlpha
-        descriptor.colorAttachments[0].destinationAlphaBlendFactor = .oneMinusBlendAlpha
+            descriptor.colorAttachments[0].rgbBlendOperation = .add
+            descriptor.colorAttachments[0].sourceRGBBlendFactor = .sourceAlpha
+            descriptor.colorAttachments[0].destinationRGBBlendFactor = .oneMinusSourceAlpha
+
+            descriptor.colorAttachments[0].alphaBlendOperation = .max
+            descriptor.colorAttachments[0].sourceAlphaBlendFactor = .one
+            descriptor.colorAttachments[0].destinationAlphaBlendFactor = .one
+        } else {
+            descriptor.colorAttachments[0].isBlendingEnabled = true
+
+            descriptor.colorAttachments[0].rgbBlendOperation = .add
+            descriptor.colorAttachments[0].sourceRGBBlendFactor = .one
+            descriptor.colorAttachments[0].destinationRGBBlendFactor = .zero
+
+            descriptor.colorAttachments[0].alphaBlendOperation = .max
+            descriptor.colorAttachments[0].sourceAlphaBlendFactor = .one
+            descriptor.colorAttachments[0].destinationAlphaBlendFactor = .one
+        }
         return descriptor
     }
 
@@ -63,6 +76,7 @@ public class CanvasLayerRenderer {
         encoder.setVertexBytes(&projection, length: MemoryLayout<simd_float4x4>.size, index: 1)
 
         encoder.setFragmentTexture(texture.texture, index: 0)
+
         encoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: vertices.count)
     }
 

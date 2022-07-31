@@ -64,8 +64,8 @@ public class Brush {
         )
         let sessionCommiter = SessionCommit(document: document, context: context)
         sessionCommiter.commit()
-
         session = nil
+        document.commitSession()
         points.removeAll()
     }
 
