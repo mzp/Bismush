@@ -31,27 +31,27 @@ public class CanvasLayerRenderer {
         descriptor.rasterSampleCount = context.rasterSampleCount
         descriptor.colorAttachments[0].pixelFormat = context.pixelFormat
 
-        if context.isBlendingEnabled {
-            descriptor.colorAttachments[0].isBlendingEnabled = true
+        /*        if context.isBlendingEnabled {
+             descriptor.colorAttachments[0].isBlendingEnabled = true
 
-            descriptor.colorAttachments[0].rgbBlendOperation = .add
-            descriptor.colorAttachments[0].sourceRGBBlendFactor = .sourceAlpha
-            descriptor.colorAttachments[0].destinationRGBBlendFactor = .oneMinusSourceAlpha
+             descriptor.colorAttachments[0].rgbBlendOperation = .add
+             descriptor.colorAttachments[0].sourceRGBBlendFactor = .sourceAlpha
+             descriptor.colorAttachments[0].destinationRGBBlendFactor = .oneMinusSourceAlpha
 
-            descriptor.colorAttachments[0].alphaBlendOperation = .max
-            descriptor.colorAttachments[0].sourceAlphaBlendFactor = .one
-            descriptor.colorAttachments[0].destinationAlphaBlendFactor = .one
-        } else {
-            descriptor.colorAttachments[0].isBlendingEnabled = true
+             descriptor.colorAttachments[0].alphaBlendOperation = .max
+             descriptor.colorAttachments[0].sourceAlphaBlendFactor = .one
+             descriptor.colorAttachments[0].destinationAlphaBlendFactor = .one
+         } else {
+             descriptor.colorAttachments[0].isBlendingEnabled = true
 
-            descriptor.colorAttachments[0].rgbBlendOperation = .add
-            descriptor.colorAttachments[0].sourceRGBBlendFactor = .one
-            descriptor.colorAttachments[0].destinationRGBBlendFactor = .zero
+             descriptor.colorAttachments[0].rgbBlendOperation = .add
+             descriptor.colorAttachments[0].sourceRGBBlendFactor = .one
+             descriptor.colorAttachments[0].destinationRGBBlendFactor = .zero
 
-            descriptor.colorAttachments[0].alphaBlendOperation = .max
-            descriptor.colorAttachments[0].sourceAlphaBlendFactor = .one
-            descriptor.colorAttachments[0].destinationAlphaBlendFactor = .one
-        }
+             descriptor.colorAttachments[0].alphaBlendOperation = .max
+             descriptor.colorAttachments[0].sourceAlphaBlendFactor = .one
+             descriptor.colorAttachments[0].destinationAlphaBlendFactor = .one
+         }*/
         return descriptor
     }
 
@@ -61,15 +61,20 @@ public class CanvasLayerRenderer {
         render(texture: texture, context: context)
     }
 
-    func render(texture: LayerTexture, context: Context) {
+    func render(texture: TextureType, context: Context) {
         let descriptor = makeRenderPipelineDescriptor(context: context)
         descriptor.vertexFunction = document.device.resource.function(.layerVertex)
-        descriptor.fragmentFunction = document.device.resource.function(.layerFragment)
+
+        if context.isBlendingEnabled {
+            descriptor.fragmentFunction = document.device.resource.function(.layerBlend)
+        } else {
+            descriptor.fragmentFunction = document.device.resource.function(.layerCopy)
+        }
         let renderPipelineState = try! document.device.metalDevice.makeRenderPipelineState(descriptor: descriptor)
         let encoder = context.encoder
         encoder.setRenderPipelineState(renderPipelineState)
 
-        var vertices = vertices(size: texture.canvasLayer.size)
+        var vertices = vertices(size: texture.size)
         encoder.setVertexBytes(&vertices, length: MemoryLayout<Vertex>.stride * vertices.count, index: 0)
 
         var projection = context.projection.matrix
@@ -87,7 +92,7 @@ public class CanvasLayerRenderer {
         var textureCoordinate: SIMD2<Float>
     }
 
-    private func vertices(size: Size<CanvasPixelCoordinate>) -> [Vertex] {
+    private func vertices(size: Size<TextureCoordinate>) -> [Vertex] {
         let width = Float(size.width)
         let height = Float(size.height)
         return [

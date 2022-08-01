@@ -85,6 +85,7 @@ public class Brush {
             BismushLogger.drawing.debug("brush session starts")
         }
         if points.count == 4 {
+            document.canvasTexture.needsLayout = true
             draw(
                 input0: points[0],
                 input1: points[1],

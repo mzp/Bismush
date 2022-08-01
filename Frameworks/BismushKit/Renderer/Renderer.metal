@@ -33,8 +33,17 @@ vertex LayerOut layer_vertex(const device LayerIn *vertices [[buffer(0)]],
     return out;
 }
 
-fragment float4 layer_fragment(LayerIn in [[stage_in]],
-                               texture2d<float> texture [[texture(0)]]) {
+fragment float4 layer_blend(LayerIn in [[stage_in]],
+                            texture2d<float> texture [[texture(0)]]) {
+    const float4 color = texture.sample(textureSampler, in.textureCoordinate);
+    if (color.w == 0) {
+        discard_fragment();
+    }
+    return float4(color);
+}
+
+fragment float4 layer_copy(LayerIn in [[stage_in]],
+                           texture2d<float> texture [[texture(0)]]) {
     const float4 color = texture.sample(textureSampler, in.textureCoordinate);
     if (color.w == 0) {
         discard_fragment();

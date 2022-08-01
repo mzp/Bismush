@@ -46,6 +46,8 @@ public class CanvasDocument: ReferenceFileDocument, LayerTextureContext {
         }
         canvas = try JSONDecoder().decode(Canvas.self, from: data)
         self.file = file
+
+        canvasTexture = CanvasTexture(canvas: canvas, context: self)
         _ = texture(canvasLayer: activeLayer)
     }
 
@@ -150,4 +152,6 @@ public class CanvasDocument: ReferenceFileDocument, LayerTextureContext {
     }
 
     var activeTexture: LayerTexture?
+
+    lazy var canvasTexture: CanvasTexture = .init(canvas: canvas, context: self)
 }

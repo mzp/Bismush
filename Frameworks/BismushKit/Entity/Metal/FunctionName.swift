@@ -3,10 +3,9 @@ enum FunctionName: String {
     case bezierInterpolation = "bezier_interpolation"
     case brushVertex = "brush_vertex"
     case brushFragment = "brush_fragment"
-    case sessionCommitVertex = "session_commit_vertex"
-    case sessionFragment = "session_fragment"
     case waterColorInit = "water_color_init"
     case waterColorMix = "water_color_mix"
     case layerVertex = "layer_vertex"
-    case layerFragment = "layer_fragment"
+    case layerBlend = "layer_blend"
+    case layerCopy = "layer_copy"
 }

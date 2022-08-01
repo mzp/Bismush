@@ -5,12 +5,15 @@ Frameworks/BismushKit/Document/Canvas.swift
 Frameworks/BismushKit/Document/CanvasDocument.swift
 Frameworks/BismushKit/Document/CanvasDocumentSnapshot.swift
 Frameworks/BismushKit/Document/CanvasLayer.swift
+Frameworks/BismushKit/Document/CanvasTexture.swift
 Frameworks/BismushKit/Document/LayerTexture.swift
 Frameworks/BismushKit/Document/MTLTexture+Data.swift
+Frameworks/BismushKit/Document/TextureType.swift
 Frameworks/BismushKit/Editor/BismushEditor.swift
 Frameworks/BismushKit/Editor/Brush/BezierInterpolate.swift
 Frameworks/BismushKit/Editor/Brush/Brush.swift
 Frameworks/BismushKit/Editor/Brush/LayerDrawer.swift
+Frameworks/BismushKit/Editor/Brush/SessionCommit.swift
 Frameworks/BismushKit/Editor/Brush/WaterColorMix.swift
 Frameworks/BismushKit/Entity/Foundation/BismushColor.swift
 Frameworks/BismushKit/Entity/Foundation/BismushError.swift

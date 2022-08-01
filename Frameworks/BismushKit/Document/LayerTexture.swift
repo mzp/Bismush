@@ -12,11 +12,15 @@ protocol LayerTextureContext {
     func layer(id: String, type: String) -> Data?
 }
 
-class LayerTexture: Equatable {
+class LayerTexture: TextureType, Equatable {
     let canvasLayer: CanvasLayer
     private let context: LayerTextureContext
     private var isCopyOnWrite: Bool
     private var shouldClearOnNextRendering: Bool
+
+    var size: Size<TextureCoordinate> {
+        Size(canvasLayer.size)
+    }
 
     private(set) var texture: MTLTexture
     private(set) var msaaTexture: MTLTexture?

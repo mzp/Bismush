@@ -12,11 +12,11 @@ class SessionCommit {
     private let commandQueue: MTLCommandQueue
     private var context: BMKLayerContext
     private let renderer: CanvasLayerRenderer
-    
+
     init(document: CanvasDocument, context: BMKLayerContext) {
         self.document = document
         self.context = context
-        self.renderer = CanvasLayerRenderer(document: document)
+        renderer = CanvasLayerRenderer(document: document)
         commandQueue = document.device.metalDevice.makeCommandQueue()!
     }
 
@@ -25,7 +25,7 @@ class SessionCommit {
             guard let activeTexture = document.activeTexture else {
                 return
             }
-            
+
             let canvasLayer = self.document.activeLayer
             let commandBuffer = commandQueue.makeCommandBuffer()!
 
@@ -57,5 +57,5 @@ class SessionCommit {
             commandBuffer.commit()
             commandBuffer.waitUntilCompleted()
         }
-    }    
+    }
 }
