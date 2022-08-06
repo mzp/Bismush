@@ -66,7 +66,8 @@ public class CanvasRenderer: ObservableObject {
                 projection: Transform2D(matrix: canvasLayer.renderTransform.matrix),
                 pixelFormat: canvasLayer.pixelFormat,
                 rasterSampleCount: 4,
-                isBlendingEnabled: false
+                isBlendingEnabled: true,
+                renderTexture: document.canvasTexture
             )
             for layer in document.canvas.layers.reversed() where layer.visible {
                 layerRenderer.render(canvasLayer: layer, context: context)
@@ -90,7 +91,7 @@ public class CanvasRenderer: ObservableObject {
             encoder: context.encoder,
             projection: projection,
             pixelFormat: .bgra8Unorm,
-            isBlendingEnabled: false
+            isBlendingEnabled: true
         )
         layerRenderer.render(texture: document.canvasTexture, context: context)
         /*        for layer in document.canvas.layers.reversed() where layer.visible {

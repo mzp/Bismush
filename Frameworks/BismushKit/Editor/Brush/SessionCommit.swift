@@ -49,7 +49,8 @@ class SessionCommit {
                     projection: Transform2D(matrix: canvasLayer.renderTransform.matrix),
                     pixelFormat: canvasLayer.pixelFormat,
                     rasterSampleCount: 4,
-                    isBlendingEnabled: false
+                    isBlendingEnabled: false,
+                    renderTexture: texture
                 )
             )
 
