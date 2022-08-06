@@ -94,11 +94,5 @@ public class CanvasRenderer: ObservableObject {
             isBlendingEnabled: true
         )
         layerRenderer.render(texture: document.canvasTexture, context: context)
-        /*        for layer in document.canvas.layers.reversed() where layer.visible {
-             layerRenderer.render(canvasLayer: layer, context: context)
-             if document.activeLayer == layer, let activeTexture = document.activeTexture {
-                 layerRenderer.render(texture: activeTexture, context: context)
-             }
-         }*/
     }
 }

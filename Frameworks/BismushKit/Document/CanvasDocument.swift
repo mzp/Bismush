@@ -13,7 +13,7 @@ extension UTType {
     static let canvas = UTType(exportedAs: "jp.mzp.bismush.canvas")
 }
 
-public class CanvasDocument: ReferenceFileDocument, LayerTextureContext {
+public class CanvasDocument: ReferenceFileDocument, TextureContext {
     static let kLayerContainerName = "Layers"
     public var canvas: Canvas
     private let file: FileWrapper?
@@ -139,9 +139,7 @@ public class CanvasDocument: ReferenceFileDocument, LayerTextureContext {
         return textures[canvasLayer]!
     }
 
-    // TODO: activeTexture(layer) -> Texture
-
-    // MARK: - Draw
+    // MARK: - Session
 
     func beginSession() {
         activeTexture = LayerTexture(activeLayer: activeLayer, context: self)
