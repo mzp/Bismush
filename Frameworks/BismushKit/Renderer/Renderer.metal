@@ -51,7 +51,9 @@ fragment float4 layer_copy(LayerIn in [[stage_in]],
         destination.sample(textureSampler, in.textureCoordinate);
     float alpha = destinationColor.w * (1 - sourceColor.w) + sourceColor.w;
 
-    if (alpha == 0) {
+    if (destinationColor.w == 0) {
+        return sourceColor;
+    } else if (alpha == 0) {
         return float4(1, 1, 1, 0);
     } else {
         float3 color = destinationColor.xyz * (1 - sourceColor.w) * alpha +
