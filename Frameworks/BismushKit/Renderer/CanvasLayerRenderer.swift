@@ -9,13 +9,20 @@ import Metal
 import simd
 
 public class CanvasLayerRenderer {
+    enum Blend {
+        /// GPU-powered blending. This works only when the destinationColor.w == 1.0
+        case alphaBlending
+
+        /// Precise alpha blending. https://qiita.com/kerupani129/items/4bf75d9f44a5b926df58
+        case copy(target: any TextureType)
+    }
+
     struct Context {
         var encoder: MTLRenderCommandEncoder
         var projection: Transform2D<ViewPortCoordinate, CanvasPixelCoordinate>
         var pixelFormat: MTLPixelFormat
         var rasterSampleCount: Int = 1
-        var isBlendingEnabled = true
-        var renderTexture: TextureType?
+        var blend: Blend = .alphaBlending
     }
 
     private let document: CanvasDocument
@@ -32,7 +39,7 @@ public class CanvasLayerRenderer {
         descriptor.rasterSampleCount = context.rasterSampleCount
         descriptor.colorAttachments[0].pixelFormat = context.pixelFormat
 
-        if context.isBlendingEnabled {
+        if case .alphaBlending = context.blend {
             descriptor.colorAttachments[0].isBlendingEnabled = true
 
             descriptor.colorAttachments[0].rgbBlendOperation = .add
@@ -52,14 +59,15 @@ public class CanvasLayerRenderer {
         render(texture: texture, context: context)
     }
 
-    func render(texture: TextureType, context: Context) {
+    func render(texture: any TextureType, context: Context) {
         let descriptor = makeRenderPipelineDescriptor(context: context)
-        descriptor.vertexFunction = document.device.resource.function(.layerVertex)
-
-        if context.isBlendingEnabled {
-            descriptor.fragmentFunction = document.device.resource.function(.layerCopy)
-        } else {
+        switch context.blend {
+        case .alphaBlending:
+            descriptor.vertexFunction = document.device.resource.function(.layerVertex)
             descriptor.fragmentFunction = document.device.resource.function(.layerBlend)
+        case .copy:
+            descriptor.vertexFunction = document.device.resource.function(.layerVertex)
+            descriptor.fragmentFunction = document.device.resource.function(.layerCopy)
         }
         let renderPipelineState = try! document.device.metalDevice.makeRenderPipelineState(descriptor: descriptor)
         let encoder = context.encoder
@@ -71,9 +79,12 @@ public class CanvasLayerRenderer {
         var projection = context.projection.matrix
         encoder.setVertexBytes(&projection, length: MemoryLayout<simd_float4x4>.size, index: 1)
 
-        encoder.setFragmentTexture(texture.texture, index: 0)
-        if let renderTexture = context.renderTexture {
-            encoder.setFragmentTexture(renderTexture.texture, index: 1)
+        switch context.blend {
+        case .alphaBlending:
+            encoder.setFragmentTexture(texture.texture, index: 0)
+        case let .copy(target: targetTexture):
+            encoder.setFragmentTexture(texture.texture, index: 0)
+            encoder.setFragmentTexture(targetTexture.texture, index: 1)
         }
 
         encoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: vertices.count)

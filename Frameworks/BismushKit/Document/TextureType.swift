@@ -149,6 +149,7 @@ class LayerTexture: Texture {
         )
     }
 
+    // swiftlint:disable function_body_length
     init(canvasLayer: CanvasLayer, context: TextureContext) {
         self.canvasLayer = canvasLayer
         isCopyOnWrite = false
@@ -205,6 +206,8 @@ class LayerTexture: Texture {
             shouldClearOnNextRendering = false
         }
     }
+
+    // swiftlint:enable function_body_length
 
     override var renderPassDescriptor: MTLRenderPassDescriptor {
         defer {

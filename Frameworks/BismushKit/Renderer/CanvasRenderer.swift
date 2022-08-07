@@ -65,9 +65,7 @@ public class CanvasRenderer: ObservableObject {
                 encoder: encoder,
                 projection: Transform2D(matrix: canvasLayer.renderTransform.matrix),
                 pixelFormat: canvasLayer.pixelFormat,
-                rasterSampleCount: 4,
-                isBlendingEnabled: true,
-                renderTexture: document.canvasTexture
+                rasterSampleCount: 4
             )
             for layer in document.canvas.layers.reversed() where layer.visible {
                 layerRenderer.render(canvasLayer: layer, context: context)
@@ -90,8 +88,7 @@ public class CanvasRenderer: ObservableObject {
         let context = CanvasLayerRenderer.Context(
             encoder: context.encoder,
             projection: projection,
-            pixelFormat: .bgra8Unorm,
-            isBlendingEnabled: true
+            pixelFormat: .bgra8Unorm
         )
         layerRenderer.render(texture: document.canvasTexture, context: context)
     }
