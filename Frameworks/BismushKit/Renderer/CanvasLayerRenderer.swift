@@ -14,7 +14,7 @@ public class CanvasLayerRenderer {
         case alphaBlending
 
         /// Precise alpha blending. https://qiita.com/kerupani129/items/4bf75d9f44a5b926df58
-        case copy(target: any TextureType)
+        case strictAlphaBlend(target: TextureType)
     }
 
     struct Context {
@@ -59,13 +59,13 @@ public class CanvasLayerRenderer {
         render(texture: texture, context: context)
     }
 
-    func render(texture: any TextureType, context: Context) {
+    func render(texture: TextureType, context: Context) {
         let descriptor = makeRenderPipelineDescriptor(context: context)
         switch context.blend {
         case .alphaBlending:
             descriptor.vertexFunction = document.device.resource.function(.layerVertex)
             descriptor.fragmentFunction = document.device.resource.function(.layerBlend)
-        case .copy:
+        case .strictAlphaBlend:
             descriptor.vertexFunction = document.device.resource.function(.layerVertex)
             descriptor.fragmentFunction = document.device.resource.function(.layerCopy)
         }
@@ -82,7 +82,7 @@ public class CanvasLayerRenderer {
         switch context.blend {
         case .alphaBlending:
             encoder.setFragmentTexture(texture.texture, index: 0)
-        case let .copy(target: targetTexture):
+        case let .strictAlphaBlend(target: targetTexture):
             encoder.setFragmentTexture(texture.texture, index: 0)
             encoder.setFragmentTexture(targetTexture.texture, index: 1)
         }
