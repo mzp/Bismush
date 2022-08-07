@@ -13,7 +13,7 @@ extension UTType {
     static let canvas = UTType(exportedAs: "jp.mzp.bismush.canvas")
 }
 
-public class CanvasDocument: ReferenceFileDocument, LayerTextureContext {
+public class CanvasDocument: ReferenceFileDocument, TextureContext {
     static let kLayerContainerName = "Layers"
     public var canvas: Canvas
     private let file: FileWrapper?
@@ -46,6 +46,8 @@ public class CanvasDocument: ReferenceFileDocument, LayerTextureContext {
         }
         canvas = try JSONDecoder().decode(Canvas.self, from: data)
         self.file = file
+
+        canvasTexture = CanvasTexture(canvas: canvas, context: self)
         _ = texture(canvasLayer: activeLayer)
     }
 
@@ -111,7 +113,7 @@ public class CanvasDocument: ReferenceFileDocument, LayerTextureContext {
     // MARK: - Layer
 
     public var device: GPUDevice {
-        GPUDevice.default // TODO: document should not know system config?
+        GPUDevice.default // FIXME: document should not know system config?
     }
 
     var activeLayer: CanvasLayer {
@@ -137,7 +139,17 @@ public class CanvasDocument: ReferenceFileDocument, LayerTextureContext {
         return textures[canvasLayer]!
     }
 
-    var activeTexture: LayerTexture {
-        texture(canvasLayer: activeLayer)
+    // MARK: - Session
+
+    func beginSession() {
+        activeTexture = LayerTexture(activeLayer: activeLayer, context: self)
     }
+
+    func commitSession() {
+        activeTexture = nil
+    }
+
+    var activeTexture: LayerTexture?
+
+    lazy var canvasTexture: CanvasTexture = .init(canvas: canvas, context: self)
 }

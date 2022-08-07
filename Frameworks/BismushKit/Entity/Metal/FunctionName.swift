@@ -6,5 +6,6 @@ enum FunctionName: String {
     case waterColorInit = "water_color_init"
     case waterColorMix = "water_color_mix"
     case layerVertex = "layer_vertex"
-    case layerFragment = "layer_fragment"
+    case layerBlend = "layer_blend"
+    case layerCopy = "layer_copy"
 }

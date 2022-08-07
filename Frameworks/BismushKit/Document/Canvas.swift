@@ -11,6 +11,7 @@ import Foundation
 public struct Canvas: Codable, Equatable {
     public var layers: [CanvasLayer]
     public var size: Size<CanvasPixelCoordinate>
+    var pixelFormat: MTLPixelFormat = .rgba8Unorm
 
     public static let sample: Canvas = {
         let size: Size<CanvasPixelCoordinate> = .init(width: 800, height: 800)
