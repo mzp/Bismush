@@ -33,7 +33,6 @@ class BrushTests: RenderingTestCase {
     }
 
     func testMix() throws {
-        _ = XCTSkip("This test isn't intended to run on CI.")
         brush.color = .red
         stroke(points: [
             .init(x: 0, y: 200),
@@ -84,7 +83,8 @@ class BrushTests: RenderingTestCase {
 
         render()
 
-        try openWithPreview()
+        let distance = try distance(name: "mix", type: "png")
+        XCTAssertLessThan(distance, 10)
     }
 
     func stroke(points: [Point<ViewCoordinate>]) {
