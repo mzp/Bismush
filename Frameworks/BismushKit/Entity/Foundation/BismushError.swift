@@ -8,3 +8,4 @@
 import Foundation
 protocol BismushError: Error {}
 struct UnsupportedError: BismushError {}
+struct InvalidContextError: BismushError {}

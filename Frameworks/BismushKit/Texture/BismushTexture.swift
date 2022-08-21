@@ -54,14 +54,19 @@ class BismushTextureFactory: BismushTextureContext {
     }
 }
 
-struct BismushTexture /*: Equatable, Codable*/ {
+extension CodingUserInfoKey {
+    static let textureContext: CodingUserInfoKey = CodingUserInfoKey(rawValue: "jp.mzp.Bismush.textureContext")!
+}
+
+
+struct BismushTexture: Codable /*: Equatable, Codable*/ {
     enum TextureSource {
         case empty(size: Size<TextureCoordinate>, pixelFormat: MTLPixelFormat)
         indirect case refer(to: BismushTexture)
         indirect case copy(from: BismushTexture)
     }
     var context: BismushTextureContext
-    var source: TextureSource
+    var source: TextureSource?
     var size: Size<TextureCoordinate>
     var pixelFormat: MTLPixelFormat
 
@@ -104,6 +109,35 @@ struct BismushTexture /*: Equatable, Codable*/ {
         }
     }
 
+    init(from decoder: Decoder) throws {
+        guard let context = decoder.userInfo[.textureContext] as? BismushTextureContext else {
+            throw InvalidContextError()
+        }
+        var container = try decoder.unkeyedContainer()
+        let size = try container.decode(Size<TextureCoordinate>.self)
+        let pixelFormat = try container.decode(MTLPixelFormat.self)
+        let data = try container.decode(Data.self)
+
+        self.context = context
+        self.loadAction = .load
+        self.size = size
+        self.pixelFormat = pixelFormat
+        let (texture, msaaTexture) = context.createTexture(size: size, pixelFormat: pixelFormat)
+
+        self.texture = texture
+        self.msaaTexture = msaaTexture
+
+        texture.bmkData = data
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.unkeyedContainer()
+        try container.encode(size)
+        try container.encode(pixelFormat)
+        try container.encode(texture.bmkData)
+    }
+
+
     mutating func withRenderPassDescriptor(perform: (MTLRenderPassDescriptor) -> Void) {
         let renderPassDescriptior = MTLRenderPassDescriptor()
         if let msaaTexture = msaaTexture {
@@ -124,4 +158,5 @@ struct BismushTexture /*: Equatable, Codable*/ {
     func mutable() -> BismushTexture {
         return BismushTexture(context: context, source: .copy(from: self))
     }
+
 }

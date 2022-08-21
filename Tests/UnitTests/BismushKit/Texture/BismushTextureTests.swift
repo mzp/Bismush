@@ -60,14 +60,21 @@ final class BismushTextureTests: XCTestCase {
         }
     }
 
-    func testRestore() {
-    }
+    func testCodable() throws {
+        let texture1 = factory.create(size: .init(width: 100, height: 100), pixelFormat: .rgba8Unorm)
+        let encoder = PropertyListEncoder()
+        encoder.outputFormat = .binary
+        let data = try encoder.encode(texture1)
 
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
+        XCTAssertGreaterThan(data.count, 0)
 
+        let decoder = PropertyListDecoder()
+        decoder.userInfo[.textureContext] = factory
+        let texture2 = try decoder.decode(BismushTexture.self, from: data)
+
+        XCTAssertEqual(texture2.texture.bmkData, texture1.texture.bmkData)
+        XCTAssertEqual(texture2.size, texture1.size)
+        XCTAssertEqual(texture2.loadAction, .load)
+        XCTAssertEqual(texture2.pixelFormat, texture1.pixelFormat)
+    }
 }
