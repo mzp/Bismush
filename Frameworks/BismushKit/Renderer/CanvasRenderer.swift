@@ -21,7 +21,7 @@ public class CanvasRenderer: ObservableObject {
         }
     }
 
-    private let document: CanvasDocument
+    private var document: CanvasDocument
     private let layerRenderer: CanvasLayerRenderer
     private let commandQueue: MTLCommandQueue
 
@@ -36,9 +36,9 @@ public class CanvasRenderer: ObservableObject {
 
     private func renderCanvasIfNeeded() {
         defer {
-            document.canvasTexture.needsLayout = false
+            document.needsRenderCanvas = false
         }
-        guard document.canvasTexture.needsLayout else {
+        guard document.needsRenderCanvas else {
             return
         }
         document.device.scope("\(#function)") {
@@ -47,34 +47,35 @@ public class CanvasRenderer: ObservableObject {
 
             let size = document.canvas.size
 
-            document.canvasTexture.makeWritable(commandBuffer: commandBuffer)
-            let encoder = commandBuffer.makeRenderCommandEncoder(
-                descriptor: document.canvasTexture.renderPassDescriptor
-            )!
-            let viewPort = MTLViewport(
-                originX: 0,
-                originY: 0,
-                width: Double(size.width),
-                height: Double(size.height),
-                znear: -1,
-                zfar: 1
-            )
-            encoder.setViewport(viewPort)
+            document.canvasTexture.withRenderPassDescriptor { renderPassDescriptor in
+                let encoder = commandBuffer.makeRenderCommandEncoder(
+                    descriptor: renderPassDescriptor
+                )!
+                let viewPort = MTLViewport(
+                    originX: 0,
+                    originY: 0,
+                    width: Double(size.width),
+                    height: Double(size.height),
+                    znear: -1,
+                    zfar: 1
+                )
+                encoder.setViewport(viewPort)
 
-            let context = CanvasLayerRenderer.Context(
-                encoder: encoder,
-                projection: Transform2D(matrix: canvasLayer.renderTransform.matrix),
-                pixelFormat: canvasLayer.pixelFormat,
-                rasterSampleCount: 4
-            )
-            for layer in document.canvas.layers.reversed() where layer.visible {
-                layerRenderer.render(canvasLayer: layer, context: context)
-                if document.activeLayer == layer, let activeTexture = document.activeTexture {
-                    layerRenderer.render(texture: activeTexture, context: context)
+                let context = CanvasLayerRenderer.Context(
+                    encoder: encoder,
+                    projection: Transform2D(matrix: canvasLayer.renderTransform.matrix),
+                    pixelFormat: canvasLayer.pixelFormat,
+                    rasterSampleCount: document.device.capability.msaa ? 4 : 1
+                )
+                for layer in document.canvas.layers.reversed() where layer.visible {
+                    layerRenderer.render(canvasLayer: layer, context: context)
+                    if document.activeLayer == layer, let activeTexture = document.activeTexture {
+                        layerRenderer.render(texture: activeTexture, context: context)
+                    }
                 }
-            }
 
-            encoder.endEncoding()
+                encoder.endEncoding()
+            }
             commandBuffer.commit()
             commandBuffer.waitUntilCompleted()
         }

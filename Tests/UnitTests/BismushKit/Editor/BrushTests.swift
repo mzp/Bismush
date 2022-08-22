@@ -18,18 +18,19 @@ class BrushTests: RenderingTestCase {
     func testBezierInterpolate() throws {
         #if targetEnvironment(simulator)
             _ = XCTSkip("iOS Simulator(Xcode 14b2) doesn't support vision VNFeaturePrintObservation")
-        #endif
+        #else
 
-        brush.color = .white
-        stroke(points: [
-            .init(x: 0, y: 800),
-            .init(x: 420, y: 640),
-            .init(x: 640, y: 560),
-            .init(x: 800, y: 0),
-        ])
-        render()
-        let distance = try distance(name: "bezier", type: "png")
-        XCTAssertLessThan(distance, 10)
+            brush.color = .white
+            stroke(points: [
+                .init(x: 0, y: 800),
+                .init(x: 420, y: 640),
+                .init(x: 640, y: 560),
+                .init(x: 800, y: 0),
+            ])
+            render()
+            let distance = try distance(name: "bezier", type: "png")
+            XCTAssertLessThan(distance, 10)
+        #endif
     }
 
     func testMix() throws {

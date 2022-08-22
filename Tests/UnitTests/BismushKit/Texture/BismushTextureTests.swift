@@ -22,7 +22,7 @@ final class BismushTextureTests: XCTestCase {
     }
 
     func testTakeSnapshot_NoChange() {
-       var texture = factory.create(size: .init(width: 100, height: 100), pixelFormat: .rgba8Unorm)
+       let texture = factory.create(size: .init(width: 100, height: 100), pixelFormat: .rgba8Unorm)
         let snapshot1 = texture.takeSnapshot()
         let snapshot2 = texture.takeSnapshot()
         let snapshot3 = texture.takeSnapshot()
@@ -31,7 +31,7 @@ final class BismushTextureTests: XCTestCase {
     }
 
     func testTakeSnapshot_OnChange() {
-        var texture = factory.create(size: .init(width: 100, height: 100), pixelFormat: .rgba8Unorm)
+        let texture = factory.create(size: .init(width: 100, height: 100), pixelFormat: .rgba8Unorm)
         let snapshot1 = texture.takeSnapshot()
         texture.withRenderPassDescriptor { _ in }
         let snapshot2 = texture.takeSnapshot()
@@ -43,7 +43,7 @@ final class BismushTextureTests: XCTestCase {
     }
 
     func testWithRenderPassDescriptor() {
-        var texture = factory.create(size: .init(width: 100, height: 100), pixelFormat: .rgba8Unorm)
+        let texture = factory.create(size: .init(width: 100, height: 100), pixelFormat: .rgba8Unorm)
         let metalTexture = texture.texture
         texture.withRenderPassDescriptor { description in
             XCTAssertNotNil(description.colorAttachments[0].texture)
@@ -54,7 +54,7 @@ final class BismushTextureTests: XCTestCase {
     }
 
     func testInitFromSnapshot() throws {
-        var texture1 = factory.create(size: .init(width: 100, height: 100), pixelFormat: .rgba8Unorm)
+        let texture1 = factory.create(size: .init(width: 100, height: 100), pixelFormat: .rgba8Unorm)
         texture1.withRenderPassDescriptor { _ in }
         let encoder = PropertyListEncoder()
         encoder.outputFormat = .binary
@@ -64,7 +64,8 @@ final class BismushTextureTests: XCTestCase {
 
         let decoder = PropertyListDecoder()
         let snapshot = try decoder.decode(BismushTexture.Snapshot.self, from: data)
-        let texture2 = factory.create(snapshot: snapshot)
+        let texture2 = factory.create(size: .init(width: 100, height: 100), pixelFormat: .rgba8Unorm)
+        texture2.restore(from: snapshot)
 
         XCTAssertEqual(texture2.texture.bmkData, texture1.texture.bmkData)
         XCTAssertEqual(texture2.size, texture1.size)

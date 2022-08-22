@@ -19,8 +19,8 @@ class RenderingTestCase: XCTestCase {
     var renderer: CanvasRenderer!
     var document: CanvasDocument!
 
-    func createDocument() -> CanvasDocument {
-        CanvasDocument(canvas: .init(layers: [
+    func createDocument() throws -> CanvasDocument {
+        try CanvasDocument(canvas: .init(layers: [
             CanvasLayer(name: "test", layerType: .empty, size: .init(width: 800, height: 800)),
         ], size: .init(width: 800, height: 800)))
     }
@@ -31,7 +31,7 @@ class RenderingTestCase: XCTestCase {
 
     override func setUpWithError() throws {
         try super.setUpWithError()
-        document = createDocument()
+        document = try createDocument()
         renderer = CanvasRenderer(document: document)
     }
 

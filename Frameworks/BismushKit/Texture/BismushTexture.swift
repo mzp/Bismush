@@ -22,12 +22,13 @@ class BismushTextureFactory: BismushTextureContext {
     func create(size: Size<TextureCoordinate>, pixelFormat: MTLPixelFormat) -> BismushTexture {
         .init(size: size, pixelFormat: pixelFormat, context: self)
     }
-
-    func create(snapshot: BismushTexture.Snapshot) -> BismushTexture {
-        BismushTexture(from: snapshot, context: self)
+    func create(builtin name: String) -> BismushTexture {
+        let texture = device.resource.bultinTexture(name: name)
+        return .init(texture: texture, context: self)
     }
 
     func createTexture(size: Size<TextureCoordinate>, pixelFormat: MTLPixelFormat) -> (MTLTexture, MTLTexture?) {
+        BismushLogger.metal.info("Create Texture")
         let width = Int(size.width)
         let height = Int(size.height)
 
@@ -63,7 +64,7 @@ extension CodingUserInfoKey {
 }
 
 
-struct BismushTexture {
+class BismushTexture {
     struct Snapshot: Codable, Equatable, Hashable {
         var size: Size<TextureCoordinate>
         var pixelFormat: MTLPixelFormat
@@ -82,32 +83,43 @@ struct BismushTexture {
     var context: BismushTextureContext
 
     init(size: Size<TextureCoordinate>, pixelFormat: MTLPixelFormat, context: BismushTextureContext) {
-        self.init(from: .init(size: size, pixelFormat: pixelFormat, data: Data()),
-                  context: context)
+        let (texture, msaaTexture) = context.createTexture(size: size, pixelFormat: pixelFormat)
+        self.texture = texture
+        self.context = context
+        self.msaaTexture = msaaTexture
+        self.loadAction = .clear
+
+        self.snapshot = .init(size: size, pixelFormat: pixelFormat, data: Data())
     }
 
-    init(from snapshot: Snapshot, context: BismushTextureContext) {
-        self.snapshot = snapshot
+    init(texture: MTLTexture, context: BismushTextureContext) {
+        self.texture = texture
+        self.loadAction = .load
         self.context = context
+        self.snapshot = Snapshot(
+            size: Size(width: Float(texture.width), height: Float(texture.height)),
+            pixelFormat: texture.pixelFormat,
+            data: texture.bmkData
+        )
+    }
 
-        let (texture, msaaTexture) = context.createTexture(size: snapshot.size, pixelFormat: snapshot.pixelFormat)
+    func restore(from snapshot: Snapshot) {
+        assert(self.pixelFormat == snapshot.pixelFormat)
+        assert(self.size == snapshot.size)
+        self.snapshot = snapshot
         if snapshot.data.count > 0 {
             self.loadAction = .load
-            texture.bmkData = snapshot.data
+            self.texture.bmkData = snapshot.data
         } else {
             self.loadAction = .clear
         }
-
-
-        self.texture = texture
-        self.msaaTexture = msaaTexture
     }
 
-    mutating func takeSnapshot() -> Snapshot {
+    func takeSnapshot() -> Snapshot {
         return snapshot
     }
 
-    mutating func withRenderPassDescriptor(_ perform: (MTLRenderPassDescriptor) -> Void) {
+    func withRenderPassDescriptor(_ perform: (MTLRenderPassDescriptor) -> Void) {
         self.snapshot = .init(size: snapshot.size, pixelFormat: snapshot.pixelFormat, data: texture.bmkData)
         let renderPassDescriptior = MTLRenderPassDescriptor()
           if let msaaTexture = msaaTexture {
@@ -118,6 +130,15 @@ struct BismushTexture {
               renderPassDescriptior.colorAttachments[0].texture = texture
               renderPassDescriptior.colorAttachments[0].storeAction = .store
          }
+        if loadAction == .clear {
+            BismushLogger.metal.info("\(#function): clear")
+        } else {
+            BismushLogger.metal.info("\(#function): load")
+
+        }
+        renderPassDescriptior.colorAttachments[0].loadAction = loadAction
+        renderPassDescriptior.colorAttachments[0].clearColor = MTLClearColor(red: 1, green: 1, blue: 1, alpha: 1)
+        self.loadAction = .load
           perform(renderPassDescriptior)
       }
 

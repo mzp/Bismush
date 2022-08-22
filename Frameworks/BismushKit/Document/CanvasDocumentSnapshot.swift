@@ -9,5 +9,5 @@ import Foundation
 
 public struct CanvasDocumentSnapshot: Equatable {
     var canvas: Canvas
-    var textures: [LayerTexture]
+    var textures: [CanvasLayer.ID: BismushTexture.Snapshot]
 }

@@ -28,6 +28,6 @@ public class BismushEditor: ObservableObject {
     }
 
     public class func makeSample() -> BismushEditor {
-        BismushEditor(document: CanvasDocument())
+        BismushEditor(document: .sample)
     }
 }

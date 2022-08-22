@@ -13,7 +13,7 @@ struct BismushApp: App {
     var body: some Scene {
         DocumentGroup(
             newDocument: {
-                CanvasDocument()
+                try! CanvasDocument()
             }, editor: { configuration in
                 ViewModelProvider(document: configuration.document) {
                     WorkspaceView {

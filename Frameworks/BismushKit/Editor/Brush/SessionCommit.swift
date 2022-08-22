@@ -28,32 +28,35 @@ class SessionCommit {
 
             let canvasLayer = self.document.activeLayer
             let commandBuffer = commandQueue.makeCommandBuffer()!
-
             let texture = document.texture(canvasLayer: canvasLayer)
-            texture.makeWritable(commandBuffer: commandBuffer)
-            let encoder = commandBuffer.makeRenderCommandEncoder(descriptor: texture.renderPassDescriptor)!
-            let viewPort = MTLViewport(
-                originX: 0,
-                originY: 0,
-                width: Double(canvasLayer.size.width),
-                height: Double(canvasLayer.size.height),
-                znear: -1,
-                zfar: 1
-            )
-            encoder.setViewport(viewPort)
+            let targetTexture = texture.texture
 
-            renderer.render(
-                texture: activeTexture,
-                context: .init(
-                    encoder: encoder,
-                    projection: Transform2D(matrix: canvasLayer.renderTransform.matrix),
-                    pixelFormat: canvasLayer.pixelFormat,
-                    rasterSampleCount: 4,
-                    blend: .strictAlphaBlend(target: texture)
+            texture.withRenderPassDescriptor { renderPassDescriptor in
+                let encoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor)!
+                let viewPort = MTLViewport(
+                    originX: 0,
+                    originY: 0,
+                    width: Double(canvasLayer.size.width),
+                    height: Double(canvasLayer.size.height),
+                    znear: -1,
+                    zfar: 1
                 )
-            )
+                encoder.setViewport(viewPort)
 
-            encoder.endEncoding()
+                renderer.render(
+                    texture: activeTexture,
+                    context: .init(
+                        encoder: encoder,
+                        projection: Transform2D(matrix: canvasLayer.renderTransform.matrix),
+                        pixelFormat: canvasLayer.pixelFormat,
+                        rasterSampleCount: document.device.capability.msaa ? 4 : 1,
+                        blend: .strictAlphaBlend(target: targetTexture)
+                    )
+                )
+
+                encoder.endEncoding()
+            }
+
             commandBuffer.commit()
             commandBuffer.waitUntilCompleted()
         }

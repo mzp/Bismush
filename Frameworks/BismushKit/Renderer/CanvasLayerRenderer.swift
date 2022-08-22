@@ -14,7 +14,7 @@ public class CanvasLayerRenderer {
         case alphaBlending
 
         /// Precise alpha blending. https://qiita.com/kerupani129/items/4bf75d9f44a5b926df58
-        case strictAlphaBlend(target: TextureType)
+        case strictAlphaBlend(target: MTLTexture)
     }
 
     struct Context {
@@ -59,7 +59,7 @@ public class CanvasLayerRenderer {
         render(texture: texture, context: context)
     }
 
-    func render(texture: TextureType, context: Context) {
+    func render(texture: BismushTexture, context: Context) {
         let descriptor = makeRenderPipelineDescriptor(context: context)
         switch context.blend {
         case .alphaBlending:
@@ -84,7 +84,7 @@ public class CanvasLayerRenderer {
             encoder.setFragmentTexture(texture.texture, index: 0)
         case let .strictAlphaBlend(target: targetTexture):
             encoder.setFragmentTexture(texture.texture, index: 0)
-            encoder.setFragmentTexture(targetTexture.texture, index: 1)
+            encoder.setFragmentTexture(targetTexture, index: 1)
         }
 
         encoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: vertices.count)
