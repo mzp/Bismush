@@ -13,13 +13,22 @@ class LayerDrawer {
     private let document: CanvasDocument
     private let commandQueue: MTLCommandQueue
     private var context: BMKLayerContext
-
+    private let renderPipelineState: MTLRenderPipelineState
     var dirty = true
 
     init(document: CanvasDocument, context: BMKLayerContext) {
         self.document = document
         self.context = context
         commandQueue = document.device.metalDevice.makeCommandQueue()!
+
+        let descriptor = MTLRenderPipelineDescriptor()
+        descriptor.rasterSampleCount = document.rasterSampleCount
+        descriptor.colorAttachments[0].pixelFormat = document.activeLayer.pixelFormat
+        descriptor.vertexFunction = document.device.resource.function(.brushVertex)
+        descriptor.fragmentFunction = document.device.resource.function(.brushFragment)
+        renderPipelineState = try! document.device.metalDevice.makeRenderPipelineState(
+            descriptor: descriptor
+        )
     }
 
     func draw(strokes: MetalMutableArray<BMKStroke>) {
@@ -45,22 +54,7 @@ class LayerDrawer {
                     zfar: 1
                 )
                 encoder.setViewport(viewPort)
-
-                let descriptor = MTLRenderPipelineDescriptor()
-                if document.device.capability.msaa {
-                    descriptor.rasterSampleCount = 4
-                } else {
-                    descriptor.rasterSampleCount = 1
-                }
-
-                descriptor.colorAttachments[0].pixelFormat = document.activeLayer.pixelFormat
-                descriptor.vertexFunction = document.device.resource.function(.brushVertex)
-                descriptor.fragmentFunction = document.device.resource.function(.brushFragment)
-                let renderPipelineState = try! document.device.metalDevice.makeRenderPipelineState(
-                    descriptor: descriptor
-                )
                 encoder.setRenderPipelineState(renderPipelineState)
-
                 encoder.setVertexBuffer(strokes.content, offset: 0, index: 0)
                 encoder.setVertexBytes(&context, length: MemoryLayout<BMKLayerContext>.size, index: 1)
                 encoder.setVertexTexture(document.texture(canvasLayer: document.activeLayer).texture, index: 2)

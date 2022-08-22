@@ -15,7 +15,7 @@ public class BismushEditor: ObservableObject {
 
     public init(document: CanvasDocument) {
         self.document = document
-        canvasRender = CanvasRenderer(document: document)
+        canvasRender = CanvasRenderer(document: document, pixelFormat: document.activeLayer.pixelFormat, rasterSampleCount: document.rasterSampleCount)
         brush = Brush(document: document)
     }
 

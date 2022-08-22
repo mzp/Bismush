@@ -16,7 +16,11 @@ class SessionCommit {
     init(document: CanvasDocument, context: BMKLayerContext) {
         self.document = document
         self.context = context
-        renderer = CanvasLayerRenderer(document: document)
+        renderer = CanvasLayerRenderer(
+            document: document,
+            pixelFormat: document.canvas.pixelFormat,
+            rasterSampleCount: document.rasterSampleCount
+        )
         commandQueue = document.device.metalDevice.makeCommandQueue()!
     }
 
@@ -49,7 +53,6 @@ class SessionCommit {
                         encoder: encoder,
                         projection: Transform2D(matrix: canvasLayer.renderTransform.matrix),
                         pixelFormat: canvasLayer.pixelFormat,
-                        rasterSampleCount: document.device.capability.msaa ? 4 : 1,
                         blend: .strictAlphaBlend(target: targetTexture)
                     )
                 )

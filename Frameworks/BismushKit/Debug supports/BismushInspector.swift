@@ -51,3 +51,9 @@ extension BismushTexture.Snapshot {
         )
     }
 }
+
+extension BismushTexture {
+    var inspectImage: CGImage? {
+        takeSnapshot().inspectImage
+    }
+}

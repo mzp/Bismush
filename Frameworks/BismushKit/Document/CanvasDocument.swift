@@ -29,13 +29,19 @@ public class CanvasDocument: ReferenceFileDocument, TextureContext {
         try self.init(file: nil, canvas: canvas)
     }
 
+    var rasterSampleCount: Int {
+        canvasTexture.rasterSampleCount
+    }
+
     init(file: FileWrapper?, canvas: Canvas) throws {
         self.file = file
         self.canvas = canvas
-        factory = BismushTextureFactory(device: .default)
+        let device = GPUDevice.default
+        factory = BismushTextureFactory(device: device)
         canvasTexture = factory.create(
             size: Size(canvas.size),
-            pixelFormat: canvas.pixelFormat
+            pixelFormat: canvas.pixelFormat,
+            rasterSampleCount: device.capability.msaa ? 4 : 1
         )
 
         let decoder = DocumentDecoder()
@@ -49,7 +55,8 @@ public class CanvasDocument: ReferenceFileDocument, TextureContext {
             } else {
                 textures[layer.id] = factory.create(
                     size: Size(layer.size),
-                    pixelFormat: layer.pixelFormat
+                    pixelFormat: layer.pixelFormat,
+                    rasterSampleCount: rasterSampleCount
                 )
             }
         }
@@ -182,7 +189,8 @@ public class CanvasDocument: ReferenceFileDocument, TextureContext {
     func beginSession() {
         activeTexture = factory.create(
             size: Size(activeLayer.size),
-            pixelFormat: activeLayer.pixelFormat
+            pixelFormat: activeLayer.pixelFormat,
+            rasterSampleCount: rasterSampleCount
         )
     }
 

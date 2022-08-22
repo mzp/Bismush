@@ -14,7 +14,7 @@ open class ArtboardView: MTKView, MTKViewDelegate {
     private var viewPortSize: Size<ViewCoordinate> = .zero()
 
     public init(document: CanvasDocument) {
-        renderer = CanvasRenderer(document: document)
+        renderer = CanvasRenderer(document: document, pixelFormat: .bgra8Unorm, rasterSampleCount: 1)
         commandQueue = document.device.metalDevice.makeCommandQueue()!
         commandQueue.label = "Artboard"
         super.init(frame: .zero, device: document.device.metalDevice)

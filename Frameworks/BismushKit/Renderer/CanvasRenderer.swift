@@ -23,11 +23,21 @@ public class CanvasRenderer: ObservableObject {
 
     private var document: CanvasDocument
     private let layerRenderer: CanvasLayerRenderer
+    private let canvasRenderer: CanvasLayerRenderer
     private let commandQueue: MTLCommandQueue
 
-    public init(document: CanvasDocument) {
+    public init(document: CanvasDocument, pixelFormat: MTLPixelFormat?, rasterSampleCount: Int) {
         self.document = document
-        layerRenderer = CanvasLayerRenderer(document: document)
+        layerRenderer = CanvasLayerRenderer(
+            document: document,
+            pixelFormat: document.canvas.pixelFormat,
+            rasterSampleCount: document.rasterSampleCount
+        )
+        canvasRenderer = CanvasLayerRenderer(
+            document: document,
+            pixelFormat: pixelFormat ?? document.canvas.pixelFormat,
+            rasterSampleCount: rasterSampleCount
+        )
 
         commandQueue = document.device.metalDevice.makeCommandQueue()!
     }
@@ -64,8 +74,7 @@ public class CanvasRenderer: ObservableObject {
                 let context = CanvasLayerRenderer.Context(
                     encoder: encoder,
                     projection: Transform2D(matrix: canvasLayer.renderTransform.matrix),
-                    pixelFormat: canvasLayer.pixelFormat,
-                    rasterSampleCount: document.device.capability.msaa ? 4 : 1
+                    pixelFormat: canvasLayer.pixelFormat
                 )
                 for layer in document.canvas.layers.reversed() where layer.visible {
                     layerRenderer.render(canvasLayer: layer, context: context)
@@ -91,6 +100,6 @@ public class CanvasRenderer: ObservableObject {
             projection: projection,
             pixelFormat: .bgra8Unorm
         )
-        layerRenderer.render(texture: document.canvasTexture, context: context)
+        canvasRenderer.render(texture: document.canvasTexture, context: context)
     }
 }
