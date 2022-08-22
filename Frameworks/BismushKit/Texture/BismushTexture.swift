@@ -20,7 +20,11 @@ class BismushTextureFactory: BismushTextureContext {
     }
 
     func create(size: Size<TextureCoordinate>, pixelFormat: MTLPixelFormat) -> BismushTexture {
-        return .init(context: self, source: .empty(size: size, pixelFormat: pixelFormat))
+        .init(size: size, pixelFormat: pixelFormat, context: self)
+    }
+
+    func create(snapshot: BismushTexture.Snapshot) -> BismushTexture {
+        BismushTexture(from: snapshot, context: self)
     }
 
     func createTexture(size: Size<TextureCoordinate>, pixelFormat: MTLPixelFormat) -> (MTLTexture, MTLTexture?) {
@@ -59,104 +63,65 @@ extension CodingUserInfoKey {
 }
 
 
-struct BismushTexture: Codable /*: Equatable, Codable*/ {
-    enum TextureSource {
-        case empty(size: Size<TextureCoordinate>, pixelFormat: MTLPixelFormat)
-        indirect case refer(to: BismushTexture)
-        indirect case copy(from: BismushTexture)
+struct BismushTexture {
+    struct Snapshot: Codable, Equatable, Hashable {
+        var size: Size<TextureCoordinate>
+        var pixelFormat: MTLPixelFormat
+        var data: Data
     }
+
+    var snapshot: Snapshot
+    var size: Size<TextureCoordinate> {
+        snapshot.size
+    }
+    var pixelFormat: MTLPixelFormat {
+        snapshot.pixelFormat
+    }
+
+
     var context: BismushTextureContext
-    var source: TextureSource?
-    var size: Size<TextureCoordinate>
-    var pixelFormat: MTLPixelFormat
+
+    init(size: Size<TextureCoordinate>, pixelFormat: MTLPixelFormat, context: BismushTextureContext) {
+        self.init(from: .init(size: size, pixelFormat: pixelFormat, data: Data()),
+                  context: context)
+    }
+
+    init(from snapshot: Snapshot, context: BismushTextureContext) {
+        self.snapshot = snapshot
+        self.context = context
+
+        let (texture, msaaTexture) = context.createTexture(size: snapshot.size, pixelFormat: snapshot.pixelFormat)
+        if snapshot.data.count > 0 {
+            self.loadAction = .load
+            texture.bmkData = snapshot.data
+        } else {
+            self.loadAction = .clear
+        }
+
+
+        self.texture = texture
+        self.msaaTexture = msaaTexture
+    }
+
+    mutating func takeSnapshot() -> Snapshot {
+        return snapshot
+    }
+
+    mutating func withRenderPassDescriptor(_ perform: (MTLRenderPassDescriptor) -> Void) {
+        self.snapshot = .init(size: snapshot.size, pixelFormat: snapshot.pixelFormat, data: texture.bmkData)
+        let renderPassDescriptior = MTLRenderPassDescriptor()
+          if let msaaTexture = msaaTexture {
+              renderPassDescriptior.colorAttachments[0].texture = msaaTexture
+              renderPassDescriptior.colorAttachments[0].resolveTexture = texture
+              renderPassDescriptior.colorAttachments[0].storeAction = .storeAndMultisampleResolve
+          } else {
+              renderPassDescriptior.colorAttachments[0].texture = texture
+              renderPassDescriptior.colorAttachments[0].storeAction = .store
+         }
+          perform(renderPassDescriptior)
+      }
 
     var loadAction: MTLLoadAction
     var texture: MTLTexture
     var msaaTexture: MTLTexture?
-
-    init(
-        context : BismushTextureContext,
-        source: TextureSource
-    ) {
-        self.context = context
-        self.source = source
-
-        switch source {
-        case let .empty(size: size, pixelFormat: pixelFormat):
-            self.loadAction = .clear
-            let (texture, msaaTexture) = context.createTexture(size: size, pixelFormat: pixelFormat)
-            self.texture = texture
-            self.msaaTexture = msaaTexture
-            self.size = size
-            self.pixelFormat = pixelFormat
-        case let .refer(to: texture):
-            self.loadAction = .load
-            self.texture = texture.texture
-            self.msaaTexture = texture.msaaTexture
-            self.size = texture.size
-            self.pixelFormat = texture.pixelFormat
-        case let .copy(from: texture):
-            self.loadAction = .load
-            self.size = texture.size
-            self.pixelFormat = texture.pixelFormat
-
-            let (metalTexture, msaaTexture) = context.createTexture(size: texture.size, pixelFormat: texture.pixelFormat)
-
-            // TODO: copy tile
-            metalTexture.bmkData = texture.texture.bmkData
-            self.texture = metalTexture
-            self.msaaTexture = msaaTexture
-        }
-    }
-
-    init(from decoder: Decoder) throws {
-        guard let context = decoder.userInfo[.textureContext] as? BismushTextureContext else {
-            throw InvalidContextError()
-        }
-        var container = try decoder.unkeyedContainer()
-        let size = try container.decode(Size<TextureCoordinate>.self)
-        let pixelFormat = try container.decode(MTLPixelFormat.self)
-        let data = try container.decode(Data.self)
-
-        self.context = context
-        self.loadAction = .load
-        self.size = size
-        self.pixelFormat = pixelFormat
-        let (texture, msaaTexture) = context.createTexture(size: size, pixelFormat: pixelFormat)
-
-        self.texture = texture
-        self.msaaTexture = msaaTexture
-
-        texture.bmkData = data
-    }
-
-    func encode(to encoder: Encoder) throws {
-        var container = encoder.unkeyedContainer()
-        try container.encode(size)
-        try container.encode(pixelFormat)
-        try container.encode(texture.bmkData)
-    }
-
-
-    mutating func withRenderPassDescriptor(perform: (MTLRenderPassDescriptor) -> Void) {
-        let renderPassDescriptior = MTLRenderPassDescriptor()
-        if let msaaTexture = msaaTexture {
-            renderPassDescriptior.colorAttachments[0].texture = msaaTexture
-            renderPassDescriptior.colorAttachments[0].resolveTexture = texture
-            renderPassDescriptior.colorAttachments[0].storeAction = .storeAndMultisampleResolve
-        } else {
-            renderPassDescriptior.colorAttachments[0].texture = texture
-            renderPassDescriptior.colorAttachments[0].storeAction = .store
-        }
-        perform(renderPassDescriptior)
-    }
-
-    func copy() -> BismushTexture {
-        return BismushTexture(context: context, source: .refer(to: self))
-    }
-
-    func mutable() -> BismushTexture {
-        return BismushTexture(context: context, source: .copy(from: self))
-    }
-
 }

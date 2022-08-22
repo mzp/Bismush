@@ -15,30 +15,34 @@ final class BismushTextureTests: XCTestCase {
         factory = BismushTextureFactory(device: .default)
     }
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
     func testEmptyTexture() {
        let texture = factory.create(size: .init(width: 100, height: 100), pixelFormat: .rgba8Unorm)
         XCTAssertNotNil(texture.msaaTexture)
         XCTAssertEqual(texture.loadAction, .clear)
-
     }
 
-    func testCopyTexture() {
-        let texture1 = factory.create(size: .init(width: 100, height: 100), pixelFormat: .rgba8Unorm)
-        let texture2 = texture1.copy()
-        let texture3 = texture2.copy()
-
-        XCTAssertEqual(texture2.loadAction, .load)
-        XCTAssertIdentical(texture2.texture, texture1.texture)
-
-        XCTAssertEqual(texture3.loadAction, .load)
-        XCTAssertIdentical(texture3.texture, texture2.texture)
+    func testTakeSnapshot_NoChange() {
+       var texture = factory.create(size: .init(width: 100, height: 100), pixelFormat: .rgba8Unorm)
+        let snapshot1 = texture.takeSnapshot()
+        let snapshot2 = texture.takeSnapshot()
+        let snapshot3 = texture.takeSnapshot()
+        XCTAssertIdentical(snapshot2.data as NSData, snapshot1.data as NSData)
+        XCTAssertIdentical(snapshot3.data as NSData, snapshot1.data as NSData)
     }
 
-    func testWriteOnEmpty() {
+    func testTakeSnapshot_OnChange() {
+        var texture = factory.create(size: .init(width: 100, height: 100), pixelFormat: .rgba8Unorm)
+        let snapshot1 = texture.takeSnapshot()
+        texture.withRenderPassDescriptor { _ in }
+        let snapshot2 = texture.takeSnapshot()
+        texture.withRenderPassDescriptor { _ in }
+        let snapshot3 = texture.takeSnapshot()
+
+        XCTAssertNotIdentical(snapshot2.data as NSData, snapshot1.data as NSData)
+        XCTAssertNotIdentical(snapshot3.data as NSData, snapshot1.data as NSData)
+    }
+
+    func testWithRenderPassDescriptor() {
         var texture = factory.create(size: .init(width: 100, height: 100), pixelFormat: .rgba8Unorm)
         let metalTexture = texture.texture
         texture.withRenderPassDescriptor { description in
@@ -46,31 +50,21 @@ final class BismushTextureTests: XCTestCase {
             XCTAssertIdentical(description.colorAttachments[0].resolveTexture, metalTexture)
             XCTAssertEqual(description.colorAttachments[0].storeAction, .storeAndMultisampleResolve)
         }
+        XCTAssertIdentical(texture.texture, metalTexture)
     }
 
-    func testWriteOnCopyEmpty() {
-        let texture1 = factory.create(size: .init(width: 100, height: 100), pixelFormat: .rgba8Unorm)
-        let metalTexture1 = texture1.texture
-
-        var texture2 = texture1.copy().mutable()
-        texture2.withRenderPassDescriptor { description in
-            XCTAssertNotNil(description.colorAttachments[0].texture)
-            XCTAssertNotIdentical(description.colorAttachments[0].resolveTexture, metalTexture1)
-            XCTAssertEqual(description.colorAttachments[0].storeAction, .storeAndMultisampleResolve)
-        }
-    }
-
-    func testCodable() throws {
-        let texture1 = factory.create(size: .init(width: 100, height: 100), pixelFormat: .rgba8Unorm)
+    func testInitFromSnapshot() throws {
+        var texture1 = factory.create(size: .init(width: 100, height: 100), pixelFormat: .rgba8Unorm)
+        texture1.withRenderPassDescriptor { _ in }
         let encoder = PropertyListEncoder()
         encoder.outputFormat = .binary
-        let data = try encoder.encode(texture1)
+        let data = try encoder.encode(texture1.takeSnapshot())
 
         XCTAssertGreaterThan(data.count, 0)
 
         let decoder = PropertyListDecoder()
-        decoder.userInfo[.textureContext] = factory
-        let texture2 = try decoder.decode(BismushTexture.self, from: data)
+        let snapshot = try decoder.decode(BismushTexture.Snapshot.self, from: data)
+        let texture2 = factory.create(snapshot: snapshot)
 
         XCTAssertEqual(texture2.texture.bmkData, texture1.texture.bmkData)
         XCTAssertEqual(texture2.size, texture1.size)
