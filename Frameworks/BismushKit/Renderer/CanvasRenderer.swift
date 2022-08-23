@@ -71,18 +71,21 @@ public class CanvasRenderer: ObservableObject {
                 )
                 encoder.setViewport(viewPort)
 
-                let context = CanvasLayerRenderer.Context(
-                    encoder: encoder,
-                    projection: Transform2D(matrix: canvasLayer.renderTransform.matrix),
-                    pixelFormat: canvasLayer.pixelFormat
-                )
+                var textures = [BismushTexture]()
                 for layer in document.canvas.layers.reversed() where layer.visible {
-                    layerRenderer.render(canvasLayer: layer, context: context)
+                    textures.append(document.texture(canvasLayer: layer))
                     if document.activeLayer == layer, let activeTexture = document.activeTexture {
-                        layerRenderer.render(texture: activeTexture, context: context)
+                        textures.append(activeTexture)
                     }
                 }
-
+                layerRenderer.render(
+                    textures: textures,
+                    context: .init(
+                        encoder: encoder,
+                        projection: Transform2D(matrix: canvasLayer.renderTransform.matrix),
+                        pixelFormat: canvasLayer.pixelFormat
+                    )
+                )
                 encoder.endEncoding()
             }
             commandBuffer.commit()
@@ -100,6 +103,6 @@ public class CanvasRenderer: ObservableObject {
             projection: projection,
             pixelFormat: .bgra8Unorm
         )
-        canvasRenderer.render(texture: document.canvasTexture, context: context)
+        canvasRenderer.render(textures: [document.canvasTexture], context: context)
     }
 }

@@ -61,7 +61,7 @@ public class CanvasDocument: ReferenceFileDocument, TextureContext {
             }
         }
 
-        if let container = file?.fileWrappers?[CanvasDocument.kLayerContainerName] {
+        if let container = file?.fileWrappers?[Self.kLayerContainerName] {
             for layer in canvas.layers {
                 if let data = container.fileWrappers?["\(layer.id).data"]?.regularFileContents {
                     BismushLogger.file.info("Load texture data: \(layer.id)")
@@ -93,7 +93,7 @@ public class CanvasDocument: ReferenceFileDocument, TextureContext {
 
     convenience init(file: FileWrapper) throws {
         guard let data = file.fileWrappers?["Info.plist"]?.regularFileContents else {
-            fatalError("Invalid file format")
+            throw InvalidFileFormatError()
         }
         let canvas = try DocumentDecoder().decode(Canvas.self, from: data)
         try self.init(file: file, canvas: canvas)

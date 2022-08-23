@@ -48,7 +48,7 @@ class SessionCommit {
                 encoder.setViewport(viewPort)
 
                 renderer.render(
-                    texture: activeTexture,
+                    textures: [activeTexture],
                     context: .init(
                         encoder: encoder,
                         projection: Transform2D(matrix: canvasLayer.renderTransform.matrix),
