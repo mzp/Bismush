@@ -19,7 +19,7 @@ class BismushTextureFactory: BismushTextureContext {
         self.device = device
     }
 
-    func create(size: Size<TextureCoordinate>, pixelFormat: MTLPixelFormat, rasterSampleCount: Int) -> BismushTexture {
+    func create(size: Size<TextureCoordinate>, pixelFormat: MTLPixelFormat, rasterSampleCount: Int = 1) -> BismushTexture {
         .init(size: size, pixelFormat: pixelFormat, rasterSampleCount: rasterSampleCount, context: self)
     }
     func create(builtin name: String) -> BismushTexture {
@@ -27,7 +27,7 @@ class BismushTextureFactory: BismushTextureContext {
         return .init(texture: texture, msaaTexture: nil, loadAction: .load, rasterSampleCount: 1, context: self)
     }
 
-    func createTexture(size: Size<TextureCoordinate>, pixelFormat: MTLPixelFormat, rasterSampleCount: Int) -> (MTLTexture, MTLTexture?) {
+    func createTexture(size: Size<TextureCoordinate>, pixelFormat: MTLPixelFormat, rasterSampleCount: Int = 1) -> (MTLTexture, MTLTexture?) {
         BismushLogger.metal.info("Create Texture")
         let width = Int(size.width)
         let height = Int(size.height)

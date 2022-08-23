@@ -26,7 +26,7 @@ public class CanvasRenderer: ObservableObject {
     private let canvasRenderer: CanvasLayerRenderer
     private let commandQueue: MTLCommandQueue
 
-    public init(document: CanvasDocument, pixelFormat: MTLPixelFormat?, rasterSampleCount: Int) {
+    public init(document: CanvasDocument, pixelFormat: MTLPixelFormat? = nil, rasterSampleCount: Int = 1) {
         self.document = document
         layerRenderer = CanvasLayerRenderer(
             document: document,

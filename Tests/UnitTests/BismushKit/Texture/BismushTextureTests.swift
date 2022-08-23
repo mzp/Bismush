@@ -16,7 +16,7 @@ final class BismushTextureTests: XCTestCase {
     }
 
     func testEmptyTexture() {
-       let texture = factory.create(size: .init(width: 100, height: 100), pixelFormat: .rgba8Unorm)
+       let texture = factory.create(size: .init(width: 100, height: 100), pixelFormat: .rgba8Unorm, rasterSampleCount: 4)
         XCTAssertNotNil(texture.msaaTexture)
         XCTAssertEqual(texture.loadAction, .clear)
     }
@@ -43,7 +43,7 @@ final class BismushTextureTests: XCTestCase {
     }
 
     func testWithRenderPassDescriptor() {
-        let texture = factory.create(size: .init(width: 100, height: 100), pixelFormat: .rgba8Unorm)
+        let texture = factory.create(size: .init(width: 100, height: 100), pixelFormat: .rgba8Unorm, rasterSampleCount: 4)
         let metalTexture = texture.texture
         texture.withRenderPassDescriptor { description in
             XCTAssertNotNil(description.colorAttachments[0].texture)
