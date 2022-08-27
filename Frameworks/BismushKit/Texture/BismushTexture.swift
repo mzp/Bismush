@@ -22,6 +22,7 @@ class BismushTextureFactory: BismushTextureContext {
     func create(size: Size<TextureCoordinate>, pixelFormat: MTLPixelFormat, rasterSampleCount: Int) -> BismushTexture {
         .init(size: size, pixelFormat: pixelFormat, rasterSampleCount: rasterSampleCount, context: self)
     }
+
     func create(builtin name: String) -> BismushTexture {
         let texture = device.resource.bultinTexture(name: name)
         return .init(texture: texture, msaaTexture: nil, loadAction: .load, rasterSampleCount: 1, context: self)
@@ -60,9 +61,8 @@ class BismushTextureFactory: BismushTextureContext {
 }
 
 extension CodingUserInfoKey {
-    static let textureContext: CodingUserInfoKey = CodingUserInfoKey(rawValue: "jp.mzp.Bismush.textureContext")!
+    static let textureContext: CodingUserInfoKey = .init(rawValue: "jp.mzp.Bismush.textureContext")!
 }
-
 
 class BismushTexture {
     struct Snapshot: Equatable, Hashable, Codable {
@@ -84,14 +84,14 @@ class BismushTexture {
         init(size: Size<TextureCoordinate>, pixelFormat: MTLPixelFormat, data: Data) {
             self.size = size
             self.pixelFormat = pixelFormat
-            self.nsData = data as NSData
+            nsData = data as NSData
         }
 
         init(from decoder: Decoder) throws {
             var container = try decoder.unkeyedContainer()
-            self.size = try container.decode(Size<TextureCoordinate>.self)
-            self.pixelFormat = try container.decode(MTLPixelFormat.self)
-            self.nsData = try container.decode(Data.self) as NSData
+            size = try container.decode(Size<TextureCoordinate>.self)
+            pixelFormat = try container.decode(MTLPixelFormat.self)
+            nsData = try container.decode(Data.self) as NSData
         }
 
         func encode(to encoder: Encoder) throws {
@@ -106,11 +106,12 @@ class BismushTexture {
     var size: Size<TextureCoordinate> {
         snapshot.size
     }
+
     var pixelFormat: MTLPixelFormat {
         snapshot.pixelFormat
     }
-    var rasterSampleCount: Int
 
+    var rasterSampleCount: Int
 
     var context: BismushTextureContext
     var renderPassDescriptior: MTLRenderPassDescriptor
@@ -126,21 +127,21 @@ class BismushTexture {
         self.loadAction = loadAction
         self.rasterSampleCount = rasterSampleCount
         self.context = context
-        self.snapshot = Snapshot(
+        snapshot = Snapshot(
             size: Size(width: Float(texture.width), height: Float(texture.height)),
             pixelFormat: texture.pixelFormat,
             data: texture.bmkData
         )
 
         let renderPassDescriptior = MTLRenderPassDescriptor()
-          if let msaaTexture = msaaTexture {
-              renderPassDescriptior.colorAttachments[0].texture = msaaTexture
-              renderPassDescriptior.colorAttachments[0].resolveTexture = texture
-              renderPassDescriptior.colorAttachments[0].storeAction = .storeAndMultisampleResolve
-          } else {
-              renderPassDescriptior.colorAttachments[0].texture = texture
-              renderPassDescriptior.colorAttachments[0].storeAction = .store
-         }
+        if let msaaTexture = msaaTexture {
+            renderPassDescriptior.colorAttachments[0].texture = msaaTexture
+            renderPassDescriptior.colorAttachments[0].resolveTexture = texture
+            renderPassDescriptior.colorAttachments[0].storeAction = .storeAndMultisampleResolve
+        } else {
+            renderPassDescriptior.colorAttachments[0].texture = texture
+            renderPassDescriptior.colorAttachments[0].storeAction = .store
+        }
         renderPassDescriptior.colorAttachments[0].loadAction = loadAction
         renderPassDescriptior.colorAttachments[0].clearColor = MTLClearColor(red: 1, green: 1, blue: 1, alpha: 0)
 
@@ -148,25 +149,25 @@ class BismushTexture {
     }
 
     func restore(from snapshot: Snapshot) {
-        assert(self.pixelFormat == snapshot.pixelFormat)
-        assert(self.size == snapshot.size)
+        assert(pixelFormat == snapshot.pixelFormat)
+        assert(size == snapshot.size)
         self.snapshot = snapshot
-        if snapshot.data.count > 0 {
-            self.loadAction = .load
-            self.texture.bmkData = snapshot.data
+        if !snapshot.data.isEmpty {
+            loadAction = .load
+            texture.bmkData = snapshot.data
         } else {
-            self.loadAction = .clear
+            loadAction = .clear
         }
     }
 
     func takeSnapshot() -> Snapshot {
-        return snapshot
+        snapshot
     }
 
     func withRenderPassDescriptor(_ perform: (MTLRenderPassDescriptor) -> Void) {
-        self.snapshot = .init(size: snapshot.size, pixelFormat: snapshot.pixelFormat, data: texture.bmkData)
-        renderPassDescriptior.colorAttachments[0].loadAction = self.loadAction
-        self.loadAction = .load
+        snapshot = .init(size: snapshot.size, pixelFormat: snapshot.pixelFormat, data: texture.bmkData)
+        renderPassDescriptior.colorAttachments[0].loadAction = loadAction
+        loadAction = .load
         perform(renderPassDescriptior)
     }
 
