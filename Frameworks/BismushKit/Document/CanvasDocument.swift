@@ -13,7 +13,7 @@ extension UTType {
     static let canvas = UTType(exportedAs: "jp.mzp.bismush.canvas")
 }
 
-public class CanvasDocument: ReferenceFileDocument, TextureContext {
+public class CanvasDocument: ReferenceFileDocument {
     typealias DocumentEncoder = PropertyListEncoder
     typealias DocumentDecoder = PropertyListDecoder
 

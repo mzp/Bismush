@@ -9,7 +9,11 @@ import Foundation
 
 protocol BismushTextureContext {
     var device: GPUDevice { get }
-    func createTexture(size: Size<TextureCoordinate>, pixelFormat: MTLPixelFormat, rasterSampleCount: Int) -> (MTLTexture, MTLTexture?)
+    func createTexture(
+        size: Size<TextureCoordinate>,
+        pixelFormat: MTLPixelFormat,
+        rasterSampleCount: Int
+    ) -> (MTLTexture, MTLTexture?)
 }
 
 class BismushTextureFactory: BismushTextureContext {
@@ -28,7 +32,11 @@ class BismushTextureFactory: BismushTextureContext {
         return .init(texture: texture, msaaTexture: nil, loadAction: .load, rasterSampleCount: 1, context: self)
     }
 
-    func createTexture(size: Size<TextureCoordinate>, pixelFormat: MTLPixelFormat, rasterSampleCount: Int = 1) -> (MTLTexture, MTLTexture?) {
+    func createTexture(
+        size: Size<TextureCoordinate>,
+        pixelFormat: MTLPixelFormat,
+        rasterSampleCount: Int
+    ) -> (MTLTexture, MTLTexture?) {
         BismushLogger.metal.info("Create Texture")
         let width = Int(size.width)
         let height = Int(size.height)
@@ -116,12 +124,33 @@ class BismushTexture {
     var context: BismushTextureContext
     var renderPassDescriptior: MTLRenderPassDescriptor
 
-    convenience init(size: Size<TextureCoordinate>, pixelFormat: MTLPixelFormat, rasterSampleCount: Int, context: BismushTextureContext) {
-        let (texture, msaaTexture) = context.createTexture(size: size, pixelFormat: pixelFormat, rasterSampleCount: rasterSampleCount)
-        self.init(texture: texture, msaaTexture: msaaTexture, loadAction: .clear, rasterSampleCount: rasterSampleCount, context: context)
+    convenience init(
+        size: Size<TextureCoordinate>,
+        pixelFormat: MTLPixelFormat,
+        rasterSampleCount: Int,
+        context: BismushTextureContext
+    ) {
+        let (texture, msaaTexture) = context.createTexture(
+            size: size,
+            pixelFormat: pixelFormat,
+            rasterSampleCount: rasterSampleCount
+        )
+        self.init(
+            texture: texture,
+            msaaTexture: msaaTexture,
+            loadAction: .clear,
+            rasterSampleCount: rasterSampleCount,
+            context: context
+        )
     }
 
-    init(texture: MTLTexture, msaaTexture: MTLTexture?, loadAction: MTLLoadAction, rasterSampleCount: Int, context: BismushTextureContext) {
+    init(
+        texture: MTLTexture,
+        msaaTexture: MTLTexture?,
+        loadAction: MTLLoadAction,
+        rasterSampleCount: Int,
+        context: BismushTextureContext
+    ) {
         self.texture = texture
         self.msaaTexture = msaaTexture
         self.loadAction = loadAction

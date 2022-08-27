@@ -31,24 +31,27 @@ public class CanvasLayerRenderer {
 
     init(document: CanvasDocument, pixelFormat: MTLPixelFormat, rasterSampleCount: Int) {
         self.document = document
-        let device = document.device.metalDevice
-        let descriptor = MTLRenderPipelineDescriptor()
-        descriptor.rasterSampleCount = rasterSampleCount
-        descriptor.colorAttachments[0].pixelFormat = pixelFormat
-        descriptor.vertexFunction = document.device.resource.function(.layerVertex)
-        descriptor.fragmentFunction = document.device.resource.function(.layerCopy)
-        strictAlphaBlendRenderPipelineState = try! device.makeRenderPipelineState(descriptor: descriptor)
 
-        descriptor.colorAttachments[0].isBlendingEnabled = true
-        descriptor.colorAttachments[0].rgbBlendOperation = .add
-        descriptor.colorAttachments[0].sourceRGBBlendFactor = .sourceAlpha
-        descriptor.colorAttachments[0].destinationRGBBlendFactor = .oneMinusSourceAlpha
-        descriptor.colorAttachments[0].alphaBlendOperation = .max
-        descriptor.colorAttachments[0].sourceAlphaBlendFactor = .one
-        descriptor.colorAttachments[0].destinationAlphaBlendFactor = .one
-        descriptor.vertexFunction = document.device.resource.function(.layerVertex)
-        descriptor.fragmentFunction = document.device.resource.function(.layerBlend)
-        alphaBlendRenderPipelineState = try! device.makeRenderPipelineState(descriptor: descriptor)
+        strictAlphaBlendRenderPipelineState = try! document.device.makeRenderPipelineState { descriptor in
+            descriptor.rasterSampleCount = rasterSampleCount
+            descriptor.colorAttachments[0].pixelFormat = pixelFormat
+            descriptor.vertexFunction = document.device.resource.function(.layerVertex)
+            descriptor.fragmentFunction = document.device.resource.function(.layerCopy)
+        }
+
+        alphaBlendRenderPipelineState = try! document.device.makeRenderPipelineState { descriptor in
+            descriptor.rasterSampleCount = rasterSampleCount
+            descriptor.colorAttachments[0].pixelFormat = pixelFormat
+            descriptor.colorAttachments[0].isBlendingEnabled = true
+            descriptor.colorAttachments[0].rgbBlendOperation = .add
+            descriptor.colorAttachments[0].sourceRGBBlendFactor = .sourceAlpha
+            descriptor.colorAttachments[0].destinationRGBBlendFactor = .oneMinusSourceAlpha
+            descriptor.colorAttachments[0].alphaBlendOperation = .max
+            descriptor.colorAttachments[0].sourceAlphaBlendFactor = .one
+            descriptor.colorAttachments[0].destinationAlphaBlendFactor = .one
+            descriptor.vertexFunction = document.device.resource.function(.layerVertex)
+            descriptor.fragmentFunction = document.device.resource.function(.layerBlend)
+        }
     }
 
     // MARK: - render
