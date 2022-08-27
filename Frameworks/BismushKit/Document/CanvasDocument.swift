@@ -13,7 +13,7 @@ extension UTType {
     static let canvas = UTType(exportedAs: "jp.mzp.bismush.canvas")
 }
 
-public class CanvasDocument: ReferenceFileDocument, TextureContext {
+public class CanvasDocument: ReferenceFileDocument {
     typealias DocumentEncoder = PropertyListEncoder
     typealias DocumentDecoder = PropertyListDecoder
 
@@ -61,7 +61,7 @@ public class CanvasDocument: ReferenceFileDocument, TextureContext {
             }
         }
 
-        if let container = file?.fileWrappers?[CanvasDocument.kLayerContainerName] {
+        if let container = file?.fileWrappers?[Self.kLayerContainerName] {
             for layer in canvas.layers {
                 if let data = container.fileWrappers?["\(layer.id).data"]?.regularFileContents {
                     BismushLogger.file.info("Load texture data: \(layer.id)")

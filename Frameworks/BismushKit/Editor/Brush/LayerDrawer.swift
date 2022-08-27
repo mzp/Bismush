@@ -21,14 +21,12 @@ class LayerDrawer {
         self.context = context
         commandQueue = document.device.metalDevice.makeCommandQueue()!
 
-        let descriptor = MTLRenderPipelineDescriptor()
-        descriptor.rasterSampleCount = document.rasterSampleCount
-        descriptor.colorAttachments[0].pixelFormat = document.activeLayer.pixelFormat
-        descriptor.vertexFunction = document.device.resource.function(.brushVertex)
-        descriptor.fragmentFunction = document.device.resource.function(.brushFragment)
-        renderPipelineState = try! document.device.metalDevice.makeRenderPipelineState(
-            descriptor: descriptor
-        )
+        renderPipelineState = try! document.device.makeRenderPipelineState { descriptor in
+            descriptor.rasterSampleCount = document.rasterSampleCount
+            descriptor.colorAttachments[0].pixelFormat = document.activeLayer.pixelFormat
+            descriptor.vertexFunction = document.device.resource.function(.brushVertex)
+            descriptor.fragmentFunction = document.device.resource.function(.brushFragment)
+        }
     }
 
     func draw(strokes: MetalMutableArray<BMKStroke>) {
