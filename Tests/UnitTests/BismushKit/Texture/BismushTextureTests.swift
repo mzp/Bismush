@@ -15,10 +15,19 @@ final class BismushTextureTests: XCTestCase {
         factory = BismushTextureFactory(device: .default)
     }
 
-    func testEmptyTexture() {
+    func testEmpty()  {
+       let texture = factory.create(size: .init(width: 100, height: 100), pixelFormat: .rgba8Unorm, rasterSampleCount: 1)
+        XCTAssertEqual(texture.loadAction, .clear)
+        XCTAssertNil(texture.msaaTexture)
+    }
+
+    func testMSAATexture() {
+#if targetEnvironment(simulator)
+    _ = XCTSkip("iOS Simulator(Xcode 14b2) doesn't support vision VNFeaturePrintObservation")
+#else
        let texture = factory.create(size: .init(width: 100, height: 100), pixelFormat: .rgba8Unorm, rasterSampleCount: 4)
         XCTAssertNotNil(texture.msaaTexture)
-        XCTAssertEqual(texture.loadAction, .clear)
+#endif
     }
 
     func testTakeSnapshot_NoChange() {
@@ -43,15 +52,30 @@ final class BismushTextureTests: XCTestCase {
     }
 
     func testWithRenderPassDescriptor() {
+        let texture = factory.create(size: .init(width: 100, height: 100), pixelFormat: .rgba8Unorm, rasterSampleCount: 1)
+        let metalTexture = texture.texture
+        texture.withRenderPassDescriptor { description in
+            XCTAssertNotNil(description.colorAttachments[0].texture)
+            XCTAssertEqual(description.colorAttachments[0].storeAction, .store)
+        }
+        XCTAssertIdentical(texture.texture, metalTexture)
+    }
+
+    func testWithRenderPassDescriptorMSAA() {
+        #if targetEnvironment(simulator)
+                    _ = XCTSkip("iOS Simulator(Xcode 14b2) doesn't support vision VNFeaturePrintObservation")
+        #else
         let texture = factory.create(size: .init(width: 100, height: 100), pixelFormat: .rgba8Unorm, rasterSampleCount: 4)
         let metalTexture = texture.texture
         texture.withRenderPassDescriptor { description in
             XCTAssertNotNil(description.colorAttachments[0].texture)
-            XCTAssertIdentical(description.colorAttachments[0].resolveTexture, metalTexture)
-            XCTAssertEqual(description.colorAttachments[0].storeAction, .storeAndMultisampleResolve)
+            XCTAssertEqual(description.colorAttachments[0].storeAction, .store)
         }
         XCTAssertIdentical(texture.texture, metalTexture)
+        #endif
     }
+
+
 
     func testInitFromSnapshot() throws {
         let texture1 = factory.create(size: .init(width: 100, height: 100), pixelFormat: .rgba8Unorm, rasterSampleCount: 1)
@@ -64,7 +88,7 @@ final class BismushTextureTests: XCTestCase {
 
         let decoder = PropertyListDecoder()
         let snapshot = try decoder.decode(BismushTexture.Snapshot.self, from: data)
-        let texture2 = factory.create(size: .init(width: 100, height: 100), pixelFormat: .rgba8Unorm, rasterSampleCount: 4)
+        let texture2 = factory.create(size: .init(width: 100, height: 100), pixelFormat: .rgba8Unorm, rasterSampleCount: 1)
         texture2.restore(from: snapshot)
 
         XCTAssertEqual(texture2.texture.bmkData, texture1.texture.bmkData)

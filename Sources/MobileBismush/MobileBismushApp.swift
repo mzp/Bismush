@@ -13,7 +13,7 @@ struct MobileBismushApp: App {
     var body: some Scene {
         DocumentGroup(
             newDocument: {
-                CanvasDocument(canvas: .empty)
+                try! CanvasDocument(canvas: .empty)
             }, editor: { configuration in
                 ViewModelProvider(document: configuration.document) {
                     MobileWorkspaceView {
