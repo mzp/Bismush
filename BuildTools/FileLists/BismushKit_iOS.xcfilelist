@@ -18,7 +18,6 @@ Frameworks/BismushKit/Entity/Foundation/Coordinate.swift
 Frameworks/BismushKit/Entity/Foundation/PressurePoint.swift
 Frameworks/BismushKit/Entity/Foundation/RingBuffer.swift
 Frameworks/BismushKit/Entity/Foundation/Transform2D.swift
-Frameworks/BismushKit/Entity/Metal/DynamicBuffer.swift
 Frameworks/BismushKit/Entity/Metal/FunctionName+CustomStringConvertible.swift
 Frameworks/BismushKit/Entity/Metal/FunctionName.swift
 Frameworks/BismushKit/Entity/Metal/GPUDevice.swift
@@ -34,3 +33,5 @@ Frameworks/BismushKit/Renderer/CanvasLayer+Transform.swift
 Frameworks/BismushKit/Renderer/CanvasLayerRenderer.swift
 Frameworks/BismushKit/Renderer/CanvasRenderer.swift
 Frameworks/BismushKit/Texture/BismushTexture.swift
+Frameworks/BismushKit/Texture/BismushTextureFactory.swift
+Frameworks/BismushKit/Texture/TileMap.swift

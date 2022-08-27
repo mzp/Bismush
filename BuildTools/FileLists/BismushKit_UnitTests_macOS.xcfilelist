@@ -7,3 +7,5 @@ Tests/UnitTests/BismushKit/Entity/RingBufferTests.swift
 Tests/UnitTests/BismushKit/Renderer/CanvasLayerTests.swift
 Tests/UnitTests/BismushKit/Renderer/CanvasTransformTests.swift
 Tests/UnitTests/BismushKit/Texture/BismushTextureTests.swift
+Tests/UnitTests/BismushKit/Texture/MetalRegion+Equatable.swift
+Tests/UnitTests/BismushKit/Texture/TileMapTests.swift
