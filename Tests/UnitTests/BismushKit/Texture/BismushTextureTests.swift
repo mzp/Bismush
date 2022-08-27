@@ -28,7 +28,7 @@ final class BismushTextureTests: XCTestCase {
 
     func testMSAATexture() {
         #if targetEnvironment(simulator)
-            _ = XCTSkip("iOS Simulator(Xcode 14b2) doesn't support vision VNFeaturePrintObservation")
+            _ = XCTSkip("iOS Simulator(Xcode 14b5) doesn't support MSAA")
         #else
             let texture = factory.create(
                 size: .init(width: 100, height: 100),
