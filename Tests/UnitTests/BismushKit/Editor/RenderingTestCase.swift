@@ -32,7 +32,7 @@ class RenderingTestCase: XCTestCase {
     override func setUpWithError() throws {
         try super.setUpWithError()
         document = try createDocument()
-        renderer = CanvasRenderer(document: document)
+        renderer = CanvasRenderer(document: document, pixelFormat: .bgra8Unorm, rasterSampleCount: 1)
     }
 
     override func tearDownWithError() throws {

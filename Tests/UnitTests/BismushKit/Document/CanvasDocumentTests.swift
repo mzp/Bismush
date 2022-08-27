@@ -119,10 +119,10 @@ class CanvasDocumentTests: XCTestCase {
     }
 
     func testHealth() throws {
-        let modifiedSnapshot = try snapshot(document: document)
-        let vanillaSnapshot = try snapshot(document: CanvasDocument())
+        let modifiedSnapshot = try snapshot(document: .sample)
+        let vanillaSnapshot = try snapshot(document: .empty)
         attach(snapshot: modifiedSnapshot)
-        XCTAssertNotEqual(vanillaSnapshot, modifiedSnapshot)
+        XCTAssertTrue(vanillaSnapshot != modifiedSnapshot)
     }
 
     private func snapshot(document: CanvasDocument) throws -> CanvasDocumentSnapshot {

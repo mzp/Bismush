@@ -65,10 +65,41 @@ extension CodingUserInfoKey {
 
 
 class BismushTexture {
-    struct Snapshot: Codable, Equatable, Hashable {
+    struct Snapshot: Equatable, Hashable, Codable {
         var size: Size<TextureCoordinate>
         var pixelFormat: MTLPixelFormat
-        var data: Data
+        var nsData: NSData
+
+        var data: Data {
+            get { nsData as Data }
+            set { nsData = newValue as NSData }
+        }
+
+        init(size: Size<TextureCoordinate>, pixelFormat: MTLPixelFormat, data nsData: NSData) {
+            self.size = size
+            self.pixelFormat = pixelFormat
+            self.nsData = nsData
+        }
+
+        init(size: Size<TextureCoordinate>, pixelFormat: MTLPixelFormat, data: Data) {
+            self.size = size
+            self.pixelFormat = pixelFormat
+            self.nsData = data as NSData
+        }
+
+        init(from decoder: Decoder) throws {
+            var container = try decoder.unkeyedContainer()
+            self.size = try container.decode(Size<TextureCoordinate>.self)
+            self.pixelFormat = try container.decode(MTLPixelFormat.self)
+            self.nsData = try container.decode(Data.self) as NSData
+        }
+
+        func encode(to encoder: Encoder) throws {
+            var container = encoder.unkeyedContainer()
+            try container.encode(size)
+            try container.encode(pixelFormat)
+            try container.encode(nsData as Data)
+        }
     }
 
     var snapshot: Snapshot

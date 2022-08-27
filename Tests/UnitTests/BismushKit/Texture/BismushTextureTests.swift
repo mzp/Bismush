@@ -22,16 +22,16 @@ final class BismushTextureTests: XCTestCase {
     }
 
     func testTakeSnapshot_NoChange() {
-       let texture = factory.create(size: .init(width: 100, height: 100), pixelFormat: .rgba8Unorm)
+       let texture = factory.create(size: .init(width: 100, height: 100), pixelFormat: .rgba8Unorm, rasterSampleCount: 1)
         let snapshot1 = texture.takeSnapshot()
         let snapshot2 = texture.takeSnapshot()
         let snapshot3 = texture.takeSnapshot()
-        XCTAssertIdentical(snapshot2.data as NSData, snapshot1.data as NSData)
-        XCTAssertIdentical(snapshot3.data as NSData, snapshot1.data as NSData)
+        XCTAssertIdentical(snapshot2.nsData, snapshot1.nsData)
+        XCTAssertIdentical(snapshot3.nsData, snapshot1.nsData)
     }
 
     func testTakeSnapshot_OnChange() {
-        let texture = factory.create(size: .init(width: 100, height: 100), pixelFormat: .rgba8Unorm)
+        let texture = factory.create(size: .init(width: 100, height: 100), pixelFormat: .rgba8Unorm, rasterSampleCount: 1)
         let snapshot1 = texture.takeSnapshot()
         texture.withRenderPassDescriptor { _ in }
         let snapshot2 = texture.takeSnapshot()
@@ -54,7 +54,7 @@ final class BismushTextureTests: XCTestCase {
     }
 
     func testInitFromSnapshot() throws {
-        let texture1 = factory.create(size: .init(width: 100, height: 100), pixelFormat: .rgba8Unorm)
+        let texture1 = factory.create(size: .init(width: 100, height: 100), pixelFormat: .rgba8Unorm, rasterSampleCount: 1)
         texture1.withRenderPassDescriptor { _ in }
         let encoder = PropertyListEncoder()
         encoder.outputFormat = .binary
@@ -64,7 +64,7 @@ final class BismushTextureTests: XCTestCase {
 
         let decoder = PropertyListDecoder()
         let snapshot = try decoder.decode(BismushTexture.Snapshot.self, from: data)
-        let texture2 = factory.create(size: .init(width: 100, height: 100), pixelFormat: .rgba8Unorm)
+        let texture2 = factory.create(size: .init(width: 100, height: 100), pixelFormat: .rgba8Unorm, rasterSampleCount: 4)
         texture2.restore(from: snapshot)
 
         XCTAssertEqual(texture2.texture.bmkData, texture1.texture.bmkData)
