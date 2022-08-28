@@ -22,7 +22,8 @@ final class BismushTextureTests: XCTestCase {
         let texture = factory.create(
             size: .init(width: 100, height: 100),
             pixelFormat: .rgba8Unorm,
-            rasterSampleCount: 1
+            rasterSampleCount: 1,
+            sparse: false
         )
         XCTAssertEqual(texture.loadAction, .clear)
         XCTAssertNil(texture.msaaTexture)
@@ -45,7 +46,8 @@ final class BismushTextureTests: XCTestCase {
         let texture = factory.create(
             size: .init(width: 100, height: 100),
             pixelFormat: .rgba8Unorm,
-            rasterSampleCount: 1
+            rasterSampleCount: 1,
+            sparse: false
         )
         let snapshot1 = texture.takeSnapshot()
         let snapshot2 = texture.takeSnapshot()
@@ -58,7 +60,8 @@ final class BismushTextureTests: XCTestCase {
         let texture = factory.create(
             size: .init(width: 100, height: 100),
             pixelFormat: .rgba8Unorm,
-            rasterSampleCount: 1
+            rasterSampleCount: 1,
+            sparse: false
         )
         let snapshot1 = texture.takeSnapshot()
         texture.withRenderPassDescriptor(commandBuffer: commandBuffer) { _ in }
@@ -74,7 +77,8 @@ final class BismushTextureTests: XCTestCase {
         let texture = factory.create(
             size: .init(width: 100, height: 100),
             pixelFormat: .rgba8Unorm,
-            rasterSampleCount: 1
+            rasterSampleCount: 1,
+            sparse: false
         )
         let metalTexture = texture.texture
         texture.withRenderPassDescriptor(commandBuffer: commandBuffer) { description in
@@ -106,7 +110,8 @@ final class BismushTextureTests: XCTestCase {
         let texture1 = factory.create(
             size: .init(width: 100, height: 100),
             pixelFormat: .rgba8Unorm,
-            rasterSampleCount: 1
+            rasterSampleCount: 1,
+            sparse: false
         )
         texture1.withRenderPassDescriptor(commandBuffer: commandBuffer) { _ in }
         let encoder = PropertyListEncoder()
@@ -120,7 +125,8 @@ final class BismushTextureTests: XCTestCase {
         let texture2 = factory.create(
             size: .init(width: 100, height: 100),
             pixelFormat: .rgba8Unorm,
-            rasterSampleCount: 1
+            rasterSampleCount: 1,
+            sparse: false
         )
         texture2.restore(from: snapshot)
 

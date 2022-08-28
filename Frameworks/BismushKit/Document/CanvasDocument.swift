@@ -41,7 +41,8 @@ public class CanvasDocument: ReferenceFileDocument {
         canvasTexture = factory.create(
             size: Size(canvas.size),
             pixelFormat: canvas.pixelFormat,
-            rasterSampleCount: device.capability.msaa ? 4 : 1
+            rasterSampleCount: device.capability.msaa ? 4 : 1,
+            sparse: false
         )
 
         let decoder = DocumentDecoder()
@@ -56,7 +57,8 @@ public class CanvasDocument: ReferenceFileDocument {
                 textures[layer.id] = factory.create(
                     size: Size(layer.size),
                     pixelFormat: layer.pixelFormat,
-                    rasterSampleCount: rasterSampleCount
+                    rasterSampleCount: rasterSampleCount,
+                    sparse: true
                 )
             }
         }
@@ -190,7 +192,8 @@ public class CanvasDocument: ReferenceFileDocument {
         activeTexture = factory.create(
             size: Size(activeLayer.size),
             pixelFormat: activeLayer.pixelFormat,
-            rasterSampleCount: rasterSampleCount
+            rasterSampleCount: rasterSampleCount,
+            sparse: true
         )
     }
 

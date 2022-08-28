@@ -22,7 +22,11 @@ public struct MetalMutableArray<T>: CustomDebugStringConvertible, Sequence {
             }
             defer { index += 1 }
 
-            return buffer.contents().advanced(by: index).bindMemory(to: T.self, capacity: 1).pointee
+            return buffer
+                .contents()
+                .advanced(by: index * MemoryLayout<T>.stride)
+                .bindMemory(to: T.self, capacity: 1)
+                .pointee
         }
     }
 

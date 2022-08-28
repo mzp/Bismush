@@ -42,13 +42,13 @@ final class BezierInterpolateTests: XCTestCase {
     }
 
     func testInterpolateInvariant() {
-        let points = Array(
+        let points =
             interpolate.interpolate(
                 input0: .init(x: 0, y: 0),
                 input1: .init(x: 200, y: 300),
                 input2: .init(x: 400, y: 500),
                 input3: .init(x: 800, y: 800)
-            ))
+            )
 
         var max: Float = 1.0
         var count = 0

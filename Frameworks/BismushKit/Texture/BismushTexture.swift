@@ -12,7 +12,8 @@ protocol BismushTextureContext {
     func createTexture(
         size: Size<TextureCoordinate>,
         pixelFormat: MTLPixelFormat,
-        rasterSampleCount: Int
+        rasterSampleCount: Int,
+        sparse: Bool
     ) -> (MTLTexture, MTLTexture?)
 }
 
@@ -67,27 +68,29 @@ class BismushTexture {
 
     var context: BismushTextureContext
     var renderPassDescriptior: MTLRenderPassDescriptor
-    var map: SparseTextureMap
+    var map: SparseTextureMap?
+    let sparse: Bool
 
     convenience init(
         size: Size<TextureCoordinate>,
         pixelFormat: MTLPixelFormat,
         rasterSampleCount: Int,
+        sparse: Bool,
         context: BismushTextureContext
     ) {
         let (texture, msaaTexture) = context.createTexture(
             size: size,
             pixelFormat: pixelFormat,
             rasterSampleCount: rasterSampleCount,
-            sparse: Bool
+            sparse: sparse
         )
         self.init(
             texture: texture,
             msaaTexture: msaaTexture,
             loadAction: .clear,
             rasterSampleCount: rasterSampleCount,
-            context: context,
-            sparse: sparse
+            sparse: sparse,
+            context: context
         )
     }
 
@@ -96,26 +99,30 @@ class BismushTexture {
         msaaTexture: MTLTexture?,
         loadAction: MTLLoadAction,
         rasterSampleCount: Int,
-        context: BismushTextureContext,
-        sparse _: Bool
+        sparse: Bool,
+        context: BismushTextureContext
     ) {
         self.texture = texture
         self.msaaTexture = msaaTexture
         self.loadAction = loadAction
         self.rasterSampleCount = rasterSampleCount
         self.context = context
+        self.sparse = sparse
+
         let size = Size<TextureCoordinate>(width: Float(texture.width), height: Float(texture.height))
 
-        map = SparseTextureMap(
-            device: context.device,
-            size: size,
-            tileSize: context.device.metalDevice.sparseTileSize(
-                with: .type2D,
-                pixelFormat:
-                texture.pixelFormat,
-                sampleCount: rasterSampleCount
+        if sparse {
+            map = SparseTextureMap(
+                device: context.device,
+                size: size,
+                tileSize: context.device.metalDevice.sparseTileSize(
+                    with: .type2D,
+                    pixelFormat:
+                    texture.pixelFormat,
+                    sampleCount: rasterSampleCount
+                )
             )
-        )
+        }
         snapshot = Snapshot(
             size: size,
             pixelFormat: texture.pixelFormat,
@@ -173,11 +180,11 @@ class BismushTexture {
     var unloadRegions = [MTLRegion]()
 
     func load<T: Sequence>(points: T) where T.Element == Point<TextureCoordinate> {
-        guard let region = map.unmappingRegion(for: points) else {
+        guard let region = map?.unmappingRegion(for: points) else {
             return
         }
         unloadRegions.append(region)
-        map.updateMapping(region: region)
+        map?.updateMapping(region: region)
     }
 
     var loadAction: MTLLoadAction
