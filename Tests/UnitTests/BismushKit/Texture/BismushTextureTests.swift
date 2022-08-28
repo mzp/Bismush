@@ -36,7 +36,8 @@ final class BismushTextureTests: XCTestCase {
             let texture = factory.create(
                 size: .init(width: 100, height: 100),
                 pixelFormat: .rgba8Unorm,
-                rasterSampleCount: 4
+                rasterSampleCount: 4,
+                sparse: false
             )
             XCTAssertNotNil(texture.msaaTexture)
         #endif
@@ -95,10 +96,12 @@ final class BismushTextureTests: XCTestCase {
             let texture = factory.create(
                 size: .init(width: 100, height: 100),
                 pixelFormat: .rgba8Unorm,
-                rasterSampleCount: 4
+                rasterSampleCount: 4,
+                sparse: false
             )
             let metalTexture = texture.texture
-            texture.withRenderPassDescriptor { description in
+            let commandBuffer = GPUDevice.default.metalDevice.makeCommandQueue()?.makeCommandBuffer()
+            texture.withRenderPassDescriptor(commandBuffer: commandBuffer!) { description in
                 XCTAssertNotNil(description.colorAttachments[0].texture)
                 XCTAssertEqual(description.colorAttachments[0].storeAction, .storeAndMultisampleResolve)
             }

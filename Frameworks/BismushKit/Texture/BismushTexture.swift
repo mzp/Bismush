@@ -168,7 +168,7 @@ class BismushTexture {
         if !unloadRegions.isEmpty {
             let encoder = commandBuffer.makeResourceStateCommandEncoder()!
             for region in unloadRegions {
-                encoder.updateTextureMapping(texture, mode: .map, region: region, mipLevel: 0, slice: 0)
+                encoder.updateTextureMapping?(texture, mode: .map, region: region, mipLevel: 0, slice: 0)
             }
             encoder.endEncoding()
             unloadRegions.removeAll()
