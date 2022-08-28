@@ -36,10 +36,6 @@ public class BismushInspector {
                                 count: count)
         )
     }
-
-    public class func array<T>(metalArray: MetalMutableArray<T>) -> [T] {
-        metalArray.array()
-    }
 }
 
 extension BismushTexture.Snapshot {

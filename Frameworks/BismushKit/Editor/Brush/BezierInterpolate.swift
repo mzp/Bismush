@@ -20,7 +20,7 @@ class BezierInterpolate {
                 document.canvas.projection(viewPortSize: size) *
                 document.canvas.modelViewMatrix).inverse
 
-        strokes = document.device.makeArray(options: .storageModeShared)
+        strokes = document.device.makeArray(count: 0)
     }
 
     func interpolate(
@@ -40,7 +40,7 @@ class BezierInterpolate {
                 simd_distance(point2.xy, point3.xy)
             let count = Int(max(length * 1.5, 4))
             BismushLogger.drawing.trace("\(#function): count=\(count)")
-            strokes.use(count: count)
+            strokes.removeAll(count: count)
             encoder.setBuffer(strokes.content, offset: 0, index: 0)
 
             encoder.setBytes(&point0, length: MemorySize.float3, index: 1)

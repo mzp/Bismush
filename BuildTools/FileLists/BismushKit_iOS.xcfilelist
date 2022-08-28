@@ -34,4 +34,4 @@ Frameworks/BismushKit/Renderer/CanvasLayerRenderer.swift
 Frameworks/BismushKit/Renderer/CanvasRenderer.swift
 Frameworks/BismushKit/Texture/BismushTexture.swift
 Frameworks/BismushKit/Texture/BismushTextureFactory.swift
-Frameworks/BismushKit/Texture/TileMap.swift
+Frameworks/BismushKit/Texture/SparseTextureMap.swift

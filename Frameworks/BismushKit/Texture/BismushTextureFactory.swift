@@ -26,7 +26,8 @@ class BismushTextureFactory: BismushTextureContext {
     func createTexture(
         size: Size<TextureCoordinate>,
         pixelFormat: MTLPixelFormat,
-        rasterSampleCount: Int
+        rasterSampleCount: Int,
+        sparse _: Bool
     ) -> (MTLTexture, MTLTexture?) {
         BismushLogger.metal.info("Create Texture")
         let width = Int(size.width)

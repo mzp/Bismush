@@ -115,6 +115,11 @@ public class Brush {
         points.removeAll()
         points.append(input3)
         session.mixer.mix(strokes: strokes)
+        document.activeTexture?.load(
+            points: strokes.map {
+                Point(rawValue: $0.point.xy)
+            }
+        )
         session.renderer.draw(strokes: strokes)
     }
 }

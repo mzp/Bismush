@@ -67,6 +67,7 @@ class BismushTexture {
 
     var context: BismushTextureContext
     var renderPassDescriptior: MTLRenderPassDescriptor
+    var map: SparseTextureMap
 
     convenience init(
         size: Size<TextureCoordinate>,
@@ -77,14 +78,16 @@ class BismushTexture {
         let (texture, msaaTexture) = context.createTexture(
             size: size,
             pixelFormat: pixelFormat,
-            rasterSampleCount: rasterSampleCount
+            rasterSampleCount: rasterSampleCount,
+            sparse: Bool
         )
         self.init(
             texture: texture,
             msaaTexture: msaaTexture,
             loadAction: .clear,
             rasterSampleCount: rasterSampleCount,
-            context: context
+            context: context,
+            sparse: sparse
         )
     }
 
@@ -93,15 +96,28 @@ class BismushTexture {
         msaaTexture: MTLTexture?,
         loadAction: MTLLoadAction,
         rasterSampleCount: Int,
-        context: BismushTextureContext
+        context: BismushTextureContext,
+        sparse _: Bool
     ) {
         self.texture = texture
         self.msaaTexture = msaaTexture
         self.loadAction = loadAction
         self.rasterSampleCount = rasterSampleCount
         self.context = context
+        let size = Size<TextureCoordinate>(width: Float(texture.width), height: Float(texture.height))
+
+        map = SparseTextureMap(
+            device: context.device,
+            size: size,
+            tileSize: context.device.metalDevice.sparseTileSize(
+                with: .type2D,
+                pixelFormat:
+                texture.pixelFormat,
+                sampleCount: rasterSampleCount
+            )
+        )
         snapshot = Snapshot(
-            size: Size(width: Float(texture.width), height: Float(texture.height)),
+            size: size,
             pixelFormat: texture.pixelFormat,
             data: texture.bmkData
         )
@@ -137,11 +153,31 @@ class BismushTexture {
         snapshot
     }
 
-    func withRenderPassDescriptor(_ perform: (MTLRenderPassDescriptor) -> Void) {
+    func withRenderPassDescriptor(commandBuffer: MTLCommandBuffer, _ perform: (MTLRenderPassDescriptor) -> Void) {
         snapshot = .init(size: snapshot.size, pixelFormat: snapshot.pixelFormat, data: texture.bmkData)
         renderPassDescriptior.colorAttachments[0].loadAction = loadAction
         loadAction = .load
+
+        if !unloadRegions.isEmpty {
+            let encoder = commandBuffer.makeResourceStateCommandEncoder()!
+            for region in unloadRegions {
+                encoder.updateTextureMapping(texture, mode: .map, region: region, mipLevel: 0, slice: 0)
+            }
+            encoder.endEncoding()
+            unloadRegions.removeAll()
+        }
+
         perform(renderPassDescriptior)
+    }
+
+    var unloadRegions = [MTLRegion]()
+
+    func load<T: Sequence>(points: T) where T.Element == Point<TextureCoordinate> {
+        guard let region = map.unmappingRegion(for: points) else {
+            return
+        }
+        unloadRegions.append(region)
+        map.updateMapping(region: region)
     }
 
     var loadAction: MTLLoadAction

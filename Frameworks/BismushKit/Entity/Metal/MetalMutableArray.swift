@@ -7,10 +7,27 @@
 
 import Metal
 
-public struct MetalMutableArray<T>: CustomDebugStringConvertible {
+public struct MetalMutableArray<T>: CustomDebugStringConvertible, Sequence {
+    public struct Iterator<T>: IteratorProtocol {
+        var content: MTLBuffer?
+        var count: Int
+        var index: Int = 0
+
+        public mutating func next() -> T? {
+            guard index < count else {
+                return nil
+            }
+            guard let buffer = content else {
+                return nil
+            }
+            defer { index += 1 }
+
+            return buffer.contents().advanced(by: index).bindMemory(to: T.self, capacity: 1).pointee
+        }
+    }
+
     var content: MTLBuffer?
     private let device: GPUDevice
-    private let options: MTLResourceOptions
     private(set) var count = 0
     private var capacity = 0
 
@@ -19,34 +36,35 @@ public struct MetalMutableArray<T>: CustomDebugStringConvertible {
         count == 0
     }
 
-    init(device: GPUDevice, options: MTLResourceOptions = .storageModeShared) {
+    init(device: GPUDevice, count: Int) {
         self.device = device
-        self.options = options
+
+        removeAll(count: count)
     }
 
-    mutating func use(count newCount: Int) {
-        count = newCount
-        guard capacity < newCount else {
-            return
-        }
-        capacity = max(capacity, 1)
-        while capacity < newCount {
+    public func makeIterator() -> Iterator<T> {
+        Iterator(content: content, count: count)
+    }
+
+    mutating func removeAll(count: Int) {
+        self.count = count
+        capacity = Swift.max(capacity, 1)
+        while capacity < count {
             capacity *= 2
         }
-        content = device.metalDevice.makeBuffer(length: MemoryLayout<T>.stride * count, options: options)!
+
+        // swiftlint:disable:next empty_count
+        if count == 0 {
+            content = nil
+        } else {
+            content = device.metalDevice.makeBuffer(
+                length: MemoryLayout<T>.stride * count,
+                options: .storageModeShared
+            )!
+        }
     }
 
     public var debugDescription: String {
-        array().debugDescription
-    }
-
-    func array() -> [T] {
-        guard let buffer = content else {
-            return []
-        }
-        return Array(
-            UnsafeBufferPointer(start: buffer.contents().bindMemory(to: T.self, capacity: count),
-                                count: count)
-        )
+        Array(self).debugDescription
     }
 }

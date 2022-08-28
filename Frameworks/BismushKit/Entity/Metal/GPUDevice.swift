@@ -55,7 +55,7 @@ public class GPUDevice {
         ShaderStore(device: self)
     }
 
-    func makeArray<T>(options: MTLResourceOptions) -> MetalMutableArray<T> {
-        MetalMutableArray(device: self, options: options)
+    func makeArray<T>(count: Int) -> MetalMutableArray<T> {
+        MetalMutableArray(device: self, count: count)
     }
 }

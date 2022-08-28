@@ -57,7 +57,7 @@ public class CanvasRenderer: ObservableObject {
 
             let size = document.canvas.size
 
-            document.canvasTexture.withRenderPassDescriptor { renderPassDescriptor in
+            document.canvasTexture.withRenderPassDescriptor(commandBuffer: commandBuffer) { renderPassDescriptor in
                 let encoder = commandBuffer.makeRenderCommandEncoder(
                     descriptor: renderPassDescriptor
                 )!

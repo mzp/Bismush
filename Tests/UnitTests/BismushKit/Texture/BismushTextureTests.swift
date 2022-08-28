@@ -10,10 +10,12 @@ import XCTest
 
 final class BismushTextureTests: XCTestCase {
     private var factory: BismushTextureFactory!
+    private var commandBuffer: MTLCommandBuffer!
 
     override func setUpWithError() throws {
         try super.setUpWithError()
         factory = BismushTextureFactory(device: .default)
+        commandBuffer = GPUDevice.default.metalDevice.makeCommandQueue()?.makeCommandBuffer()
     }
 
     func testEmpty() {
@@ -59,9 +61,9 @@ final class BismushTextureTests: XCTestCase {
             rasterSampleCount: 1
         )
         let snapshot1 = texture.takeSnapshot()
-        texture.withRenderPassDescriptor { _ in }
+        texture.withRenderPassDescriptor(commandBuffer: commandBuffer) { _ in }
         let snapshot2 = texture.takeSnapshot()
-        texture.withRenderPassDescriptor { _ in }
+        texture.withRenderPassDescriptor(commandBuffer: commandBuffer) { _ in }
         let snapshot3 = texture.takeSnapshot()
 
         XCTAssertNotIdentical(snapshot2.data as NSData, snapshot1.data as NSData)
@@ -75,7 +77,7 @@ final class BismushTextureTests: XCTestCase {
             rasterSampleCount: 1
         )
         let metalTexture = texture.texture
-        texture.withRenderPassDescriptor { description in
+        texture.withRenderPassDescriptor(commandBuffer: commandBuffer) { description in
             XCTAssertNotNil(description.colorAttachments[0].texture)
             XCTAssertEqual(description.colorAttachments[0].storeAction, .store)
         }
@@ -106,7 +108,7 @@ final class BismushTextureTests: XCTestCase {
             pixelFormat: .rgba8Unorm,
             rasterSampleCount: 1
         )
-        texture1.withRenderPassDescriptor { _ in }
+        texture1.withRenderPassDescriptor(commandBuffer: commandBuffer) { _ in }
         let encoder = PropertyListEncoder()
         encoder.outputFormat = .binary
         let data = try encoder.encode(texture1.takeSnapshot())

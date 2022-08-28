@@ -41,7 +41,7 @@ class LayerDrawer {
             }
             let commandBuffer = commandQueue.makeCommandBuffer()!
 
-            texture.withRenderPassDescriptor { renderPassDescriptor in
+            texture.withRenderPassDescriptor(commandBuffer: commandBuffer) { renderPassDescriptor in
                 let encoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor)!
                 let viewPort = MTLViewport(
                     originX: 0,

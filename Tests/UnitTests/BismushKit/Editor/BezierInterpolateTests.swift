@@ -42,7 +42,7 @@ final class BezierInterpolateTests: XCTestCase {
     }
 
     func testInterpolateInvariant() {
-        let points = BismushInspector.array(metalArray:
+        let points = Array(
             interpolate.interpolate(
                 input0: .init(x: 0, y: 0),
                 input1: .init(x: 200, y: 300),
