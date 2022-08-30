@@ -70,7 +70,7 @@ public class CanvasLayerRenderer {
         var projection = context.projection.matrix
         encoder.setVertexBytes(&projection, length: MemoryLayout<simd_float4x4>.size, index: 1)
 
-        var previousSize: Size<TextureCoordinate>?
+        var previousSize: Size<TexturePixelCoordinate>?
         for texture in textures {
             if texture.size != previousSize {
                 var buffer = vertices(size: texture.size)
@@ -89,7 +89,7 @@ public class CanvasLayerRenderer {
         var textureCoordinate: SIMD2<Float>
     }
 
-    private func vertices(size: Size<TextureCoordinate>) -> [Vertex] {
+    private func vertices(size: Size<TexturePixelCoordinate>) -> [Vertex] {
         let width = Float(size.width)
         let height = Float(size.height)
         return [

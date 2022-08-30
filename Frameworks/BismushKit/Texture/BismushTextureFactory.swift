@@ -7,6 +7,13 @@
 
 import Foundation
 
+struct TextureDescriptior {
+    var size: Size<TexturePixelCoordinate>
+    var pixelFormat: MTLPixelFormat
+    var rasterSampleCount: Int
+    var sparse: Bool
+}
+
 class BismushTextureFactory: BismushTextureContext {
     let device: GPUDevice
     private let heap: MTLHeap?
@@ -28,17 +35,9 @@ class BismushTextureFactory: BismushTextureContext {
         }
     }
 
-    func create(
-        size: Size<TextureCoordinate>,
-        pixelFormat: MTLPixelFormat,
-        rasterSampleCount: Int,
-        sparse: Bool
-    ) -> BismushTexture {
+    func create(_ descriptor: TextureDescriptior) -> BismushTexture {
         .init(
-            size: size,
-            pixelFormat: pixelFormat,
-            rasterSampleCount: rasterSampleCount,
-            sparse: heap != nil && sparse,
+            descriptor: descriptor,
             context: self
         )
     }
@@ -49,49 +48,50 @@ class BismushTextureFactory: BismushTextureContext {
             texture: texture,
             msaaTexture: nil,
             loadAction: .load,
-            rasterSampleCount: 1,
-            sparse: false,
+            descriptor: .init(
+                size: .init(width: Float(texture.width), height: Float(texture.height)),
+                pixelFormat: texture.pixelFormat,
+                rasterSampleCount: 1,
+                sparse: false
+            ),
             context: self
         )
     }
 
     func createTexture(
-        size: Size<TextureCoordinate>,
-        pixelFormat: MTLPixelFormat,
-        rasterSampleCount: Int,
-        sparse: Bool
+        _ description: TextureDescriptior
     ) -> (MTLTexture, MTLTexture?) {
         BismushLogger.metal.info("Create Texture")
-        let width = Int(size.width)
-        let height = Int(size.height)
+        let width = Int(description.size.width)
+        let height = Int(description.size.height)
 
-        let description = MTLTextureDescriptor()
-        description.width = width
-        description.height = height
-        description.pixelFormat = pixelFormat
-        description.usage = [.shaderRead, .renderTarget, .shaderWrite]
-        description.textureType = .type2D
+        let metalTexture = MTLTextureDescriptor()
 
-        if let heap = heap, sparse {
-            description.storageMode = heap.storageMode
+        if let heap = heap, description.sparse {
+            metalTexture.storageMode = heap.storageMode
         }
 
-        let texture = device.metalDevice.makeTexture(descriptor: description)!
+        let texture = device.makeTexture { metalTexture in
+            metalTexture.width = width
+            metalTexture.height = height
+            metalTexture.pixelFormat = description.pixelFormat
+            metalTexture.usage = [.shaderRead, .renderTarget, .shaderWrite]
+            metalTexture.textureType = .type2D
+        }
 
-        if rasterSampleCount > 1 {
-            let desc = MTLTextureDescriptor.texture2DDescriptor(
-                pixelFormat: pixelFormat,
-                width: width,
-                height: height,
-                mipmapped: false
-            )
-            desc.textureType = .type2DMultisample
-            desc.sampleCount = rasterSampleCount
-            desc.usage = [.renderTarget, .shaderRead, .shaderWrite]
-            let msaaTexture = device.metalDevice.makeTexture(descriptor: desc)!
-            return (texture, msaaTexture)
+        if description.rasterSampleCount > 1 {
+            let msaaTexture = device.makeTexture { metalTexture in
+                metalTexture.textureType = .type2DMultisample
+                metalTexture.width = width
+                metalTexture.height = height
+                metalTexture.pixelFormat = description.pixelFormat
+                metalTexture.sampleCount = description.rasterSampleCount
+                metalTexture.usage = [.shaderRead, .renderTarget, .shaderWrite]
+                metalTexture.textureType = .type2D
+            }
+            return (texture!, msaaTexture!)
         } else {
-            return (texture, nil)
+            return (texture!, nil)
         }
     }
 }

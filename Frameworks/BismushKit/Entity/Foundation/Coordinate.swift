@@ -30,6 +30,8 @@ public class LayerCoordinate: Coordinate {}
 // left bottom: (0, 0) top right (1, 1)
 public class TextureCoordinate: Coordinate {}
 
+public class TexturePixelCoordinate: Coordinate {}
+
 public struct Size<T: Coordinate>: Codable, CustomStringConvertible, Equatable, Hashable {
     var rawValue: SIMD2<Float>
 

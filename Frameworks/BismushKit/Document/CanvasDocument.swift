@@ -24,13 +24,10 @@ public class CanvasDocument: ReferenceFileDocument {
     public var canvas: Canvas
     private let file: FileWrapper?
     private var textures = [CanvasLayer.ID: BismushTexture]()
+    let rasterSampleCount: Int
 
     public convenience init(canvas: Canvas = .sample) throws {
         try self.init(file: nil, canvas: canvas)
-    }
-
-    var rasterSampleCount: Int {
-        canvasTexture.rasterSampleCount
     }
 
     init(file: FileWrapper?, canvas: Canvas) throws {
@@ -38,11 +35,16 @@ public class CanvasDocument: ReferenceFileDocument {
         self.canvas = canvas
         let device = GPUDevice.default
         factory = BismushTextureFactory(device: device)
+        let rasterSampleCount = device.capability.msaa ? 8 : 1
+        self.rasterSampleCount = rasterSampleCount
+
         canvasTexture = factory.create(
-            size: Size(canvas.size),
-            pixelFormat: canvas.pixelFormat,
-            rasterSampleCount: device.capability.msaa ? 4 : 1,
-            sparse: false
+            .init(
+                size: Size(canvas.size),
+                pixelFormat: canvas.pixelFormat,
+                rasterSampleCount: rasterSampleCount,
+                sparse: false
+            )
         )
 
         let decoder = DocumentDecoder()
@@ -55,10 +57,12 @@ public class CanvasDocument: ReferenceFileDocument {
                 textures[layer.id] = factory.create(builtin: name)
             } else {
                 textures[layer.id] = factory.create(
-                    size: Size(layer.size),
-                    pixelFormat: layer.pixelFormat,
-                    rasterSampleCount: rasterSampleCount,
-                    sparse: true
+                    .init(
+                        size: Size(layer.size),
+                        pixelFormat: layer.pixelFormat,
+                        rasterSampleCount: rasterSampleCount,
+                        sparse: true
+                    )
                 )
             }
         }
@@ -190,10 +194,12 @@ public class CanvasDocument: ReferenceFileDocument {
 
     func beginSession() {
         activeTexture = factory.create(
-            size: Size(activeLayer.size),
-            pixelFormat: activeLayer.pixelFormat,
-            rasterSampleCount: rasterSampleCount,
-            sparse: true
+            .init(
+                size: Size(activeLayer.size),
+                pixelFormat: activeLayer.pixelFormat,
+                rasterSampleCount: rasterSampleCount,
+                sparse: true
+            )
         )
     }
 

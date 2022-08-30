@@ -38,18 +38,12 @@ public class BismushInspector {
     }
 }
 
-extension BismushTexture.Snapshot {
+extension BismushTexture {
     var inspectImage: CGImage? {
         BismushInspector.image(
-            data,
+            snapshot.data,
             width: Int(size.width),
             height: Int(size.height)
         )
-    }
-}
-
-extension BismushTexture {
-    var inspectImage: CGImage? {
-        takeSnapshot().inspectImage
     }
 }

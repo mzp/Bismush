@@ -45,10 +45,18 @@ public class GPUDevice {
             function: resource.function(name))
     }
 
-    func makeRenderPipelineState(build: (inout MTLRenderPipelineDescriptor) -> Void) throws -> MTLRenderPipelineState {
+    func makeRenderPipelineState(
+        build: (inout MTLRenderPipelineDescriptor) throws -> Void
+    ) throws -> MTLRenderPipelineState {
         var descriptor = MTLRenderPipelineDescriptor()
-        build(&descriptor)
+        try build(&descriptor)
         return try metalDevice.makeRenderPipelineState(descriptor: descriptor)
+    }
+
+    func makeTexture(build: (inout MTLTextureDescriptor) throws -> Void) rethrows -> MTLTexture? {
+        var descriptor = MTLTextureDescriptor()
+        try build(&descriptor)
+        return metalDevice.makeTexture(descriptor: descriptor)
     }
 
     func shader() -> ShaderStore {

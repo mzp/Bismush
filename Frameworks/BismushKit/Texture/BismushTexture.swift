@@ -9,18 +9,11 @@ import Foundation
 
 protocol BismushTextureContext {
     var device: GPUDevice { get }
-    func createTexture(
-        size: Size<TextureCoordinate>,
-        pixelFormat: MTLPixelFormat,
-        rasterSampleCount: Int,
-        sparse: Bool
-    ) -> (MTLTexture, MTLTexture?)
+    func createTexture(_: TextureDescriptior) -> (MTLTexture, MTLTexture?)
 }
 
 class BismushTexture {
     struct Snapshot: Equatable, Hashable, Codable {
-        var size: Size<TextureCoordinate>
-        var pixelFormat: MTLPixelFormat
         var nsData: NSData
 
         var data: Data {
@@ -28,68 +21,46 @@ class BismushTexture {
             set { nsData = newValue as NSData }
         }
 
-        init(size: Size<TextureCoordinate>, pixelFormat: MTLPixelFormat, data nsData: NSData) {
-            self.size = size
-            self.pixelFormat = pixelFormat
+        init(data nsData: NSData) {
             self.nsData = nsData
         }
 
-        init(size: Size<TextureCoordinate>, pixelFormat: MTLPixelFormat, data: Data) {
-            self.size = size
-            self.pixelFormat = pixelFormat
+        init(data: Data) {
             nsData = data as NSData
         }
 
         init(from decoder: Decoder) throws {
             var container = try decoder.unkeyedContainer()
-            size = try container.decode(Size<TextureCoordinate>.self)
-            pixelFormat = try container.decode(MTLPixelFormat.self)
             nsData = try container.decode(Data.self) as NSData
         }
 
         func encode(to encoder: Encoder) throws {
             var container = encoder.unkeyedContainer()
-            try container.encode(size)
-            try container.encode(pixelFormat)
             try container.encode(nsData as Data)
         }
     }
 
     var snapshot: Snapshot
-    var size: Size<TextureCoordinate> {
-        snapshot.size
-    }
-
-    var pixelFormat: MTLPixelFormat {
-        snapshot.pixelFormat
-    }
-
-    var rasterSampleCount: Int
-
     var context: BismushTextureContext
     var renderPassDescriptior: MTLRenderPassDescriptor
     var map: SparseTextureMap?
-    let sparse: Bool
+
+    let descriptor: TextureDescriptior
+
+    var size: Size<TexturePixelCoordinate> {
+        descriptor.size
+    }
 
     convenience init(
-        size: Size<TextureCoordinate>,
-        pixelFormat: MTLPixelFormat,
-        rasterSampleCount: Int,
-        sparse: Bool,
+        descriptor: TextureDescriptior,
         context: BismushTextureContext
     ) {
-        let (texture, msaaTexture) = context.createTexture(
-            size: size,
-            pixelFormat: pixelFormat,
-            rasterSampleCount: rasterSampleCount,
-            sparse: sparse
-        )
+        let (texture, msaaTexture) = context.createTexture(descriptor)
         self.init(
             texture: texture,
             msaaTexture: msaaTexture,
             loadAction: .clear,
-            rasterSampleCount: rasterSampleCount,
-            sparse: sparse,
+            descriptor: descriptor,
             context: context
         )
     }
@@ -98,34 +69,16 @@ class BismushTexture {
         texture: MTLTexture,
         msaaTexture: MTLTexture?,
         loadAction: MTLLoadAction,
-        rasterSampleCount: Int,
-        sparse: Bool,
+        descriptor: TextureDescriptior,
         context: BismushTextureContext
     ) {
         self.texture = texture
         self.msaaTexture = msaaTexture
         self.loadAction = loadAction
-        self.rasterSampleCount = rasterSampleCount
+        self.descriptor = descriptor
         self.context = context
-        self.sparse = sparse
 
-        let size = Size<TextureCoordinate>(width: Float(texture.width), height: Float(texture.height))
-
-        if sparse {
-            map = SparseTextureMap(
-                device: context.device,
-                size: size,
-                tileSize: context.device.metalDevice.sparseTileSize(
-                    with: .type2D,
-                    pixelFormat:
-                    texture.pixelFormat,
-                    sampleCount: rasterSampleCount
-                )
-            )
-        }
         snapshot = Snapshot(
-            size: size,
-            pixelFormat: texture.pixelFormat,
             data: texture.bmkData
         )
 
@@ -145,8 +98,6 @@ class BismushTexture {
     }
 
     func restore(from snapshot: Snapshot) {
-        assert(pixelFormat == snapshot.pixelFormat)
-        assert(size == snapshot.size)
         self.snapshot = snapshot
         if !snapshot.data.isEmpty {
             loadAction = .load
@@ -161,7 +112,7 @@ class BismushTexture {
     }
 
     func withRenderPassDescriptor(commandBuffer: MTLCommandBuffer, _ perform: (MTLRenderPassDescriptor) -> Void) {
-        snapshot = .init(size: snapshot.size, pixelFormat: snapshot.pixelFormat, data: texture.bmkData)
+        snapshot = .init(data: texture.bmkData)
         renderPassDescriptior.colorAttachments[0].loadAction = loadAction
         loadAction = .load
 
