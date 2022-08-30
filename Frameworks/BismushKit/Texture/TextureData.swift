@@ -61,21 +61,20 @@ class TextureData {
     var tiles: TileSequence {
         TileSequence(mapping: mapping)
     }
-    private weak var delegate : TextureDataDelegate?
+
+    private weak var delegate: TextureDataDelegate?
     private let context: TextureDataContext
 
     private var mapping: [[Tile.ID?]]
 
-    lazy var tileSize: MTLSize = {
-        MTLSize(
-            width: Int(context.tileSize.width),
-            height: Int(context.tileSize.height),
-            depth: 1
-        )
-    }()
+    lazy var tileSize: MTLSize = .init(
+        width: Int(context.tileSize.width),
+        height: Int(context.tileSize.height),
+        depth: 1
+    )
 
     init(
-        tiles:  [Tile],
+        tiles: [Tile],
         delegate: TextureDataDelegate?,
         context: TextureDataContext
     ) {

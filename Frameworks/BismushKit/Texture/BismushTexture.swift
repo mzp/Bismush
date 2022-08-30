@@ -9,7 +9,7 @@ import Foundation
 
 protocol BismushTextureContext {
     var device: GPUDevice { get }
-    func createTexture(_: TextureDescriptior) -> (MTLTexture, MTLTexture?)
+    func createTexture(_: BismushTextureDescriptior) -> (MTLTexture, MTLTexture?)
 }
 
 class BismushTexture {
@@ -45,14 +45,14 @@ class BismushTexture {
     var renderPassDescriptior: MTLRenderPassDescriptor
     var map: SparseTextureMap?
 
-    let descriptor: TextureDescriptior
+    let descriptor: BismushTextureDescriptior
 
     var size: Size<TexturePixelCoordinate> {
         descriptor.size
     }
 
     convenience init(
-        descriptor: TextureDescriptior,
+        descriptor: BismushTextureDescriptior,
         context: BismushTextureContext
     ) {
         let (texture, msaaTexture) = context.createTexture(descriptor)
@@ -69,7 +69,7 @@ class BismushTexture {
         texture: MTLTexture,
         msaaTexture: MTLTexture?,
         loadAction: MTLLoadAction,
-        descriptor: TextureDescriptior,
+        descriptor: BismushTextureDescriptior,
         context: BismushTextureContext
     ) {
         self.texture = texture

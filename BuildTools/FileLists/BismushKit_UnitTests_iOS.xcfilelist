@@ -9,4 +9,4 @@ Tests/UnitTests/BismushKit/Renderer/CanvasLayerTests.swift
 Tests/UnitTests/BismushKit/Renderer/CanvasTransformTests.swift
 Tests/UnitTests/BismushKit/Texture/BismushTextureTests.swift
 Tests/UnitTests/BismushKit/Texture/MTLRegion+Equatable.swift
-Tests/UnitTests/BismushKit/Texture/SparseTextureMapTests.swift
+Tests/UnitTests/BismushKit/Texture/TextureDataTests.swift

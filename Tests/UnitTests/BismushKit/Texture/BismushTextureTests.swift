@@ -20,10 +20,12 @@ final class BismushTextureTests: XCTestCase {
 
     func testEmpty() {
         let texture = factory.create(
-            size: .init(width: 100, height: 100),
-            pixelFormat: .rgba8Unorm,
-            rasterSampleCount: 1,
-            sparse: false
+            .init(
+                size: .init(width: 100, height: 100),
+                pixelFormat: .rgba8Unorm,
+                rasterSampleCount: 1,
+                sparse: false
+            )
         )
         XCTAssertEqual(texture.loadAction, .clear)
         XCTAssertNil(texture.msaaTexture)
@@ -34,10 +36,12 @@ final class BismushTextureTests: XCTestCase {
             _ = XCTSkip("iOS Simulator(Xcode 14b5) doesn't support MSAA")
         #else
             let texture = factory.create(
-                size: .init(width: 100, height: 100),
-                pixelFormat: .rgba8Unorm,
-                rasterSampleCount: 4,
-                sparse: false
+                .init(
+                    size: .init(width: 100, height: 100),
+                    pixelFormat: .rgba8Unorm,
+                    rasterSampleCount: 4,
+                    sparse: false
+                )
             )
             XCTAssertNotNil(texture.msaaTexture)
         #endif
@@ -45,10 +49,12 @@ final class BismushTextureTests: XCTestCase {
 
     func testTakeSnapshot_NoChange() {
         let texture = factory.create(
-            size: .init(width: 100, height: 100),
-            pixelFormat: .rgba8Unorm,
-            rasterSampleCount: 1,
-            sparse: false
+            .init(
+                size: .init(width: 100, height: 100),
+                pixelFormat: .rgba8Unorm,
+                rasterSampleCount: 1,
+                sparse: false
+            )
         )
         let snapshot1 = texture.takeSnapshot()
         let snapshot2 = texture.takeSnapshot()
@@ -59,10 +65,12 @@ final class BismushTextureTests: XCTestCase {
 
     func testTakeSnapshot_OnChange() {
         let texture = factory.create(
-            size: .init(width: 100, height: 100),
-            pixelFormat: .rgba8Unorm,
-            rasterSampleCount: 1,
-            sparse: false
+            .init(
+                size: .init(width: 100, height: 100),
+                pixelFormat: .rgba8Unorm,
+                rasterSampleCount: 1,
+                sparse: false
+            )
         )
         let snapshot1 = texture.takeSnapshot()
         texture.withRenderPassDescriptor(commandBuffer: commandBuffer) { _ in }
@@ -76,10 +84,12 @@ final class BismushTextureTests: XCTestCase {
 
     func testWithRenderPassDescriptor() {
         let texture = factory.create(
-            size: .init(width: 100, height: 100),
-            pixelFormat: .rgba8Unorm,
-            rasterSampleCount: 1,
-            sparse: false
+            .init(
+                size: .init(width: 100, height: 100),
+                pixelFormat: .rgba8Unorm,
+                rasterSampleCount: 1,
+                sparse: false
+            )
         )
         let metalTexture = texture.texture
         texture.withRenderPassDescriptor(commandBuffer: commandBuffer) { description in
@@ -94,10 +104,12 @@ final class BismushTextureTests: XCTestCase {
             _ = XCTSkip("iOS Simulator(Xcode 14b5) doesn't support MSAA")
         #else
             let texture = factory.create(
-                size: .init(width: 100, height: 100),
-                pixelFormat: .rgba8Unorm,
-                rasterSampleCount: 4,
-                sparse: false
+                .init(
+                    size: .init(width: 100, height: 100),
+                    pixelFormat: .rgba8Unorm,
+                    rasterSampleCount: 4,
+                    sparse: false
+                )
             )
             let metalTexture = texture.texture
             let commandBuffer = GPUDevice.default.metalDevice.makeCommandQueue()?.makeCommandBuffer()
@@ -111,10 +123,12 @@ final class BismushTextureTests: XCTestCase {
 
     func testInitFromSnapshot() throws {
         let texture1 = factory.create(
-            size: .init(width: 100, height: 100),
-            pixelFormat: .rgba8Unorm,
-            rasterSampleCount: 1,
-            sparse: false
+            .init(
+                size: .init(width: 100, height: 100),
+                pixelFormat: .rgba8Unorm,
+                rasterSampleCount: 1,
+                sparse: false
+            )
         )
         texture1.withRenderPassDescriptor(commandBuffer: commandBuffer) { _ in }
         let encoder = PropertyListEncoder()
@@ -126,16 +140,17 @@ final class BismushTextureTests: XCTestCase {
         let decoder = PropertyListDecoder()
         let snapshot = try decoder.decode(BismushTexture.Snapshot.self, from: data)
         let texture2 = factory.create(
-            size: .init(width: 100, height: 100),
-            pixelFormat: .rgba8Unorm,
-            rasterSampleCount: 1,
-            sparse: false
+            .init(
+                size: .init(width: 100, height: 100),
+                pixelFormat: .rgba8Unorm,
+                rasterSampleCount: 1,
+                sparse: false
+            )
         )
         texture2.restore(from: snapshot)
 
         XCTAssertEqual(texture2.texture.bmkData, texture1.texture.bmkData)
-        XCTAssertEqual(texture2.size, texture1.size)
         XCTAssertEqual(texture2.loadAction, .load)
-        XCTAssertEqual(texture2.pixelFormat, texture1.pixelFormat)
+        XCTAssertEqual(texture2.descriptor, texture1.descriptor)
     }
 }

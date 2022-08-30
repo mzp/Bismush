@@ -7,13 +7,6 @@
 
 import Foundation
 
-struct TextureDescriptior {
-    var size: Size<TexturePixelCoordinate>
-    var pixelFormat: MTLPixelFormat
-    var rasterSampleCount: Int
-    var sparse: Bool
-}
-
 class BismushTextureFactory: BismushTextureContext {
     let device: GPUDevice
     private let heap: MTLHeap?
@@ -35,7 +28,7 @@ class BismushTextureFactory: BismushTextureContext {
         }
     }
 
-    func create(_ descriptor: TextureDescriptior) -> BismushTexture {
+    func create(_ descriptor: BismushTextureDescriptior) -> BismushTexture {
         .init(
             descriptor: descriptor,
             context: self
@@ -59,7 +52,7 @@ class BismushTextureFactory: BismushTextureContext {
     }
 
     func createTexture(
-        _ description: TextureDescriptior
+        _ description: BismushTextureDescriptior
     ) -> (MTLTexture, MTLTexture?) {
         BismushLogger.metal.info("Create Texture")
         let width = Int(description.size.width)
