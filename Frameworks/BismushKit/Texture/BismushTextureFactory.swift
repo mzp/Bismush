@@ -40,6 +40,15 @@ class BismushTextureFactory: BismushTextureContext {
         return .init(
             texture: texture,
             msaaTexture: nil,
+            tileList: TileList(texture: texture, tiles: [
+                Tile(
+                    region: .init(
+                        origin: .zero(),
+                        size: .init(width: Float(texture.width), height: Float(texture.height))
+                    ),
+                    blob: Blob(data: texture.bmkData as NSData)
+                ),
+            ]),
             loadAction: .load,
             descriptor: .init(
                 size: .init(width: Float(texture.width), height: Float(texture.height)),

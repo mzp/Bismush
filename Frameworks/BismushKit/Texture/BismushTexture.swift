@@ -14,36 +14,13 @@ protocol BismushTextureContext {
 
 class BismushTexture {
     struct Snapshot: Equatable, Hashable, Codable {
-        var nsData: NSData
-
-        var data: Data {
-            get { nsData as Data }
-            set { nsData = newValue as NSData }
-        }
-
-        init(data nsData: NSData) {
-            self.nsData = nsData
-        }
-
-        init(data: Data) {
-            nsData = data as NSData
-        }
-
-        init(from decoder: Decoder) throws {
-            var container = try decoder.unkeyedContainer()
-            nsData = try container.decode(Data.self) as NSData
-        }
-
-        func encode(to encoder: Encoder) throws {
-            var container = encoder.unkeyedContainer()
-            try container.encode(nsData as Data)
-        }
+        var tiles: [Tile]
     }
 
     var snapshot: Snapshot
     var context: BismushTextureContext
     var renderPassDescriptior: MTLRenderPassDescriptor
-    var map: SparseTextureMap?
+    var tileList: TileList
 
     let descriptor: BismushTextureDescriptior
 
@@ -59,6 +36,7 @@ class BismushTexture {
         self.init(
             texture: texture,
             msaaTexture: msaaTexture,
+            tileList: TileList(texture: texture, tiles: []),
             loadAction: .clear,
             descriptor: descriptor,
             context: context
@@ -68,6 +46,7 @@ class BismushTexture {
     init(
         texture: MTLTexture,
         msaaTexture: MTLTexture?,
+        tileList: TileList,
         loadAction: MTLLoadAction,
         descriptor: BismushTextureDescriptior,
         context: BismushTextureContext
@@ -77,9 +56,10 @@ class BismushTexture {
         self.loadAction = loadAction
         self.descriptor = descriptor
         self.context = context
+        self.tileList = tileList
 
         snapshot = Snapshot(
-            data: texture.bmkData
+            tiles: tileList.tiles
         )
 
         let renderPassDescriptior = MTLRenderPassDescriptor()
@@ -99,9 +79,10 @@ class BismushTexture {
 
     func restore(from snapshot: Snapshot) {
         self.snapshot = snapshot
-        if !snapshot.data.isEmpty {
+        if !snapshot.tiles.isEmpty {
             loadAction = .load
-            texture.bmkData = snapshot.data
+            tileList.tiles = snapshot.tiles
+//            texture.bmkData = snapshot.data
         } else {
             loadAction = .clear
         }
@@ -111,31 +92,18 @@ class BismushTexture {
         snapshot
     }
 
-    func withRenderPassDescriptor(commandBuffer: MTLCommandBuffer, _ perform: (MTLRenderPassDescriptor) -> Void) {
-        snapshot = .init(data: texture.bmkData)
+    func withRenderPassDescriptor(commandBuffer _: MTLCommandBuffer, _ perform: (MTLRenderPassDescriptor) -> Void) {
+        snapshot = .init(tiles: tileList.tiles)
+
         renderPassDescriptior.colorAttachments[0].loadAction = loadAction
         loadAction = .load
-
-        if !unloadRegions.isEmpty {
-            let encoder = commandBuffer.makeResourceStateCommandEncoder()!
-            for region in unloadRegions {
-                encoder.updateTextureMapping?(texture, mode: .map, region: region, mipLevel: 0, slice: 0)
-            }
-            encoder.endEncoding()
-            unloadRegions.removeAll()
-        }
-
         perform(renderPassDescriptior)
     }
 
-    var unloadRegions = [MTLRegion]()
+//    var unloadRegions = [MTLRegion]()
 
     func load<T: Sequence>(points: T) where T.Element == Point<TextureCoordinate> {
-        guard let region = map?.unmappingRegion(for: points) else {
-            return
-        }
-        unloadRegions.append(region)
-        map?.updateMapping(region: region)
+        tileList.load(points: points)
     }
 
     var loadAction: MTLLoadAction

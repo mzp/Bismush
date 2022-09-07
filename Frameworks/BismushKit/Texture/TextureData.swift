@@ -9,143 +9,95 @@ import Foundation
 import Metal
 
 struct Tile: Codable, Hashable, Equatable {
-    typealias ID = String
-    var x: Int
-    var y: Int
-    var id: ID
+    var region: Rect<TexturePixelCoordinate>
+    var blob: Blob?
 }
 
-protocol TextureDataDelegate: AnyObject {
-    func load(tile: Tile)
-}
-
-protocol TextureDataContext {
-    var device: GPUDevice { get }
-    var size: Size<TexturePixelCoordinate> { get }
-    var tileSize: Size<TexturePixelCoordinate> { get }
-}
-
-struct TileSequence: Sequence {
-    private var mapping: [[Tile.ID?]]
-
-    struct TileIterator: IteratorProtocol {
-        var mapping: [[Tile.ID?]]
-        var x: Int = 0
-        var y: Int = 0
-
-        mutating func next() -> Tile? {
-            while y < mapping.count {
-                while x < mapping[y].count {
-                    defer { x += 1 }
-                    if let id = mapping[y][x] {
-                        return Tile(x: x, y: y, id: id)
-                    }
-                }
-                x = 0
-                y += 1
-            }
-            return nil
-        }
-    }
-
-    func makeIterator() -> TileIterator {
-        TileIterator(mapping: mapping)
-    }
-
-    init(mapping: [[Tile.ID?]]) {
-        self.mapping = mapping
-    }
-}
-
-class TextureData {
-    var tiles: TileSequence {
-        TileSequence(mapping: mapping)
-    }
-
-    private weak var delegate: TextureDataDelegate?
-    private let context: TextureDataContext
-
-    private var mapping: [[Tile.ID?]]
-
-    lazy var tileSize: MTLSize = .init(
-        width: Int(context.tileSize.width),
-        height: Int(context.tileSize.height),
-        depth: 1
-    )
-
-    init(
-        tiles: [Tile],
-        delegate: TextureDataDelegate?,
-        context: TextureDataContext
-    ) {
-        self.delegate = delegate
-        self.context = context
-
-        let regionSize = (context.size.rawValue / context.tileSize.rawValue).rounded(.up)
-        mapping = Array(
-            repeating: Array(
-                repeating: nil,
-                count: Int(regionSize.x)
-            ),
-            count: Int(regionSize.y)
-        )
-
-        for tile in tiles {
-            mapping[tile.y][tile.x] = tile.id
-        }
-    }
-
-    func load<T: Sequence>(points: T) where T.Element == Point<TexturePixelCoordinate> {
-        var minX = Int.max
-        var minY = Int.max
-        var maxX = 0
-        var maxY = 0
-
-        for point in points {
-            let tile = (point.rawValue / context.tileSize.rawValue).rounded(.up)
-
-            let x = Int(point.x)
-            let y = Int(point.y)
-
-            if mapping[Int(tile.y)][Int(tile.x)] == nil {
-                minX = min(minX, x)
-                minY = min(minY, y)
-                maxX = max(maxX, x)
-                maxY = max(maxY, y)
-            }
-        }
-
-        if minX == Int.max, minY == Int.max {
-            return
-        } else {
-            var pixelRegion = MTLRegion(
-                origin: MTLOrigin(
-                    x: minX,
-                    y: minY,
-                    z: 0
-                ),
-                size: MTLSize(
-                    width: maxX - minX + 1,
-                    height: maxY - minY + 1,
-                    depth: 1
+class TileList {
+    private let texture: MTLTexture
+    var tiles: [Tile] {
+        get {
+            regions.map { region in
+                let width = Int(region.size.width)
+                let height = Int(region.size.height)
+                let bytesPerRow = MemoryLayout<Float>.size * 4 * width
+                let count = width * height * 4
+                var bytes = [Float](repeating: 0, count: count)
+                texture.getBytes(
+                    &bytes,
+                    bytesPerRow: bytesPerRow,
+                    from: MTLRegionMake2D(0, 0, width, height),
+                    mipmapLevel: 0
                 )
-            )
-            var tileRegion = MTLRegion()
-            context.device.metalDevice.convertSparsePixelRegions?(
-                &pixelRegion,
-                toTileRegions: &tileRegion,
-                withTileSize: tileSize,
-                alignmentMode: .outward,
-                numRegions: 1
-            )
-
-            for y in tileRegion.origin.y ..< tileRegion.origin.y + tileRegion.size.height {
-                for x in tileRegion.origin.x ..< tileRegion.origin.x + tileRegion.size.width {
-                    let id = UUID().uuidString
-                    delegate?.load(tile: Tile(x: x, y: y, id: id))
-                    mapping[y][x] = id
-                }
+                let data = Data(bytes: bytes, count: 4 * count)
+                return Tile(region: region, blob: Blob(data: data as NSData))
             }
         }
+        set {
+            regions = newValue.map(\.region)
+        }
+    }
+
+    var regions: [Rect<TexturePixelCoordinate>]
+
+    init(texture: MTLTexture, tiles: [Tile]) {
+        self.texture = texture
+        regions = tiles.map(\.region)
+    }
+
+    func load<T: Sequence>(points _: T) where T.Element == Point<TextureCoordinate> {
+        // update tiles with empty data
+        // update region
+        /*
+         let encoder = commandBuffer.makeResourceStateCommandEncoder()!
+         for region in unloadRegions {
+             encoder.updateTextureMapping?(texture, mode: .map, region: region, mipLevel: 0, slice: 0)
+         }
+         encoder.endEncoding()
+
+         */
+        /*
+         //
+         //  MTLTexture+Data.swift
+         //  Bismush
+         //
+         //  Created by mzp on 6/20/22.
+         //
+
+         import Foundation
+         import Metal
+
+         extension MTLTexture {
+             var bmkData: Data {
+                 get {
+                     let bytesPerRow = MemoryLayout<Float>.size * 4 * width
+                     let count = width * height * 4
+                     var bytes = [Float](repeating: 0, count: count)
+                     getBytes(
+                         &bytes,
+                         bytesPerRow: bytesPerRow,
+                         from: MTLRegionMake2D(0, 0, width, height),
+                         mipmapLevel: 0
+                     )
+                     return Data(bytes: bytes, count: 4 * count)
+                 }
+                 set {
+                     let bytesPerRow = MemoryLayout<Float>.size * 4 * width
+                     newValue.withUnsafeBytes { pointer in
+                         guard let baseAddress = pointer.baseAddress else {
+                             return
+                         }
+                         replace(
+                             region: MTLRegionMake2D(0, 0, width, height),
+                             mipmapLevel: 0,
+                             withBytes: baseAddress,
+                             bytesPerRow: bytesPerRow
+                         )
+                     }
+                 }
+             }
+         }
+
+         */
     }
 }

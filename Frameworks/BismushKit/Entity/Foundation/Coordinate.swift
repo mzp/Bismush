@@ -59,7 +59,7 @@ public struct Size<T: Coordinate>: Codable, CustomStringConvertible, Equatable, 
     }
 }
 
-public struct Point<T: Coordinate>: Codable, CustomStringConvertible, Equatable {
+public struct Point<T: Coordinate>: Codable, CustomStringConvertible, Equatable, Hashable {
     var rawValue: SIMD2<Float>
 
     public var x: Float { rawValue.x }
@@ -92,4 +92,9 @@ public struct Point<T: Coordinate>: Codable, CustomStringConvertible, Equatable 
     var float4: SIMD4<Float> {
         SIMD4(SIMD3(rawValue, 0), 1)
     }
+}
+
+public struct Rect<T: Coordinate>: Codable, Equatable, Hashable {
+    var origin: Point<T>
+    var size: Size<T>
 }

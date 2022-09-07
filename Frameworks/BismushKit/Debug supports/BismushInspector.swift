@@ -40,10 +40,11 @@ public class BismushInspector {
 
 extension BismushTexture {
     var inspectImage: CGImage? {
-        BismushInspector.image(
-            snapshot.data,
-            width: Int(size.width),
-            height: Int(size.height)
-        )
+        nil
+        /*        BismushInspector.image(
+             snapshot.data,
+             width: Int(size.width),
+             height: Int(size.height)
+         )*/
     }
 }
