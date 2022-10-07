@@ -6,7 +6,6 @@ Frameworks/BismushKit/Document/Canvas.swift
 Frameworks/BismushKit/Document/CanvasDocument.swift
 Frameworks/BismushKit/Document/CanvasDocumentSnapshot.swift
 Frameworks/BismushKit/Document/CanvasLayer.swift
-Frameworks/BismushKit/Document/MTLTexture+Data.swift
 Frameworks/BismushKit/Editor/BismushEditor.swift
 Frameworks/BismushKit/Editor/Brush/BezierInterpolate.swift
 Frameworks/BismushKit/Editor/Brush/Brush.swift
@@ -17,7 +16,6 @@ Frameworks/BismushKit/Entity/Foundation/BismushColor.swift
 Frameworks/BismushKit/Entity/Foundation/BismushError.swift
 Frameworks/BismushKit/Entity/Foundation/Coordinate.swift
 Frameworks/BismushKit/Entity/Foundation/PressurePoint.swift
-Frameworks/BismushKit/Entity/Foundation/RectTests.swift
 Frameworks/BismushKit/Entity/Foundation/RingBuffer.swift
 Frameworks/BismushKit/Entity/Foundation/Transform2D.swift
 Frameworks/BismushKit/Entity/Metal/FunctionName+CustomStringConvertible.swift
@@ -37,4 +35,5 @@ Frameworks/BismushKit/Renderer/CanvasRenderer.swift
 Frameworks/BismushKit/Texture/BismushTexture.swift
 Frameworks/BismushKit/Texture/BismushTextureDescriptor.swift
 Frameworks/BismushKit/Texture/BismushTextureFactory.swift
+Frameworks/BismushKit/Texture/MTLTexture+Data.swift
 Frameworks/BismushKit/Texture/TextureTile.swift
