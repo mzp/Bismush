@@ -40,21 +40,11 @@ class BismushTextureFactory: BismushTextureContext {
         return .init(
             texture: texture,
             msaaTexture: nil,
-            tileList: TileList(texture: texture, tiles: [
-                Tile(
-                    region: .init(
-                        origin: .zero(),
-                        size: .init(width: Float(texture.width), height: Float(texture.height))
-                    ),
-                    blob: Blob(data: texture.bmkData as NSData)
-                ),
-            ]),
             loadAction: .load,
             descriptor: .init(
                 size: .init(width: Float(texture.width), height: Float(texture.height)),
                 pixelFormat: texture.pixelFormat,
-                rasterSampleCount: 1,
-                sparse: false
+                rasterSampleCount: 1
             ),
             context: self
         )
@@ -66,14 +56,10 @@ class BismushTextureFactory: BismushTextureContext {
         BismushLogger.metal.info("Create Texture")
         let width = Int(description.size.width)
         let height = Int(description.size.height)
-
-        let metalTexture = MTLTextureDescriptor()
-
-        if let heap = heap, description.sparse {
-            metalTexture.storageMode = heap.storageMode
-        }
-
         let texture = device.makeTexture { metalTexture in
+            if let heap = heap, description.tileSize != nil {
+                metalTexture.storageMode = heap.storageMode
+            }
             metalTexture.width = width
             metalTexture.height = height
             metalTexture.pixelFormat = description.pixelFormat
@@ -83,13 +69,15 @@ class BismushTextureFactory: BismushTextureContext {
 
         if description.rasterSampleCount > 1 {
             let msaaTexture = device.makeTexture { metalTexture in
+                if let heap = heap, description.tileSize != nil {
+                    metalTexture.storageMode = heap.storageMode
+                }
                 metalTexture.textureType = .type2DMultisample
                 metalTexture.width = width
                 metalTexture.height = height
                 metalTexture.pixelFormat = description.pixelFormat
                 metalTexture.sampleCount = description.rasterSampleCount
                 metalTexture.usage = [.shaderRead, .renderTarget, .shaderWrite]
-                metalTexture.textureType = .type2D
             }
             return (texture!, msaaTexture!)
         } else {

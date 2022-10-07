@@ -115,11 +115,14 @@ public class Brush {
         points.removeAll()
         points.append(input3)
         session.mixer.mix(strokes: strokes)
-        document.activeTexture?.load(
+        let region: Rect<TexturePixelCoordinate> = Rect(
             points: strokes.map {
                 Point(rawValue: $0.point.xy)
             }
         )
-        session.renderer.draw(strokes: strokes)
+        session.renderer.draw(
+            region: region,
+            strokes: strokes
+        )
     }
 }

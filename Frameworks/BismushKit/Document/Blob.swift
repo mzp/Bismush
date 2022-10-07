@@ -25,9 +25,9 @@ struct Blob: Equatable, Hashable, Codable {
         var container = try decoder.unkeyedContainer()
         id = try container.decode(String.self)
         if let manager = decoder.userInfo[Self.dataManager] as? DataManager {
-            self.data = manager.load(id: id) as NSData
+            data = manager.load(id: id) as NSData
         } else {
-            self.data = NSData()
+            data = NSData()
         }
     }
 
@@ -44,6 +44,6 @@ struct Blob: Equatable, Hashable, Codable {
     }
 
     static var dataManager: CodingUserInfoKey {
-        return CodingUserInfoKey(rawValue: "dataManager")!
+        CodingUserInfoKey(rawValue: "dataManager")!
     }
 }

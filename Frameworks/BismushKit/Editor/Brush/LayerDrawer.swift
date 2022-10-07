@@ -29,7 +29,7 @@ class LayerDrawer {
         }
     }
 
-    func draw(strokes: MetalMutableArray<BMKStroke>) {
+    func draw(region: Rect<TexturePixelCoordinate>, strokes: MetalMutableArray<BMKStroke>) {
         document.needsRenderCanvas = true
         document.device.scope("\(#function)") {
             guard let texture = document.activeTexture else {
@@ -41,7 +41,10 @@ class LayerDrawer {
             }
             let commandBuffer = commandQueue.makeCommandBuffer()!
 
-            texture.withRenderPassDescriptor(commandBuffer: commandBuffer) { renderPassDescriptor in
+            texture.asRenderTarget(
+                region: region,
+                commandBuffer: commandBuffer
+            ) { renderPassDescriptor in
                 let encoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor)!
                 let viewPort = MTLViewport(
                     originX: 0,

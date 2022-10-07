@@ -30,12 +30,14 @@ public class CanvasDocument: ReferenceFileDocument {
         try self.init(file: nil, canvas: canvas)
     }
 
+    private let kTileSize = TextureTileSize(width: 256, height: 256)
+
     init(file: FileWrapper?, canvas: Canvas) throws {
         self.file = file
         self.canvas = canvas
         let device = GPUDevice.default
         factory = BismushTextureFactory(device: device)
-        let rasterSampleCount = device.capability.msaa ? 8 : 1
+        let rasterSampleCount = device.capability.msaa ? 4 : 1
         self.rasterSampleCount = rasterSampleCount
 
         canvasTexture = factory.create(
@@ -43,7 +45,7 @@ public class CanvasDocument: ReferenceFileDocument {
                 size: Size(canvas.size),
                 pixelFormat: canvas.pixelFormat,
                 rasterSampleCount: rasterSampleCount,
-                sparse: false
+                tileSize: kTileSize
             )
         )
 
@@ -61,7 +63,7 @@ public class CanvasDocument: ReferenceFileDocument {
                         size: Size(layer.size),
                         pixelFormat: layer.pixelFormat,
                         rasterSampleCount: rasterSampleCount,
-                        sparse: true
+                        tileSize: kTileSize
                     )
                 )
             }
@@ -198,7 +200,7 @@ public class CanvasDocument: ReferenceFileDocument {
                 size: Size(activeLayer.size),
                 pixelFormat: activeLayer.pixelFormat,
                 rasterSampleCount: rasterSampleCount,
-                sparse: true
+                tileSize: kTileSize
             )
         )
     }

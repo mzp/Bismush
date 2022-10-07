@@ -14,13 +14,12 @@ protocol BismushTextureContext {
 
 class BismushTexture {
     struct Snapshot: Equatable, Hashable, Codable {
-        var tiles: [Tile]
+        var tiles: [TextureTileRegion: Blob]
     }
 
     var snapshot: Snapshot
     var context: BismushTextureContext
     var renderPassDescriptior: MTLRenderPassDescriptor
-    var tileList: TileList
 
     let descriptor: BismushTextureDescriptior
 
@@ -36,7 +35,6 @@ class BismushTexture {
         self.init(
             texture: texture,
             msaaTexture: msaaTexture,
-            tileList: TileList(texture: texture, tiles: []),
             loadAction: .clear,
             descriptor: descriptor,
             context: context
@@ -46,7 +44,6 @@ class BismushTexture {
     init(
         texture: MTLTexture,
         msaaTexture: MTLTexture?,
-        tileList: TileList,
         loadAction: MTLLoadAction,
         descriptor: BismushTextureDescriptior,
         context: BismushTextureContext
@@ -56,10 +53,10 @@ class BismushTexture {
         self.loadAction = loadAction
         self.descriptor = descriptor
         self.context = context
-        self.tileList = tileList
 
+        // TODO: non sparseならここでsnapshotをとりたい
         snapshot = Snapshot(
-            tiles: tileList.tiles
+            tiles: [:]
         )
 
         let renderPassDescriptior = MTLRenderPassDescriptor()
@@ -81,8 +78,6 @@ class BismushTexture {
         self.snapshot = snapshot
         if !snapshot.tiles.isEmpty {
             loadAction = .load
-            tileList.tiles = snapshot.tiles
-//            texture.bmkData = snapshot.data
         } else {
             loadAction = .clear
         }
@@ -92,18 +87,39 @@ class BismushTexture {
         snapshot
     }
 
-    func withRenderPassDescriptor(commandBuffer _: MTLCommandBuffer, _ perform: (MTLRenderPassDescriptor) -> Void) {
-        snapshot = .init(tiles: tileList.tiles)
+    func asRenderTarget(commandBuffer: MTLCommandBuffer, _ perform: (MTLRenderPassDescriptor) -> Void) {
+        asRenderTarget(
+            region: .init(x: 0, y: 0, width: size.width, height: size.height),
+            commandBuffer: commandBuffer,
+            perform
+        )
+    }
+
+    func asRenderTarget(
+        region _: Rect<TexturePixelCoordinate>,
+        commandBuffer _: MTLCommandBuffer,
+        _ perform: (MTLRenderPassDescriptor) -> Void
+    ) {
+        /*        if let tileSize = descriptor.tileSize {
+
+         }*/
+        // TODO: 今の状態のsnapshotをとる
+        // TODO: レンダリングする前にregionにメモリを割り当てる
+//        snapshot = .init(tiles: tileList.tiles)
 
         renderPassDescriptior.colorAttachments[0].loadAction = loadAction
         loadAction = .load
         perform(renderPassDescriptior)
     }
 
-//    var unloadRegions = [MTLRegion]()
-
-    func load<T: Sequence>(points: T) where T.Element == Point<TextureCoordinate> {
-        tileList.load(points: points)
+    func load(
+        region _: Rect<TexturePixelCoordinate>,
+        commandBuffer _: MTLCommandBuffer
+    ) {
+        // TODO: このテクスチャを使うのでregionの範囲をsnapshotから読み取る
+        /*        guard descriptor.tileSize else {
+             return
+         }*/
     }
 
     var loadAction: MTLLoadAction

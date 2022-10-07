@@ -11,5 +11,5 @@ struct BismushTextureDescriptior: Codable, Equatable, Hashable {
     var size: Size<TexturePixelCoordinate>
     var pixelFormat: MTLPixelFormat
     var rasterSampleCount: Int
-    var sparse: Bool
+    var tileSize: TextureTileSize?
 }

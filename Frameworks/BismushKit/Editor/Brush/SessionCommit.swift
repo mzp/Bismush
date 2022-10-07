@@ -35,7 +35,7 @@ class SessionCommit {
             let texture = document.texture(canvasLayer: canvasLayer)
             let targetTexture = texture.texture
 
-            texture.withRenderPassDescriptor(commandBuffer: commandBuffer) { renderPassDescriptor in
+            texture.asRenderTarget(commandBuffer: commandBuffer) { renderPassDescriptor in
                 let encoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor)!
                 let viewPort = MTLViewport(
                     originX: 0,

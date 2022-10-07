@@ -51,16 +51,34 @@ public class CanvasRenderer: ObservableObject {
         guard document.needsRenderCanvas else {
             return
         }
+
         document.device.scope("\(#function)") {
             let canvasLayer = self.document.activeLayer
             let commandBuffer = commandQueue.makeCommandBuffer()!
 
-            let size = document.canvas.size
+            // linearize textures
+            var textures = [BismushTexture]()
+            for layer in document.canvas.layers.reversed() where layer.visible {
+                textures.append(document.texture(canvasLayer: layer))
+                if document.activeLayer == layer, let activeTexture = document.activeTexture {
+                    textures.append(activeTexture)
+                }
+            }
 
-            document.canvasTexture.withRenderPassDescriptor(commandBuffer: commandBuffer) { renderPassDescriptor in
+            // load data if needed
+            for texture in textures {
+                texture.load(
+                    region: .init(origin: .zero(), size: texture.size),
+                    commandBuffer: commandBuffer
+                )
+            }
+
+            // render to canvas texture
+            document.canvasTexture.asRenderTarget(commandBuffer: commandBuffer) { renderPassDescriptor in
                 let encoder = commandBuffer.makeRenderCommandEncoder(
                     descriptor: renderPassDescriptor
                 )!
+                let size = document.canvas.size
                 let viewPort = MTLViewport(
                     originX: 0,
                     originY: 0,
@@ -70,14 +88,6 @@ public class CanvasRenderer: ObservableObject {
                     zfar: 1
                 )
                 encoder.setViewport(viewPort)
-
-                var textures = [BismushTexture]()
-                for layer in document.canvas.layers.reversed() where layer.visible {
-                    textures.append(document.texture(canvasLayer: layer))
-                    if document.activeLayer == layer, let activeTexture = document.activeTexture {
-                        textures.append(activeTexture)
-                    }
-                }
                 layerRenderer.render(
                     textures: textures,
                     context: .init(
