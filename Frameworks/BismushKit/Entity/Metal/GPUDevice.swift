@@ -53,10 +53,15 @@ public class GPUDevice {
         return try metalDevice.makeRenderPipelineState(descriptor: descriptor)
     }
 
-    func makeTexture(build: (inout MTLTextureDescriptor) throws -> Void) rethrows -> MTLTexture? {
+    func makeTexture(sparse: MTLHeap?, build: (inout MTLTextureDescriptor) throws -> Void) rethrows -> MTLTexture? {
         var descriptor = MTLTextureDescriptor()
         try build(&descriptor)
-        return metalDevice.makeTexture(descriptor: descriptor)
+
+        if let sparse = sparse {
+            return sparse.makeTexture(descriptor: descriptor)
+        } else {
+            return metalDevice.makeTexture(descriptor: descriptor)
+        }
     }
 
     func shader() -> ShaderStore {

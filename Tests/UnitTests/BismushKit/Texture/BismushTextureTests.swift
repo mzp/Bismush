@@ -45,41 +45,41 @@ final class BismushTextureTests: XCTestCase {
         #endif
     }
 
-    /*    func testTakeSnapshot_NoChange() {
-         let texture = factory.create(
-             .init(
-                 size: .init(width: 100, height: 100),
-                 pixelFormat: .rgba8Unorm,
-                 rasterSampleCount: 1,
-                 sparse: false
-             )
-         )
-         let snapshot1 = texture.takeSnapshot()
-         let snapshot2 = texture.takeSnapshot()
-         let snapshot3 = texture.takeSnapshot()
-         XCTAssertIdentical(snapshot2.nsData, snapshot1.nsData)
-         XCTAssertIdentical(snapshot3.nsData, snapshot1.nsData)
-     }
+    func testTakeSnapshot_NoChange() {
+        let texture = factory.create(
+            .init(
+                size: .init(width: 100, height: 100),
+                pixelFormat: .rgba8Unorm,
+                rasterSampleCount: 1,
+                tileSize: nil
+            )
+        )
+        let snapshot1 = texture.takeSnapshot()
+        let snapshot2 = texture.takeSnapshot()
+        let snapshot3 = texture.takeSnapshot()
+        XCTAssertEqual(snapshot1, snapshot2)
+        XCTAssertEqual(snapshot2, snapshot3)
+    }
 
-     func testTakeSnapshot_OnChange() {
-         let texture = factory.create(
-             .init(
-                 size: .init(width: 100, height: 100),
-                 pixelFormat: .rgba8Unorm,
-                 rasterSampleCount: 1,
-                 sparse: false
-             )
-         )
-         let snapshot1 = texture.takeSnapshot()
-         texture.withRenderPassDescriptor(commandBuffer: commandBuffer) { _ in }
-         let snapshot2 = texture.takeSnapshot()
-         texture.withRenderPassDescriptor(commandBuffer: commandBuffer) { _ in }
-         let snapshot3 = texture.takeSnapshot()
+    func testTakeSnapshot_OnChange() {
+        let texture = factory.create(
+            .init(
+                size: .init(width: 100, height: 100),
+                pixelFormat: .rgba8Unorm,
+                rasterSampleCount: 1,
+                tileSize: nil
+            )
+        )
+        let snapshot1 = texture.takeSnapshot()
+        texture.asRenderTarget(commandBuffer: commandBuffer) { _ in }
+        let snapshot2 = texture.takeSnapshot()
+        texture.asRenderTarget(commandBuffer: commandBuffer) { _ in }
+        let snapshot3 = texture.takeSnapshot()
 
-         XCTAssertNotIdentical(snapshot2.data as NSData, snapshot1.data as NSData)
-         XCTAssertNotIdentical(snapshot3.data as NSData, snapshot1.data as NSData)
-     }
-     */
+        XCTAssertNotEqual(snapshot2, snapshot1)
+        XCTAssertNotEqual(snapshot3, snapshot1)
+    }
+
     func testWithRenderPassDescriptor() {
         let texture = factory.create(
             .init(

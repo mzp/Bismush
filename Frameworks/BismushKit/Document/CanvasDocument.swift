@@ -44,8 +44,7 @@ public class CanvasDocument: ReferenceFileDocument {
             .init(
                 size: Size(canvas.size),
                 pixelFormat: canvas.pixelFormat,
-                rasterSampleCount: rasterSampleCount,
-                tileSize: kTileSize
+                rasterSampleCount: rasterSampleCount
             )
         )
 

@@ -56,28 +56,26 @@ class BismushTextureFactory: BismushTextureContext {
         BismushLogger.metal.info("Create Texture")
         let width = Int(description.size.width)
         let height = Int(description.size.height)
-        let texture = device.makeTexture { metalTexture in
-            if let heap = heap, description.tileSize != nil {
-                metalTexture.storageMode = heap.storageMode
-            }
+
+        let sparse: MTLHeap? = description.tileSize != nil ? heap : nil
+        let texture = device.makeTexture(sparse: sparse) { metalTexture in
+            metalTexture.storageMode = sparse?.storageMode ?? .shared
             metalTexture.width = width
             metalTexture.height = height
             metalTexture.pixelFormat = description.pixelFormat
-            metalTexture.usage = [.shaderRead, .renderTarget, .shaderWrite]
+            metalTexture.usage = [.shaderRead, .renderTarget]
             metalTexture.textureType = .type2D
         }
 
         if description.rasterSampleCount > 1 {
-            let msaaTexture = device.makeTexture { metalTexture in
-                if let heap = heap, description.tileSize != nil {
-                    metalTexture.storageMode = heap.storageMode
-                }
+            let msaaTexture = device.makeTexture(sparse: sparse) { metalTexture in
+                metalTexture.storageMode = sparse?.storageMode ?? .shared
                 metalTexture.textureType = .type2DMultisample
                 metalTexture.width = width
                 metalTexture.height = height
                 metalTexture.pixelFormat = description.pixelFormat
                 metalTexture.sampleCount = description.rasterSampleCount
-                metalTexture.usage = [.shaderRead, .renderTarget, .shaderWrite]
+                metalTexture.usage = [.shaderRead, .renderTarget]
             }
             return (texture!, msaaTexture!)
         } else {
