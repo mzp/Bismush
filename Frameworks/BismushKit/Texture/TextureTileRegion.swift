@@ -7,12 +7,16 @@
 
 import Foundation
 
-struct TextureTileSize: Equatable, Codable, Hashable {
+struct TextureTileSize: Equatable, Codable, Hashable, CustomStringConvertible {
     var width: Int
     var height: Int
+
+    var description: String {
+        "(\(width), \(height))"
+    }
 }
 
-struct TextureTileRegion: Equatable, Codable, Hashable {
+struct TextureTileRegion: Equatable, Codable, Hashable, CustomStringConvertible {
     var x: Int
     var y: Int
     var size: TextureTileSize
@@ -53,8 +57,8 @@ struct TextureTileRegion: Equatable, Codable, Hashable {
         return tiles
     }
 
-    static func cover(rect _: Rect<TexturePixelCoordinate>, size _: TextureTileSize) -> Set<TextureTileRegion> {
-        Set()
+    var description: String {
+        "TextureTileRegion: (\(x), \(y), \(size.width), \(size.height))"
     }
 }
 

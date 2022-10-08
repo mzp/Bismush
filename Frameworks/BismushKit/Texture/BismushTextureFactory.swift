@@ -16,7 +16,7 @@ class BismushTextureFactory: BismushTextureContext {
 
         if device.capability.sparseTexture {
             let descriptor = MTLHeapDescriptor()
-            let sparseHeapSizeInBytes = 256 * 1024 * 1024
+            let sparseHeapSizeInBytes = 1 * 1024 * 1024 * 1024
             let sparseTileSize = device.metalDevice.sparseTileSizeInBytes
             let alignedHeapSize = ((sparseHeapSizeInBytes + sparseTileSize - 1) / sparseTileSize) * sparseTileSize
             descriptor.type = .sparse
@@ -29,7 +29,11 @@ class BismushTextureFactory: BismushTextureContext {
     }
 
     func create(_ descriptor: BismushTextureDescriptor) -> BismushTexture {
-        .init(
+        var descriptor = descriptor
+        if !device.capability.sparseTexture {
+            descriptor.tileSize = nil
+        }
+        return .init(
             descriptor: descriptor,
             context: self
         )

@@ -165,6 +165,7 @@ public class CanvasDocument: ReferenceFileDocument {
                 texture.restore(from: snapshot)
             }
         }
+        needsRenderCanvas = true
     }
 
     // MARK: - Layer

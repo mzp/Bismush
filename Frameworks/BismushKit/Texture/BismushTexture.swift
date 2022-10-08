@@ -26,7 +26,6 @@ class BismushTexture {
     var msaaTexture: MTLTexture?
     let descriptor: BismushTextureDescriptor
     let mediator: TextureTileMediator
-    let tileSize: MTLSize?
     let commandQueue: MTLCommandQueue
     let buffer: MTLBuffer
 
@@ -76,16 +75,6 @@ class BismushTexture {
         snapshot = Snapshot(tiles: [:])
 
         commandQueue = context.device.metalDevice.makeCommandQueue()!
-
-        if descriptor.tileSize != nil {
-            tileSize = context.device.metalDevice.sparseTileSize(
-                with: .type2D,
-                pixelFormat: descriptor.pixelFormat,
-                sampleCount: 1
-            )
-        } else {
-            tileSize = nil
-        }
 
         buffer = context.device.metalDevice.makeBuffer(
             length: MemoryLayout<Float>.size * 4 * Int(descriptor.size.width) * Int(descriptor.size.height),
@@ -137,13 +126,18 @@ class BismushTexture {
 }
 
 extension BismushTexture: TextureTileDelegate {
-    func textureTileAllocate(region: TextureTileRegion, commandBuffer: MTLCommandBuffer) {
-        guard let tileSize = tileSize else {
-            return
-        }
-        guard let encoder = commandBuffer.makeResourceStateCommandEncoder() else {
-            return
-        }
+    private func updateTextureMapping(
+        encoder: MTLResourceStateCommandEncoder,
+        texture: MTLTexture,
+        region: TextureTileRegion,
+        mode: MTLSparseTextureMappingMode
+    ) {
+        BismushLogger.metal.info("\(#function): \(region))")
+        let tileSize = context.device.metalDevice.sparseTileSize(
+            with: texture.textureType,
+            pixelFormat: texture.pixelFormat,
+            sampleCount: texture.sampleCount
+        )
         var region = MTLRegionMake2D(region.x, region.y, region.size.width, region.size.height)
         var tileRegion = MTLRegion()
         context.device.metalDevice.convertSparsePixelRegions?(
@@ -153,27 +147,28 @@ extension BismushTexture: TextureTileDelegate {
             alignmentMode: .outward,
             numRegions: 1
         )
-        encoder.updateTextureMapping?(texture, mode: .map, region: tileRegion, mipLevel: 0, slice: 0)
+        encoder.updateTextureMapping?(texture, mode: mode, region: tileRegion, mipLevel: 0, slice: 0)
+    }
+
+    func textureTileAllocate(region: TextureTileRegion, commandBuffer: MTLCommandBuffer) {
+        guard let encoder = commandBuffer.makeResourceStateCommandEncoder() else {
+            return
+        }
+        updateTextureMapping(encoder: encoder, texture: texture, region: region, mode: .map)
+        if let msaaTexture = msaaTexture {
+            updateTextureMapping(encoder: encoder, texture: msaaTexture, region: region, mode: .map)
+        }
         encoder.endEncoding()
     }
 
     func textureTileFree(region: TextureTileRegion, commandBuffer: MTLCommandBuffer) {
-        guard let tileSize = tileSize else {
-            return
-        }
         guard let encoder = commandBuffer.makeResourceStateCommandEncoder() else {
             return
         }
-        var region = MTLRegionMake2D(region.x, region.y, region.size.width, region.size.height)
-        var tileRegion = MTLRegion()
-        context.device.metalDevice.convertSparsePixelRegions?(
-            &region,
-            toTileRegions: &tileRegion,
-            withTileSize: tileSize,
-            alignmentMode: .outward,
-            numRegions: 1
-        )
-        encoder.updateTextureMapping?(texture, mode: .unmap, region: tileRegion, mipLevel: 0, slice: 0)
+        updateTextureMapping(encoder: encoder, texture: texture, region: region, mode: .unmap)
+        if let msaaTexture = msaaTexture {
+            updateTextureMapping(encoder: encoder, texture: msaaTexture, region: region, mode: .unmap)
+        }
         encoder.endEncoding()
     }
 

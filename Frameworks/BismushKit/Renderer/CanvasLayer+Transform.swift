@@ -24,4 +24,8 @@ extension CanvasLayer {
                 Transform2D.rotate(x: .pi) *
                 Transform2D.scale(x: Float(1 / size.width), y: Float(1 / size.height)))
     }
+
+    var texturePixelTransform: Transform2D<TexturePixelCoordinate, LayerPixelCoordinate> {
+        Transform2D(matrix: Transform2D.translate(x: 0, y: size.height) * Transform2D.rotate(x: .pi))
+    }
 }

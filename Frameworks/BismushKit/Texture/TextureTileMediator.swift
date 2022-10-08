@@ -94,8 +94,10 @@ class TextureTileMediator {
                 tileSize: tileSize
             )
             for tile in tiles {
-                delegate?.textureTileAllocate(region: tile, commandBuffer: commandBuffer)
-                regions.insert(tile)
+                if !regions.contains(tile) {
+                    delegate?.textureTileAllocate(region: tile, commandBuffer: commandBuffer)
+                    regions.insert(tile)
+                }
             }
         } else {
             let region = TextureTileRegion(x: 0, y: 0, width: width, height: height)
