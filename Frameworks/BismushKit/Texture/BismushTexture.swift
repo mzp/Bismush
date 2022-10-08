@@ -9,7 +9,7 @@ import Foundation
 
 protocol BismushTextureContext {
     var device: GPUDevice { get }
-    func createTexture(_: BismushTextureDescriptior) -> (MTLTexture, MTLTexture?)
+    func createTexture(_: BismushTextureDescriptor) -> (MTLTexture, MTLTexture?)
 }
 
 class BismushTexture {
@@ -21,14 +21,16 @@ class BismushTexture {
     var context: BismushTextureContext
     var renderPassDescriptior: MTLRenderPassDescriptor
 
-    let descriptor: BismushTextureDescriptior
+    let descriptor: BismushTextureDescriptor
+
+    let mediator: TextureTileMediator
 
     var size: Size<TexturePixelCoordinate> {
         descriptor.size
     }
 
     convenience init(
-        descriptor: BismushTextureDescriptior,
+        descriptor: BismushTextureDescriptor,
         context: BismushTextureContext
     ) {
         let (texture, msaaTexture) = context.createTexture(descriptor)
@@ -45,7 +47,7 @@ class BismushTexture {
         texture: MTLTexture,
         msaaTexture: MTLTexture?,
         loadAction: MTLLoadAction,
-        descriptor: BismushTextureDescriptior,
+        descriptor: BismushTextureDescriptor,
         context: BismushTextureContext
     ) {
         self.texture = texture
@@ -53,12 +55,6 @@ class BismushTexture {
         self.loadAction = loadAction
         self.descriptor = descriptor
         self.context = context
-
-        // TODO: non sparseならここでsnapshotをとりたい
-        snapshot = Snapshot(
-            tiles: [:]
-        )
-
         let renderPassDescriptior = MTLRenderPassDescriptor()
         if let msaaTexture = msaaTexture {
             renderPassDescriptior.colorAttachments[0].texture = msaaTexture
@@ -72,6 +68,13 @@ class BismushTexture {
         renderPassDescriptior.colorAttachments[0].clearColor = MTLClearColor(red: 1, green: 1, blue: 1, alpha: 0)
 
         self.renderPassDescriptior = renderPassDescriptior
+        mediator = TextureTileMediator(descriptor: descriptor)
+
+        // TODO: non sparseならここでsnapshotをとりたい
+        snapshot = Snapshot(
+            tiles: [:]
+        )
+        mediator.initialize(loadAction: loadAction)
     }
 
     func restore(from snapshot: Snapshot) {
@@ -96,8 +99,8 @@ class BismushTexture {
     }
 
     func asRenderTarget(
-        region _: Rect<TexturePixelCoordinate>,
-        commandBuffer _: MTLCommandBuffer,
+        region: Rect<TexturePixelCoordinate>,
+        commandBuffer: MTLCommandBuffer,
         _ perform: (MTLRenderPassDescriptor) -> Void
     ) {
         /*        if let tileSize = descriptor.tileSize {
@@ -106,7 +109,7 @@ class BismushTexture {
         // TODO: 今の状態のsnapshotをとる
         // TODO: レンダリングする前にregionにメモリを割り当てる
 //        snapshot = .init(tiles: tileList.tiles)
-
+        mediator.asRenderTarget(rect: region, commandBuffer: commandBuffer)
         renderPassDescriptior.colorAttachments[0].loadAction = loadAction
         loadAction = .load
         perform(renderPassDescriptior)

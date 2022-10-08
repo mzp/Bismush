@@ -65,14 +65,6 @@ public class CanvasRenderer: ObservableObject {
                 }
             }
 
-            // load data if needed
-            for texture in textures {
-                texture.load(
-                    region: .init(origin: .zero(), size: texture.size),
-                    commandBuffer: commandBuffer
-                )
-            }
-
             // render to canvas texture
             document.canvasTexture.asRenderTarget(commandBuffer: commandBuffer) { renderPassDescriptor in
                 let encoder = commandBuffer.makeRenderCommandEncoder(

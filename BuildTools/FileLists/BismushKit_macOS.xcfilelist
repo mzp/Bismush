@@ -36,4 +36,5 @@ Frameworks/BismushKit/Texture/BismushTexture.swift
 Frameworks/BismushKit/Texture/BismushTextureDescriptor.swift
 Frameworks/BismushKit/Texture/BismushTextureFactory.swift
 Frameworks/BismushKit/Texture/MTLTexture+Data.swift
-Frameworks/BismushKit/Texture/TextureTile.swift
+Frameworks/BismushKit/Texture/TextureTileMediator.swift
+Frameworks/BismushKit/Texture/TextureTileRegion.swift

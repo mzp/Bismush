@@ -28,7 +28,7 @@ class BismushTextureFactory: BismushTextureContext {
         }
     }
 
-    func create(_ descriptor: BismushTextureDescriptior) -> BismushTexture {
+    func create(_ descriptor: BismushTextureDescriptor) -> BismushTexture {
         .init(
             descriptor: descriptor,
             context: self
@@ -51,7 +51,7 @@ class BismushTextureFactory: BismushTextureContext {
     }
 
     func createTexture(
-        _ description: BismushTextureDescriptior
+        _ description: BismushTextureDescriptor
     ) -> (MTLTexture, MTLTexture?) {
         BismushLogger.metal.info("Create Texture")
         let width = Int(description.size.width)
