@@ -20,6 +20,7 @@ class ShaderStore {
     func compute(_ name: FunctionName, dispatch: (MTLComputeCommandEncoder) -> Void) throws {
         try device.scope(name.rawValue) {
             let commandBuffer = commandQueue.makeCommandBuffer()!
+            commandBuffer.label = "\(#function): \(name.rawValue)"
             let encoder = commandBuffer.makeComputeCommandEncoder()!
             encoder.setComputePipelineState(try pipelineState(name))
             dispatch(encoder)

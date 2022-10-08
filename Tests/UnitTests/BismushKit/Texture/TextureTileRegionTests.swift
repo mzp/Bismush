@@ -31,12 +31,29 @@ final class TextureTileRegionTests: XCTestCase {
     }
 
     func testCover() {
-        let regions = TextureTileRegion.cover(
-            rect: Rect(x: 1, y: 2, width: 3, height: 3),
-            size: tileSize
+        let canvas = Rect<TexturePixelCoordinate>(
+            x: 0,
+            y: 0,
+            width: 8,
+            height: 8
         )
-        XCTAssertEqual(regions, Set([
+        let singleRegion = canvas.split(
+            cover: Rect(x: 1, y: 2, width: 3, height: 3),
+            tileSize: tileSize
+        )
+        XCTAssertEqual(singleRegion, Set([
             .init(x: 0, y: 0, size: tileSize),
+        ]))
+
+        let multiRegion = canvas.split(
+            cover: Rect(x: 0, y: 0, width: 6, height: 6),
+            tileSize: tileSize
+        )
+        XCTAssertEqual(multiRegion, Set([
+            .init(x: 0, y: 0, size: tileSize),
+            .init(x: 5, y: 0, size: .init(width: 3, height: 5)),
+            .init(x: 0, y: 5, size: .init(width: 5, height: 3)),
+            .init(x: 5, y: 5, size: .init(width: 3, height: 3)),
         ]))
     }
 }

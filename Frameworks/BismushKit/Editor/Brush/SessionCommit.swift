@@ -32,6 +32,7 @@ class SessionCommit {
 
             let canvasLayer = self.document.activeLayer
             let commandBuffer = commandQueue.makeCommandBuffer()!
+            commandBuffer.label = "\(#function)"
             let texture = document.texture(canvasLayer: canvasLayer)
             let targetTexture = texture.texture
 

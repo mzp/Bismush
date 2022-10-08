@@ -40,7 +40,7 @@ class LayerDrawer {
                 return
             }
             let commandBuffer = commandQueue.makeCommandBuffer()!
-
+            commandBuffer.label = "\(#function)"
             texture.asRenderTarget(
                 region: region,
                 commandBuffer: commandBuffer

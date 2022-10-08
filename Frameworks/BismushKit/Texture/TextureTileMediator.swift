@@ -14,7 +14,7 @@ protocol TextureTileDelegate: AnyObject {
     func textureTileFree(region: TextureTileRegion, commandBuffer: MTLCommandBuffer)
 
     // load data from texture
-    func textureTileLoad(region: TextureTileRegion) -> Blob
+    func textureTileLoad(region: TextureTileRegion) -> Blob?
 
     // write data to texture
     func textureTileStore(region: TextureTileRegion, blob: Blob)
@@ -86,7 +86,14 @@ class TextureTileMediator {
             delegate?.textureTileSnapshot(tiles: snapshot)
 
             // allocate memory
-            for tile in TextureTileRegion.cover(rect: rect, size: tileSize) {
+            let tiles = Rect(
+                origin: .zero(),
+                size: descriptor.size
+            ).split(
+                cover: rect,
+                tileSize: tileSize
+            )
+            for tile in tiles {
                 delegate?.textureTileAllocate(region: tile, commandBuffer: commandBuffer)
                 regions.insert(tile)
             }

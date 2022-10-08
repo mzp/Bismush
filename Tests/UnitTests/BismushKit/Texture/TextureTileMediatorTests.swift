@@ -36,7 +36,7 @@ class TextureTileDelegateMock: TextureTileDelegate {
         actions.append(.free(region: region))
     }
 
-    func textureTileLoad(region: TextureTileRegion) -> Blob {
+    func textureTileLoad(region: TextureTileRegion) -> Blob? {
         actions.append(.load(region: region))
         return blob
     }

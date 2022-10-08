@@ -53,13 +53,37 @@ struct TextureTileRegion: Equatable, Codable, Hashable {
         return tiles
     }
 
-    static func cover(rect: Rect<TexturePixelCoordinate>, size: TextureTileSize) -> Set<TextureTileRegion> {
-        let x = Int(floor(rect.origin.x / Float(size.width))) * size.width
-        let y = Int(floor(rect.origin.y / Float(size.height))) * size.height
-        let width = Int(ceil(rect.size.width / Float(size.width))) * size.width
-        let height = Int(ceil(rect.size.height / Float(size.height))) * size.height
+    static func cover(rect _: Rect<TexturePixelCoordinate>, size _: TextureTileSize) -> Set<TextureTileRegion> {
+        Set()
+    }
+}
 
-        return TextureTileRegion(x: x, y: y, width: width, height: height)
-            .tiles(size: size)
+extension Rect where T == TexturePixelCoordinate {
+    func split(cover rect: Rect<TexturePixelCoordinate>, tileSize: TextureTileSize) -> Set<TextureTileRegion> {
+        let minX = max(
+            Int(origin.x),
+            Int(floor(rect.origin.x / Float(tileSize.width))) * tileSize.width
+        )
+        let minY = max(
+            Int(origin.y),
+            Int(floor(rect.origin.y / Float(tileSize.height))) * tileSize.height
+        )
+        let maxX = min(
+            Int(origin.x + size.width),
+            Int(ceil((rect.origin.x + rect.size.width) / Float(tileSize.width))) * tileSize.width
+        )
+        let maxY = min(
+            Int(origin.y + size.height),
+            Int(ceil((rect.origin.y + rect.size.height) / Float(tileSize.height))) * tileSize.height
+        )
+
+        return TextureTileRegion(
+            x: minX,
+            y: minY,
+            width: maxX - minX,
+            height: maxY - minY
+        ).tiles(
+            size: tileSize
+        )
     }
 }

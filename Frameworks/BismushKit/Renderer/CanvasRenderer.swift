@@ -55,6 +55,7 @@ public class CanvasRenderer: ObservableObject {
         document.device.scope("\(#function)") {
             let canvasLayer = self.document.activeLayer
             let commandBuffer = commandQueue.makeCommandBuffer()!
+            commandBuffer.label = "\(#function)"
 
             // linearize textures
             var textures = [BismushTexture]()

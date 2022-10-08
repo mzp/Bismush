@@ -28,6 +28,7 @@ class BismushTexture {
     let mediator: TextureTileMediator
     let tileSize: MTLSize?
     let commandQueue: MTLCommandQueue
+    let buffer: MTLBuffer
 
     var size: Size<TexturePixelCoordinate> {
         descriptor.size
@@ -86,6 +87,11 @@ class BismushTexture {
             tileSize = nil
         }
 
+        buffer = context.device.metalDevice.makeBuffer(
+            length: MemoryLayout<Float>.size * 4 * Int(descriptor.size.width) * Int(descriptor.size.height),
+            options: .storageModeShared
+        )!
+
         mediator = TextureTileMediator(descriptor: descriptor)
         mediator.delegate = self
         mediator.initialize(loadAction: loadAction)
@@ -93,6 +99,7 @@ class BismushTexture {
 
     func restore(from snapshot: Snapshot) {
         if let commandBuffer = commandQueue.makeCommandBuffer() {
+            commandBuffer.label = "\(#function)"
             mediator.restore(tiles: snapshot.tiles, commandBuffer: commandBuffer)
             commandBuffer.commit()
             commandBuffer.waitUntilCompleted()
@@ -170,32 +177,69 @@ extension BismushTexture: TextureTileDelegate {
         encoder.endEncoding()
     }
 
-    func textureTileLoad(region: TextureTileRegion) -> Blob {
+    func textureTileLoad(region: TextureTileRegion) -> Blob? {
+        guard let commandBuffer = commandQueue.makeCommandBuffer() else {
+            return nil
+        }
+        guard let encoder = commandBuffer.makeBlitCommandEncoder() else {
+            return nil
+        }
+        commandBuffer.label = "\(#function)"
+
+        let count = region.size.width * region.size.height
         let bytesPerRow = MemoryLayout<Float>.size * 4 * region.size.width
-        let count = region.size.width * region.size.height * 4
-        var bytes = [Float](repeating: 0, count: count)
-        texture.getBytes(
-            &bytes,
-            bytesPerRow: bytesPerRow,
-            from: MTLRegionMake2D(0, 0, region.size.width, region.size.height),
-            mipmapLevel: 0
+        let bytesPerImage = MemoryLayout<Float>.size * 4 * count
+        encoder.copy(
+            from: texture,
+            sourceSlice: 0,
+            sourceLevel: 0,
+            sourceOrigin: MTLOrigin(x: region.x, y: region.y, z: 0),
+            sourceSize: MTLSize(width: region.size.width, height: region.size.height, depth: 1),
+            to: buffer,
+            destinationOffset: 0,
+            destinationBytesPerRow: bytesPerRow,
+            destinationBytesPerImage: bytesPerImage
         )
-        return Blob(data: NSData(bytes: bytes, length: 4 * count))
+
+        encoder.endEncoding()
+        commandBuffer.commit()
+        commandBuffer.waitUntilCompleted()
+
+        let data = NSData(bytes: buffer.contents(), length: 4 * count)
+        return Blob(data: data)
     }
 
-    func textureTileStore(region: TextureTileRegion, blob: Blob) {
-        let bytesPerRow = MemoryLayout<Float>.size * 4 * region.size.width
-        (blob.data as Data).withUnsafeBytes { pointer in
-            guard let baseAddress = pointer.baseAddress else {
-                return
-            }
-            texture.replace(
-                region: MTLRegionMake2D(0, 0, region.size.width, region.size.height),
-                mipmapLevel: 0,
-                withBytes: baseAddress,
-                bytesPerRow: bytesPerRow
-            )
+    func textureTileStore(region: TextureTileRegion, blob _: Blob) {
+        guard let commandBuffer = commandQueue.makeCommandBuffer() else {
+            return
         }
+        guard let encoder = commandBuffer.makeBlitCommandEncoder() else {
+            return
+        }
+        commandBuffer.label = "\(#function)"
+        let count = region.size.width * region.size.height
+        let bytesPerRow = MemoryLayout<Float>.size * 4 * region.size.width
+        let bytesPerImage = MemoryLayout<Float>.size * 4 * count
+
+        /*        (blob.data as Data).withUnsafeBytes { pointer in
+             guard let baseAddress = pointer.baseAddress else {
+                 return
+             }
+             buffer.contents().copyMemory(from: baseAddress, byteCount: bytesPerImage)
+         }*/
+        encoder.copy(
+            from: buffer,
+            sourceOffset: 0,
+            sourceBytesPerRow: bytesPerRow,
+            sourceBytesPerImage: bytesPerImage,
+            sourceSize: MTLSize(width: region.size.width, height: region.size.height, depth: 1),
+            to: texture,
+            destinationSlice: 0,
+            destinationLevel: 0,
+            destinationOrigin: MTLOrigin(x: region.x, y: region.y, z: 0)
+        )
+        encoder.endEncoding()
+        commandBuffer.commit()
     }
 
     func textureTileSnapshot(tiles: [TextureTileRegion: Blob]) {
