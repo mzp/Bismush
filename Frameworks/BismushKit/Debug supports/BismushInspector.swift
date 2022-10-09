@@ -37,14 +37,3 @@ public class BismushInspector {
         )
     }
 }
-
-extension BismushTexture {
-    var inspectImage: CGImage? {
-        nil
-        /*        BismushInspector.image(
-             snapshot.data,
-             width: Int(size.width),
-             height: Int(size.height)
-         )*/
-    }
-}

@@ -10,8 +10,8 @@ import XCTest
 
 class TextureTileDelegateMock: TextureTileDelegate {
     enum Action: Equatable {
-        case allocate(region: TextureTileRegion)
-        case free(region: TextureTileRegion)
+        case allocate(regions: Set<TextureTileRegion>)
+        case free(regions: Set<TextureTileRegion>)
         case load(region: TextureTileRegion)
         case store(region: TextureTileRegion, blob: Blob)
         case snapshot(tiles: [TextureTileRegion: Blob])
@@ -28,12 +28,12 @@ class TextureTileDelegateMock: TextureTileDelegate {
         actions.removeAll()
     }
 
-    func textureTileAllocate(region: TextureTileRegion, commandBuffer _: MTLCommandBuffer) {
-        actions.append(.allocate(region: region))
+    func textureTileAllocate(regions: Set<TextureTileRegion>, commandBuffer _: MTLCommandBuffer) {
+        actions.append(.allocate(regions: regions))
     }
 
-    func textureTileFree(region: TextureTileRegion, commandBuffer _: MTLCommandBuffer) {
-        actions.append(.free(region: region))
+    func textureTileFree(regions: Set<TextureTileRegion>, commandBuffer _: MTLCommandBuffer) {
+        actions.append(.free(regions: regions))
     }
 
     func textureTileLoad(region: TextureTileRegion) -> Blob? {
@@ -94,7 +94,7 @@ final class TextureTileMediatorSparseTests: XCTestCase {
         mediator.asRenderTarget(rect: rect, commandBuffer: commandBuffer)
         XCTAssertEqual(delegateMock.actions.count, 2)
         XCTAssertEqual(delegateMock.actions[0], .snapshot(tiles: [:]))
-        XCTAssertEqual(delegateMock.actions[1], .allocate(region: region))
+        XCTAssertEqual(delegateMock.actions[1], .allocate(regions: Set([region])))
 
         delegateMock.clear()
         mediator.asRenderTarget(rect: rect, commandBuffer: commandBuffer)
@@ -111,7 +111,7 @@ final class TextureTileMediatorSparseTests: XCTestCase {
             height: 400
         )
         mediator.restore(tiles: [region1: blob], commandBuffer: commandBuffer)
-        XCTAssertEqual(delegateMock.actions[0], .allocate(region: region1))
+        XCTAssertEqual(delegateMock.actions[0], .allocate(regions: Set([region1])))
         XCTAssertEqual(delegateMock.actions[1], .store(region: region1, blob: blob))
 
         delegateMock.clear()
@@ -122,8 +122,8 @@ final class TextureTileMediatorSparseTests: XCTestCase {
             height: 400
         )
         mediator.restore(tiles: [region2: blob], commandBuffer: commandBuffer)
-        XCTAssertEqual(delegateMock.actions[0], .free(region: region1))
-        XCTAssertEqual(delegateMock.actions[1], .allocate(region: region2))
+        XCTAssertEqual(delegateMock.actions[0], .free(regions: Set([region1])))
+        XCTAssertEqual(delegateMock.actions[1], .allocate(regions: Set([region2])))
         XCTAssertEqual(delegateMock.actions[2], .store(region: region2, blob: blob))
     }
 }

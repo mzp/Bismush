@@ -10,8 +10,8 @@ import Metal
 
 protocol TextureTileDelegate: AnyObject {
     // update memory mapping
-    func textureTileAllocate(region: TextureTileRegion, commandBuffer: MTLCommandBuffer)
-    func textureTileFree(region: TextureTileRegion, commandBuffer: MTLCommandBuffer)
+    func textureTileAllocate(regions: Set<TextureTileRegion>, commandBuffer: MTLCommandBuffer)
+    func textureTileFree(regions: Set<TextureTileRegion>, commandBuffer: MTLCommandBuffer)
 
     // load data from texture
     func textureTileLoad(region: TextureTileRegion) -> Blob?
@@ -59,14 +59,22 @@ class TextureTileMediator {
 
     func restore(tiles: [TextureTileRegion: Blob], commandBuffer: MTLCommandBuffer) {
         if descriptor.tileSize != nil {
-            for region in regions.subtracting(tiles.keys) {
-                delegate?.textureTileFree(region: region, commandBuffer: commandBuffer)
-                regions.remove(region)
+            let freeRegions = regions.subtracting(tiles.keys)
+            let newRegions = Set(tiles.keys).subtracting(regions)
+
+            if !freeRegions.isEmpty {
+                delegate?.textureTileFree(
+                    regions: freeRegions,
+                    commandBuffer: commandBuffer
+                )
             }
-            for region in Set(tiles.keys).subtracting(regions) {
-                delegate?.textureTileAllocate(region: region, commandBuffer: commandBuffer)
-                regions.insert(region)
+            if !newRegions.isEmpty {
+                delegate?.textureTileAllocate(
+                    regions: newRegions,
+                    commandBuffer: commandBuffer
+                )
             }
+            regions = Set(tiles.keys)
         }
 
         for (region, blob) in tiles {
@@ -86,18 +94,21 @@ class TextureTileMediator {
             delegate?.textureTileSnapshot(tiles: snapshot)
 
             // allocate memory
-            let tiles = Rect(
+            let newRegions = Rect(
                 origin: .zero(),
                 size: descriptor.size
             ).split(
                 cover: rect,
                 tileSize: tileSize
+            ).subtracting(
+                regions
             )
-            for tile in tiles {
-                if !regions.contains(tile) {
-                    delegate?.textureTileAllocate(region: tile, commandBuffer: commandBuffer)
-                    regions.insert(tile)
-                }
+            delegate?.textureTileAllocate(
+                regions: newRegions,
+                commandBuffer: commandBuffer
+            )
+            for newRegion in newRegions {
+                regions.insert(newRegion)
             }
         } else {
             let region = TextureTileRegion(x: 0, y: 0, width: width, height: height)

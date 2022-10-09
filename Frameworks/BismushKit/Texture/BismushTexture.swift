@@ -27,7 +27,7 @@ class BismushTexture {
     let descriptor: BismushTextureDescriptor
     let mediator: TextureTileMediator
     let commandQueue: MTLCommandQueue
-    let buffer: MTLBuffer
+    let textureBuffer: MTLBuffer
 
     var size: Size<TexturePixelCoordinate> {
         descriptor.size
@@ -76,7 +76,7 @@ class BismushTexture {
 
         commandQueue = context.device.metalDevice.makeCommandQueue()!
 
-        buffer = context.device.metalDevice.makeBuffer(
+        textureBuffer = context.device.metalDevice.makeBuffer(
             length: MemoryLayout<Float>.size * 4 * Int(descriptor.size.width) * Int(descriptor.size.height),
             options: .storageModeShared
         )!
@@ -87,6 +87,8 @@ class BismushTexture {
     }
 
     func restore(from snapshot: Snapshot) {
+        BismushLogger.texture.info("\(#function)")
+
         if let commandBuffer = commandQueue.makeCommandBuffer() {
             commandBuffer.label = "\(#function)"
             mediator.restore(tiles: snapshot.tiles, commandBuffer: commandBuffer)
@@ -132,7 +134,7 @@ extension BismushTexture: TextureTileDelegate {
         region: TextureTileRegion,
         mode: MTLSparseTextureMappingMode
     ) {
-        BismushLogger.metal.info("\(#function): \(region))")
+        BismushLogger.texture.info("\(#function): \(region))")
         let tileSize = context.device.metalDevice.sparseTileSize(
             with: texture.textureType,
             pixelFormat: texture.pixelFormat,
@@ -150,29 +152,36 @@ extension BismushTexture: TextureTileDelegate {
         encoder.updateTextureMapping?(texture, mode: mode, region: tileRegion, mipLevel: 0, slice: 0)
     }
 
-    func textureTileAllocate(region: TextureTileRegion, commandBuffer: MTLCommandBuffer) {
+    func textureTileAllocate(regions: Set<TextureTileRegion>, commandBuffer: MTLCommandBuffer) {
+        BismushLogger.texture.info("\(#function): \(regions))")
         guard let encoder = commandBuffer.makeResourceStateCommandEncoder() else {
             return
         }
-        updateTextureMapping(encoder: encoder, texture: texture, region: region, mode: .map)
-        if let msaaTexture = msaaTexture {
-            updateTextureMapping(encoder: encoder, texture: msaaTexture, region: region, mode: .map)
+        for region in regions {
+            updateTextureMapping(encoder: encoder, texture: texture, region: region, mode: .map)
+            if let msaaTexture = msaaTexture {
+                updateTextureMapping(encoder: encoder, texture: msaaTexture, region: region, mode: .map)
+            }
         }
         encoder.endEncoding()
     }
 
-    func textureTileFree(region: TextureTileRegion, commandBuffer: MTLCommandBuffer) {
+    func textureTileFree(regions: Set<TextureTileRegion>, commandBuffer: MTLCommandBuffer) {
+        BismushLogger.texture.info("\(#function): \(regions)")
         guard let encoder = commandBuffer.makeResourceStateCommandEncoder() else {
             return
         }
-        updateTextureMapping(encoder: encoder, texture: texture, region: region, mode: .unmap)
-        if let msaaTexture = msaaTexture {
-            updateTextureMapping(encoder: encoder, texture: msaaTexture, region: region, mode: .unmap)
+        for region in regions {
+            updateTextureMapping(encoder: encoder, texture: texture, region: region, mode: .unmap)
+            if let msaaTexture = msaaTexture {
+                updateTextureMapping(encoder: encoder, texture: msaaTexture, region: region, mode: .unmap)
+            }
         }
         encoder.endEncoding()
     }
 
     func textureTileLoad(region: TextureTileRegion) -> Blob? {
+        BismushLogger.texture.info("\(#function): \(region)")
         guard let commandBuffer = commandQueue.makeCommandBuffer() else {
             return nil
         }
@@ -181,16 +190,15 @@ extension BismushTexture: TextureTileDelegate {
         }
         commandBuffer.label = "\(#function)"
 
-        let count = region.size.width * region.size.height
         let bytesPerRow = MemoryLayout<Float>.size * 4 * region.size.width
-        let bytesPerImage = MemoryLayout<Float>.size * 4 * count
+        let bytesPerImage = bytesPerRow * region.size.height
         encoder.copy(
             from: texture,
             sourceSlice: 0,
             sourceLevel: 0,
             sourceOrigin: MTLOrigin(x: region.x, y: region.y, z: 0),
             sourceSize: MTLSize(width: region.size.width, height: region.size.height, depth: 1),
-            to: buffer,
+            to: textureBuffer,
             destinationOffset: 0,
             destinationBytesPerRow: bytesPerRow,
             destinationBytesPerImage: bytesPerImage
@@ -200,11 +208,20 @@ extension BismushTexture: TextureTileDelegate {
         commandBuffer.commit()
         commandBuffer.waitUntilCompleted()
 
-        let data = NSData(bytes: buffer.contents(), length: 4 * count)
-        return Blob(data: data)
+        return Blob(
+            data: NSData(
+                bytes: textureBuffer.contents(),
+                length: bytesPerImage
+            )
+        )
     }
 
-    func textureTileStore(region: TextureTileRegion, blob _: Blob) {
+    func textureTileStore(region: TextureTileRegion, blob: Blob) {
+        BismushLogger.texture.info("\(#function): \(region) \(blob.data.debugDescription)")
+        guard !blob.data.isEmpty else {
+            BismushLogger.texture.error("\(#function): blob is empty")
+            return
+        }
         guard let commandBuffer = commandQueue.makeCommandBuffer() else {
             return
         }
@@ -212,18 +229,20 @@ extension BismushTexture: TextureTileDelegate {
             return
         }
         commandBuffer.label = "\(#function)"
-        let count = region.size.width * region.size.height
         let bytesPerRow = MemoryLayout<Float>.size * 4 * region.size.width
-        let bytesPerImage = MemoryLayout<Float>.size * 4 * count
+        let bytesPerImage = bytesPerRow * region.size.height
 
-        /*        (blob.data as Data).withUnsafeBytes { pointer in
-             guard let baseAddress = pointer.baseAddress else {
-                 return
-             }
-             buffer.contents().copyMemory(from: baseAddress, byteCount: bytesPerImage)
-         }*/
+        (blob.data as Data).withUnsafeBytes { pointer in
+            guard let baseAddress = pointer.baseAddress else {
+                return
+            }
+            textureBuffer.contents().copyMemory(
+                from: baseAddress,
+                byteCount: bytesPerImage
+            )
+        }
         encoder.copy(
-            from: buffer,
+            from: textureBuffer,
             sourceOffset: 0,
             sourceBytesPerRow: bytesPerRow,
             sourceBytesPerImage: bytesPerImage,
@@ -238,6 +257,7 @@ extension BismushTexture: TextureTileDelegate {
     }
 
     func textureTileSnapshot(tiles: [TextureTileRegion: Blob]) {
+        BismushLogger.texture.info("\(#function): \(tiles.keys)")
         snapshot = .init(tiles: tiles)
     }
 }
