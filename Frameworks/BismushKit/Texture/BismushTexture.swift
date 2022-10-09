@@ -254,6 +254,7 @@ extension BismushTexture: TextureTileDelegate {
         )
         encoder.endEncoding()
         commandBuffer.commit()
+        commandBuffer.waitUntilCompleted()
     }
 
     func textureTileSnapshot(tiles: [TextureTileRegion: Blob]) {
