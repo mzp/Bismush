@@ -56,21 +56,26 @@ class CanvasDocumentTests: XCTestCase {
         XCTAssertNotEqual(lhs, rhs)
     }
 
-    private func attach(name _: String = "image", snapshot _: CanvasDocumentSnapshot) {
-        /*        for (id, texture) in snapshot.textures {
-             if let image = texture.inspectImage {
-                 #if os(macOS)
-                     let attachment = XCTAttachment(
-                         image: NSImage(cgImage: image,
-                                        size: NSSize(width: image.width, height: image.height))
-                     )
-                 #else
-                     let attachment = XCTAttachment(image: UIImage(cgImage: image))
-                 #endif
-                 attachment.name = "\(name).\(id).png"
-                 add(attachment)
-             }
-         }*/
+    private func attach(name: String = "snapshot", snapshot: CanvasDocumentSnapshot) {
+        XCTContext.runActivity(named: "Dump snapshot: \(name)") { activity in
+            for (id, texture) in snapshot.textures {
+                for (index, image) in texture.inspectImages().enumerated() {
+                    #if os(macOS)
+                        let attachment = XCTAttachment(
+                            image: NSImage(
+                                cgImage: image,
+                                           size: NSSize(width: image.width, height: image.height)
+                            )
+                        )
+                    #else
+                        let attachment = XCTAttachment(image: UIImage(cgImage: image))
+                    #endif
+
+                    attachment.name = "\(name)-\(id)-\(index).png"
+                    activity.add(attachment)
+                }
+            }
+        }
     }
 
     func testPersist() throws {

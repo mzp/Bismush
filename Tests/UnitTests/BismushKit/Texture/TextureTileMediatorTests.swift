@@ -78,6 +78,30 @@ final class TextureTileMediatorSparseTests: XCTestCase {
         XCTAssertNil(delegateMock.actions.last)
     }
 
+    func testTakeSnapshot() {
+        mediator.takeSnapshot()
+        XCTAssertEqual(delegateMock.actions[0], .snapshot(tiles: [:]))
+
+        let rect = Rect<TexturePixelCoordinate>(
+            x: 3,
+            y: 4,
+            width: 200,
+            height: 200
+        )
+        let region = TextureTileRegion(
+            x: 0,
+            y: 0,
+            width: 400,
+            height: 400
+        )
+        mediator.asRenderTarget(rect: rect, commandBuffer: commandBuffer)
+        delegateMock.clear()
+
+        mediator.takeSnapshot()
+        XCTAssertEqual(delegateMock.actions[0], .load(region: region))
+        XCTAssertEqual(delegateMock.actions[1], .snapshot(tiles: [region: delegateMock.blob]))
+    }
+
     func testAsRenderTarget() {
         let rect = Rect<TexturePixelCoordinate>(
             x: 3,
@@ -92,15 +116,11 @@ final class TextureTileMediatorSparseTests: XCTestCase {
             height: 400
         )
         mediator.asRenderTarget(rect: rect, commandBuffer: commandBuffer)
-        XCTAssertEqual(delegateMock.actions.count, 2)
-        XCTAssertEqual(delegateMock.actions[0], .snapshot(tiles: [:]))
-        XCTAssertEqual(delegateMock.actions[1], .allocate(regions: Set([region])))
+        XCTAssertEqual(delegateMock.actions[0], .allocate(regions: Set([region])))
 
         delegateMock.clear()
         mediator.asRenderTarget(rect: rect, commandBuffer: commandBuffer)
-
-        XCTAssertEqual(delegateMock.actions[0], .load(region: region))
-        XCTAssertEqual(delegateMock.actions[1], .snapshot(tiles: [region: delegateMock.blob]))
+        XCTAssertTrue(delegateMock.actions.isEmpty)
     }
 
     func testRestore() {
@@ -154,6 +174,12 @@ final class TextureTileMediatorDenseTests: XCTestCase {
         XCTAssertEqual(delegateMock.actions[1], .snapshot(tiles: [region: blob]))
     }
 
+    func testTakeSnapshot() {
+        mediator.takeSnapshot()
+        XCTAssertEqual(delegateMock.actions[0], .load(region: region))
+        XCTAssertEqual(delegateMock.actions[1], .snapshot(tiles: [region: blob]))
+    }
+
     func testAsRenderTarget() {
         let rect = Rect<TexturePixelCoordinate>(
             x: 3,
@@ -162,8 +188,7 @@ final class TextureTileMediatorDenseTests: XCTestCase {
             height: 200
         )
         mediator.asRenderTarget(rect: rect, commandBuffer: commandBuffer)
-        XCTAssertEqual(delegateMock.actions[0], .load(region: region))
-        XCTAssertEqual(delegateMock.actions[1], .snapshot(tiles: [region: blob]))
+        XCTAssertTrue(delegateMock.actions.isEmpty)
     }
 
     func testRestore() {

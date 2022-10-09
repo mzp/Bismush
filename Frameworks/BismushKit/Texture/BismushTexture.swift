@@ -104,7 +104,8 @@ class BismushTexture {
     }
 
     func takeSnapshot() -> Snapshot {
-        snapshot
+        mediator.takeSnapshot()
+        return snapshot
     }
 
     func asRenderTarget(commandBuffer: MTLCommandBuffer, _ perform: (MTLRenderPassDescriptor) -> Void) {
@@ -217,6 +218,7 @@ extension BismushTexture: TextureTileDelegate {
     }
 
     func textureTileStore(region: TextureTileRegion, blob: Blob) {
+        // FIXME: bulk update
         BismushLogger.texture.info("\(#function): \(region) \(blob.data.debugDescription)")
         guard !blob.data.isEmpty else {
             BismushLogger.texture.error("\(#function): blob is empty")
@@ -229,32 +231,34 @@ extension BismushTexture: TextureTileDelegate {
             return
         }
         commandBuffer.label = "\(#function)"
-        let bytesPerRow = MemoryLayout<Float>.size * 4 * region.size.width
-        let bytesPerImage = bytesPerRow * region.size.height
+        context.device.scope("\(#function)") {
+            let bytesPerRow = MemoryLayout<Float>.size * 4 * region.size.width
+            let bytesPerImage = bytesPerRow * region.size.height
 
-        (blob.data as Data).withUnsafeBytes { pointer in
-            guard let baseAddress = pointer.baseAddress else {
-                return
+            (blob.data as Data).withUnsafeBytes { pointer in
+                guard let baseAddress = pointer.baseAddress else {
+                    return
+                }
+                textureBuffer.contents().copyMemory(
+                    from: baseAddress,
+                    byteCount: bytesPerImage
+                )
             }
-            textureBuffer.contents().copyMemory(
-                from: baseAddress,
-                byteCount: bytesPerImage
+            encoder.copy(
+                from: textureBuffer,
+                sourceOffset: 0,
+                sourceBytesPerRow: bytesPerRow,
+                sourceBytesPerImage: bytesPerImage,
+                sourceSize: MTLSize(width: region.size.width, height: region.size.height, depth: 1),
+                to: texture,
+                destinationSlice: 0,
+                destinationLevel: 0,
+                destinationOrigin: MTLOrigin(x: region.x, y: region.y, z: 0)
             )
+            encoder.endEncoding()
+            commandBuffer.commit()
+            commandBuffer.waitUntilCompleted()
         }
-        encoder.copy(
-            from: textureBuffer,
-            sourceOffset: 0,
-            sourceBytesPerRow: bytesPerRow,
-            sourceBytesPerImage: bytesPerImage,
-            sourceSize: MTLSize(width: region.size.width, height: region.size.height, depth: 1),
-            to: texture,
-            destinationSlice: 0,
-            destinationLevel: 0,
-            destinationOrigin: MTLOrigin(x: region.x, y: region.y, z: 0)
-        )
-        encoder.endEncoding()
-        commandBuffer.commit()
-        commandBuffer.waitUntilCompleted()
     }
 
     func textureTileSnapshot(tiles: [TextureTileRegion: Blob]) {

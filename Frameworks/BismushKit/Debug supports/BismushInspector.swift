@@ -37,3 +37,15 @@ public class BismushInspector {
         )
     }
 }
+
+extension BismushTexture.Snapshot {
+    func inspectImages() -> [CGImage] {
+        tiles.compactMap { region, blob in
+            BismushInspector.image(
+                blob.data as Data,
+                width: region.size.width,
+                height: region.size.height
+            )
+        }
+    }
+}

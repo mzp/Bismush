@@ -110,7 +110,7 @@ public class CanvasDocument: ReferenceFileDocument {
         if contentType.identifier != "jp.mzp.bismush.canvas" {
             BismushLogger.file.warning("\(#function) \(contentType) is requested")
         }
-        return snapshot()
+        return takeSnapshot()
     }
 
     public func fileWrapper(snapshot: CanvasDocumentSnapshot, configuration: WriteConfiguration) throws -> FileWrapper {
@@ -144,7 +144,7 @@ public class CanvasDocument: ReferenceFileDocument {
 
     // MARK: - Snapshot
 
-    func snapshot() -> CanvasDocumentSnapshot {
+    func takeSnapshot() -> CanvasDocumentSnapshot {
         var snapshots = [CanvasLayer.ID: BismushTexture.Snapshot]()
 
         for (id, texture) in textures {

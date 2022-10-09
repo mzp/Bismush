@@ -82,9 +82,8 @@ class TextureTileMediator {
         }
     }
 
-    func asRenderTarget(rect: Rect<TexturePixelCoordinate>, commandBuffer: MTLCommandBuffer) {
-        if let tileSize = descriptor.tileSize {
-            // take snapshot
+    func takeSnapshot() {
+        if descriptor.tileSize != nil {
             var snapshot = [TextureTileRegion: Blob]()
             for region in regions {
                 if let blob = delegate?.textureTileLoad(region: region) {
@@ -92,7 +91,16 @@ class TextureTileMediator {
                 }
             }
             delegate?.textureTileSnapshot(tiles: snapshot)
+        } else {
+            let region = TextureTileRegion(x: 0, y: 0, width: width, height: height)
+            if let blob = delegate?.textureTileLoad(region: region) {
+                delegate?.textureTileSnapshot(tiles: [region: blob])
+            }
+        }
+    }
 
+    func asRenderTarget(rect: Rect<TexturePixelCoordinate>, commandBuffer: MTLCommandBuffer) {
+        if let tileSize = descriptor.tileSize {
             // allocate memory
             let newRegions = Rect(
                 origin: .zero(),
@@ -103,17 +111,14 @@ class TextureTileMediator {
             ).subtracting(
                 regions
             )
-            delegate?.textureTileAllocate(
-                regions: newRegions,
-                commandBuffer: commandBuffer
-            )
-            for newRegion in newRegions {
-                regions.insert(newRegion)
-            }
-        } else {
-            let region = TextureTileRegion(x: 0, y: 0, width: width, height: height)
-            if let blob = delegate?.textureTileLoad(region: region) {
-                delegate?.textureTileSnapshot(tiles: [region: blob])
+            if !newRegions.isEmpty {
+                delegate?.textureTileAllocate(
+                    regions: newRegions,
+                    commandBuffer: commandBuffer
+                )
+                for newRegion in newRegions {
+                    regions.insert(newRegion)
+                }
             }
         }
     }

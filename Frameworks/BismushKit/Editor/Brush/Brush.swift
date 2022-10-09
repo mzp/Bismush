@@ -115,10 +115,18 @@ public class Brush {
         points.removeAll()
         points.append(input3)
         session.mixer.mix(strokes: strokes)
-        let region: Rect<TexturePixelCoordinate> = Rect(
+        var region: Rect<TexturePixelCoordinate> = Rect(
             points: strokes.map {
                 document.activeLayer.texturePixelTransform * Point(rawValue: $0.point.xy)
             }
+        )
+        region.add(
+            insets: .init(
+                top: -CGFloat(brushSize),
+                left: -CGFloat(brushSize),
+                bottom: -CGFloat(brushSize),
+                right: -CGFloat(brushSize)
+            )
         )
         session.renderer.draw(
             region: region,

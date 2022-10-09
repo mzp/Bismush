@@ -35,8 +35,15 @@ public class TexturePixelCoordinate: Coordinate {}
 public struct Size<T: Coordinate>: Codable, CustomStringConvertible, Equatable, Hashable {
     var rawValue: SIMD2<Float>
 
-    public var width: Float { rawValue.x }
-    public var height: Float { rawValue.y }
+    public var width: Float {
+        get { rawValue.x }
+        set { rawValue.x = newValue }
+    }
+
+    public var height: Float {
+        get { rawValue.y }
+        set { rawValue.y = newValue }
+    }
 
     init(width: Float, height: Float) {
         rawValue = SIMD2(width, height)
@@ -62,8 +69,15 @@ public struct Size<T: Coordinate>: Codable, CustomStringConvertible, Equatable, 
 public struct Point<T: Coordinate>: Codable, CustomStringConvertible, Equatable, Hashable {
     var rawValue: SIMD2<Float>
 
-    public var x: Float { rawValue.x }
-    public var y: Float { rawValue.y }
+    public var x: Float {
+        get { rawValue.x }
+        set { rawValue.x = newValue }
+    }
+
+    public var y: Float {
+        get { rawValue.y }
+        set { rawValue.y = newValue }
+    }
 
     static func zero<T>() -> Point<T> {
         .init(x: 0, y: 0)
@@ -92,35 +106,4 @@ public struct Point<T: Coordinate>: Codable, CustomStringConvertible, Equatable,
     var float4: SIMD4<Float> {
         SIMD4(SIMD3(rawValue, 0), 1)
     }
-}
-
-public struct Rect<T: Coordinate>: Codable, Equatable, Hashable {
-    public init(origin: Point<T>, size: Size<T>) {
-        self.origin = origin
-        self.size = size
-    }
-
-    public init(x: Float, y: Float, width: Float, height: Float) {
-        origin = .init(x: x, y: y)
-        size = .init(width: width, height: height)
-    }
-
-    public init(points: [Point<T>]) {
-        var minX: Float = 0.0
-        var minY: Float = 0.0
-        var maxX: Float = 0.0
-        var maxY: Float = 0.0
-        for point in points {
-            minX = min(minX, point.x)
-            minY = min(minY, point.y)
-            maxX = max(maxX, point.x)
-            maxY = max(maxY, point.y)
-        }
-
-        origin = .init(x: minX, y: minY)
-        size = .init(width: maxX - minX, height: maxY - minY)
-    }
-
-    var origin: Point<T>
-    var size: Size<T>
 }
