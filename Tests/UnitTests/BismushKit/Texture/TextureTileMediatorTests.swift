@@ -52,7 +52,7 @@ class TextureTileDelegateMock: TextureTileDelegate {
 
 // swiftlint:disable single_test_class
 
-final class TextureTileMediatorSparseTests: XCTestCase {
+final class TextureTileMediatorTests: XCTestCase {
     private var delegateMock: TextureTileDelegateMock!
     private var mediator: TextureTileMediator!
     private var commandBuffer: MTLCommandBuffer!
@@ -177,6 +177,9 @@ final class TextureTileMediatorDenseTests: XCTestCase {
     func testTakeSnapshot() {
         mediator.takeSnapshot()
         XCTAssertEqual(delegateMock.actions[0], .load(region: region))
+        XCTAssertEqual(delegateMock.actions[1], .snapshot(tiles: [region: blob]))
+
+        mediator.takeSnapshot()
         XCTAssertEqual(delegateMock.actions[1], .snapshot(tiles: [region: blob]))
     }
 

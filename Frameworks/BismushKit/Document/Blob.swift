@@ -105,7 +105,7 @@ class BlobDecoder<T: TopLevelDecoder & CustomizableCoder>: TopLevelDecoder {
 
     func load(id: String) throws -> NSData {
         guard let data = fileWrapper.fileWrappers?["\(id).data"]?.regularFileContents else {
-            throw FileNotFoundError(path: "\(id).data")
+            throw InvalidFileFormatError()
         }
         return data as NSData
     }

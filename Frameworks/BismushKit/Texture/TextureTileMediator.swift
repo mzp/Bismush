@@ -36,6 +36,7 @@ class TextureTileMediator {
     }
 
     weak var delegate: TextureTileDelegate?
+    private var tiles: [TextureTileRegion: Blob]?
 
     init(descriptor: BismushTextureDescriptor) {
         self.descriptor = descriptor
@@ -58,6 +59,7 @@ class TextureTileMediator {
     }
 
     func restore(tiles: [TextureTileRegion: Blob], commandBuffer: MTLCommandBuffer) {
+        self.tiles = tiles
         if descriptor.tileSize != nil {
             let freeRegions = regions.subtracting(tiles.keys)
             let newRegions = Set(tiles.keys).subtracting(regions)
@@ -83,23 +85,31 @@ class TextureTileMediator {
     }
 
     func takeSnapshot() {
-        if descriptor.tileSize != nil {
-            var snapshot = [TextureTileRegion: Blob]()
-            for region in regions {
-                if let blob = delegate?.textureTileLoad(region: region) {
-                    snapshot[region] = blob
-                }
-            }
-            delegate?.textureTileSnapshot(tiles: snapshot)
+        if let tiles = tiles {
+            delegate?.textureTileSnapshot(tiles: tiles)
         } else {
-            let region = TextureTileRegion(x: 0, y: 0, width: width, height: height)
-            if let blob = delegate?.textureTileLoad(region: region) {
-                delegate?.textureTileSnapshot(tiles: [region: blob])
+            if descriptor.tileSize != nil {
+                var tiles = [TextureTileRegion: Blob]()
+                for region in regions {
+                    if let blob = delegate?.textureTileLoad(region: region) {
+                        tiles[region] = blob
+                    }
+                }
+                delegate?.textureTileSnapshot(tiles: tiles)
+                self.tiles = tiles
+            } else {
+                let region = TextureTileRegion(x: 0, y: 0, width: width, height: height)
+                if let blob = delegate?.textureTileLoad(region: region) {
+                    let tiles = [region: blob]
+                    delegate?.textureTileSnapshot(tiles: tiles)
+                    self.tiles = tiles
+                }
             }
         }
     }
 
     func asRenderTarget(rect: Rect<TexturePixelCoordinate>, commandBuffer: MTLCommandBuffer) {
+        tiles = nil
         if let tileSize = descriptor.tileSize {
             // allocate memory
             let newRegions = Rect(
