@@ -64,7 +64,7 @@ class CanvasDocumentTests: XCTestCase {
                         let attachment = XCTAttachment(
                             image: NSImage(
                                 cgImage: image,
-                                           size: NSSize(width: image.width, height: image.height)
+                                size: NSSize(width: image.width, height: image.height)
                             )
                         )
                     #else
