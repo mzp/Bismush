@@ -8,10 +8,14 @@
 import CoreGraphics
 import Foundation
 
-public struct Canvas: Codable, Equatable {
+public struct Canvas: Identifiable, Codable, Equatable {
     public var layers: [CanvasLayer]
     public var size: Size<CanvasPixelCoordinate>
     var pixelFormat: MTLPixelFormat = .rgba8Unorm
+
+    public var id: String {
+        "the canvas" // FIXME: Support multiple canvas
+    }
 
     public static let sample: Canvas = {
         let size: Size<CanvasPixelCoordinate> = .init(width: 800, height: 800)

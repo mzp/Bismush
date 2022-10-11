@@ -15,7 +15,11 @@ public class BismushEditor: ObservableObject {
 
     public init(document: CanvasDocument) {
         self.document = document
-        canvasRender = CanvasRenderer(document: document)
+        canvasRender = CanvasRenderer(
+            document: document,
+            pixelFormat: document.activeLayer.pixelFormat,
+            rasterSampleCount: document.rasterSampleCount
+        )
         brush = Brush(document: document)
     }
 
@@ -28,6 +32,6 @@ public class BismushEditor: ObservableObject {
     }
 
     public class func makeSample() -> BismushEditor {
-        BismushEditor(document: CanvasDocument())
+        BismushEditor(document: .sample)
     }
 }

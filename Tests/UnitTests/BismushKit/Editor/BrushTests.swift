@@ -13,13 +13,16 @@ class BrushTests: RenderingTestCase {
     override func setUpWithError() throws {
         try super.setUpWithError()
         brush = Brush(document: document, brushSize: 10)
+
+        #if targetEnvironment(simulator)
+            // In Xcode14b5 simulator, VNGenerateImageFeaturePrintRequest returns
+            // always 19.737965 for first time call.
+            render()
+            _ = try distance(name: "bezier", type: "png")
+        #endif
     }
 
     func testBezierInterpolate() throws {
-        #if targetEnvironment(simulator)
-            _ = XCTSkip("iOS Simulator(Xcode 14b2) doesn't support vision VNFeaturePrintObservation")
-        #endif
-
         brush.color = .white
         stroke(points: [
             .init(x: 0, y: 800),
@@ -33,7 +36,6 @@ class BrushTests: RenderingTestCase {
     }
 
     func testMix() throws {
-        _ = XCTSkip("This test isn't intended to run on CI.")
         brush.color = .red
         stroke(points: [
             .init(x: 0, y: 200),
@@ -84,7 +86,8 @@ class BrushTests: RenderingTestCase {
 
         render()
 
-        try openWithPreview()
+        let distance = try distance(name: "mix", type: "png")
+        XCTAssertLessThan(distance, 10)
     }
 
     func stroke(points: [Point<ViewCoordinate>]) {

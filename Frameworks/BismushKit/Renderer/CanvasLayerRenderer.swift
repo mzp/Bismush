@@ -14,44 +14,47 @@ public class CanvasLayerRenderer {
         case alphaBlending
 
         /// Precise alpha blending. https://qiita.com/kerupani129/items/4bf75d9f44a5b926df58
-        case strictAlphaBlend(target: TextureType)
+        case strictAlphaBlend(target: MTLTexture)
     }
 
     struct Context {
         var encoder: MTLRenderCommandEncoder
         var projection: Transform2D<ViewPortCoordinate, CanvasPixelCoordinate>
         var pixelFormat: MTLPixelFormat
-        var rasterSampleCount: Int = 1
         var blend: Blend = .alphaBlending
     }
 
     private let document: CanvasDocument
     var needsNewTexture = false
+    let strictAlphaBlendRenderPipelineState: MTLRenderPipelineState
+    let alphaBlendRenderPipelineState: MTLRenderPipelineState
 
-    init(document: CanvasDocument) {
+    init(document: CanvasDocument, pixelFormat: MTLPixelFormat, rasterSampleCount: Int) {
         self.document = document
-    }
 
-    // MARK: - render
+        strictAlphaBlendRenderPipelineState = try! document.device.makeRenderPipelineState { descriptor in
+            descriptor.rasterSampleCount = rasterSampleCount
+            descriptor.colorAttachments[0].pixelFormat = pixelFormat
+            descriptor.vertexFunction = document.device.resource.function(.layerVertex)
+            descriptor.fragmentFunction = document.device.resource.function(.layerCopy)
+        }
 
-    func makeRenderPipelineDescriptor(context: Context) -> MTLRenderPipelineDescriptor {
-        let descriptor = MTLRenderPipelineDescriptor()
-        descriptor.rasterSampleCount = context.rasterSampleCount
-        descriptor.colorAttachments[0].pixelFormat = context.pixelFormat
-
-        if case .alphaBlending = context.blend {
+        alphaBlendRenderPipelineState = try! document.device.makeRenderPipelineState { descriptor in
+            descriptor.rasterSampleCount = rasterSampleCount
+            descriptor.colorAttachments[0].pixelFormat = pixelFormat
             descriptor.colorAttachments[0].isBlendingEnabled = true
-
             descriptor.colorAttachments[0].rgbBlendOperation = .add
             descriptor.colorAttachments[0].sourceRGBBlendFactor = .sourceAlpha
             descriptor.colorAttachments[0].destinationRGBBlendFactor = .oneMinusSourceAlpha
-
             descriptor.colorAttachments[0].alphaBlendOperation = .max
             descriptor.colorAttachments[0].sourceAlphaBlendFactor = .one
             descriptor.colorAttachments[0].destinationAlphaBlendFactor = .one
+            descriptor.vertexFunction = document.device.resource.function(.layerVertex)
+            descriptor.fragmentFunction = document.device.resource.function(.layerBlend)
         }
-        return descriptor
     }
+
+    // MARK: - render
 
     func render(canvasLayer: CanvasLayer, context: Context) {
         guard canvasLayer.visible else { return }
@@ -59,33 +62,24 @@ public class CanvasLayerRenderer {
         render(texture: texture, context: context)
     }
 
-    func render(texture: TextureType, context: Context) {
-        let descriptor = makeRenderPipelineDescriptor(context: context)
+    func render(texture: BismushTexture, context: Context) {
+        let encoder = context.encoder
+
         switch context.blend {
         case .alphaBlending:
-            descriptor.vertexFunction = document.device.resource.function(.layerVertex)
-            descriptor.fragmentFunction = document.device.resource.function(.layerBlend)
-        case .strictAlphaBlend:
-            descriptor.vertexFunction = document.device.resource.function(.layerVertex)
-            descriptor.fragmentFunction = document.device.resource.function(.layerCopy)
+            encoder.setFragmentTexture(texture.texture, index: 0)
+            encoder.setRenderPipelineState(alphaBlendRenderPipelineState)
+        case let .strictAlphaBlend(target: targetTexture):
+            encoder.setFragmentTexture(texture.texture, index: 0)
+            encoder.setFragmentTexture(targetTexture, index: 1)
+            encoder.setRenderPipelineState(strictAlphaBlendRenderPipelineState)
         }
-        let renderPipelineState = try! document.device.metalDevice.makeRenderPipelineState(descriptor: descriptor)
-        let encoder = context.encoder
-        encoder.setRenderPipelineState(renderPipelineState)
 
         var vertices = vertices(size: texture.size)
         encoder.setVertexBytes(&vertices, length: MemoryLayout<Vertex>.stride * vertices.count, index: 0)
 
         var projection = context.projection.matrix
         encoder.setVertexBytes(&projection, length: MemoryLayout<simd_float4x4>.size, index: 1)
-
-        switch context.blend {
-        case .alphaBlending:
-            encoder.setFragmentTexture(texture.texture, index: 0)
-        case let .strictAlphaBlend(target: targetTexture):
-            encoder.setFragmentTexture(texture.texture, index: 0)
-            encoder.setFragmentTexture(targetTexture.texture, index: 1)
-        }
 
         encoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: vertices.count)
     }

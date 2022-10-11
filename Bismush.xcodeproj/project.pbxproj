@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -22,6 +22,8 @@
 		0B9EF72D3E8448114519ADF0 /* SIMD3+Bismush.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E8C26A376EDD96EB2A8EFB1 /* SIMD3+Bismush.swift */; };
 		0BA828352675F3EC241D5885 /* RingBufferTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4483C3767BFFC164867210 /* RingBufferTests.swift */; };
 		0EEBEF5E18FEB51EA07DF465 /* CanvasLayerList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850F8E37062CCE330FCC49D6 /* CanvasLayerList.swift */; };
+		1308C61B28BA938100955A93 /* BismushTextureFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1308C61A28BA938100955A93 /* BismushTextureFactory.swift */; };
+		1308C61C28BA938100955A93 /* BismushTextureFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1308C61A28BA938100955A93 /* BismushTextureFactory.swift */; };
 		13788712D4054EEE8DABFD66 /* BezierInterpolateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3225C2868B6711B3F907AF /* BezierInterpolateTests.swift */; };
 		1449916A72F24C78EAB08D23 /* RingBufferTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4483C3767BFFC164867210 /* RingBufferTests.swift */; };
 		147198493C2AF4F469B73F84 /* MetalObjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CB29380CFAABD4504FBAA4 /* MetalObjectTests.swift */; };
@@ -33,7 +35,6 @@
 		19CDF2EF56C83678F265FD03 /* CanvasLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781523CEF987B7E316E2006F /* CanvasLayer.swift */; };
 		1BA726D98C97497689EC22DB /* RingBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35337BECFB668B3E885A11BB /* RingBuffer.swift */; };
 		1CA0AA249314543F739A5312 /* CanvasTransformTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C39EA721D28264A595E0AB9 /* CanvasTransformTests.swift */; };
-		1CCFC61DB10555FADB5FDE43 /* TextureType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8C3A0A39CAAFC8D07FE0AE /* TextureType.swift */; };
 		1DF01247B2E6A8BAB1226E0E /* SessionCommit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE68B9DBE8321B8F9C41D95 /* SessionCommit.swift */; };
 		1EB0E60983E744A84332A651 /* BismushKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0B3B3603D98AAC01ECAF202F /* BismushKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1EBF4266B49EBEB860FDEFFC /* Canvas+Transform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13BB38EDD83B652044B5FCD7 /* Canvas+Transform.swift */; };
@@ -46,12 +47,14 @@
 		2AE2A55A52914552174CF91F /* BezierInterpolateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3225C2868B6711B3F907AF /* BezierInterpolateTests.swift */; };
 		2C3DC306636F8296C0F429D9 /* ViewModelProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2915FAD75937DF0BFDBC962B /* ViewModelProvider.swift */; };
 		303C459C984A8B705AB10341 /* DynamicBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E40FEFA9E000BEC7EBD6E92 /* DynamicBuffer.swift */; };
+		33268FE70D2188E2A909A58D /* BismushTextureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7579814D6AD37AF215B2E97 /* BismushTextureTests.swift */; };
 		3327473238375B38C5B5982A /* Brush.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7858FD93FD97A749F82E29 /* Brush.swift */; };
 		3373E62961825EA60F90C761 /* BismushError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7E86268DAB9F1EF0B7BC5E /* BismushError.swift */; };
 		375138E8A6D92DF65CA53018 /* BismushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F29D8E06BAE28C83C76E963D /* BismushKit.framework */; };
 		37F527CE0F960E5DA315DDC7 /* WaterColorMix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443C3BF912049AC27DD2F0FD /* WaterColorMix.swift */; };
 		389D0286D7183E0A7104229B /* CanvasLayerList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850F8E37062CCE330FCC49D6 /* CanvasLayerList.swift */; };
 		38F35D625A25CBE2B283FDE1 /* CanvasRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77BF4AC93B790CF00DE3BC99 /* CanvasRenderer.swift */; };
+		3A9A3DA2BC386A8508730AD8 /* BismushTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F619DF295449306F0513BC /* BismushTexture.swift */; };
 		3D9C1470234DD354ABE0D826 /* CanvasLayer+Transform.swift in Sources */ = {isa = PBXBuildFile; fileRef = C092715C7FCDBD5BFE74BC69 /* CanvasLayer+Transform.swift */; };
 		3DFADF6011A1850CC9B8B388 /* BismushUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8A79FC0F25C098F0AC0EB7B6 /* BismushUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3FB34E5EBA1CCF91A5A75AEC /* CanvasTransformTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C39EA721D28264A595E0AB9 /* CanvasTransformTests.swift */; };
@@ -98,6 +101,7 @@
 		86A68691F1F70BD55D4DD6BB /* BezierInterpolate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB6FA48BD29AF3D2C9A6811B /* BezierInterpolate.swift */; };
 		8A5C38A09E36513C0CA907B0 /* MetalObjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CB29380CFAABD4504FBAA4 /* MetalObjectTests.swift */; };
 		8EF59F54186487108A1F6225 /* CanvasDocumentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150137B2E5EF0A21FA87E5D9 /* CanvasDocumentTests.swift */; };
+		8F1D6351CC89214644F406DB /* mix.png in Resources */ = {isa = PBXBuildFile; fileRef = 901B3569572DCF531A02E7EF /* mix.png */; };
 		92AFAD45DFE6EB2143382D35 /* MTLTexture+Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C3AC70EC97E71778FD8C42 /* MTLTexture+Data.swift */; };
 		93602A470E0F86D8C3B08313 /* MemorySize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F15B6949DBB74A390836E6C /* MemorySize.swift */; };
 		9A143642617A597E1E42CB39 /* BMKDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 00439E9260DD1AF0F1C1EB52 /* BMKDefines.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -142,15 +146,16 @@
 		CC997BA0A5F655D9D99C1D2F /* MetalObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB35955A11C8E879ABE913A /* MetalObject.swift */; };
 		CDEBD6159ADFFB30DBE3FF05 /* Canvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CA57B56FE745D9B96E4D71 /* Canvas.swift */; };
 		D2950D2E354D723D2CDEA20D /* BismushUI.h in Headers */ = {isa = PBXBuildFile; fileRef = 552D6961EAE0E59CE441ECA2 /* BismushUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D2BEA541BC5C51EA70ABE0F7 /* BismushTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F619DF295449306F0513BC /* BismushTexture.swift */; };
 		D4ED58E8472A6F81D8E4EE08 /* Transform2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B79569575E3B1182D9E628 /* Transform2D.swift */; };
 		D7E93569ACB97BC92034C0CC /* ColorComponentSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D6B2EAEB1D7F65A52F70A7 /* ColorComponentSlider.swift */; };
 		D948FC7013C8A0EA485492CC /* CanvasLayerListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7B1DA875F043DF8456504A /* CanvasLayerListTests.swift */; };
 		DA430599E22F8BB3A7E93C96 /* MTLTexture+Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C3AC70EC97E71778FD8C42 /* MTLTexture+Data.swift */; };
-		DBF590CA2AADC7F34F76D66E /* TextureType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8C3A0A39CAAFC8D07FE0AE /* TextureType.swift */; };
 		DC5EFB58344BA97143BF2D7C /* BismushUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A79FC0F25C098F0AC0EB7B6 /* BismushUI.framework */; };
 		E1CC06B0C701F60FBBEA2698 /* BismushKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0B3B3603D98AAC01ECAF202F /* BismushKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E55D0B34BDE638DB5CF0C19C /* ShaderStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF2C9FE2F94F9E7C40AB95E /* ShaderStore.swift */; };
 		E56DE68098526210C523632E /* BMKLayerContext.h in Headers */ = {isa = PBXBuildFile; fileRef = F397A465EF18DEC902A7A31A /* BMKLayerContext.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E5F9B5826CDD7115B8970CB5 /* mix.png in Resources */ = {isa = PBXBuildFile; fileRef = 901B3569572DCF531A02E7EF /* mix.png */; };
 		E9FF54B001B37FBFB44BAFDE /* BismushInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE02B50FEDA338D7273DA7F /* BismushInspector.swift */; };
 		ED4FD4B3C1E7C35821951193 /* Canvas+Transform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13BB38EDD83B652044B5FCD7 /* Canvas+Transform.swift */; };
 		ED5BC57A10E6E6387DD984F1 /* RGBSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AF1812197F5D99FEFD5F7F /* RGBSlider.swift */; };
@@ -168,6 +173,7 @@
 		FED9BD1D27CFD99738750904 /* ArtboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2141F233ABDFBDF12BD643 /* ArtboardViewModel.swift */; };
 		FF1B7AB1A264C75EAB166D47 /* ViewModelProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FA4054F92AE87B7186C56B /* ViewModelProvider.swift */; };
 		FF4479A2C9A86BF05848B705 /* CanvasDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8093643CB98318AD9C6007 /* CanvasDocument.swift */; };
+		FF7370471EC9B695B452342B /* BismushTextureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7579814D6AD37AF215B2E97 /* BismushTextureTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -331,7 +337,7 @@
 /* Begin PBXFileReference section */
 		00439E9260DD1AF0F1C1EB52 /* BMKDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BMKDefines.h; sourceTree = "<group>"; };
 		0249529DF47613A66884C051 /* MobileBismush_UnitTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = MobileBismush_UnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		04A2D879615BD04815A504C3 /* .swiftformat */ = {isa = PBXFileReference; path = .swiftformat; sourceTree = "<group>"; };
+		04A2D879615BD04815A504C3 /* .swiftformat */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftformat; sourceTree = "<group>"; };
 		07B92CA94934F023036BD021 /* BismushUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BismushUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		08357BEDDDAF54069A225502 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		09AF1812197F5D99FEFD5F7F /* RGBSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RGBSlider.swift; sourceTree = "<group>"; };
@@ -343,6 +349,7 @@
 		0E40FEFA9E000BEC7EBD6E92 /* DynamicBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicBuffer.swift; sourceTree = "<group>"; };
 		0F06C470880D8AD03A8196BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		1000DF4D942B68D3D9B4D4CB /* BismushKit_UnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BismushKit_UnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1308C61A28BA938100955A93 /* BismushTextureFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BismushTextureFactory.swift; sourceTree = "<group>"; };
 		13BB38EDD83B652044B5FCD7 /* Canvas+Transform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Canvas+Transform.swift"; sourceTree = "<group>"; };
 		13CB29380CFAABD4504FBAA4 /* MetalObjectTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalObjectTests.swift; sourceTree = "<group>"; };
 		150137B2E5EF0A21FA87E5D9 /* CanvasDocumentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasDocumentTests.swift; sourceTree = "<group>"; };
@@ -357,7 +364,6 @@
 		2F0B76326CDE771A3D234162 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		2F3174F5AE0D0E30A3BB04FF /* BismushUI_UnitTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = BismushUI_UnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F8093643CB98318AD9C6007 /* CanvasDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasDocument.swift; sourceTree = "<group>"; };
-		2F8C3A0A39CAAFC8D07FE0AE /* TextureType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextureType.swift; sourceTree = "<group>"; };
 		32FA4054F92AE87B7186C56B /* ViewModelProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelProvider.swift; sourceTree = "<group>"; };
 		331C4FD3451CF03CA4493DFB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		35337BECFB668B3E885A11BB /* RingBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingBuffer.swift; sourceTree = "<group>"; };
@@ -377,7 +383,8 @@
 		5043075D4D9C707D777F454A /* project.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = project.yml; sourceTree = "<group>"; };
 		5470BE55386A1F5C20A7BB17 /* BismushKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BismushKit.h; sourceTree = "<group>"; };
 		552D6961EAE0E59CE441ECA2 /* BismushUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BismushUI.h; sourceTree = "<group>"; };
-		5D25107273F62654134E3A99 /* All.iOS.xctestplan */ = {isa = PBXFileReference; path = All.iOS.xctestplan; sourceTree = "<group>"; };
+		5D25107273F62654134E3A99 /* All.iOS.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = All.iOS.xctestplan; sourceTree = "<group>"; };
+		63F619DF295449306F0513BC /* BismushTexture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BismushTexture.swift; sourceTree = "<group>"; };
 		65D3663CC42C022016FAABB6 /* MobileArtboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileArtboardViewModel.swift; sourceTree = "<group>"; };
 		6A6D2AB2586FFFB049C2FEA2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		7285CEFEBBC847DEB5237516 /* BMKStroke.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BMKStroke.h; sourceTree = "<group>"; };
@@ -396,9 +403,10 @@
 		895CEB7DC2082D1D1C0EA910 /* BismushTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BismushTests.swift; sourceTree = "<group>"; };
 		8A79FC0F25C098F0AC0EB7B6 /* BismushUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BismushUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B7B1DA875F043DF8456504A /* CanvasLayerListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasLayerListTests.swift; sourceTree = "<group>"; };
+		901B3569572DCF531A02E7EF /* mix.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mix.png; sourceTree = "<group>"; };
 		907148F790EF2806D0F2DD3A /* lint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = lint.yml; sourceTree = "<group>"; };
 		9136680632CBB9D07593F923 /* MetalMutableArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalMutableArray.swift; sourceTree = "<group>"; };
-		9213875265869D3D8C8500B4 /* Fastfile */ = {isa = PBXFileReference; path = Fastfile; sourceTree = "<group>"; };
+		9213875265869D3D8C8500B4 /* Fastfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Fastfile; sourceTree = "<group>"; };
 		9247222A0EB78F83EF1F6627 /* GPUDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPUDevice.swift; sourceTree = "<group>"; };
 		943B84DBB4493E534AABDD8E /* MobileArtboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileArtboard.swift; sourceTree = "<group>"; };
 		9A9818456E8FA04DC978F08C /* Bismush_UnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Bismush_UnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -415,14 +423,14 @@
 		B5E8D0EC46D70E23A5E26224 /* MobileBismushApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileBismushApp.swift; sourceTree = "<group>"; };
 		B6CED7C2E12F25B66A7A285A /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		B7BC006603E34B5160EC8982 /* RGBColorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RGBColorViewModel.swift; sourceTree = "<group>"; };
-		BC91ED6F629A218295F2006B /* .clang-format */ = {isa = PBXFileReference; path = ".clang-format"; sourceTree = "<group>"; };
+		BC91ED6F629A218295F2006B /* .clang-format */ = {isa = PBXFileReference; lastKnownFileType = text; path = ".clang-format"; sourceTree = "<group>"; };
 		BE4F0C0F7ACC3BE07F921576 /* swiftformat.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = swiftformat.sh; sourceTree = "<group>"; };
 		BED5FBEFDEE1C1BDFC564BAA /* CanvasDocumentSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasDocumentSnapshot.swift; sourceTree = "<group>"; };
 		BEE02B50FEDA338D7273DA7F /* BismushInspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BismushInspector.swift; sourceTree = "<group>"; };
 		C092715C7FCDBD5BFE74BC69 /* CanvasLayer+Transform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CanvasLayer+Transform.swift"; sourceTree = "<group>"; };
 		C0B79569575E3B1182D9E628 /* Transform2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transform2D.swift; sourceTree = "<group>"; };
 		C530414467DAC13B9F3B059E /* LayerDrawer.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = LayerDrawer.metal; sourceTree = "<group>"; };
-		C5F10BC82CA33DD60668060C /* Gemfile */ = {isa = PBXFileReference; path = Gemfile; sourceTree = "<group>"; };
+		C5F10BC82CA33DD60668060C /* Gemfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Gemfile; sourceTree = "<group>"; };
 		C885AFC19DF307A85F2B5B6E /* BismushEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BismushEditor.swift; sourceTree = "<group>"; };
 		CB6FA48BD29AF3D2C9A6811B /* BezierInterpolate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BezierInterpolate.swift; sourceTree = "<group>"; };
 		CB7914FECE8F6DD5263246E9 /* BezierInterporate.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = BezierInterporate.metal; sourceTree = "<group>"; };
@@ -434,6 +442,7 @@
 		D4EF932D0197F7A709F6CC46 /* MetalDeviceCapability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalDeviceCapability.swift; sourceTree = "<group>"; };
 		D60BC8385F917854C25324FA /* Coordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinate.swift; sourceTree = "<group>"; };
 		D6D6B2EAEB1D7F65A52F70A7 /* ColorComponentSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorComponentSlider.swift; sourceTree = "<group>"; };
+		D7579814D6AD37AF215B2E97 /* BismushTextureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BismushTextureTests.swift; sourceTree = "<group>"; };
 		DA0B354E867867D78618A68A /* hello.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hello.png; sourceTree = "<group>"; };
 		DD3D23E0B69ACABCA80C3AB7 /* FunctionName+CustomStringConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FunctionName+CustomStringConvertible.swift"; sourceTree = "<group>"; };
 		DFE4375B13C03B6FB8DD2DDF /* RGBColorViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RGBColorViewModelTests.swift; sourceTree = "<group>"; };
@@ -447,7 +456,7 @@
 		F6E0EB72C342DC9BB4C0D758 /* Artboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artboard.swift; sourceTree = "<group>"; };
 		F815E58457BA6240A8C5C2F1 /* BismushApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BismushApp.swift; sourceTree = "<group>"; };
 		FAF2C9FE2F94F9E7C40AB95E /* ShaderStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShaderStore.swift; sourceTree = "<group>"; };
-		FB293DFFEF370E717E95E907 /* All.macOS.xctestplan */ = {isa = PBXFileReference; path = All.macOS.xctestplan; sourceTree = "<group>"; };
+		FB293DFFEF370E717E95E907 /* All.macOS.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = All.macOS.xctestplan; sourceTree = "<group>"; };
 		FCEBCBC957B44E3156B5B5C1 /* Bismush.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bismush.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF44414254E4EF411AF6D870 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -539,9 +548,17 @@
 				BED5FBEFDEE1C1BDFC564BAA /* CanvasDocumentSnapshot.swift */,
 				781523CEF987B7E316E2006F /* CanvasLayer.swift */,
 				77C3AC70EC97E71778FD8C42 /* MTLTexture+Data.swift */,
-				2F8C3A0A39CAAFC8D07FE0AE /* TextureType.swift */,
 			);
 			path = Document;
+			sourceTree = "<group>";
+		};
+		137ECD05D96BDC93E5FB5164 /* Texture */ = {
+			isa = PBXGroup;
+			children = (
+				63F619DF295449306F0513BC /* BismushTexture.swift */,
+				1308C61A28BA938100955A93 /* BismushTextureFactory.swift */,
+			);
+			path = Texture;
 			sourceTree = "<group>";
 		};
 		1AEF0F6D79817F85CEFDC896 /* Metal */ = {
@@ -620,6 +637,7 @@
 				BFFFC6051164DD74353D9993 /* Entity */,
 				7147DFFA8E42FC3F2092B447 /* Renderer */,
 				D60DA16FF842F90EED0D97D4 /* Supports Files */,
+				137ECD05D96BDC93E5FB5164 /* Texture */,
 			);
 			path = BismushKit;
 			sourceTree = "<group>";
@@ -707,6 +725,7 @@
 				D49BA4F88DA320171B06EC3C /* Editor */,
 				DD1C9DE7A0A3F9B8D18C363E /* Entity */,
 				DE9E06F4F9B8C319F5B42BC1 /* Renderer */,
+				AA5C4D63680BF08608C815D5 /* Texture */,
 			);
 			path = BismushKit;
 			sourceTree = "<group>";
@@ -820,6 +839,14 @@
 			path = "Layer List";
 			sourceTree = "<group>";
 		};
+		AA5C4D63680BF08608C815D5 /* Texture */ = {
+			isa = PBXGroup;
+			children = (
+				D7579814D6AD37AF215B2E97 /* BismushTextureTests.swift */,
+			);
+			path = Texture;
+			sourceTree = "<group>";
+		};
 		AEADA3E3DA92D110F001B58A /* Plans */ = {
 			isa = PBXGroup;
 			children = (
@@ -875,6 +902,7 @@
 				AD980C441DF3EED13860E505 /* bezier.png */,
 				0D3225C2868B6711B3F907AF /* BezierInterpolateTests.swift */,
 				D427D03B83856BC83F62907A /* BrushTests.swift */,
+				901B3569572DCF531A02E7EF /* mix.png */,
 				8832B6354C93F114E48B306C /* RenderingTestCase.swift */,
 			);
 			path = Editor;
@@ -1278,8 +1306,6 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 1200;
-				TargetAttributes = {
-				};
 			};
 			buildConfigurationList = 1411B5A57CA3255FDAD21181 /* Build configuration list for PBXProject "Bismush" */;
 			compatibilityVersion = "Xcode 11.0";
@@ -1315,6 +1341,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F02E0B13DE647E5C4D630302 /* bezier.png in Resources */,
+				E5F9B5826CDD7115B8970CB5 /* mix.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1341,6 +1368,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A017A5B7770AA77D31819034 /* bezier.png in Resources */,
+				8F1D6351CC89214644F406DB /* mix.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1919,6 +1947,7 @@
 				3373E62961825EA60F90C761 /* BismushError.swift in Sources */,
 				E9FF54B001B37FBFB44BAFDE /* BismushInspector.swift in Sources */,
 				9BF57B799AF517CB8A75B346 /* BismushLogger.swift in Sources */,
+				D2BEA541BC5C51EA70ABE0F7 /* BismushTexture.swift in Sources */,
 				6540755F096ABEEE55041ADF /* Brush.swift in Sources */,
 				1EBF4266B49EBEB860FDEFFC /* Canvas+Transform.swift in Sources */,
 				CDEBD6159ADFFB30DBE3FF05 /* Canvas.swift in Sources */,
@@ -1945,9 +1974,9 @@
 				6945471E641BC7AE41032FFA /* ResourceLoader.swift in Sources */,
 				1BA726D98C97497689EC22DB /* RingBuffer.swift in Sources */,
 				0B1AB2E875C54EA0383B57B4 /* SIMD3+Bismush.swift in Sources */,
+				1308C61C28BA938100955A93 /* BismushTextureFactory.swift in Sources */,
 				5BE255480ADA212B876BA301 /* SessionCommit.swift in Sources */,
 				E55D0B34BDE638DB5CF0C19C /* ShaderStore.swift in Sources */,
-				1CCFC61DB10555FADB5FDE43 /* TextureType.swift in Sources */,
 				F035B8544D4CAF4DEF5E2405 /* Transform2D.swift in Sources */,
 				02A3FF0819DA2C3841017513 /* WaterColorMix.metal in Sources */,
 				26199F5BCEA83B51F8BCBF8C /* WaterColorMix.swift in Sources */,
@@ -1975,6 +2004,7 @@
 				157796DEFA85A847F12F3A8D /* BismushError.swift in Sources */,
 				09DCCE66020A09B227C3E95F /* BismushInspector.swift in Sources */,
 				61B41BB86E95C0403EE22500 /* BismushLogger.swift in Sources */,
+				3A9A3DA2BC386A8508730AD8 /* BismushTexture.swift in Sources */,
 				3327473238375B38C5B5982A /* Brush.swift in Sources */,
 				ED4FD4B3C1E7C35821951193 /* Canvas+Transform.swift in Sources */,
 				F860761BEBE3E9184F2DDFCD /* Canvas.swift in Sources */,
@@ -2001,9 +2031,9 @@
 				BCABEDEE1229A9CBDA11CA4F /* ResourceLoader.swift in Sources */,
 				492FDF67E37491AC832CF40A /* RingBuffer.swift in Sources */,
 				0B9EF72D3E8448114519ADF0 /* SIMD3+Bismush.swift in Sources */,
+				1308C61B28BA938100955A93 /* BismushTextureFactory.swift in Sources */,
 				1DF01247B2E6A8BAB1226E0E /* SessionCommit.swift in Sources */,
 				057C172099DC6BB9FB29061E /* ShaderStore.swift in Sources */,
-				DBF590CA2AADC7F34F76D66E /* TextureType.swift in Sources */,
 				D4ED58E8472A6F81D8E4EE08 /* Transform2D.swift in Sources */,
 				02ED324FCB5905039E817451 /* WaterColorMix.metal in Sources */,
 				37F527CE0F960E5DA315DDC7 /* WaterColorMix.swift in Sources */,
@@ -2036,6 +2066,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13788712D4054EEE8DABFD66 /* BezierInterpolateTests.swift in Sources */,
+				FF7370471EC9B695B452342B /* BismushTextureTests.swift in Sources */,
 				78805BFDB84446C9A868A5AA /* BrushTests.swift in Sources */,
 				8EF59F54186487108A1F6225 /* CanvasDocumentTests.swift in Sources */,
 				C4B9A1C72F34CA1A9ECF4625 /* CanvasLayerTests.swift in Sources */,
@@ -2059,6 +2090,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2AE2A55A52914552174CF91F /* BezierInterpolateTests.swift in Sources */,
+				33268FE70D2188E2A909A58D /* BismushTextureTests.swift in Sources */,
 				5DB5805687367541885F7EFE /* BrushTests.swift in Sources */,
 				BB231679063D7EA76CED7356 /* CanvasDocumentTests.swift in Sources */,
 				F2085561388E8ACFC047E8DB /* CanvasLayerTests.swift in Sources */,

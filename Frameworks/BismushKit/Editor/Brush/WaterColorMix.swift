@@ -30,7 +30,7 @@ class WaterColorMix {
         assert(!strokes.isEmpty)
         try! shader.compute(.waterColorInit) { encoder in
             encoder.setBuffer(currentColor, offset: 0, index: 0)
-            encoder.setTexture(document.texture(canvasLayer: document.activeLayer).texture, index: 1)
+//            encoder.setTexture(document.texture(canvasLayer: document.activeLayer).texture, index: 1)
             encoder.setBytes(&context, length: MemoryLayout<BMKLayerContext>.size, index: 2)
             encoder.setBuffer(strokes.content, offset: 0, index: 3)
 

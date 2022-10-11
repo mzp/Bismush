@@ -13,7 +13,7 @@ import XCTest
 
 class RGBColorViewModelTests: XCTestCase {
     func testColor() throws {
-        let colorVM = RGBColorViewModel(editor: BismushEditor(document: .init()))
+        let colorVM = RGBColorViewModel(editor: BismushEditor(document: try .init()))
         colorVM.red = 1
         XCTAssertEqual(colorVM.currentColor, NSColor(red: 1, green: 0, blue: 0, alpha: 1))
 

@@ -21,10 +21,10 @@ class CanvasDocumentTests: XCTestCase {
 
     private var document: CanvasDocument!
 
-    override func setUp() {
-        super.setUp()
+    override func setUpWithError() throws {
+        try super.setUpWithError()
 
-        document = CanvasDocument()
+        document = try CanvasDocument()
 
         draw(points: [
             .init(x: 0, y: 0),
@@ -48,7 +48,6 @@ class CanvasDocumentTests: XCTestCase {
 
         let commandQueue = MTLCreateSystemDefaultDevice()!.makeCommandQueue()!
         let commandBuffer = commandQueue.makeCommandBuffer()!
-        document.texture(canvasLayer: document.activeLayer).makeWritable(commandBuffer: commandBuffer)
         commandBuffer.commit()
         commandBuffer.waitUntilCompleted()
     }
@@ -58,7 +57,7 @@ class CanvasDocumentTests: XCTestCase {
     }
 
     private func attach(name: String = "image", snapshot: CanvasDocumentSnapshot) {
-        for (index, texture) in snapshot.textures.enumerated() {
+        for (id, texture) in snapshot.textures {
             if let image = texture.inspectImage {
                 #if os(macOS)
                     let attachment = XCTAttachment(
@@ -68,7 +67,7 @@ class CanvasDocumentTests: XCTestCase {
                 #else
                     let attachment = XCTAttachment(image: UIImage(cgImage: image))
                 #endif
-                attachment.name = "\(name).\(index).png"
+                attachment.name = "\(name).\(id).png"
                 add(attachment)
             }
         }
@@ -120,15 +119,13 @@ class CanvasDocumentTests: XCTestCase {
     }
 
     func testHealth() throws {
-        let modifiedSnapshot = try snapshot(document: document)
-        let vanillaSnapshot = try snapshot(document: CanvasDocument())
+        let modifiedSnapshot = try snapshot(document: .sample)
+        let vanillaSnapshot = try snapshot(document: .empty)
         attach(snapshot: modifiedSnapshot)
-        XCTAssertNotEqual(vanillaSnapshot, modifiedSnapshot)
+        XCTAssertTrue(vanillaSnapshot != modifiedSnapshot)
     }
 
     private func snapshot(document: CanvasDocument) throws -> CanvasDocumentSnapshot {
-        // To stabilize test result, load active layer's texture only
-        _ = document.texture(canvasLayer: document.activeLayer)
-        return try document.snapshot(contentType: .canvas)
+        try document.snapshot(contentType: .canvas)
     }
 }

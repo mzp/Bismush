@@ -19,8 +19,8 @@ class RenderingTestCase: XCTestCase {
     var renderer: CanvasRenderer!
     var document: CanvasDocument!
 
-    func createDocument() -> CanvasDocument {
-        CanvasDocument(canvas: .init(layers: [
+    func createDocument() throws -> CanvasDocument {
+        try CanvasDocument(canvas: .init(layers: [
             CanvasLayer(name: "test", layerType: .empty, size: .init(width: 800, height: 800)),
         ], size: .init(width: 800, height: 800)))
     }
@@ -31,44 +31,48 @@ class RenderingTestCase: XCTestCase {
 
     override func setUpWithError() throws {
         try super.setUpWithError()
-        document = createDocument()
-        renderer = CanvasRenderer(document: document)
+        document = try createDocument()
+        renderer = CanvasRenderer(document: document, pixelFormat: .bgra8Unorm, rasterSampleCount: 1)
     }
 
     override func tearDownWithError() throws {
         try super.tearDownWithError()
 
-        let attachment = XCTAttachment(image: try XCTUnwrap(image))
-        attachment.lifetime = .keepAlways
-        attachment.name = "rendered"
-        add(attachment)
+        if let image = image {
+            let attachment = XCTAttachment(image: image)
+            attachment.lifetime = .keepAlways
+            attachment.name = "rendered"
+            add(attachment)
+        }
     }
 
     func openWithPreview() throws {
-        let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil)
+        #if os(OSX)
+            let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil)
 
-        let newRep = NSBitmapImageRep(cgImage: cgImage!)
-        newRep.size = image.size
-        guard let data = newRep.representation(using: .png, properties: [:]) else {
-            return
-        }
-        guard let testName = invocation?.selector.description.replacingOccurrences(of: ":", with: "") else {
-            return
-        }
-        let tempDirectory = URL(filePath: NSTemporaryDirectory()).appending(path: "Bismush")
-        try FileManager.default.createDirectory(at: tempDirectory, withIntermediateDirectories: true)
-        let outputURL = tempDirectory.appending(path: "\(testName)-\(UUID()).png")
+            let newRep = NSBitmapImageRep(cgImage: cgImage!)
+            newRep.size = image.size
+            guard let data = newRep.representation(using: .png, properties: [:]) else {
+                return
+            }
+            guard let testName = invocation?.selector.description.replacingOccurrences(of: ":", with: "") else {
+                return
+            }
+            let tempDirectory = URL(filePath: NSTemporaryDirectory()).appending(path: "Bismush")
+            try FileManager.default.createDirectory(at: tempDirectory, withIntermediateDirectories: true)
+            let outputURL = tempDirectory.appending(path: "\(testName)-\(UUID()).png")
 
-        BismushLogger.testing.info("Saved to \(outputURL)")
-        try data.write(to: outputURL)
+            BismushLogger.testing.info("Saved to \(outputURL)")
+            try data.write(to: outputURL)
 
-        let process = Process()
-        process.executableURL = URL(filePath: "/usr/bin/open")
-        process.arguments = [outputURL.path]
+            let process = Process()
+            process.executableURL = URL(filePath: "/usr/bin/open")
+            process.arguments = [outputURL.path]
 
-        process.launch()
+            process.launch()
 
-        process.waitUntilExit()
+            process.waitUntilExit()
+        #endif
     }
 
     func resource(name: String, type: String) -> String? {
@@ -126,7 +130,7 @@ class RenderingTestCase: XCTestCase {
 
     private func featurePrint(_ image: CGImage) throws -> VNFeaturePrintObservation? {
         let request = VNGenerateImageFeaturePrintRequest()
-
+        request.usesCPUOnly = true
         let requestHandler = VNImageRequestHandler(cgImage: image,
                                                    orientation: .down,
                                                    options: [:])
