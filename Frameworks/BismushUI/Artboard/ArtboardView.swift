@@ -10,16 +10,16 @@ import MetalKit
 
 open class ArtboardView: MTKView, MTKViewDelegate {
     private let renderer: CanvasRenderer
-    private let commandQueue: MTLCommandQueue
+    private let commandQueue: CommandQueue
     private var viewPortSize: Size<ViewCoordinate> = .zero()
 
     public init(document: CanvasDocument) {
         renderer = CanvasRenderer(document: document, pixelFormat: .bgra8Unorm, rasterSampleCount: 1)
-        commandQueue = document.device.metalDevice.makeCommandQueue()!
-        commandQueue.label = "Artboard"
+        commandQueue = document.device.makeCommandQueue(label: #fileID)
         super.init(frame: .zero, device: document.device.metalDevice)
         delegate = self
         clearColor = MTLClearColor(red: 1, green: 1, blue: 1, alpha: 1)
+        preferredFramesPerSecond = 120
     }
 
     @available(*, unavailable)
@@ -36,16 +36,12 @@ open class ArtboardView: MTKView, MTKViewDelegate {
         guard let drawable = view.currentDrawable else {
             return
         }
-        guard let buffer = commandQueue.makeCommandBuffer() else {
-            return
-        }
+        let buffer = commandQueue.rawValue.makeCommandBuffer()!
         buffer.label = "Frame"
         guard let descriptor = currentRenderPassDescriptor else {
             return
         }
-        guard let encoder = buffer.makeRenderCommandEncoder(descriptor: descriptor) else {
-            return
-        }
+        let encoder = buffer.makeRenderCommandEncoder(descriptor: descriptor)!
         let viewPort = MTLViewport(
             originX: 0,
             originY: 0,
@@ -54,7 +50,7 @@ open class ArtboardView: MTKView, MTKViewDelegate {
             znear: -1,
             zfar: 1
         )
-        encoder.label = "Frame"
+        encoder.label = "Render Frame"
         encoder.setViewport(viewPort)
         renderer.render(context: .init(
             encoder: encoder,

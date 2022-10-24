@@ -10,22 +10,20 @@ import Metal
 
 class ShaderStore {
     private let device: GPUDevice
-    private let commandQueue: MTLCommandQueue
     private var pipelineStates = [FunctionName: MTLComputePipelineState]()
     init(device: GPUDevice) {
         self.device = device
-        commandQueue = device.metalDevice.makeCommandQueue()!
     }
 
-    func compute(_ name: FunctionName, dispatch: (MTLComputeCommandEncoder) -> Void) throws {
-        try device.scope(name.rawValue) {
-            let commandBuffer = commandQueue.makeCommandBuffer()!
-            let encoder = commandBuffer.makeComputeCommandEncoder()!
+    func compute(
+        _ name: FunctionName,
+        commandBuffer: SequencialCommandBuffer,
+        dispatch: (MTLComputeCommandEncoder) -> Void
+    ) throws {
+        try commandBuffer.compute(label: name.rawValue) { encoder in
+            BismushLogger.metal.info("\(#function): \(name)")
             encoder.setComputePipelineState(try pipelineState(name))
             dispatch(encoder)
-            encoder.endEncoding()
-            commandBuffer.commit()
-            commandBuffer.waitUntilCompleted() // FIXME: use async?
         }
     }
 

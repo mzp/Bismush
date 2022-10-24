@@ -7,10 +7,31 @@
 
 import Metal
 
-public struct MetalMutableArray<T>: CustomDebugStringConvertible {
+public struct MetalMutableArray<T>: CustomDebugStringConvertible, Sequence {
+    public struct Iterator<T>: IteratorProtocol {
+        var content: MTLBuffer?
+        var count: Int
+        var index: Int = 0
+
+        public mutating func next() -> T? {
+            guard index < count else {
+                return nil
+            }
+            guard let buffer = content else {
+                return nil
+            }
+            defer { index += 1 }
+
+            return buffer
+                .contents()
+                .advanced(by: index * MemoryLayout<T>.stride)
+                .bindMemory(to: T.self, capacity: 1)
+                .pointee
+        }
+    }
+
     var content: MTLBuffer?
     private let device: GPUDevice
-    private let options: MTLResourceOptions
     private(set) var count = 0
     private var capacity = 0
 
@@ -19,34 +40,31 @@ public struct MetalMutableArray<T>: CustomDebugStringConvertible {
         count == 0
     }
 
-    init(device: GPUDevice, options: MTLResourceOptions = .storageModeShared) {
+    init(device: GPUDevice, count: Int) {
         self.device = device
-        self.options = options
+
+        removeAll(count: count)
     }
 
-    mutating func use(count newCount: Int) {
-        count = newCount
-        guard capacity < newCount else {
+    public func makeIterator() -> Iterator<T> {
+        Iterator(content: content, count: count)
+    }
+
+    mutating func removeAll(count: Int) {
+        self.count = count
+        guard capacity < count else {
             return
         }
-        capacity = max(capacity, 1)
-        while capacity < newCount {
+        capacity = Swift.max(capacity, 1)
+        while capacity < count {
             capacity *= 2
         }
-        content = device.metalDevice.makeBuffer(length: MemoryLayout<T>.stride * count, options: options)!
+        content = device.makeBuffer(
+            length: MemoryLayout<T>.stride * capacity
+        )
     }
 
     public var debugDescription: String {
-        array().debugDescription
-    }
-
-    func array() -> [T] {
-        guard let buffer = content else {
-            return []
-        }
-        return Array(
-            UnsafeBufferPointer(start: buffer.contents().bindMemory(to: T.self, capacity: count),
-                                count: count)
-        )
+        Array(self).debugDescription
     }
 }

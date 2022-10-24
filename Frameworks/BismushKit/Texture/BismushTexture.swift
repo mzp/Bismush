@@ -9,82 +9,40 @@ import Foundation
 
 protocol BismushTextureContext {
     var device: GPUDevice { get }
-
-    func createTexture(
-        size: Size<TextureCoordinate>,
-        pixelFormat: MTLPixelFormat,
-        rasterSampleCount: Int
-    ) -> (MTLTexture, MTLTexture?)
+    func createTexture(_: BismushTextureDescriptor) -> (MTLTexture, MTLTexture?)
 }
 
 class BismushTexture {
+    var context: BismushTextureContext
     struct Snapshot: Equatable, Hashable, Codable {
-        var size: Size<TextureCoordinate>
-        var pixelFormat: MTLPixelFormat
-        var nsData: NSData
-
-        var data: Data {
-            get { nsData as Data }
-            set { nsData = newValue as NSData }
-        }
-
-        init(size: Size<TextureCoordinate>, pixelFormat: MTLPixelFormat, data nsData: NSData) {
-            self.size = size
-            self.pixelFormat = pixelFormat
-            self.nsData = nsData
-        }
-
-        init(size: Size<TextureCoordinate>, pixelFormat: MTLPixelFormat, data: Data) {
-            self.size = size
-            self.pixelFormat = pixelFormat
-            nsData = data as NSData
-        }
-
-        init(from decoder: Decoder) throws {
-            var container = try decoder.unkeyedContainer()
-            size = try container.decode(Size<TextureCoordinate>.self)
-            pixelFormat = try container.decode(MTLPixelFormat.self)
-            nsData = try container.decode(Data.self) as NSData
-        }
-
-        func encode(to encoder: Encoder) throws {
-            var container = encoder.unkeyedContainer()
-            try container.encode(size)
-            try container.encode(pixelFormat)
-            try container.encode(nsData as Data)
-        }
+        var tiles: [TextureTileRegion: Blob]
     }
 
     var snapshot: Snapshot
-    var size: Size<TextureCoordinate> {
-        snapshot.size
-    }
 
-    var pixelFormat: MTLPixelFormat {
-        snapshot.pixelFormat
-    }
-
-    var rasterSampleCount: Int
-
-    var context: BismushTextureContext
     var renderPassDescriptior: MTLRenderPassDescriptor
+    var loadAction: MTLLoadAction
+    var texture: MTLTexture
+    var msaaTexture: MTLTexture?
+    let descriptor: BismushTextureDescriptor
+    let mediator: TextureTileMediator
+    let commandQueue: CommandQueue
+    let textureBuffer: MTLBuffer
+
+    var size: Size<TexturePixelCoordinate> {
+        descriptor.size
+    }
 
     convenience init(
-        size: Size<TextureCoordinate>,
-        pixelFormat: MTLPixelFormat,
-        rasterSampleCount: Int,
+        descriptor: BismushTextureDescriptor,
         context: BismushTextureContext
     ) {
-        let (texture, msaaTexture) = context.createTexture(
-            size: size,
-            pixelFormat: pixelFormat,
-            rasterSampleCount: rasterSampleCount
-        )
+        let (texture, msaaTexture) = context.createTexture(descriptor)
         self.init(
             texture: texture,
             msaaTexture: msaaTexture,
             loadAction: .clear,
-            rasterSampleCount: rasterSampleCount,
+            descriptor: descriptor,
             context: context
         )
     }
@@ -93,20 +51,14 @@ class BismushTexture {
         texture: MTLTexture,
         msaaTexture: MTLTexture?,
         loadAction: MTLLoadAction,
-        rasterSampleCount: Int,
+        descriptor: BismushTextureDescriptor,
         context: BismushTextureContext
     ) {
         self.texture = texture
         self.msaaTexture = msaaTexture
         self.loadAction = loadAction
-        self.rasterSampleCount = rasterSampleCount
+        self.descriptor = descriptor
         self.context = context
-        snapshot = Snapshot(
-            size: Size(width: Float(texture.width), height: Float(texture.height)),
-            pixelFormat: texture.pixelFormat,
-            data: texture.bmkData
-        )
-
         let renderPassDescriptior = MTLRenderPassDescriptor()
         if let msaaTexture = msaaTexture {
             renderPassDescriptior.colorAttachments[0].texture = msaaTexture
@@ -120,32 +72,194 @@ class BismushTexture {
         renderPassDescriptior.colorAttachments[0].clearColor = MTLClearColor(red: 1, green: 1, blue: 1, alpha: 0)
 
         self.renderPassDescriptior = renderPassDescriptior
+        snapshot = Snapshot(tiles: [:])
+
+        commandQueue = context.device.makeCommandQueue(label: #fileID)
+
+        textureBuffer = context.device.makeBuffer(
+            length: MemoryLayout<Float>.size * 4 * Int(descriptor.size.width) * Int(descriptor.size.height)
+        )
+
+        mediator = TextureTileMediator(descriptor: descriptor)
+        mediator.delegate = self
+        mediator.initialize(loadAction: loadAction)
     }
 
     func restore(from snapshot: Snapshot) {
-        assert(pixelFormat == snapshot.pixelFormat)
-        assert(size == snapshot.size)
-        self.snapshot = snapshot
-        if !snapshot.data.isEmpty {
+        BismushLogger.texture.info("\(#function)")
+
+        var commandBuffer = commandQueue.makeSequencialCommandBuffer(label: #fileID)
+        mediator.restore(tiles: snapshot.tiles, commandBuffer: commandBuffer)
+        commandBuffer.commit()
+
+        if !snapshot.tiles.isEmpty {
             loadAction = .load
-            texture.bmkData = snapshot.data
         } else {
             loadAction = .clear
         }
     }
 
     func takeSnapshot() -> Snapshot {
-        snapshot
+        mediator.takeSnapshot()
+        return snapshot
     }
 
-    func withRenderPassDescriptor(_ perform: (MTLRenderPassDescriptor) -> Void) {
-        snapshot = .init(size: snapshot.size, pixelFormat: snapshot.pixelFormat, data: texture.bmkData)
+    func asRenderTarget(commandBuffer: SequencialCommandBuffer,
+                        useMSAA: Bool = true,
+                        _ perform: (MTLRenderPassDescriptor) -> Void)
+    {
+        asRenderTarget(
+            region: .init(x: 0, y: 0, width: size.width, height: size.height),
+            commandBuffer: commandBuffer,
+            useMSAA: useMSAA,
+            perform
+        )
+    }
+
+    func asRenderTarget(
+        region: Rect<TexturePixelCoordinate>,
+        commandBuffer: SequencialCommandBuffer,
+        useMSAA: Bool = true,
+        _ perform: (MTLRenderPassDescriptor) -> Void
+    ) {
+        BismushLogger.texture.trace("\(#function): \(region)")
+
+        mediator.asRenderTarget(rect: region, commandBuffer: commandBuffer)
         renderPassDescriptior.colorAttachments[0].loadAction = loadAction
+
+        if useMSAA, let msaaTexture = msaaTexture {
+            renderPassDescriptior.colorAttachments[0].texture = msaaTexture
+            renderPassDescriptior.colorAttachments[0].resolveTexture = texture
+            renderPassDescriptior.colorAttachments[0].storeAction = .storeAndMultisampleResolve
+        } else {
+            renderPassDescriptior.colorAttachments[0].texture = texture
+            renderPassDescriptior.colorAttachments[0].resolveTexture = nil
+            renderPassDescriptior.colorAttachments[0].storeAction = .store
+        }
         loadAction = .load
         perform(renderPassDescriptior)
     }
+}
 
-    var loadAction: MTLLoadAction
-    var texture: MTLTexture
-    var msaaTexture: MTLTexture?
+extension BismushTexture: TextureTileDelegate {
+    private func updateTextureMapping(
+        encoder: MTLResourceStateCommandEncoder,
+        texture: MTLTexture,
+        region: TextureTileRegion,
+        mode: MTLSparseTextureMappingMode
+    ) {
+        let tileSize = context.device.metalDevice.sparseTileSize(
+            with: texture.textureType,
+            pixelFormat: texture.pixelFormat,
+            sampleCount: texture.sampleCount
+        )
+        var region = MTLRegionMake2D(region.x, region.y, region.size.width, region.size.height)
+        var tileRegion = MTLRegion()
+        context.device.metalDevice.convertSparsePixelRegions?(
+            &region,
+            toTileRegions: &tileRegion,
+            withTileSize: tileSize,
+            alignmentMode: .outward,
+            numRegions: 1
+        )
+        #if os(macOS) || targetEnvironment(macCatalyst)
+            encoder.updateTextureMapping?(texture, mode: mode, region: tileRegion, mipLevel: 0, slice: 0)
+        #else
+            encoder.updateTextureMapping(texture, mode: mode, region: tileRegion, mipLevel: 0, slice: 0)
+        #endif
+    }
+
+    func textureTileAllocate(regions: Set<TextureTileRegion>, commandBuffer: SequencialCommandBuffer) {
+        commandBuffer.resourceState(label: #function) { encoder in
+            for region in regions {
+                BismushLogger.texture.info("\(#function): \(region))")
+                updateTextureMapping(encoder: encoder, texture: texture, region: region, mode: .map)
+                if let msaaTexture = msaaTexture {
+                    updateTextureMapping(encoder: encoder, texture: msaaTexture, region: region, mode: .map)
+                }
+            }
+        }
+    }
+
+    func textureTileFree(regions: Set<TextureTileRegion>, commandBuffer: SequencialCommandBuffer) {
+        commandBuffer.resourceState(label: #function) { encoder in
+            for region in regions {
+                BismushLogger.texture.info("\(#function): \(region)")
+                updateTextureMapping(encoder: encoder, texture: texture, region: region, mode: .unmap)
+                if let msaaTexture = msaaTexture {
+                    updateTextureMapping(encoder: encoder, texture: msaaTexture, region: region, mode: .unmap)
+                }
+            }
+        }
+    }
+
+    func textureTileLoad(region: TextureTileRegion) -> Blob? {
+        BismushLogger.texture.info("\(#function): \(region)")
+        var commandBuffer = commandQueue.makeSequencialCommandBuffer(label: "\(#function): \(region.description)")
+        let bytesPerRow = MemoryLayout<Float>.size * 4 * region.size.width
+        let bytesPerImage = bytesPerRow * region.size.height
+        commandBuffer.blit(label: #function) { encoder in
+            encoder.copy(
+                from: texture,
+                sourceSlice: 0,
+                sourceLevel: 0,
+                sourceOrigin: MTLOrigin(x: region.x, y: region.y, z: 0),
+                sourceSize: MTLSize(width: region.size.width, height: region.size.height, depth: 1),
+                to: textureBuffer,
+                destinationOffset: 0,
+                destinationBytesPerRow: bytesPerRow,
+                destinationBytesPerImage: bytesPerImage
+            )
+        }
+        commandBuffer.commit()
+
+        return Blob(
+            data: NSData(
+                bytes: textureBuffer.contents(),
+                length: bytesPerImage
+            )
+        )
+    }
+
+    func textureTileStore(region: TextureTileRegion, blob: Blob) {
+        // FIXME: bulk update
+        BismushLogger.texture.info("\(#function): \(region) \(blob.data.debugDescription)")
+        guard !blob.data.isEmpty else {
+            BismushLogger.texture.error("\(#function): blob is empty")
+            return
+        }
+
+        var commandBuffer = commandQueue.makeSequencialCommandBuffer(label: #function)
+        commandBuffer.blit(label: #function) { encoder in
+            let bytesPerRow = MemoryLayout<Float>.size * 4 * region.size.width
+            let bytesPerImage = bytesPerRow * region.size.height
+
+            (blob.data as Data).withUnsafeBytes { pointer in
+                guard let baseAddress = pointer.baseAddress else {
+                    return
+                }
+                textureBuffer.contents().copyMemory(
+                    from: baseAddress,
+                    byteCount: bytesPerImage
+                )
+            }
+            encoder.copy(
+                from: textureBuffer,
+                sourceOffset: 0,
+                sourceBytesPerRow: bytesPerRow,
+                sourceBytesPerImage: bytesPerImage,
+                sourceSize: MTLSize(width: region.size.width, height: region.size.height, depth: 1),
+                to: texture,
+                destinationSlice: 0,
+                destinationLevel: 0,
+                destinationOrigin: MTLOrigin(x: region.x, y: region.y, z: 0)
+            )
+        }
+        commandBuffer.commit()
+    }
+
+    func textureTileSnapshot(tiles: [TextureTileRegion: Blob]) {
+        BismushLogger.texture.info("\(#function): \(tiles.keys)")
+        snapshot = .init(tiles: tiles)
+    }
 }

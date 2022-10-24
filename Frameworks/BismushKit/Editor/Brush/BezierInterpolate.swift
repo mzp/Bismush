@@ -8,29 +8,38 @@
 import Foundation
 
 class BezierInterpolate {
+    private let document: CanvasDocument
     private let shader: ShaderStore
-    private let transform: Transform2D<LayerPixelCoordinate, ViewCoordinate>
     private var strokes: MetalMutableArray<BMKStroke>
 
-    init(document: CanvasDocument, size: Size<ViewCoordinate>) {
+    init(document: CanvasDocument) {
+        self.document = document
         shader = document.device.shader()
-        transform =
-            document.activeLayer.transform *
-            (document.canvas.normalize(viewPortSize: size) *
-                document.canvas.projection(viewPortSize: size) *
-                document.canvas.modelViewMatrix).inverse
-
-        strokes = document.device.makeArray(options: .storageModeShared)
+        strokes = document.device.makeArray(count: 0)
     }
+
+    var viewSize: Size<ViewCoordinate> = .zero() {
+        didSet {
+            transform =
+                document.activeLayer.transform *
+                (document.canvas.normalize(viewPortSize: viewSize) *
+                    document.canvas.projection(viewPortSize: viewSize) *
+                    document.canvas.modelViewMatrix).inverse
+        }
+    }
+
+    var transform: Transform2D<LayerPixelCoordinate, ViewCoordinate> = .identity()
 
     func interpolate(
         input0: PressurePoint,
         input1: PressurePoint,
         input2: PressurePoint,
-        input3: PressurePoint
+        input3: PressurePoint,
+        commandBuffer: SequencialCommandBuffer
     ) -> MetalMutableArray<BMKStroke> {
         BismushLogger.drawing.trace("\(#function): \(input0) \(input1) \(input2) \(input3)")
-        try! shader.compute(.bezierInterpolation) { encoder in
+
+        try! shader.compute(.bezierInterpolation, commandBuffer: commandBuffer) { encoder in
             var point0 = transform * input0
             var point1 = transform * input1
             var point2 = transform * input2
@@ -40,7 +49,7 @@ class BezierInterpolate {
                 simd_distance(point2.xy, point3.xy)
             let count = Int(max(length * 1.5, 4))
             BismushLogger.drawing.trace("\(#function): count=\(count)")
-            strokes.use(count: count)
+            strokes.removeAll(count: count)
             encoder.setBuffer(strokes.content, offset: 0, index: 0)
 
             encoder.setBytes(&point0, length: MemorySize.float3, index: 1)

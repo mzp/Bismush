@@ -9,52 +9,81 @@ import Foundation
 
 class BismushTextureFactory: BismushTextureContext {
     let device: GPUDevice
+    private let heap: MTLHeap?
 
     init(device: GPUDevice) {
         self.device = device
+
+        if device.capability.sparseTexture {
+            let descriptor = MTLHeapDescriptor()
+            let sparseHeapSizeInBytes = 1 * 1024 * 1024 * 1024
+            let sparseTileSize = device.metalDevice.sparseTileSizeInBytes
+            let alignedHeapSize = ((sparseHeapSizeInBytes + sparseTileSize - 1) / sparseTileSize) * sparseTileSize
+            descriptor.type = .sparse
+            descriptor.storageMode = .private
+            descriptor.size = alignedHeapSize
+            heap = device.metalDevice.makeHeap(descriptor: descriptor)
+        } else {
+            heap = nil
+        }
     }
 
-    func create(size: Size<TextureCoordinate>, pixelFormat: MTLPixelFormat, rasterSampleCount: Int) -> BismushTexture {
-        .init(size: size, pixelFormat: pixelFormat, rasterSampleCount: rasterSampleCount, context: self)
+    func create(_ descriptor: BismushTextureDescriptor) -> BismushTexture {
+        var descriptor = descriptor
+        if !device.capability.sparseTexture {
+            descriptor.tileSize = nil
+        }
+        return .init(
+            descriptor: descriptor,
+            context: self
+        )
     }
 
     func create(builtin name: String) -> BismushTexture {
         let texture = device.resource.bultinTexture(name: name)
-        return .init(texture: texture, msaaTexture: nil, loadAction: .load, rasterSampleCount: 1, context: self)
+        return .init(
+            texture: texture,
+            msaaTexture: nil,
+            loadAction: .load,
+            descriptor: .init(
+                size: .init(width: Float(texture.width), height: Float(texture.height)),
+                pixelFormat: texture.pixelFormat,
+                rasterSampleCount: 1
+            ),
+            context: self
+        )
     }
 
     func createTexture(
-        size: Size<TextureCoordinate>,
-        pixelFormat: MTLPixelFormat,
-        rasterSampleCount: Int
+        _ description: BismushTextureDescriptor
     ) -> (MTLTexture, MTLTexture?) {
         BismushLogger.metal.info("Create Texture")
-        let width = Int(size.width)
-        let height = Int(size.height)
+        let width = Int(description.size.width)
+        let height = Int(description.size.height)
 
-        let description = MTLTextureDescriptor()
-        description.width = width
-        description.height = height
-        description.pixelFormat = pixelFormat
-        description.usage = [.shaderRead, .renderTarget, .shaderWrite]
-        description.textureType = .type2D
+        let sparse: MTLHeap? = description.tileSize != nil ? heap : nil
+        let texture = device.makeTexture(sparse: sparse) { metalTexture in
+            metalTexture.storageMode = sparse?.storageMode ?? .shared
+            metalTexture.width = width
+            metalTexture.height = height
+            metalTexture.pixelFormat = description.pixelFormat
+            metalTexture.usage = [.shaderRead, .renderTarget]
+            metalTexture.textureType = .type2D
+        }
 
-        let texture = device.metalDevice.makeTexture(descriptor: description)!
-
-        if rasterSampleCount > 1 {
-            let desc = MTLTextureDescriptor.texture2DDescriptor(
-                pixelFormat: pixelFormat,
-                width: width,
-                height: height,
-                mipmapped: false
-            )
-            desc.textureType = .type2DMultisample
-            desc.sampleCount = rasterSampleCount
-            desc.usage = [.renderTarget, .shaderRead, .shaderWrite]
-            let msaaTexture = device.metalDevice.makeTexture(descriptor: desc)!
-            return (texture, msaaTexture)
+        if description.rasterSampleCount > 1 {
+            let msaaTexture = device.makeTexture(sparse: sparse) { metalTexture in
+                metalTexture.storageMode = sparse?.storageMode ?? .shared
+                metalTexture.textureType = .type2DMultisample
+                metalTexture.width = width
+                metalTexture.height = height
+                metalTexture.pixelFormat = description.pixelFormat
+                metalTexture.sampleCount = description.rasterSampleCount
+                metalTexture.usage = [.shaderRead, .renderTarget]
+            }
+            return (texture!, msaaTexture!)
         } else {
-            return (texture, nil)
+            return (texture!, nil)
         }
     }
 }

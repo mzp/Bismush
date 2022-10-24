@@ -34,7 +34,8 @@ struct Artboard: View {
                 force = 1
             }
             let pressurePoint = PressurePoint(point: point, pressure: force)
-            viewModel.brush.add(pressurePoint: pressurePoint, viewSize: Size(cgSize: view.frame.size))
+            viewModel.brush.viewSize = Size(cgSize: view.frame.size)
+            viewModel.brush.add(pressurePoint: pressurePoint)
         }
     }
 }

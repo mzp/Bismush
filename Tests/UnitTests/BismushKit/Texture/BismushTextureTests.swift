@@ -10,17 +10,21 @@ import XCTest
 
 final class BismushTextureTests: XCTestCase {
     private var factory: BismushTextureFactory!
+    private var commandBuffer: SequencialCommandBuffer!
 
     override func setUpWithError() throws {
         try super.setUpWithError()
         factory = BismushTextureFactory(device: .default)
+        commandBuffer = GPUDevice.default.makeCommandQueue(label: #fileID).makeSequencialCommandBuffer(label: #fileID)
     }
 
     func testEmpty() {
         let texture = factory.create(
-            size: .init(width: 100, height: 100),
-            pixelFormat: .rgba8Unorm,
-            rasterSampleCount: 1
+            .init(
+                size: .init(width: 100, height: 100),
+                pixelFormat: .rgba8Unorm,
+                rasterSampleCount: 1
+            )
         )
         XCTAssertEqual(texture.loadAction, .clear)
         XCTAssertNil(texture.msaaTexture)
@@ -31,9 +35,11 @@ final class BismushTextureTests: XCTestCase {
             _ = XCTSkip("iOS Simulator(Xcode 14b5) doesn't support MSAA")
         #else
             let texture = factory.create(
-                size: .init(width: 100, height: 100),
-                pixelFormat: .rgba8Unorm,
-                rasterSampleCount: 4
+                .init(
+                    size: .init(width: 100, height: 100),
+                    pixelFormat: .rgba8Unorm,
+                    rasterSampleCount: 4
+                )
             )
             XCTAssertNotNil(texture.msaaTexture)
         #endif
@@ -41,41 +47,49 @@ final class BismushTextureTests: XCTestCase {
 
     func testTakeSnapshot_NoChange() {
         let texture = factory.create(
-            size: .init(width: 100, height: 100),
-            pixelFormat: .rgba8Unorm,
-            rasterSampleCount: 1
+            .init(
+                size: .init(width: 100, height: 100),
+                pixelFormat: .rgba8Unorm,
+                rasterSampleCount: 1,
+                tileSize: nil
+            )
         )
         let snapshot1 = texture.takeSnapshot()
         let snapshot2 = texture.takeSnapshot()
         let snapshot3 = texture.takeSnapshot()
-        XCTAssertIdentical(snapshot2.nsData, snapshot1.nsData)
-        XCTAssertIdentical(snapshot3.nsData, snapshot1.nsData)
+        XCTAssertEqual(snapshot1, snapshot2)
+        XCTAssertEqual(snapshot2, snapshot3)
     }
 
     func testTakeSnapshot_OnChange() {
         let texture = factory.create(
-            size: .init(width: 100, height: 100),
-            pixelFormat: .rgba8Unorm,
-            rasterSampleCount: 1
+            .init(
+                size: .init(width: 100, height: 100),
+                pixelFormat: .rgba8Unorm,
+                rasterSampleCount: 1,
+                tileSize: nil
+            )
         )
         let snapshot1 = texture.takeSnapshot()
-        texture.withRenderPassDescriptor { _ in }
+        texture.asRenderTarget(commandBuffer: commandBuffer) { _ in }
         let snapshot2 = texture.takeSnapshot()
-        texture.withRenderPassDescriptor { _ in }
+        texture.asRenderTarget(commandBuffer: commandBuffer) { _ in }
         let snapshot3 = texture.takeSnapshot()
 
-        XCTAssertNotIdentical(snapshot2.data as NSData, snapshot1.data as NSData)
-        XCTAssertNotIdentical(snapshot3.data as NSData, snapshot1.data as NSData)
+        XCTAssertNotEqual(snapshot2, snapshot1)
+        XCTAssertNotEqual(snapshot3, snapshot1)
     }
 
     func testWithRenderPassDescriptor() {
         let texture = factory.create(
-            size: .init(width: 100, height: 100),
-            pixelFormat: .rgba8Unorm,
-            rasterSampleCount: 1
+            .init(
+                size: .init(width: 100, height: 100),
+                pixelFormat: .rgba8Unorm,
+                rasterSampleCount: 1
+            )
         )
         let metalTexture = texture.texture
-        texture.withRenderPassDescriptor { description in
+        texture.asRenderTarget(commandBuffer: commandBuffer) { description in
             XCTAssertNotNil(description.colorAttachments[0].texture)
             XCTAssertEqual(description.colorAttachments[0].storeAction, .store)
         }
@@ -87,26 +101,34 @@ final class BismushTextureTests: XCTestCase {
             _ = XCTSkip("iOS Simulator(Xcode 14b5) doesn't support MSAA")
         #else
             let texture = factory.create(
-                size: .init(width: 100, height: 100),
-                pixelFormat: .rgba8Unorm,
-                rasterSampleCount: 4
+                .init(
+                    size: .init(width: 100, height: 100),
+                    pixelFormat: .rgba8Unorm,
+                    rasterSampleCount: 4
+                )
             )
             let metalTexture = texture.texture
-            texture.withRenderPassDescriptor { description in
+            var commandBuffer = GPUDevice.default
+                .makeCommandQueue(label: #fileID)
+                .makeSequencialCommandBuffer(label: #fileID)
+            texture.asRenderTarget(commandBuffer: commandBuffer) { description in
                 XCTAssertNotNil(description.colorAttachments[0].texture)
                 XCTAssertEqual(description.colorAttachments[0].storeAction, .storeAndMultisampleResolve)
             }
+            commandBuffer.commit()
             XCTAssertIdentical(texture.texture, metalTexture)
         #endif
     }
 
     func testInitFromSnapshot() throws {
         let texture1 = factory.create(
-            size: .init(width: 100, height: 100),
-            pixelFormat: .rgba8Unorm,
-            rasterSampleCount: 1
+            .init(
+                size: .init(width: 100, height: 100),
+                pixelFormat: .rgba8Unorm,
+                rasterSampleCount: 1
+            )
         )
-        texture1.withRenderPassDescriptor { _ in }
+        texture1.asRenderTarget(commandBuffer: commandBuffer) { _ in }
         let encoder = PropertyListEncoder()
         encoder.outputFormat = .binary
         let data = try encoder.encode(texture1.takeSnapshot())
@@ -116,15 +138,16 @@ final class BismushTextureTests: XCTestCase {
         let decoder = PropertyListDecoder()
         let snapshot = try decoder.decode(BismushTexture.Snapshot.self, from: data)
         let texture2 = factory.create(
-            size: .init(width: 100, height: 100),
-            pixelFormat: .rgba8Unorm,
-            rasterSampleCount: 1
+            .init(
+                size: .init(width: 100, height: 100),
+                pixelFormat: .rgba8Unorm,
+                rasterSampleCount: 1
+            )
         )
         texture2.restore(from: snapshot)
 
         XCTAssertEqual(texture2.texture.bmkData, texture1.texture.bmkData)
-        XCTAssertEqual(texture2.size, texture1.size)
         XCTAssertEqual(texture2.loadAction, .load)
-        XCTAssertEqual(texture2.pixelFormat, texture1.pixelFormat)
+        XCTAssertEqual(texture2.descriptor, texture1.descriptor)
     }
 }

@@ -147,6 +147,7 @@ enum BismushDiagnose {
         diagnose.append("max threads per threadgroup: \(device.maxThreadsPerThreadgroup)")
         diagnose.append("max arugment buffer sample count: \(device.maxArgumentBufferSamplerCount)")
 
+        diagnose.append("the number of bytes required to map one sparse texture tile: \(device.sparseTileSizeInBytes)")
         if device.hasUnifiedMemory {
             diagnose.append("unified memory")
         }

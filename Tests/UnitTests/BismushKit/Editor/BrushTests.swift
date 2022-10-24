@@ -92,7 +92,8 @@ class BrushTests: RenderingTestCase {
 
     func stroke(points: [Point<ViewCoordinate>]) {
         for point in points {
-            brush.add(pressurePoint: .init(point: point, pressure: 1), viewSize: viewSize)
+            brush.viewSize = viewSize
+            brush.add(pressurePoint: .init(point: point, pressure: 1))
         }
         brush.commit()
     }
