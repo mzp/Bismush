@@ -2,8 +2,10 @@ import Foundation
 import os.activity
 
 // Bridging Obj-C variabled defined as c-macroses. See `activity.h` header.
+// swiftlint:disable identifier_name line_length
 private let OS_ACTIVITY_NONE = unsafeBitCast(dlsym(UnsafeMutableRawPointer(bitPattern: -2), "_os_activity_none"), to: OS_os_activity.self)
 private let OS_ACTIVITY_CURRENT = unsafeBitCast(dlsym(UnsafeMutableRawPointer(bitPattern: -2), "_os_activity_current"), to: OS_os_activity.self)
+// swiftlint:enable identifier_name line_length
 
 public struct Activity {
     private let activity: OS_os_activity!
@@ -13,7 +15,8 @@ public struct Activity {
         activity = description.withUTF8 {
             if let dso = UnsafeMutableRawPointer(mutating: dso), let address = $0.baseAddress {
                 let str = UnsafeRawPointer(address).assumingMemoryBound(to: Int8.self)
-                return _os_activity_create(dso, str, OS_ACTIVITY_CURRENT, os_activity_flag_t(rawValue: options.rawValue))
+                let flag = os_activity_flag_t(rawValue: options.rawValue)
+                return _os_activity_create(dso, str, OS_ACTIVITY_CURRENT, flag)
             } else {
                 return nil
             }
@@ -39,7 +42,7 @@ public struct Activity {
 }
 
 public extension Activity {
-    static var none: Activity {
+    static var nothing: Activity {
         Activity(OS_ACTIVITY_NONE)
     }
 
