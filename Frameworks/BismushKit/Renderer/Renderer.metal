@@ -35,29 +35,41 @@ vertex LayerOut layer_vertex(const device LayerIn *vertices [[buffer(0)]],
 
 fragment float4 layer_blend(LayerIn in [[stage_in]],
                             texture2d<float> texture [[texture(0)]]) {
-    const float4 color = texture.sample(textureSampler, in.textureCoordinate);
-    if (color.w == 0) {
+    const sparse_color<float4> color =
+        texture.sparse_sample(textureSampler, in.textureCoordinate);
+    if (!color.resident() || color.value().w == 0) {
         discard_fragment();
     }
-    return float4(color);
+    return color.value();
 }
 
 fragment float4 layer_copy(LayerIn in [[stage_in]],
-                           texture2d<float> source [[texture(0)]],
-                           texture2d<float> destination [[texture(1)]]) {
-    const float4 sourceColor =
-        source.sample(textureSampler, in.textureCoordinate);
-    const float4 destinationColor =
-        destination.sample(textureSampler, in.textureCoordinate);
-    float alpha = destinationColor.w * (1 - sourceColor.w) + sourceColor.w;
+                           texture2d<float> sourceTexture [[texture(0)]],
+                           texture2d<float> destinationTexture [[texture(1)]]) {
+    const sparse_color<float4> source =
+        sourceTexture.sparse_sample(textureSampler, in.textureCoordinate);
+    const sparse_color<float4> destination =
+        destinationTexture.sparse_sample(textureSampler, in.textureCoordinate);
 
-    if (destinationColor.w == 0) {
-        return sourceColor;
-    } else if (alpha == 0) {
-        return float4(1, 1, 1, 0);
+    if (source.resident() && destination.resident()) {
+        const float4 sourceColor = source.value();
+        const float4 destinationColor = destination.value();
+        float alpha = destinationColor.w * (1 - sourceColor.w) + sourceColor.w;
+
+        if (destinationColor.w == 0) {
+            return sourceColor;
+        } else if (alpha == 0) {
+            return float4(1, 1, 1, 0);
+        } else {
+            float3 color = destinationColor.xyz * (1 - sourceColor.w) * alpha +
+                           sourceColor.xyz * sourceColor.w;
+            return float4(color / alpha, alpha);
+        }
+    } else if (source.resident()) {
+        return source.value();
+    } else if (destination.resident()) {
+        return destination.value();
     } else {
-        float3 color = destinationColor.xyz * (1 - sourceColor.w) * alpha +
-                       sourceColor.xyz * sourceColor.w;
-        return float4(color / alpha, alpha);
+        return float4(1, 1, 1, 0);
     }
 }

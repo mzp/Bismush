@@ -24,9 +24,9 @@ public class CanvasRenderer: ObservableObject {
     private var document: CanvasDocument
     private let layerRenderer: CanvasLayerRenderer
     private let canvasRenderer: CanvasLayerRenderer
-    private let commandQueue: MTLCommandQueue
+    private let commandQueue: CommandQueue
 
-    public init(document: CanvasDocument, pixelFormat: MTLPixelFormat?, rasterSampleCount: Int) {
+    public init(document: CanvasDocument, pixelFormat: MTLPixelFormat? = nil, rasterSampleCount: Int = 1) {
         self.document = document
         layerRenderer = CanvasLayerRenderer(
             document: document,
@@ -39,7 +39,7 @@ public class CanvasRenderer: ObservableObject {
             rasterSampleCount: rasterSampleCount
         )
 
-        commandQueue = document.device.metalDevice.makeCommandQueue()!
+        commandQueue = document.device.makeCommandQueue(label: #fileID)
     }
 
     // MARK: - Render
@@ -51,42 +51,49 @@ public class CanvasRenderer: ObservableObject {
         guard document.needsRenderCanvas else {
             return
         }
-        document.device.scope("\(#function)") {
-            let canvasLayer = self.document.activeLayer
-            let commandBuffer = commandQueue.makeCommandBuffer()!
 
-            let size = document.canvas.size
+        document.device.scope(#function) {
+            var commandBuffer = commandQueue.makeSequencialCommandBuffer(label: #function)
 
-            document.canvasTexture.withRenderPassDescriptor { renderPassDescriptor in
-                let encoder = commandBuffer.makeRenderCommandEncoder(
-                    descriptor: renderPassDescriptor
-                )!
-                let viewPort = MTLViewport(
-                    originX: 0,
-                    originY: 0,
-                    width: Double(size.width),
-                    height: Double(size.height),
-                    znear: -1,
-                    zfar: 1
-                )
-                encoder.setViewport(viewPort)
+            let canvasLayer = document.activeLayer
 
-                let context = CanvasLayerRenderer.Context(
-                    encoder: encoder,
-                    projection: Transform2D(matrix: canvasLayer.renderTransform.matrix),
-                    pixelFormat: canvasLayer.pixelFormat
-                )
-                for layer in document.canvas.layers.reversed() where layer.visible {
-                    layerRenderer.render(canvasLayer: layer, context: context)
-                    if document.activeLayer == layer, let activeTexture = document.activeTexture {
-                        layerRenderer.render(texture: activeTexture, context: context)
-                    }
+            // linearize textures
+            var textures = [BismushTexture]()
+            for layer in document.canvas.layers.reversed() where layer.visible {
+                textures.append(document.texture(canvasLayer: layer))
+                if document.activeLayer == layer, let activeTexture = document.activeTexture {
+                    textures.append(activeTexture)
                 }
+            }
 
-                encoder.endEncoding()
+            // render to canvas texture
+            document.canvasTexture.asRenderTarget(commandBuffer: commandBuffer) { renderPassDescriptor in
+                BismushLogger.texture.trace("\(#function)")
+                commandBuffer.render(
+                    label: #fileID,
+                    descriptor: renderPassDescriptor
+                ) { encoder in
+                    let size = document.canvas.size
+                    let viewPort = MTLViewport(
+                        originX: 0,
+                        originY: 0,
+                        width: Double(size.width),
+                        height: Double(size.height),
+                        znear: -1,
+                        zfar: 1
+                    )
+                    encoder.setViewport(viewPort)
+                    layerRenderer.render(
+                        textures: textures,
+                        context: .init(
+                            encoder: encoder,
+                            projection: Transform2D(matrix: canvasLayer.renderTransform.matrix),
+                            pixelFormat: canvasLayer.pixelFormat
+                        )
+                    )
+                }
             }
             commandBuffer.commit()
-            commandBuffer.waitUntilCompleted()
         }
     }
 
@@ -100,6 +107,6 @@ public class CanvasRenderer: ObservableObject {
             projection: projection,
             pixelFormat: .bgra8Unorm
         )
-        canvasRenderer.render(texture: document.canvasTexture, context: context)
+        canvasRenderer.render(textures: [document.canvasTexture], context: context)
     }
 }

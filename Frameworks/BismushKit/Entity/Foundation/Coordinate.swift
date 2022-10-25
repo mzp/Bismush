@@ -30,13 +30,22 @@ public class LayerCoordinate: Coordinate {}
 // left bottom: (0, 0) top right (1, 1)
 public class TextureCoordinate: Coordinate {}
 
+public class TexturePixelCoordinate: Coordinate {}
+
 public struct Size<T: Coordinate>: Codable, CustomStringConvertible, Equatable, Hashable {
     var rawValue: SIMD2<Float>
 
-    public var width: Float { rawValue.x }
-    public var height: Float { rawValue.y }
+    public var width: Float {
+        get { rawValue.x }
+        set { rawValue.x = newValue }
+    }
 
-    init(width: Float, height: Float) {
+    public var height: Float {
+        get { rawValue.y }
+        set { rawValue.y = newValue }
+    }
+
+    public init(width: Float, height: Float) {
         rawValue = SIMD2(width, height)
     }
 
@@ -57,11 +66,18 @@ public struct Size<T: Coordinate>: Codable, CustomStringConvertible, Equatable, 
     }
 }
 
-public struct Point<T: Coordinate>: Codable, CustomStringConvertible, Equatable {
+public struct Point<T: Coordinate>: Codable, CustomStringConvertible, Equatable, Hashable {
     var rawValue: SIMD2<Float>
 
-    public var x: Float { rawValue.x }
-    public var y: Float { rawValue.y }
+    public var x: Float {
+        get { rawValue.x }
+        set { rawValue.x = newValue }
+    }
+
+    public var y: Float {
+        get { rawValue.y }
+        set { rawValue.y = newValue }
+    }
 
     static func zero<T>() -> Point<T> {
         .init(x: 0, y: 0)

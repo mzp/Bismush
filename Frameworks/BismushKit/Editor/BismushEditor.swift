@@ -24,7 +24,7 @@ public class BismushEditor: ObservableObject {
     }
 
     public func getSnapshot() -> CanvasDocumentSnapshot {
-        document.snapshot()
+        document.takeSnapshot()
     }
 
     public func restore(snapshot: CanvasDocumentSnapshot) {

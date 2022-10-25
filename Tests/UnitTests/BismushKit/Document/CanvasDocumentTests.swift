@@ -37,11 +37,10 @@ class CanvasDocumentTests: XCTestCase {
 
     private func draw(points: [Point<ViewCoordinate>]) {
         let brush = Brush(document: document)
-
+        brush.viewSize = .init(width: 800, height: 800)
         for point in points {
             brush.add(
-                pressurePoint: .init(point: point, pressure: 1),
-                viewSize: .init(width: 800, height: 800)
+                pressurePoint: .init(point: point, pressure: 1)
             )
         }
         brush.commit()
@@ -56,19 +55,24 @@ class CanvasDocumentTests: XCTestCase {
         XCTAssertNotEqual(lhs, rhs)
     }
 
-    private func attach(name: String = "image", snapshot: CanvasDocumentSnapshot) {
-        for (id, texture) in snapshot.textures {
-            if let image = texture.inspectImage {
-                #if os(macOS)
-                    let attachment = XCTAttachment(
-                        image: NSImage(cgImage: image,
-                                       size: NSSize(width: image.width, height: image.height))
-                    )
-                #else
-                    let attachment = XCTAttachment(image: UIImage(cgImage: image))
-                #endif
-                attachment.name = "\(name).\(id).png"
-                add(attachment)
+    private func attach(name: String = "snapshot", snapshot: CanvasDocumentSnapshot) {
+        XCTContext.runActivity(named: "Dump snapshot: \(name)") { activity in
+            for (id, texture) in snapshot.textures {
+                for (index, image) in texture.inspectImages().enumerated() {
+                    #if os(macOS)
+                        let attachment = XCTAttachment(
+                            image: NSImage(
+                                cgImage: image,
+                                size: NSSize(width: image.width, height: image.height)
+                            )
+                        )
+                    #else
+                        let attachment = XCTAttachment(image: UIImage(cgImage: image))
+                    #endif
+
+                    attachment.name = "\(name)-\(id)-\(index).png"
+                    activity.add(attachment)
+                }
             }
         }
     }

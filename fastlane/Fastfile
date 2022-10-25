@@ -35,6 +35,7 @@ lane :format do
   Dir.chdir(BUILD_TOOLS.to_s) do
     sh 'swift', 'run', 'swiftformat', SRCROOT.to_s
     sh 'swift', 'run', 'swiftlint', '--fix', SRCROOT.to_s
+    sh 'swift', 'run', 'swiftlint', SRCROOT.to_s
   end
 end
 

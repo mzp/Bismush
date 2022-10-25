@@ -9,34 +9,29 @@ import Foundation
 
 class SessionCommit {
     private let document: CanvasDocument
-    private let commandQueue: MTLCommandQueue
-    private var context: BMKLayerContext
     private let renderer: CanvasLayerRenderer
 
-    init(document: CanvasDocument, context: BMKLayerContext) {
+    init(document: CanvasDocument) {
         self.document = document
-        self.context = context
         renderer = CanvasLayerRenderer(
             document: document,
             pixelFormat: document.canvas.pixelFormat,
             rasterSampleCount: document.rasterSampleCount
         )
-        commandQueue = document.device.metalDevice.makeCommandQueue()!
     }
 
-    func commit() {
-        document.device.scope("\(#function)") {
-            guard let activeTexture = document.activeTexture else {
-                return
-            }
+    func commit(commandBuffer: SequencialCommandBuffer) {
+        guard let activeTexture = document.activeTexture else {
+            return
+        }
 
-            let canvasLayer = self.document.activeLayer
-            let commandBuffer = commandQueue.makeCommandBuffer()!
-            let texture = document.texture(canvasLayer: canvasLayer)
-            let targetTexture = texture.texture
+        let canvasLayer = document.activeLayer
+        let texture = document.texture(canvasLayer: canvasLayer)
+        let targetTexture = texture.texture
 
-            texture.withRenderPassDescriptor { renderPassDescriptor in
-                let encoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor)!
+        texture.asRenderTarget(commandBuffer: commandBuffer) { renderPassDescriptor in
+            BismushLogger.texture.trace("\(#function)")
+            commandBuffer.render(label: #fileID, descriptor: renderPassDescriptor) { encoder in
                 let viewPort = MTLViewport(
                     originX: 0,
                     originY: 0,
@@ -48,7 +43,7 @@ class SessionCommit {
                 encoder.setViewport(viewPort)
 
                 renderer.render(
-                    texture: activeTexture,
+                    textures: [activeTexture],
                     context: .init(
                         encoder: encoder,
                         projection: Transform2D(matrix: canvasLayer.renderTransform.matrix),
@@ -56,12 +51,7 @@ class SessionCommit {
                         blend: .strictAlphaBlend(target: targetTexture)
                     )
                 )
-
-                encoder.endEncoding()
             }
-
-            commandBuffer.commit()
-            commandBuffer.waitUntilCompleted()
         }
     }
 }

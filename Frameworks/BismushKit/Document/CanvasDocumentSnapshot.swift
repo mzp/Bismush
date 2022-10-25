@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct CanvasDocumentSnapshot: Equatable {
+public struct CanvasDocumentSnapshot: Equatable, Codable {
     var canvas: Canvas
     var textures: [CanvasLayer.ID: BismushTexture.Snapshot]
 }

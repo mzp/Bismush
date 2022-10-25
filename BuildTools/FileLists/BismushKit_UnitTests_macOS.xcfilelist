@@ -1,9 +1,14 @@
+Tests/UnitTests/BismushKit/Document/BlobTests.swift
 Tests/UnitTests/BismushKit/Document/CanvasDocumentTests.swift
 Tests/UnitTests/BismushKit/Editor/BezierInterpolateTests.swift
 Tests/UnitTests/BismushKit/Editor/BrushTests.swift
 Tests/UnitTests/BismushKit/Editor/RenderingTestCase.swift
-Tests/UnitTests/BismushKit/Entity/MetalObjectTests.swift
+Tests/UnitTests/BismushKit/Entity/MetalMutableArrayTests.swift
+Tests/UnitTests/BismushKit/Entity/RectTests.swift
 Tests/UnitTests/BismushKit/Entity/RingBufferTests.swift
 Tests/UnitTests/BismushKit/Renderer/CanvasLayerTests.swift
 Tests/UnitTests/BismushKit/Renderer/CanvasTransformTests.swift
 Tests/UnitTests/BismushKit/Texture/BismushTextureTests.swift
+Tests/UnitTests/BismushKit/Texture/MTLRegion+Equatable.swift
+Tests/UnitTests/BismushKit/Texture/TextureTileMediatorTests.swift
+Tests/UnitTests/BismushKit/Texture/TextureTileRegionTests.swift

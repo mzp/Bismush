@@ -24,27 +24,30 @@ public class CanvasDocument: ReferenceFileDocument {
     public var canvas: Canvas
     private let file: FileWrapper?
     private var textures = [CanvasLayer.ID: BismushTexture]()
+    let rasterSampleCount: Int
 
     public convenience init(canvas: Canvas = .sample) throws {
-        try self.init(file: nil, canvas: canvas)
+        try self.init(file: nil, snapshot: CanvasDocumentSnapshot(canvas: canvas, textures: [:]))
     }
 
-    var rasterSampleCount: Int {
-        canvasTexture.rasterSampleCount
-    }
+    private let kTileSize = TextureTileSize(width: 255, height: 255)
 
-    init(file: FileWrapper?, canvas: Canvas) throws {
+    init(file: FileWrapper?, snapshot: CanvasDocumentSnapshot) throws {
         self.file = file
-        self.canvas = canvas
+        canvas = snapshot.canvas
         let device = GPUDevice.default
         factory = BismushTextureFactory(device: device)
+        let rasterSampleCount = device.capability.msaa ? 4 : 1
+        self.rasterSampleCount = rasterSampleCount
+
         canvasTexture = factory.create(
-            size: Size(canvas.size),
-            pixelFormat: canvas.pixelFormat,
-            rasterSampleCount: device.capability.msaa ? 4 : 1
+            .init(
+                size: Size(canvas.size),
+                pixelFormat: canvas.pixelFormat,
+                rasterSampleCount: rasterSampleCount
+            )
         )
 
-        let decoder = DocumentDecoder()
         var textures = [CanvasLayer.ID: BismushTexture]()
 
         for layer in canvas.layers {
@@ -54,23 +57,18 @@ public class CanvasDocument: ReferenceFileDocument {
                 textures[layer.id] = factory.create(builtin: name)
             } else {
                 textures[layer.id] = factory.create(
-                    size: Size(layer.size),
-                    pixelFormat: layer.pixelFormat,
-                    rasterSampleCount: rasterSampleCount
+                    .init(
+                        size: Size(layer.size),
+                        pixelFormat: layer.pixelFormat,
+                        rasterSampleCount: rasterSampleCount,
+                        tileSize: kTileSize
+                    )
                 )
             }
         }
-
-        if let container = file?.fileWrappers?[Self.kLayerContainerName] {
-            for layer in canvas.layers {
-                if let data = container.fileWrappers?["\(layer.id).data"]?.regularFileContents {
-                    BismushLogger.file.info("Load texture data: \(layer.id)")
-                    let snapshot = try decoder.decode(BismushTexture.Snapshot.self, from: data)
-                    textures[layer.id]?.restore(from: snapshot)
-                }
-            }
-        }
         self.textures = textures
+
+        restore(snapshot: snapshot)
     }
 
     // MARK: - ReferenceFileDocument
@@ -92,18 +90,24 @@ public class CanvasDocument: ReferenceFileDocument {
     var factory: BismushTextureFactory
 
     convenience init(file: FileWrapper) throws {
-        guard let data = file.fileWrappers?["Info.plist"]?.regularFileContents else {
-            fatalError("Invalid file format")
+        guard let data = file.fileWrappers?["Canvas.plist"]?.regularFileContents else {
+            throw InvalidFileFormatError()
         }
-        let canvas = try DocumentDecoder().decode(Canvas.self, from: data)
-        try self.init(file: file, canvas: canvas)
+
+        let blobContainer = FileWrapper(directoryWithFileWrappers: [:])
+        blobContainer.preferredFilename = "Data"
+
+        let baseDecoder = PropertyListDecoder()
+        let decoder = BlobDecoder(fileWrapper: blobContainer, decoder: baseDecoder)
+        let snapshot = try decoder.decode(CanvasDocumentSnapshot.self, from: data)
+        try self.init(file: file, snapshot: snapshot)
     }
 
     public func snapshot(contentType: UTType) throws -> CanvasDocumentSnapshot {
         if contentType.identifier != "jp.mzp.bismush.canvas" {
             BismushLogger.file.warning("\(#function) \(contentType) is requested")
         }
-        return snapshot()
+        return takeSnapshot()
     }
 
     public func fileWrapper(snapshot: CanvasDocumentSnapshot, configuration: WriteConfiguration) throws -> FileWrapper {
@@ -112,32 +116,32 @@ public class CanvasDocument: ReferenceFileDocument {
     }
 
     func flieWrapper(snapshot: CanvasDocumentSnapshot, container: FileWrapper) throws -> FileWrapper {
-        let encoder = DocumentEncoder()
-        encoder.outputFormat = .binary
+        let baseEncoder = PropertyListEncoder()
+        baseEncoder.outputFormat = .binary
 
-        // MetaData
-        let data = try encoder.encode(snapshot.canvas)
-        container.addRegularFile(withContents: data, preferredFilename: "Info.plist")
+        let blobContainer = FileWrapper(directoryWithFileWrappers: [:])
+        blobContainer.preferredFilename = "Data"
+        container.addFileWrapper(blobContainer)
 
-        // Data
-        let layerContainer = FileWrapper(directoryWithFileWrappers: [:])
-        layerContainer.preferredFilename = Self.kLayerContainerName
+        let encoder = BlobEncoder(
+            fileWrapper: blobContainer,
+            encoder: baseEncoder
+        )
 
-        for (id, texture) in snapshot.textures {
-            let data = try encoder.encode(texture)
-            layerContainer.addRegularFile(
-                withContents: data,
-                preferredFilename: "\(id).data"
-            )
-        }
-        container.addFileWrapper(layerContainer)
+        container.addRegularFile(
+            withContents: try encoder.encode(snapshot),
+            preferredFilename: "Canvas.plist"
+        )
 
         return container
     }
 
     // MARK: - Snapshot
 
-    func snapshot() -> CanvasDocumentSnapshot {
+    func takeSnapshot() -> CanvasDocumentSnapshot {
+        var scope = Activity(#function).enter()
+        defer { scope.leave() }
+
         var snapshots = [CanvasLayer.ID: BismushTexture.Snapshot]()
 
         for (id, texture) in textures {
@@ -158,6 +162,7 @@ public class CanvasDocument: ReferenceFileDocument {
                 texture.restore(from: snapshot)
             }
         }
+        needsRenderCanvas = true
     }
 
     // MARK: - Layer
@@ -186,15 +191,35 @@ public class CanvasDocument: ReferenceFileDocument {
 
     // MARK: - Session
 
+    struct SessionScope {
+        var activity: Activity.Scope
+        var capture: MTLCaptureScope
+    }
+
+    private var sessionScope: SessionScope?
+
     func beginSession() {
+        assert(activeTexture == nil)
+
+        sessionScope = .init(
+            activity: Activity("🖼️ Canvas", options: .detached).enter(),
+            capture: device.scope(for: "🖼️ Canvas")
+        )
+
         activeTexture = factory.create(
-            size: Size(activeLayer.size),
-            pixelFormat: activeLayer.pixelFormat,
-            rasterSampleCount: rasterSampleCount
+            .init(
+                size: Size(activeLayer.size),
+                pixelFormat: activeLayer.pixelFormat,
+                rasterSampleCount: rasterSampleCount,
+                tileSize: kTileSize
+            )
         )
     }
 
     func commitSession() {
+        sessionScope?.activity.leave()
+        sessionScope?.capture.end()
+        sessionScope = nil
         activeTexture = nil
     }
 

@@ -28,6 +28,8 @@ struct Artboard: View {
     }
 
     func mouseDown(with _: NSEvent, in _: NSView) {
+        var scope = Activity("✍️\(#function)").enter()
+        defer { scope.leave() }
         let snapshot = viewModel.editor.getSnapshot()
         undoManager?.registerUndo(withTarget: viewModel.editor, handler: { store in
             let redoSnapshot = store.getSnapshot()
@@ -39,17 +41,21 @@ struct Artboard: View {
     }
 
     func mouseDragged(with event: NSEvent, in view: NSView) {
+        var scope = Activity("✍️\(#function)").enter()
+        defer { scope.leave() }
         BismushLogger.desktop.trace("Mouse dragged \(event.debugDescription)")
         let location = view.convert(event.locationInWindow, from: nil)
         let point = Point<ViewCoordinate>(cgPoint: location)
         BismushLogger.desktop.trace("\(event.locationInWindow.debugDescription) -> (\(point.x), \(point.y))")
+        viewModel.brush.viewSize = .init(width: 800, height: 800)
         viewModel.brush.add(
-            pressurePoint: .init(point: point, pressure: event.pressure),
-            viewSize: Size(cgSize: view.frame.size)
+            pressurePoint: .init(point: point, pressure: event.pressure)
         )
     }
 
     func mouseUp(with _: NSEvent, in _: NSView) {
+        var scope = Activity("✍️\(#function)").enter()
+        defer { scope.leave() }
         viewModel.brush.commit()
     }
 }

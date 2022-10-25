@@ -24,4 +24,9 @@ class MetalDeviceCapability {
             device.supportsFamily(.common3) ||
             device.supportsFamily(.mac2)
     }
+
+    var sparseTexture: Bool {
+        // Simulator doesn't suport this
+        device.supportsFamily(MTLGPUFamily.apple6)
+    }
 }

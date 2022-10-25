@@ -11,17 +11,14 @@ import simd
 
 class LayerDrawer {
     private let document: CanvasDocument
-    private let commandQueue: MTLCommandQueue
-    private var context: BMKLayerContext
     private let renderPipelineState: MTLRenderPipelineState
     var dirty = true
 
-    init(document: CanvasDocument, context: BMKLayerContext) {
+    init(document: CanvasDocument) {
         self.document = document
-        self.context = context
-        commandQueue = document.device.metalDevice.makeCommandQueue()!
 
         renderPipelineState = try! document.device.makeRenderPipelineState { descriptor in
+            descriptor.label = #fileID
             descriptor.rasterSampleCount = document.rasterSampleCount
             descriptor.colorAttachments[0].pixelFormat = document.activeLayer.pixelFormat
             descriptor.vertexFunction = document.device.resource.function(.brushVertex)
@@ -29,20 +26,30 @@ class LayerDrawer {
         }
     }
 
-    func draw(strokes: MetalMutableArray<BMKStroke>) {
+    func draw(
+        region: Rect<TexturePixelCoordinate>,
+        strokes: MetalMutableArray<BMKStroke>,
+        context: inout BMKLayerContext,
+        commandBuffer: SequencialCommandBuffer
+    ) {
         document.needsRenderCanvas = true
-        document.device.scope("\(#function)") {
-            guard let texture = document.activeTexture else {
-                return
-            }
-            let canvasLayer = self.document.activeLayer
-            guard canvasLayer.visible else {
-                return
-            }
-            let commandBuffer = commandQueue.makeCommandBuffer()!
-
-            texture.withRenderPassDescriptor { renderPassDescriptor in
-                let encoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor)!
+        guard let texture = document.activeTexture else {
+            return
+        }
+        let canvasLayer = document.activeLayer
+        guard canvasLayer.visible else {
+            return
+        }
+        texture.asRenderTarget(
+            region: region,
+            commandBuffer: commandBuffer,
+            useMSAA: true
+        ) { renderPassDescriptor in
+            BismushLogger.texture.trace("\(#function)")
+            commandBuffer.render(
+                label: #fileID,
+                descriptor: renderPassDescriptor
+            ) { encoder in
                 let viewPort = MTLViewport(
                     originX: 0,
                     originY: 0,
@@ -60,11 +67,7 @@ class LayerDrawer {
                 encoder.setFragmentTexture(document.texture(canvasLayer: document.activeLayer).texture, index: 1)
 
                 encoder.drawPrimitives(type: .point, vertexStart: 0, vertexCount: Int(strokes.count))
-
-                encoder.endEncoding()
             }
-            commandBuffer.commit()
-            commandBuffer.waitUntilCompleted()
         }
     }
 }

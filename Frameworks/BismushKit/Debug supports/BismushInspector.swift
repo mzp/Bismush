@@ -36,24 +36,16 @@ public class BismushInspector {
                                 count: count)
         )
     }
-
-    public class func array<T>(metalArray: MetalMutableArray<T>) -> [T] {
-        metalArray.array()
-    }
 }
 
 extension BismushTexture.Snapshot {
-    var inspectImage: CGImage? {
-        BismushInspector.image(
-            data,
-            width: Int(size.width),
-            height: Int(size.height)
-        )
-    }
-}
-
-extension BismushTexture {
-    var inspectImage: CGImage? {
-        takeSnapshot().inspectImage
+    func inspectImages() -> [CGImage] {
+        tiles.compactMap { region, blob in
+            BismushInspector.image(
+                blob.data as Data,
+                width: region.size.width,
+                height: region.size.height
+            )
+        }
     }
 }
